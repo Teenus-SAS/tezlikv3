@@ -1,5 +1,5 @@
 $(document).ready(function () {
-   /* Calculo */
+  /* Calculo */
   $(document).on('blur', '.totalRevenue', function () {
     try {
       let idProduct = $('#refProduct').val();
@@ -64,7 +64,7 @@ $(document).ready(function () {
     } catch (error) {
       console.log(error);
     }
-  }); 
+  });
 
   /* */ generalCalc = async (op) => {
     try {
@@ -197,17 +197,19 @@ $(document).ready(function () {
         $('#unity-1').blur();
 
       $('.cardLoading').remove();
-      // $('.cardBottons').show(400);
-
-      if (sugered_price)
-        $('#sugered').show(400);
-      if (actual_price)
-        $('#actual').show(400);
-      if (real_price)
-        $('#real').show(400);
-
+      // $('.cardBottons').show(400); 
+      checkPrices();
     } catch (error) {
       console.log(error);
     }
   };
+
+  function checkPrices() {
+    if (sugered_price)
+      $('#sugered').show(400);
+    if (actual_price)
+      $('#actual').show(400);
+    if (real_price)
+      $('#real').show(400);
+  }
 });

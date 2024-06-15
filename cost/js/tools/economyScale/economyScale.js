@@ -49,9 +49,16 @@ $(document).ready(function () {
     $('.general').html('');
     
     let data = economyScale.find(item => item.id_product == id); 
-    sugered_price = Math.ceil(data.price);
-    actual_price = Math.ceil(data.sale_price);
-    real_price = parseFloat(data.turnover) / parseFloat(data.units_sold);
+
+    if (typeExpense == '1') {
+      sugered_price = Math.ceil(data.price);
+      actual_price = Math.ceil(data.sale_price);
+      real_price = parseFloat(data.turnover) / parseFloat(data.units_sold);
+    } else {
+      sugered_price = Math.ceil(data.price) / 12;
+      actual_price = Math.ceil(data.sale_price) / 12;
+      real_price = parseFloat(data.turnover_anual) / parseFloat(data.units_sold_anual);
+    }
     
     if (op == 1) {
       if (real_price) {
@@ -83,11 +90,11 @@ $(document).ready(function () {
     let typePrice = document.getElementsByClassName('btn btn-sm btn-primary typePrice')[0]; 
 
     if (typePrice.id === 'sugered') {
-      price = Math.ceil(data.price); 
+      price = sugered_price; 
     } else if(typePrice.id === 'actual'){
-      price = Math.ceil(data.sale_price); 
+      price = actual_price; 
     } else {
-      price = parseFloat(data.turnover) / parseFloat(data.units_sold); 
+      price = real_price; 
     } 
       
     // if (price == 0 || !price) {
@@ -101,6 +108,8 @@ $(document).ready(function () {
     if (flag_currency_usd == '1' || flag_currency_eur == '1')
       typeCurrency = sessionStorage.getItem('typeCurrency');
 
+    $('.selectTypeExpense').hide();
+
     // price_usd == '1' &&
     switch (typeCurrency) {
       case '2': // Dolares
@@ -109,14 +118,15 @@ $(document).ready(function () {
         variableCost1 = data.variableCost / parseFloat(coverage_usd);
         max = 2;
         break;
-        case '3': // Euros
+      case '3': // Euros
         price = price / parseFloat(coverage_eur);
         costFixed = data.costFixed / parseFloat(coverage_eur);
         variableCost1 = data.variableCost / parseFloat(coverage_eur);
         max = 2;
         break;
-        default:// Pesos COP
-        costFixed = data.costFixed;
+      default:// Pesos COP
+        $('.selectTypeExpense').show();
+        costFixed = typeExpense == '1' ? data.costFixed : data.costFixedAnual;
         variableCost1 = data.variableCost;
         max = 1;
         break;
@@ -166,6 +176,7 @@ $(document).ready(function () {
     generalCalc(0);
   };
 
+  // Seleccionar moneda
   $(document).on('change','#selectCurrency', function () {
     let currency = this.value;
  
@@ -192,4 +203,17 @@ $(document).ready(function () {
     if (id_product)
       loadDataProduct(id_product, 2);
   }); 
+
+  // Seleccionar tipo de gasto
+  $('#selectTypeExpense').change(function (e) {
+    e.preventDefault();
+
+    typeExpense = this.value;
+
+    let id_product = $('#refProduct').val();
+
+    if (id_product) { 
+      loadDataProduct(id_product, 2);
+    }
+  });
 });

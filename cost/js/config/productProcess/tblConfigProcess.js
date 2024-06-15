@@ -86,9 +86,6 @@ $(document).ready(function () {
  
     // Encabezados de la tabla
     var headers = ['No.', 'Proceso', 'Máquina', 'Operarios', title3, title4, 'Eficiencia', 'Mano de Obra', 'Costo Indirecto', 'Acciones'];
-
-    // if (visible == false)
-    //   headers.splice(9, 1);
     
     if (totalEfficiency == 0)
       headers.splice(6, 1);
@@ -173,12 +170,7 @@ $(document).ready(function () {
             let workforce_cost = parseFloat(arr.workforce_cost);
 
             if (flag_currency_usd == '1' && op == 2)
-              workforce_cost = workforce_cost / parseFloat(coverage_usd);
-            
-            // if (Math.abs(workforce_cost) < 0.01) {
-            //   workforce_cost = workforce_cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            // } else
-            //   workforce_cost = workforce_cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+              workforce_cost = workforce_cost / parseFloat(coverage_usd); 
             workforce_cost = renderCost(workforce_cost, op);
             
             cell.textContent = workforce_cost;
@@ -187,24 +179,11 @@ $(document).ready(function () {
             let indirect_cost = parseFloat(arr.indirect_cost);
 
             if (flag_currency_usd == '1' && op == 2)
-              indirect_cost = indirect_cost / parseFloat(coverage_usd);              
-            
-            // if (Math.abs(indirect_cost) < 0.01) {
-            //   indirect_cost = indirect_cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            // } else
-            //   indirect_cost = indirect_cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+              indirect_cost = indirect_cost / parseFloat(coverage_usd);   
             indirect_cost = renderCost(indirect_cost, op); 
             
             cell.textContent = indirect_cost;
-            break;
-          // case '':
-          //   let textContent = '';
-
-          //   if(arr.auto_machine === 'NO' && arr.count_employee > 1)
-          //     textContent = `<a href="javascript:;" <i id="${arr.id_product_process}" class="bi bi-arrow-down-up updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
-
-          //   cell.innerHTML = textContent;
-          //   break;
+            break; 
           case 'Acciones':  
             cell.innerHTML =
                `<a href="javascript:;" <i id="${arr.id_product_process}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>

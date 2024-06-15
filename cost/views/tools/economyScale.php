@@ -84,7 +84,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <!-- $_SESSION['price_usd'] -->
                                 <?php if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
-                                    <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom: 0px;">
+                                    <div class="col-xs-2 mr-2 floating-label enable-floating-label show-label" style="margin-bottom: 0px;">
                                         <!-- <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button> -->
                                         <label class="text-dark">Moneda</label>
                                         <select class="form-control selectCurrency" id="selectCurrency">
@@ -109,6 +109,16 @@ if (sizeof($_SESSION) == 0)
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
                                                                                                                                                                                         $coverage_eur = sprintf('$ %s', number_format($_SESSION['coverage_eur'], 2, ',', '.'));
                                                                                                                                                                                         echo  $coverage_eur ?>" readonly>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                                    <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons selectTypeExpense" style="margin-bottom: 0px; display: none">
+                                        <select class="form-control" id="selectTypeExpense">
+                                            <option disabled>Seleccionar</option>
+                                            <option value="1" selected>MENSUAL</option>
+                                            <option value="2">ANUAL</option>
+                                        </select>
+                                        <label class="text-dark">Tipo Gasto</label>
                                     </div>
                                 <?php } ?>
                             </div>
@@ -298,6 +308,8 @@ if (sizeof($_SESSION) == 0)
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
         coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
         coverage_eur = "<?= $_SESSION['coverage_eur'] ?>";
+        anual_expense = "<?= $_SESSION['anual_expense'] ?>";
+        flag_expense_anual = "<?= $_SESSION['flag_expense_anual'] ?>";
 
         $(document).ready(function() {
             getDataProducts('/api/products');
@@ -306,6 +318,7 @@ if (sizeof($_SESSION) == 0)
 
             var sugeredElement = document.getElementById("sugered");
             var actualElement = document.getElementById("actual");
+            typeExpense = '1';
 
             // Precio Sugerido
             if (session_flag == '1') {
@@ -326,7 +339,7 @@ if (sizeof($_SESSION) == 0)
                 actualElement.classList.add("btn-primary");
             }
 
-            // price_usd == '1' && 
+            // price_usd == '1' &&  
             if (flag_currency_usd == '1' || flag_currency_eur == '1') {
                 // Validar que valor de precio esta seleccionado
                 let typeCurrency = sessionStorage.getItem('typeCurrency');
@@ -335,8 +348,9 @@ if (sizeof($_SESSION) == 0)
                 $('.cardEUR').hide(800);
 
                 switch (typeCurrency) {
-                    case '1': // Pesos COP
+                    default: // Pesos COP
                         $('#selectCurrency').val('1');
+                        $('.selectTypeExpense').show();
                         break;
                     case '2': // Dólares  
                         $('#selectCurrency').val('2');

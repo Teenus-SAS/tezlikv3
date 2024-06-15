@@ -42,7 +42,7 @@ $(document).ready(function () {
             categoria: item.category,
             magnitud: item.magnitude,
             unidad: item.unit,
-            costo: parseFloat(item.cost)
+            costo: flag_currency_usd === '1' && parseFloat(item.flag_usd) == 1 ? parseFloat(item.cost_usd) : parseFloat(item.cost)
           };
 
           if (flag_currency_usd === '0') {
@@ -59,14 +59,14 @@ $(document).ready(function () {
             if (export_import === '1' && flag_export_import === '1') {
               data.push({
                 ...baseData,
-                costo_importacion: parseFloat(item.cost_import),
-                costo_nacionalizacion: parseFloat(item.cost_export),
-                tipo_moneda: 'COP'
+                costo_importacion: parseFloat(item.flag_usd) == 0 ? parseFloat(item.cost_import) : parseFloat(item.cost_import_usd),
+                costo_nacionalizacion: parseFloat(item.flag_usd) == 0 ? parseFloat(item.cost_export) : parseFloat(item.cost_export_usd),
+                tipo_moneda: parseFloat(item.flag_usd) == 0 ? 'COP' : 'USD'
               });
             } else {
               data.push({
                 ...baseData,
-                tipo_moneda: 'COP'
+                tipo_moneda: parseFloat(item.flag_usd) == 0 ? 'COP' : 'USD'
               });
             }
           }

@@ -182,6 +182,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.updateProcess',async function (e) {
     $('.cardImportProductsProcess').hide(800);
+    $('.checkMachine').hide();
     $('.inputs').css('border-color', '');
     
     let dataMachines = JSON.parse(sessionStorage.getItem('dataMachines'));
@@ -245,7 +246,9 @@ $(document).ready(function () {
     if (data.auto_machine == 'SI') {
       $('#checkMachine').prop('checked', true);
     }
-    $('.checkMachine').show();    
+
+    if(data.id_machine != 0)
+      $('.checkMachine').show();    
     
     $('html, body').animate(
       {
