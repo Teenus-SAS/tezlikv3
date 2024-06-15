@@ -549,7 +549,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
     !is_array($product) ? $data['id_product'] = 0 : $data = $product;
 
-    if ($data['id_material'] == $dataProduct['idProduct'] || $data['id_product'] == 0) {
+    if ($data['id_product'] == $dataProduct['idProduct'] || $data['id_product'] == 0) {
         // Actualizar Datos, Imagen y Calcular Precio del producto
         $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
