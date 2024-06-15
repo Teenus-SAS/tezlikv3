@@ -347,9 +347,16 @@ if (sizeof($_SESSION) == 0)
                                                     <!-- <button class="btn btn-success" id="btnEmployees">Operadores</button> -->
                                                     <button class="form-control text-center" type="number" name="employees" id="btnEmployees" data-toggle="tooltip" title="Seleccione la cantidad de operarios para este proceso" readonly></button>
                                                 </div>
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Maquina</label>
                                                     <select class="form-control inputs" name="idMachine" id="idMachine"></select>
+                                                </div>
+                                                <div class="col-xs-2 ml-3 checkbox checkbox-success mb-2 checkMachine">
+                                                    <input id="checkMachine" name="checkMachine" type="checkbox"><label for="checkMachine">Máquina Autonoma </label>
+                                                </div>
+                                                <!-- Linea divisoria -->
+                                                <div class="col-12">
+                                                    <hr>
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <?php if ($_SESSION['inyection'] == 1) { ?>
@@ -385,9 +392,6 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
-                                                </div>
-                                                <div class="col-xs-2 ml-3 checkbox checkbox-success mb-2 checkMachine">
-                                                    <input id="checkMachine" name="checkMachine" type="checkbox"><label for="checkMachine">Máquina Autonoma </label>
                                                 </div>
                                             </div>
                                         </form>
