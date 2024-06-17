@@ -7,6 +7,8 @@ $(document).ready(function () {
 
       sessionStorage.removeItem('imageProduct');
       $('.social-bar').hide(800);
+      $('.cardSalePrice').show();
+      $('.cardDistribution').show();
 
       let typeCurrency = '1';
     
@@ -414,7 +416,7 @@ $(document).ready(function () {
       $('.cardSalePrice').hide();
     }
 
-    if (data[0].turnover > 0 && data[0].units_sold > 0) {
+    if (data[0].turnover > 0 && data[0].units_sold > 0 || flag_expense == '2') {
       // let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
       $('.cardRecomendedPrice').empty();
       content = '';
