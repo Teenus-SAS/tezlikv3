@@ -132,7 +132,7 @@ $(document).ready(function () {
                   </div>
                   <div class="col-4">
                     <label for="newSalePrice">Precio de Venta</label>
-                    <input type="text" class="form-control text-center number" name="newSalePrice" id="newSalePrice">
+                    <input type="number" class="form-control text-center" name="newSalePrice" id="newSalePrice">
                   </div>
                 </div>`,
       buttons: {

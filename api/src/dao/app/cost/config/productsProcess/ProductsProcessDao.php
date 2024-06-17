@@ -93,8 +93,8 @@ class ProductsProcessDao
             if ($row > 0) {
                 return 1;
             } else {
-                $stmt = $connection->prepare("INSERT INTO products_process (id_product, id_company, id_process, id_machine, enlistment_time, operation_time, efficiency, employees, auto_machine) 
-                                              VALUES (:id_product, :id_company, :id_process, :id_machine, :enlistment_time, :operation_time, :efficiency, :employees, :auto_machine)");
+                $stmt = $connection->prepare("INSERT INTO products_process (id_product, id_company, id_process, id_machine, enlistment_time, operation_time, efficiency, employee, auto_machine) 
+                                              VALUES (:id_product, :id_company, :id_process, :id_machine, :enlistment_time, :operation_time, :efficiency, :employee, :auto_machine)");
                 $stmt->execute([
                     'id_product' => $dataProductProcess['idProduct'],
                     'id_company' => $id_company,

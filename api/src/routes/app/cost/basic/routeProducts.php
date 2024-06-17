@@ -17,6 +17,7 @@ use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\GeneralServicesDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
+use tezlikv3\dao\GeneralExternalServicesDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\IndirectCostDao;
@@ -44,6 +45,7 @@ $productsProcessDao = new ProductsProcessDao();
 $generalPProcessDao = new GeneralProductsProcessDao();
 $externalServicesDao = new ExternalServicesDao();
 $generalServicesDao = new GeneralServicesDao();
+$generalExServicesDao = new GeneralExternalServicesDao();
 $expensesDistributionDao = new ExpensesDistributionDao();
 $generalExpenseDistributionDao = new GeneralExpenseDistributionDao();
 $familiesDao = new FamiliesDao();
@@ -673,6 +675,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $generalPProcessDao,
     $externalServicesDao,
     $generalServicesDao,
+    $generalExServicesDao,
     $expensesDistributionDao,
     $familiesDao,
     $generalExpenseDistributionDao,
@@ -757,8 +760,9 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         $arr['idMachine'] = $arr['id_machine'];
                         $arr['enlistmentTime'] = $arr['enlistment_time'];
                         $arr['operationTime'] = $arr['operation_time'];
+                        $arr['efficiency'] = $arr['efficiency'];
                         $arr['autoMachine'] = $arr['auto_machine'];
-                        $arr['employees'] = $arr['employees'];
+                        $arr['employees'] = $arr['employee'];
 
                         $resolution = $productsProcessDao->insertProductsProcessByCompany($arr, $id_company);
                     }
@@ -773,6 +777,17 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                     foreach ($oldProduct as $arr) {
                         $arr['costService'] = $arr['cost'];
                         $arr['service'] = $arr['name_service'];
+                        // Guardar servicio en la tabla 'general_external_services'
+                        $findExternalService = $generalExServicesDao->findExternalService($arr, $id_company);
+
+                        if (!$findExternalService) {
+                            $resolution = $generalExServicesDao->insertExternalServicesByCompany($arr, $id_company);
+
+                            $lastData = $lastDataDao->findLastInsertedGeneralServices($id_company);
+                            $arr['idGService'] = $lastData['id_general_service'];
+                        } else
+                            $arr['idGService'] = $findExternalService['id_general_service'];
+                        // $arr['idGService'] = $arr['id_general_service'];
                         $arr['idProduct'] = $dataProduct['idProduct'];
 
                         $resolution = $externalServicesDao->insertExternalServicesByCompany($arr, $id_company);
@@ -956,7 +971,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
                     foreach ($productsCost as $arr) {
                         $data = [];
-                        $resolution = $priceProductDao->calcPrice($arr['id_product']);
+                        $data = $priceProductDao->calcPrice($arr['id_product']);
 
                         if (isset($resolution['info']))
                             break;
