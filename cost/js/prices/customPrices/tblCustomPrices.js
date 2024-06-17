@@ -7,16 +7,16 @@ $(document).ready(function () {
       const prices = await searchData('/api/customPrices');
       op = 1;
 
-      parents = prices.filter(item => item.composite == 0);
-      composites = prices.filter(item => item.composite == 1);
+      // parents = prices.filter(item => item.composite == 0);
+      // composites = prices.filter(item => item.composite == 1);
 
-      if (flag_composite_product == '1') {
-        customPrices = parents;
-        loadTblCustomPrices(parents);
-      } else {
+      // if (flag_composite_product == '1') {
+      //   customPrices = parents;
+      //   loadTblCustomPrices(parents);
+      // } else {
         customPrices = prices;
         loadTblCustomPrices(prices);
-      }
+      // }
     } catch (error) {
       console.error('Error loading data:', error);
     }

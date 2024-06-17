@@ -295,14 +295,14 @@ $(document).ready(function () {
             centro_produccion: item.production_center,
           };
         } else {
-          if (flag_composite_product == '1' && item.composite == 0 || flag_composite_product == '0') {
+          // if (flag_composite_product == '1' && item.composite == 0 || flag_composite_product == '0') {
             return {
               referencia_producto: item.reference,
               producto: item.product,
               unidades_vendidas: parseFloat(item.units_sold),
               volumen_ventas: parseFloat(item.turnover),
             };
-          }
+          // }
         }
       }).filter(item => item !== undefined);
     };

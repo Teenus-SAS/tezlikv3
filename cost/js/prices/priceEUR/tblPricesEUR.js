@@ -4,12 +4,12 @@ $(document).ready(function () {
     try {
       const prices = await searchData('/api/prices');
 
-      parents = prices.filter(item => item.composite == 0);
-      composites = prices.filter(item => item.composite == 1);
+      // parents = prices.filter(item => item.composite == 0);
+      // composites = prices.filter(item => item.composite == 1);
 
-      if (flag_composite_product == '1') {
-        loadTblPricesUSD(parents);
-      } else
+      // if (flag_composite_product == '1') {
+      //   loadTblPricesUSD(parents);
+      // } else
         loadTblPricesUSD(prices);
       
     } catch (error) {

@@ -169,11 +169,11 @@ $(document).ready(function () {
       })}`
     );
 
-    if (data[0].composite == '1' && flag_composite_product == '1') {
-      $('.cardAssExpense').hide();
+    // if (data[0].composite == '1' && flag_composite_product == '1') {
+    //   $('.cardAssExpense').hide();
 
-      document.getElementById('cardsIndicatorsProducts').className = 'row row-cols-1 row-cols-md-2 row-cols-xl-3';
-    }
+    //   document.getElementById('cardsIndicatorsProducts').className = 'row row-cols-1 row-cols-md-2 row-cols-xl-3';
+    // }
 
     percentRawMaterial = (data[0].cost_materials / dataCost.costTotal) * 100;
     percentWorkforce = (data[0].cost_workforce / dataCost.costTotal) * 100;

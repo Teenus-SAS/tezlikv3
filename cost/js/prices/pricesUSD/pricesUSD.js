@@ -58,11 +58,11 @@ $(document).ready(function () {
             `);
 
         // Realiza cualquier acción adicional después de agregar el contenido
-        if (flag_composite_product == "1") {
-          loadTblPrices(parents, 4);
-        } else {
+        // if (flag_composite_product == "1") {
+        //   loadTblPrices(parents, 4);
+        // } else {
           loadTblPrices(allPrices, 4);
-        }
+        // }
       } else {
         op = 1;
 
@@ -100,11 +100,11 @@ $(document).ready(function () {
                 </div>
             `);
         // Realiza cualquier acción adicional después de agregar el contenido
-        if (flag_composite_product == "1") {
-          loadTblPrices(parents, 2);
-        } else {
+        // if (flag_composite_product == "1") {
+        //   loadTblPrices(parents, 2);
+        // } else {
           loadTblPrices(allPrices, 2);
-        }
+        // }
       }
 
       // Muestra el contenido con animación
@@ -197,9 +197,10 @@ $(document).ready(function () {
           $(".spinner-border").remove();
           $(".USDInputs").show(400);
 
-          if (flag_composite_product == "1") {
-            loadTblPrices(parents, 4, resp.coverage_usd);
-          } else loadTblPrices(allPrices, 4, resp.coverage_usd);
+          // if (flag_composite_product == "1") {
+          //   loadTblPrices(parents, 4, resp.coverage_usd);
+          // } else
+            loadTblPrices(allPrices, 4, resp.coverage_usd);
         }
       });
     }

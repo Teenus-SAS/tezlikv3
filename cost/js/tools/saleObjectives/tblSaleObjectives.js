@@ -5,18 +5,18 @@ $(document).ready(function () {
             searchData('/api/calcEconomyScale')
         ]);
 
-        let parents = dataProducts.filter(item => parseInt(item.composite) == 0);
+        // let parents = dataProducts.filter(item => parseInt(item.composite) == 0);
 
-        if (flag_composite_product == '1')
-            sessionStorage.setItem('dataProducts', JSON.stringify(parents));
-        else
+        // if (flag_composite_product == '1')
+        //     sessionStorage.setItem('dataProducts', JSON.stringify(parents));
+        // else
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
         sessionStorage.setItem('allEconomyScale', JSON.stringify(dataEconomyScale));
 
-        if (flag_composite_product == '1')
-            await loadTblProducts(parents);
-        else
+        // if (flag_composite_product == '1')
+        //     await loadTblProducts(parents);
+        // else
             await loadTblProducts(dataProducts);
 
         if (dataProducts.length > 0) {

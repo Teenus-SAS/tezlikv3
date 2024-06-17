@@ -80,11 +80,11 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                                 <div class="col-xl-6 form-inline justify-content-sm-end">
-                                    <?php if ($_SESSION['flag_composite_product'] == 1) { ?>
+                                    <!-- ?php  if ($_SESSION['flag_composite_product'] == 1) { ?>
                                         <div class="col-xs-2 mr-2 cardCOP" style="display: none;">
                                             <button class="btn btn-warning" id="btnComposite">Productos Compuestos</button>
                                         </div>
-                                    <?php } ?>
+                                    ?php } ?> -->
                                     <?php
                                     // $_SESSION['price_usd'] == 1 && 
                                     if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>

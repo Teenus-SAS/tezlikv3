@@ -4,8 +4,8 @@ $(document).ready(function () {
       url: '/api/expensesDistributionFamiliesProducts',
       success: function (r) {
         // Si el acceso de producto compuesto esta activo filtrar y no mostrar los productos compuestos
-        if (flag_composite_product === '1')
-          r = r.filter(item => parseInt(item.composite) == 0);
+        // if (flag_composite_product === '1')
+        //   r = r.filter(item => parseInt(item.composite) == 0);
         
         let $select = $(`.refProduct`);
         $select.empty();

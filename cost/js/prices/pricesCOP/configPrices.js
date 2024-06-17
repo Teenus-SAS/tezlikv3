@@ -111,9 +111,9 @@ $(document).ready(function () {
       if (viewPrices == 1) {
         op1 = 1;
       
-        flag_composite_product == '1' ? data = parents : data = allPrices;
+        // flag_composite_product == '1' ? data = parents : data = allPrices;
 
-        loadTblPrices(data, op);
+        loadTblPrices(allPrices, op);
       } else {
         let id_product = sessionStorage.getItem('idProduct');
 

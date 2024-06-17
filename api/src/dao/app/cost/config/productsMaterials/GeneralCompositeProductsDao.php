@@ -92,7 +92,7 @@ class GeneralCompositeProductsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT IFNULL(((cp.quantity * (1 + cp.waste / 100)) * pc.price), 0) AS cost
+            $stmt = $connection->prepare("SELECT IFNULL(((cp.quantity * (1 + cp.waste / 100)) * (IFNULL(pc.cost_materials, 0) + IFNULL(pc.cost_workforce, 0) + IFNULL(pc.cost_indirect_cost, 0) + IFNULL((SELECT SUM(cost) FROM services WHERE id_product = cp.id_child_product), 0))), 0) AS cost
                                           FROM composite_products cp
                                             LEFT JOIN products_costs pc ON cp.id_child_product = pc.id_product
                                           WHERE cp.id_product = :id_product AND cp.id_child_product = :id_child_product");

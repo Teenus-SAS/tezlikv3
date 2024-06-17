@@ -31,6 +31,7 @@ $(document).ready(function () {
 
     if (inyection == '1') $('#enlistmentTime').prop('readonly', true);
 
+    $('#btnEmployees').html('');
     $('#formAddProcess').trigger('reset');
     $('.inputs').css('border-color', '');
     $('#checkMachine').prop('checked', false);

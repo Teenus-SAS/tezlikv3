@@ -5,17 +5,17 @@ $(document).ready(function () {
   allPrices = [];
   parents = [];
 
-  $("#btnComposite").click(function (e) {
-    e.preventDefault();
+  // $("#btnComposite").click(function (e) {
+  //   e.preventDefault();
 
-    if (op1 == 1) {
-      op1 = 2;
-      loadTblPrices(composites, 1);
-    } else {
-      op1 = 1;
-      loadTblPrices(parents, 1);
-    }
-  });
+  //   if (op1 == 1) {
+  //     op1 = 2;
+  //     loadTblPrices(composites, 1);
+  //   } else {
+  //     op1 = 1;
+  //     loadTblPrices(parents, 1);
+  //   }
+  // });
 
   loadAllData = async () => {
     try {
@@ -45,12 +45,13 @@ $(document).ready(function () {
           (op1 = 3) :
           (op1 = 1);
 
-      parents = prices.filter((item) => item.composite == 0);
-      composites = prices.filter((item) => item.composite == 1);
+      // parents = prices.filter((item) => item.composite == 0);
+      // composites = prices.filter((item) => item.composite == 1);
 
-      if (flag_composite_product == "1") {
-        loadTblPrices(parents, op1);
-      } else loadTblPrices(prices, op1);
+      // if (flag_composite_product == "1") {
+      //   loadTblPrices(parents, op1);
+      // } else
+      loadTblPrices(prices, op1);
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -144,32 +145,7 @@ $(document).ready(function () {
           },
           className: "classCenter",
           visible: visible,
-          render: (data, type, row) => renderCost(data, op),
-          // render: function (data) {
-          //   op == 1
-          //     ? (price = parseFloat(data.sale_price))
-          //     : op == 3 ?
-          //     (price = parseFloat(data.sale_price_eur)) :
-          //     (price = parseFloat(data.sale_price_usd));
-
-          //   if (price > 0) {
-          //     if (Math.abs(price) < 0.01) {
-          //       price = price.toLocaleString("es-CO", {
-          //         minimumFractionDigits: 2,
-          //         maximumFractionDigits: 9,
-          //       });
-          //     } else if (op == 1)
-          //       price = price.toLocaleString("es-CO", {
-          //         maximumFractionDigits: 0,
-          //       });
-          //     else
-          //       price = price.toLocaleString("es-CO", {
-          //         maximumFractionDigits: 2,
-          //       });
-
-          //     return `$ ${price}`;
-          //   } else return "";
-          // },
+          render: (data, type, row) => renderCost(data, op), 
         },
         {
           title: "Precio (Lista) Simulación",

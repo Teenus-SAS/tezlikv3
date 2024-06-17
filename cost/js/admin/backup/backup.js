@@ -319,7 +319,8 @@ $(document).ready(function () {
       };
 
       const processProductData = (dataTypeExpense) => {
-        return dataTypeExpense.filter(item => flag_composite_product == '1' && item.composite == 0 || flag_composite_product == '0')
+        // return dataTypeExpense.filter(item => flag_composite_product == '1' && item.composite == 0 || flag_composite_product == '0')
+        return dataTypeExpense
           .map(item => ({
             referencia_producto: item.reference,
             producto: item.product,
