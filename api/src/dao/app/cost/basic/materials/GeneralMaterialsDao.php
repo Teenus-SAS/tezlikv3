@@ -71,7 +71,8 @@ class GeneralMaterialsDao
                                                 m.material,  
                                                 u.unit,
                                             -- Ids Material
-                                                m.id_material, 
+                                                m.id_material,
+                                                m.id_category,
                                                 mg.id_magnitude,
                                                 u.id_unit
                                       FROM materials m
