@@ -109,6 +109,8 @@ $(document).ready(function () {
             return result;
         }, {}));
 
+        data.sort((a, b) => b.count - a.count);
+
         for (let i in data) {
             companies.push(data[i].company);
             quantity.push(data[i].count);
@@ -227,6 +229,8 @@ $(document).ready(function () {
             return result;
         }, {}));
 
+        data.sort((a, b) => b.count - a.count);
+
         for (let i in data) {
             users.push(`${data[i].firstname} ${data[i].lastname}`);
             quantity.push(data[i].count);
@@ -262,6 +266,23 @@ $(document).ready(function () {
                 ],
             },
             options: {
+                onClick: function (e) {
+                    let elements = chartMonth.getElementsAtEventForMode(
+                        e,
+                        "nearest",
+                        { intersect: true },
+                        true
+                    );
+
+                    if (elements && elements.length > 0) {
+                        let activeElement = elements[0];
+
+                        let dataIndex = activeElement.index;
+                        let label = chartMonth.data.labels[dataIndex];
+
+                        // loadModalExpenses(label, data);
+                    }
+                }, 
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -330,6 +351,8 @@ $(document).ready(function () {
 
             return result;
         }, {}));
+
+        data.sort((a, b) => b.count - a.count);
 
         for (let i in data) {
             date.push(`${data[i].day} de ${data[i].month}`);
@@ -440,6 +463,8 @@ $(document).ready(function () {
             return result;
         }, {}));
 
+        data.sort((a, b) => b.count - a.count);
+
         for (let i in data) {
             month.push(data[i].month);
             quantity.push(data[i].count);
@@ -487,6 +512,91 @@ $(document).ready(function () {
                         font: {
                             size: '14',
                             weight: 'bold',
+                        },
+                    },
+                },
+            },
+        });
+    };
+
+    // Promedio
+    graphicAverageLogin = (data) => { 
+        let companies = [];
+        let total = [];
+
+        for (let i in data) { 
+            companies.push(data[i].company); 
+            total.push(data[i].count); 
+        } 
+
+        let maxYValue;
+
+        if (total.length > 1) {
+            let maxDataValue = Math.max(...total);
+            let minDataValue = Math.min(...total);
+            let valueRange = maxDataValue - minDataValue;
+
+            if (Math.abs(valueRange) < 1) {
+                maxYValue = 1;
+            } else {
+                let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+                maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+                isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+            }
+        } else {
+            maxYValue = Math.max(...total);
+        }
+
+        cmc = document.getElementById('chartTotalLogin').getContext('2d');
+        chartTotalLogin = new Chart(cmc, {
+            plugins: [ChartDataLabels],
+            type: 'bar',
+            data: {
+                labels: companies,
+                datasets: [
+                    {
+                        data: total,
+                        backgroundColor: getRandomColor(data.length),
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: maxYValue,
+                    },
+                    x: {
+                        display: false,
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        offset: 2,
+                        formatter: (value, ctx) => {
+                          let sum = 0;
+                          let dataArr = ctx.chart.data.datasets[0].data;
+                          dataArr.map((data) => {
+                            sum += data;
+                          });
+                          let percentage = (value * 100) / sum;
+                          isNaN(percentage) ? (percentage = 0) : percentage;
+                          return `${percentage.toLocaleString('es-CO', {
+                            maximumFractionDigits: 2,
+                          })} %`;
+                        }, 
+                        color: 'black',
+                        font: {
+                            size: '10',
+                            weight: 'light',
                         },
                     },
                 },

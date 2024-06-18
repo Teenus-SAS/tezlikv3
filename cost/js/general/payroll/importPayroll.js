@@ -38,7 +38,7 @@ $(document).ready(function () {
     );
 
     importFile(selectedFile)
-      .then((data) => {
+      .then(async (data) => {
         let arr = data.rowObject;
 
          if (arr.length == 0) {
@@ -62,6 +62,7 @@ $(document).ready(function () {
           toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
           return false;
         }
+        // let resp = await validateDataPy(arr);
 
         let payrollToImport = arr.map((item) => {
           let basicSalary = '';
@@ -98,18 +99,127 @@ $(document).ready(function () {
             factor: item.factor,
           };
         });
-        checkPayroll(payrollToImport);
+        // if (resp.importStatus == true)
+          checkPayroll(payrollToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
       });
   });
 
+  /* Validar Data */
+  const validateDataPy = async (data) => {
+    let payrollToImport = [];
+    let importStatus = true;
+    let insert = 0;
+    let update = 0;
+
+    for (let i = 0; i < data.length; i++) {
+      let arr = data[i];
+
+      let basicSalary = '0';
+      let transport = '0';
+      let endowment = '0';
+      let extraTime = '0';
+      let bonification = '0';
+
+      if (arr.salario_basico > 0) {
+        basicSalary = arr.salario_basico.toString();
+      }
+      if (arr.transporte > 0) {
+        transport = arr.transporte.toString();
+      }
+      if (arr.dotaciones > 0) {
+        endowment = arr.dotaciones.toString();
+      }
+      if (arr.horas_extras > 0) {
+        extraTime = arr.horas_extras.toString();
+      }
+      if (arr.otros_ingresos > 0) {
+        bonification = arr.otros_ingresos.toString();
+      }
+
+      // Validación de campos vacíos o nulos
+      if (
+        !arr.nombres_y_apellidos || !arr.proceso || !arr.prestacional || !arr.horas_trabajo_x_dia ||
+        !arr.dias_trabajo_x_mes || !arr.tipo_riesgo || !arr.tipo_nomina || !arr.factor ||
+        basicSalary.trim() == '' || transport.trim() == '' || endowment.trim() == ''||
+        extraTime.trim() == '' || bonification.trim() == '' 
+      ) {
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
+        $('#filePayroll').val('');
+        importStatus = false;
+
+        toastr.error(`Columna vacía en la fila: ${i + 2}`);
+        break;
+      }
+
+      // Validación de campos que no están vacíos o nulos pero son solo espacios
+      if (
+        !arr.nombres_y_apellidos.toString().trim() || !arr.proceso.toString().trim() || !arr.prestacional.toString().trim() || !arr.horas_trabajo_x_dia.toString().trim() ||
+        !arr.dias_trabajo_x_mes.toString().trim() || !arr.tipo_riesgo.toString().trim() || !arr.tipo_nomina.toString().trim() || !arr.factor.toString().trim()
+      ) {
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
+        $('#filePayroll').val('');
+        importStatus = false;
+
+        toastr.error(`Columna vacía en la fila: ${i + 2}`);
+        break;
+      }
+
+      let valWorkingDaysMonth = parseFloat(dias_trabajo_x_mes.replace(',', '.'));
+      let valWorkingHoursDay = parseFloat(horas_trabajo_x_dia.replace(',', '.'));
+      if (valWorkingDaysMonth > 31 || valWorkingHoursDay < 24) {
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
+        $('#filePayroll').val('');
+        importStatus = false;
+
+        toastr.error(`El campo dias trabajo x mes debe ser menor a 31 y horas trabajo x dia menor a 24. Fila: ${i + 2}`);
+        break;
+      }
+
+      // Validar Proceso
+      let dataProcess = JSON.parse(sessionStorage.getItem('dataProcess'));
+      let process = dataProcess.find(item => item.process == arr.proceso.toString().toUpperCase().trim());
+
+      if (!process) {
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
+        $('#filePayroll').val('');
+        importStatus = false;
+
+        toastr.error(`Proceso no existe en la base de datos. Fila: ${i + 2}`);
+        break;
+      }
+
+      payrollToImport.push({ idProcess: process.id_process }); 
+
+      payrollToImport[i].employee = arr.nombres_y_apellidos;
+      payrollToImport[i].process = arr.proceso;
+      payrollToImport[i].basicSalary = arr.salario_basico;
+      payrollToImport[i].transport = arr.transporte;
+      payrollToImport[i].endowment = dotaciones;
+      payrollToImport[i].extraTime = horas_extras;
+      payrollToImport[i].bonification = otros_ingresos;
+      payrollToImport[i].benefit = arr.prestacional;
+      payrollToImport[i].workingHoursDay = arr.horas_trabajo_x_dia;
+      payrollToImport[i].workingDaysMonth = arr.dias_trabajo_x_mes;
+      payrollToImport[i].riskLevel = arr.tipo_riesgo;
+      payrollToImport[i].typeFactor = arr.tipo_nomina;
+      payrollToImport[i].factor = arr.factor;
+    }
+
+    return { importStatus, payrollToImport };
+  };
+
   /* Mensaje de advertencia */
-  checkPayroll = (data) => {
+  const checkPayroll = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/payrollDataValidation',
+      url: '/api/payrollDataValidation',
       data: { importPayroll: data },
       success: function (resp) {
         if (resp.error == true) {
@@ -147,10 +257,10 @@ $(document).ready(function () {
     });
   };
 
-  savePayroll = (data) => {
+  const savePayroll = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addPayroll',
+      url: '/api/addPayroll',
       data: { importPayroll: data },
       success: function (r) {
         message(r);

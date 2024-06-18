@@ -169,8 +169,8 @@ $app->get('/process/{employee}', function (Request $request, Response $response,
 });
 
 $app->post('/payrollDataValidation', function (Request $request, Response $response, $args) use (
-    $generalPayrollDao,
     $webTokenDao,
+    $generalPayrollDao,
     $processDao
 ) {
     $info = $webTokenDao->getToken();

@@ -11,6 +11,7 @@ fetch(`/api/dashboardCountsGeneral`)
     graphicUsers(data.sCompany);
     graphicMonth(data.month);
     graphicYear(data.year);
+    graphicAverageLogin(data.count)
   });
 
 /* Colors */

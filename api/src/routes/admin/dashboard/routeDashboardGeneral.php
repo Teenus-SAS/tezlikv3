@@ -24,7 +24,6 @@ $app->get('/dashboardCountsGeneral', function (Request $request, Response $respo
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
         return $response->withHeader('Location', '/')->withStatus(302);
     }
 
@@ -53,6 +52,9 @@ $app->get('/dashboardCountsGeneral', function (Request $request, Response $respo
     $month = $dashboardGeneralsDao->findAllCountByMonth();
     $year = $dashboardGeneralsDao->findAllCountByYear();
 
+    // Obtener Cantidad total por empresa
+    $count = $dashboardGeneralsDao->findAllCountByCompany();
+
     $generalDashboardCounts['allProducts'] = $products;
     $generalDashboardCounts['allCompanies'] = $companies;
     $generalDashboardCounts['allUsers'] = $users;
@@ -60,6 +62,7 @@ $app->get('/dashboardCountsGeneral', function (Request $request, Response $respo
     $generalDashboardCounts['sCompany'] = $sCompany;
     $generalDashboardCounts['month'] = $month;
     $generalDashboardCounts['year'] = $year;
+    $generalDashboardCounts['count'] = $count;
 
     $response->getBody()->write(json_encode($generalDashboardCounts, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
