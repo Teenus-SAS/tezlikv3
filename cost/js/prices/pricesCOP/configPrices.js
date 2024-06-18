@@ -123,72 +123,54 @@ $(document).ready(function () {
     
     
   });
-  // $(document).on('change', '.selectCurrency', function () {
-  //   let currency = this.value;
-  //   let op = 1; 
+   
+  // Exportar Lista de precios
+  $('#btnExportPrices').click(function (e) { 
+    e.preventDefault(); 
+    let op;
 
-  //   $('.selectCurrency').val(currency);
-  //   // $('.coverageUSDInput').hide(800);
-  //   // $('.coverageEURInput').hide(800);
-  //   $('.cardCurrencyCOP').hide();
-  //   $('.cardCurrencyUSD').hide();
-  //   $('.cardCurrencyEUR').hide();
-  //   $('.cardCOP').hide(800);
-  //   $('.cardUSD').hide(800);
-  //   $('.cardEUR').hide(800);
- 
-  //   sessionStorage.setItem('typeCurrency', currency);
-
-  //   switch (currency) {
-  //     case '1': // Pesos COP
-  //       $('.cardCOP').each(function (index) {
-  //         $(this).delay(800 * index).show(800);
-  //       });
-  //       $('.cardCurrencyCOP').show();
-      
-  //       if (viewPrices == 2) {
-  //         $('.cardUSD').hide(800);
-  //       }
-
-  //       break;
-  //     case '2': // Dólares  
-  //       op = 2;
-  //       $('.coverageUSDInput').each(function (index) {
-  //         $(this).delay(2000 * index).show(2000);
-  //       }); 
-        
-  //       if (viewPrices == 2) {
-  //         $('.cardUSD').show(800);
-  //       }
-        
-  //       $('.cardCurrencyUSD').show();
-  //       break;
-  //     case '3': // Euros
-  //       op = 3;
-  //       $('.coverageEURInput').each(function (index) {
-  //         $(this).delay(1000 * index).show(1000);
-  //       });
-        
-  //       $('.cardCurrencyEUR').show();
-        
-  //       if (viewPrices == 2) {
-  //         $('.cardEUR').show(800);
-  //       }
-         
-  //       break;
-  //   };
+    let typeCurrency = sessionStorage.getItem("typeCurrency");
+      typeCurrency == "2" && flag_currency_usd == "1" ?
+        (op = 2)
+        :
+        typeCurrency == "3" && flag_currency_eur == "1" ?
+          (op = 3) :
+        (op = 1);
     
-  //   if (viewPrices == 1) {
+    let wb = XLSX.utils.book_new();
+    
+    // Obtener los datos de todas las filas del DataTable, excluyendo la última columna
+    const allData = tblPrices.rows().data().toArray().map(row => {
+      let titlePrice = op == 1 ? "precio_sugerido" : op == 3 ? "precio_sugerido(EUR)" : "precio_sugerido(USD)";
+      let titlePriceList = op == 1 ? "precio_lista" : op == 3 ? "precio_lista(EUR)" : "precio_lista(USD)";
 
-  //     op1 = 1;
-      
-  //     flag_composite_product == '1' ? data = parents : data = allPrices;
+      let arr = getDataCost(row);
 
-  //     loadTblPrices(data, op);
-  //   } else {
-  //     let id_product = sessionStorage.getItem('idProduct');
+      if (!isFinite(arr.actualProfitability2))
+        arr.actualProfitability2 = 0;
 
-  //     loadIndicatorsProducts(id_product);
-  //   };
-  // }); 
+      let profitabilityText = `${arr.actualProfitability2.toLocaleString(
+        "es-CO",
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }
+      )} %`;
+
+      return {
+        referencia: row.reference,
+        producto: row.product,
+        [titlePrice]: (op == 1 ? row.price : (op == 3 ? row.price_eur : row.price_usd)),
+        [titlePriceList]: (op == 1 ? row.sale_price : (op == 3 ? row.sale_price_eur : row.sale_price_usd)),
+        margen : profitabilityText,
+      };
+    });
+
+    // Convertir los datos a una hoja de Excel usando SheetJS
+    let ws = XLSX.utils.json_to_sheet(allData);
+    XLSX.utils.book_append_sheet(wb, ws, 'Lista Precios'); 
+
+    // Descargar el archivo Excel
+    XLSX.writeFile(wb, "precios.xlsx");
+  });
 });

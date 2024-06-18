@@ -105,6 +105,9 @@ if (sizeof($_SESSION) == 0)
                                             </select>
                                         </div>
                                     <?php } ?>
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-success" id="btnExportPrices" data-toggle="tooltip" title="Exportar" style="height: 39px"><i class="fas fa-file-excel fa-lg"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
