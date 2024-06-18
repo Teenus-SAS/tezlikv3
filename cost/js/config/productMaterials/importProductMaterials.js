@@ -82,137 +82,139 @@ $(document).ready(function () {
     let productMaterialsToImport = [];
     let importStatus = true;
 
+    const dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+    let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
+
     for (let i = 0; i < data.length; i++) {
       let arr = data[i];
 
-      let quantity = '';
-      let waste = '';
+      let quantity = arr.cantidad > 0 ? arr.cantidad.toString() : '';
+      let waste = arr.desperdicio >= 0 ? arr.desperdicio.toString() : '';
 
-      if (arr.cantidad > 0) {
-        quantity = arr.cantidad.toString();
-      }
-
-      if (arr.desperdicio >= 0) {
-        waste = arr.desperdicio.toString();
-      }
-
-      // Validación de campos vacíos o nulos
-      if (!arr.referencia_producto || !arr.producto || !arr.referencia_material || !arr.material || !arr.magnitud || !arr.unidad ||
-        quantity.trim() == '' || waste.trim() == '' || !arr.tipo) {
+      if (
+        !arr.referencia_producto || !arr.producto || !arr.referencia_material || !arr.material || !arr.magnitud || !arr.unidad ||
+        quantity.trim() === '' || waste.trim() === '' || !arr.tipo ||
+        !arr.referencia_producto.toString().trim() || !arr.producto.toString().trim() || !arr.referencia_material.toString().trim() || !arr.material.toString().trim() || !arr.magnitud.toString().trim() || !arr.unidad.toString().trim() ||
+        !arr.tipo.toString().trim()
+      ) {
         $('.cardLoading').remove();
         $('.cardBottons').show(400);
         $('#fileProductsMaterials').val('');
-        importStatus = false;
-
         toastr.error(`Columna vacía en la fila: ${i + 2}`);
-        break;
-      }
-
-      // Validación de campos que no están vacíos o nulos pero son solo espacios
-      if (!arr.referencia_producto.toString().trim() || !arr.producto.toString().trim() || !arr.referencia_material.toString().trim() || !arr.material.toString().trim() || !arr.magnitud.toString().trim() || !arr.unidad.toString().trim()
-        || !arr.tipo.toString().trim()) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileProductsMaterials').val('');
         importStatus = false;
-
-        toastr.error(`Columna vacía en la fila: ${i + 2}`);
         break;
       }
 
       let valQuantity = parseFloat(quantity.replace(',', '.')) * 1;
-      // let valWaste = parseFloat(waste) * 1;
       if (isNaN(valQuantity) || valQuantity <= 0) {
         $('.cardLoading').remove();
         $('.cardBottons').show(400);
         $('#fileProductsMaterials').val('');
-        importStatus = false;
-
         toastr.error(`La cantidad debe ser mayor a cero (0). Fila: ${i + 2}`);
+        importStatus = false;
         break;
       }
 
-      // Validar Producto
-      let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
-      let product = dataProducts.find(item => item.reference == arr.referencia_producto.toString().trim() &&
-        item.product == arr.producto.toString().toUpperCase().trim());
+      let product = dataProducts.find(item =>
+        item.reference == arr.referencia_producto.toString().trim() &&
+        item.product == arr.producto.toString().toUpperCase().trim()
+      );
 
       if (!product) {
         $('.cardLoading').remove();
         $('.cardBottons').show(400);
         $('#fileProductsMaterials').val('');
-        importStatus = false;
-
         toastr.error(`Producto no existe en la base de datos. Fila: ${i + 2}`);
+        importStatus = false;
         break;
       }
-
-      productMaterialsToImport.push({ idProduct: product.id_product });
 
       let type = arr.tipo.toUpperCase().trim();
 
       switch (type) {
         case 'MATERIAL':
-          let dataMaterials = sessionStorage.getItem('dataMaterials');
           if (!dataMaterials) {
             await loadDataMaterial(1, '/api/selectMaterials');
-          };
+            dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
+          }
 
-          dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
-          let material = dataMaterials.find(item => item.reference == arr.referencia_material.toString().trim() &&
-            item.material == arr.material.toString().toUpperCase().trim());
+          let material = dataMaterials.find(item =>
+            item.reference == arr.referencia_material.toString().trim() &&
+            item.material == arr.material.toString().toUpperCase().trim()
+          );
 
           if (!material) {
             $('.cardLoading').remove();
             $('.cardBottons').show(400);
             $('#fileProductsMaterials').val('');
-            importStatus = false;
-                
             toastr.error(`Materia prima no existe en la base de datos. Fila: ${i + 2}`);
+            importStatus = false;
             break;
           }
-          productMaterialsToImport[i].material = material['id_material'];
-
+          productMaterialsToImport.push({
+            idProduct: product.id_product,
+            material: material['id_material'],
+            referenceProduct: arr.referencia_producto,
+            product: arr.producto,
+            refRawMaterial: arr.referencia_material,
+            nameRawMaterial: arr.material,
+            magnitude: arr.magnitud,
+            unit: arr.unidad,
+            quantity: quantity,
+            waste: waste,
+            type: arr.tipo
+          });
           break;
-          
+
         case 'PRODUCTO':
-          let product = dataProducts.find(item => item.reference == arr.referencia_material.toString().trim() &&
-            item.product == arr.material.toString().toUpperCase().trim());
-              
-          if (!product) {
+          let compositeProduct = dataProducts.find(item =>
+            item.reference == arr.referencia_material.toString().trim() &&
+            item.product == arr.material.toString().toUpperCase().trim()
+          );
+
+          if (!compositeProduct) {
             $('.cardLoading').remove();
             $('.cardBottons').show(400);
             $('#fileProductsMaterials').val('');
-            importStatus = false;
-                
             toastr.error(`Producto no existe en la base de datos. Fila: ${i + 2}`);
+            importStatus = false;
             break;
           }
 
-          if (product.composite == 0) {
+          if (compositeProduct.composite == 0) {
             $('.cardLoading').remove();
             $('.cardBottons').show(400);
             $('#fileProductsMaterials').val('');
+            toastr.error(`Producto no está definido como compuesto. Fila: ${i + 2}`);
             importStatus = false;
-                
-            toastr.error(`Producto no esta definido como compuesto. Fila: ${i + 2}`);
             break;
           }
 
-          productMaterialsToImport[i].compositeProduct = product['id_product'];
+          productMaterialsToImport.push({
+            idProduct: product.id_product,
+            compositeProduct: compositeProduct['id_product'],
+            referenceProduct: arr.referencia_producto,
+            product: arr.producto,
+            refRawMaterial: arr.referencia_material,
+            nameRawMaterial: arr.material,
+            magnitude: arr.magnitud,
+            unit: arr.unidad,
+            quantity: quantity,
+            waste: waste,
+            type: arr.tipo
+          });
+          break;
+
+        default:
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProductsMaterials').val('');
+          toastr.error(`Tipo desconocido en la fila: ${i + 2}`);
+          importStatus = false;
           break;
       }
 
-      // Transformar el elemento y añadirlo al nuevo array
-      productMaterialsToImport[i].referenceProduct = arr.referencia_producto;
-      productMaterialsToImport[i].product = arr.producto;
-      productMaterialsToImport[i].refRawMaterial = arr.referencia_material;
-      productMaterialsToImport[i].nameRawMaterial = arr.material;
-      productMaterialsToImport[i].magnitude = arr.magnitud;
-      productMaterialsToImport[i].unit = arr.unidad;
-      productMaterialsToImport[i].quantity = quantity;
-      productMaterialsToImport[i].waste = waste;
-      productMaterialsToImport[i].type = arr.tipo;
+      if (!importStatus) break;
     }
 
     return { productMaterialsToImport, importStatus };

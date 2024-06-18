@@ -65,7 +65,7 @@ $(document).ready(function () {
 
         let resp = await sendDataPOST(url, dataCategory);
 
-        messageCategories(resp, 1);
+        messageCategories(resp, 3);
     };
 
     /* Eliminar categoria */
@@ -102,7 +102,7 @@ $(document).ready(function () {
                     $.get(
                         `../../api/deleteCategory/${id_category}`,
                         function (data, textStatus, jqXHR) {
-                            messageCategories(data, 2);
+                            messageCategories(data, 3);
                         }
                     );
                 }

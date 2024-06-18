@@ -38,7 +38,7 @@ $(document).ready(function () {
     );
 
     importFile(selectedFile)
-      .then((data) => {
+      .then(async (data) => {
         let arr = data.rowObject;
 
         if (arr.length == 0) {
@@ -63,68 +63,89 @@ $(document).ready(function () {
           return false;
         }
 
-        let categoriesToImport = arr.map((item) => {
-          return {
-            category: item.categoria,
-          };
-        });
-        checkCategories(categoriesToImport);
+        let resp = await validateDataCategories(arr);
+
+        if (resp.importStatus == true)
+          checkCategories(resp.importCategories, resp.insert, resp.update);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
       });
   });
 
+  // Validar data
+  const validateDataCategories = async (data) => {
+    let importCategories = [];
+    let importStatus = true;
+    let insert = 0;
+    let update = 0;
+
+    // Obtener dataCategory una vez fuera del bucle
+    const dataCategory = JSON.parse(sessionStorage.getItem('dataCategory'));
+
+    const isValid = data.every((arr, i) => {
+      if (!arr.categoria || !arr.categoria.toString().trim()) {
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
+        $('#fileCategories').val('');
+        toastr.error(`Campos vacios. Fila: ${i + 2}`);
+        importStatus = false;
+        return false;
+      }
+      return true;
+    });
+
+    if (!isValid) return false;
+
+    importCategories = data.map(arr => {
+      let category = dataCategory.find(item => item.category == arr.categoria.toString().toUpperCase().trim());
+      if (!category) insert++;
+      else update++;
+
+      return {
+        idCategory: category ? category.id_category : null,
+        category: arr.categoria
+      };
+    });
+
+    return { importCategories, importStatus, insert, update };
+  };
+
   /* Mensaje de advertencia */
-  const checkCategories = (data) => {
-    $.ajax({
-      type: 'POST',
-      url: '/api/categoriesDataValidation',
-      data: { importCategories: data },
-      success: function (resp) {
-        if (resp.error == true) {
-          $('#fileCategories').val('');
+  const checkCategories = (data, insert, update) => {
+    bootbox.confirm({
+      title: '¿Desea continuar con la importación?',
+      message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${insert} <br>Datos a actualizar: ${update}`,
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result) {
+          saveCategoriesTable(data);
+        } else {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
-
-          toastr.error(resp.message);
-          return false;
+          $('#fileCategories').val('');
         }
-
-        bootbox.confirm({
-          title: '¿Desea continuar con la importación?',
-          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
-          buttons: {
-            confirm: {
-              label: 'Si',
-              className: 'btn-success',
-            },
-            cancel: {
-              label: 'No',
-              className: 'btn-danger',
-            },
-          },
-          callback: function (result) {
-            if (result == true) {
-              saveCategoriesTable(data);
-            } else {
-              $('.cardLoading').remove();
-              $('.cardBottons').show(400);
-              $('#fileCategories').val('');
-            }
-          },
-        });
       },
     });
   };
 
+  // Guardar data
   const saveCategoriesTable = (data) => {
     $.ajax({
       type: 'POST',
       url: '../../api/addCategory',
       data: { importCategories: data },
       success: function (r) {
-        messageCategories(r);
+        messageCategories(r, 3);
       },
     });
   };

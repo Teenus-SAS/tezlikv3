@@ -84,7 +84,7 @@ $(document).ready(function () {
 
         for (i = 0; i < dataCategory.length; i++) {
           data.push({
-            Categoria: dataCategory[i].category,
+            categoria: dataCategory[i].category,
           });
         }
 

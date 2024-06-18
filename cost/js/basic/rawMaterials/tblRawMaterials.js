@@ -7,7 +7,7 @@ $(document).ready(function () {
     try {
       // Definir las promesas basadas en la opción
       const promises = [
-        op === 1 ? searchData('/api/categories') : Promise.resolve(null),
+        op === 3 || op === 1 ? searchData('/api/categories') : Promise.resolve(null),
         searchData('/api/materials'),
         op === 1 ? searchData('/api/productsMaterialsBasic') : Promise.resolve(null)
       ];
