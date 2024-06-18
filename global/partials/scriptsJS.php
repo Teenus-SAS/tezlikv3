@@ -71,6 +71,7 @@
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         export_import = "<?= $_SESSION['export_import'] ?>";
         flag_export_import = "<?= $_SESSION['flag_export_import'] ?>";
+        anual_expense = "<?= $_SESSION['anual_expense'] ?>";
 
         // Guardar los valores específicos de sessionStorage antes de limpiar
         const preservedValues = {

@@ -66,7 +66,7 @@ $(document).ready(function () {
             data: 'product',
           },
           {
-            title: 'Unidades Vendidas (mes)',
+            title: 'Unidades Vendidas (Año)',
             data: 'units_sold',
             className: 'classRight',
             render: function (data) {
@@ -82,7 +82,7 @@ $(document).ready(function () {
             },
           },
           {
-            title: 'Total Ventas (mes)',
+            title: 'Total Ventas (Año)',
             data: 'turnover',
             className: 'classRight',
             render: function (data) {

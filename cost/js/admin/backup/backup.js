@@ -359,6 +359,45 @@ $(document).ready(function () {
           addToSheet('Recuperacion Gasto', data);
           break;
       }
+
+      if (anual_expense == '1') {
+        // Gastos anuales
+        let dataExpenses = await searchData('/api/expensesAnual');
+        if (dataExpenses.length > 0) {
+          data = [];
+
+          for (i = 0; i < dataExpenses.length; i++) {
+            data.push({
+              numero_cuenta: dataExpenses[i].number_count,
+              cuenta: dataExpenses[i].count,
+              valor: parseFloat(dataExpenses[i].expense_value),
+            });
+          }
+
+          ws = XLSX.utils.json_to_sheet(data);
+          XLSX.utils.book_append_sheet(wb, ws, 'Asignacion de Gastos Anuales');
+        }
+
+        if (execute == false) return false;
+        // Distribucion Anuales
+        let dataExpensesDistributionA = await searchData('/api/expensesDistributionAnual');
+        if (dataExpensesDistributionA.length > 0) {
+          data = [];
+
+          for (i = 0; i < dataExpensesDistributionA.length; i++) {
+            data.push({
+              reference_producto: dataExpensesDistributionA[i].reference,
+              producto: dataExpensesDistributionA[i].product,
+              unidades_vendidas: parseFloat(dataExpensesDistributionA[i].units_sold),
+              volumen_ventas: parseFloat(dataExpensesDistributionA[i].turnover),
+              volumen_ventas: parseFloat(dataExpensesDistributionA[i].turnover),
+            });
+          }
+
+          ws = XLSX.utils.json_to_sheet(data);
+          XLSX.utils.book_append_sheet(wb, ws, 'Distribucion de Gastos Anuales');
+        }
+      }
  
       $('.loading').hide(800);
       document.body.style.overflow = '';
