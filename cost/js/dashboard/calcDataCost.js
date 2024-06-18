@@ -43,6 +43,8 @@ $(document).ready(function () {
       // Rentabilidad de precio actual
       // profitability = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
       // profitability2 = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
+      profitability = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
+      profitability2 = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
       profitability3 = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
       // profitability3 = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
 
