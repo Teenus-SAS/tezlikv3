@@ -43,11 +43,11 @@ class GeneralProductMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT p.reference AS reference_product, p.product, m.id_material
+        $stmt = $connection->prepare("SELECT p.reference AS reference_product, p.product, m.id_material, p.active
                                       FROM products p 
                                         INNER JOIN products_materials pm ON pm.id_product = p.id_product 
                                         INNER JOIN materials m ON m.id_material = pm.id_material
-                                      WHERE pm.id_company = :id_company AND p.active = 1");
+                                      WHERE pm.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $productsmaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $productsmaterials));

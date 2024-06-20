@@ -308,7 +308,7 @@ $(document).ready(function () {
   /* Productos relacionados */
   $(document).on('click', '.seeDetailMaterials', function () { 
     let allProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
-    let data = allProductMaterials.filter(item => item.id_material == this.id);
+    let data = allProductMaterials.filter(item => parseInt(item.id_material) == parseInt(this.id));
 
     $('#tblProductsBody').empty();
 

@@ -6,6 +6,7 @@ $(document).ready(function () {
     let costCommissionSale = 0;
     let costActualProfitability = 0;
     let price2 = 0; 
+    let recomendedPrice = 0; 
     let expense = parseFloat(data.assignable_expense); 
 
     // Calcular costo
@@ -32,7 +33,7 @@ $(document).ready(function () {
     costCommissionSale = price * (parseFloat(data.commission_sale) / 100);
 
     // Calcular precio real
-    let recomendedPrice = parseFloat(data.turnover) / parseFloat(data.units_sold);
+    recomendedPrice = parseFloat(data.turnover) / parseFloat(data.units_sold);
 
     // Calcular rentabilidades de acuedo al acceso activo
     if (flag_expense === "2" || flag_expense_distribution === "2") { // Acceso distribucion por familia o Recuperacion 
@@ -78,6 +79,10 @@ $(document).ready(function () {
     isNaN(profitability) ? (profitability = 0) : profitability;
     isNaN(profitability2) ? (profitability2 = 0) : profitability2;
     isNaN(profitability3) ? (profitability3 = 0) : profitability3;
+    !isFinite(profitability) ? (profitability = 0) : profitability;
+    !isFinite(profitability2) ? (profitability2 = 0) : profitability2;
+    !isFinite(profitability3) ? (profitability3 = 0) : profitability3;
+    isNaN(recomendedPrice) ? (recomendedPrice = 0) : recomendedPrice;
     isNaN(costProfitability) ? (costProfitability = 0) : costProfitability;
     isNaN(costCommissionSale) ? (costCommissionSale = 0) : costCommissionSale;
     isNaN(costActualProfitability)
@@ -95,6 +100,7 @@ $(document).ready(function () {
       costProfitability: costProfitability,
       costActualProfitability: costActualProfitability,
       expense: expense,
+      recomendedPrice: recomendedPrice,
       price: price,
       price2: price2,
     };

@@ -115,34 +115,7 @@ $(document).ready(function () {
         data: 'price',
         className: 'classRight',
         render: (data) => renderCost(data, op),
-      },
-      // {
-      //   title: 'Costo Importacion',
-      //   data: 'costImport',
-      //   className: 'classRight',
-      //   visible: visibleCost,
-      //   render: (data) => renderCost(data, op),
-      // },
-      // {
-      //   title: 'Costo Nacionalizacion',
-      //   data: 'costExport',
-      //   className: 'classRight',
-      //   visible: visibleCost,
-      //   render: (data) => renderCost(data, op),
-      // },
-      // {
-      //   title: 'Total',
-      //   data: 'total',
-      //   className: 'classRight',
-      //   visible: visibleCost,
-      //   render: (data) => renderCost(data, op),
-      // },
-      // {
-      //   title: 'Acciones',
-      //   data: null,
-      //   className: 'uniqueClassName',
-      //   render: renderActions,
-      // },
+      }, 
     ];
 
     if (visibleCost == true) {

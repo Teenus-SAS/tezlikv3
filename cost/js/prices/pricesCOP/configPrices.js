@@ -145,24 +145,35 @@ $(document).ready(function () {
       let titlePriceList = op == 1 ? "precio_lista" : op == 3 ? "precio_lista(EUR)" : "precio_lista(USD)";
 
       let arr = getDataCost(row);
-
-      if (!isFinite(arr.actualProfitability2))
-        arr.actualProfitability2 = 0;
-
-      let profitabilityText = `${arr.actualProfitability2.toLocaleString(
-        "es-CO",
-        {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        }
-      )} %`;
+      let recomendedPrice = arr.recomendedPrice;  
 
       return {
         referencia: row.reference,
         producto: row.product,
         [titlePrice]: (op == 1 ? row.price : (op == 3 ? row.price_eur : row.price_usd)),
+        margen_sugerido: `${arr.actualProfitability.toLocaleString(
+          "es-CO",
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }
+        )} %`,
+        precio_real: recomendedPrice,
+        margen_real: `${arr.actualProfitability2.toLocaleString(
+          "es-CO",
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }
+        )} %`,
         [titlePriceList]: (op == 1 ? row.sale_price : (op == 3 ? row.sale_price_eur : row.sale_price_usd)),
-        margen : profitabilityText,
+        margen_lista: `${arr.actualProfitability3.toLocaleString(
+          "es-CO",
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }
+        )} %`,
       };
     });
 
