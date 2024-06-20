@@ -327,7 +327,6 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
     $dataProductMaterials = sizeof($dataProductMaterial);
 
     if ($dataProductMaterials > 1) {
-
         $productMaterials = $productsMaterialsDao->findProductMaterial($dataProductMaterial, $id_company);
 
         if (!$productMaterials) {

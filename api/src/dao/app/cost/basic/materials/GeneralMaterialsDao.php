@@ -268,11 +268,11 @@ class GeneralMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE materials SET cost_export_usd = :cost_export_usd, cost_import_usd = :cost_import_usd
+            $stmt = $connection->prepare("UPDATE materials SET cost_import_usd = :cost_import_usd, cost_export_usd = :cost_export_usd
                                           WHERE id_material = :id_material");
             $stmt->execute([
-                'cost_export_usd' => $dataMaterial['costImport'],
-                'cost_import_usd' => $dataMaterial['costExport'],
+                'cost_import_usd' => $dataMaterial['costImport'],
+                'cost_export_usd' => $dataMaterial['costExport'],
                 'id_material' => $dataMaterial['idMaterial']
             ]);
         } catch (\Exception $e) {

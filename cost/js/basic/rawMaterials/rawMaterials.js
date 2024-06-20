@@ -322,6 +322,11 @@ $(document).ready(function () {
             <td>${i + 1}</td>
             <td>${data[i].reference_product}</td>
             <td>${data[i].product}</td> 
+            <td> 
+              <span class="badge ${data[i].active == 1 ? 'badge-success' : 'badge-danger'}">
+                ${data[i].active == 1 ? 'Activo' : 'Inactivo'}
+              </span>
+            </td> 
         </tr>
       `
       );
