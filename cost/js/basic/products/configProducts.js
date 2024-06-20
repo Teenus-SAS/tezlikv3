@@ -21,6 +21,7 @@ $(document).ready(function () {
     await $.ajax({
       url: url,
       success: function (r) {
+        r = r.filter(item => item.active == 1);
         sessionStorage.setItem('dataProducts', JSON.stringify(r));
     
         populateSelect('.refProduct', r, 'reference');

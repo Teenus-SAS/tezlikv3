@@ -71,7 +71,7 @@ $(document).ready(function () {
 
   // Construir tabla con productos inactivos
   const setTblInactivesProducts = async () => {
-    const data = dataInactiveProducts;
+    const data = JSON.parse(sessionStorage.getItem('dataInactiveProducts'));
     const tblInactiveProductsBody = document.getElementById("tblInactiveProductsBody");
     let html = '';
 

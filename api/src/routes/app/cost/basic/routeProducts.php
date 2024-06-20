@@ -291,14 +291,16 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
 
         for ($i = 0; $i < count($products); $i++) {
             if (
-                empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) || $products[$i]['commissionSale'] == ''
+                empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) ||
+                empty($products[$i]['active']) || $products[$i]['commissionSale'] == ''
             ) {
                 $i = $i + 2;
                 $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
                 break;
             }
             if (
-                empty(trim($products[$i]['referenceProduct'])) || empty(trim($products[$i]['product'])) || trim($products[$i]['commissionSale']) == ''
+                empty(trim($products[$i]['referenceProduct'])) || empty(trim($products[$i]['product'])) ||
+                empty(trim($products[$i]['active'])) || trim($products[$i]['commissionSale']) == ''
             ) {
                 $i = $i + 2;
                 $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
@@ -317,22 +319,6 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
                 $duplicateTracker[$refProduct] = true;
                 $duplicateTracker[$nameProduct] = true;
             }
-
-            // $findProduct = $generalProductsDao->findProductByReferenceOrName($products[$i], $id_company);
-
-            // if (sizeof($findProduct) > 1) {
-            //     $i = $i + 2;
-            //     $dataImportProduct =  array('error' => true, 'message' => "Referencia y nombre de producto ya existente, fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
-            //     break;
-            // }
-
-            // if ($findProduct) {
-            //     if ($findProduct[0]['product'] != $nameProduct || $findProduct[0]['reference'] != $refProduct) {
-            //         $i = $i + 2;
-            //         $dataImportProduct =  array('error' => true, 'message' => "Referencia o nombre de producto ya existente, fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
-            //         break;
-            //     }
-            // }
         }
 
         // session_start();
@@ -426,6 +412,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
             $product = $generalProductsDao->findProductByReferenceOrName($dataProduct, $id_company);
 
             if (!$product) {
+                $dataProduct['active'] = 1;
                 //INGRESA id_company, referencia, producto. BD
                 $products = $productsDao->insertProductByCompany($dataProduct, $id_company);
 
@@ -458,6 +445,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
             for ($i = 0; $i < sizeof($products); $i++) {
 
                 $product = $generalProductsDao->findProduct($products[$i], $id_company);
+                $products[$i]['active'] == 'SI' ? $products[$i]['active'] = 1 : $products[$i]['active'] = 0;
 
                 if (!$product) {
                     $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
@@ -552,6 +540,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     !is_array($product) ? $data['id_product'] = 0 : $data = $product;
 
     if ($data['id_product'] == $dataProduct['idProduct'] || $data['id_product'] == 0) {
+        $dataProduct['active'] = 1;
         // Actualizar Datos, Imagen y Calcular Precio del producto
         $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
@@ -724,6 +713,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
         $product = $generalProductsDao->findProductByReferenceOrName($dataProduct, $id_company);
 
         if (!$product) {
+            $dataProduct['active'] = 1;
             //INGRESA id_company, referencia, producto. BD
             $resolution = $productsDao->insertProductByCompany($dataProduct, $id_company);
 

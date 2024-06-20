@@ -20,10 +20,10 @@ class ProductsDao
   {
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.sale_price, pc.profitability, pc.commission_sale, pc.price, p.img, p.id_family, p.composite, 
-                                         IFNULL((SELECT id_composite_product FROM composite_products WHERE id_product = p.id_product LIMIT 1), 0) AS composite_product
+                                         IFNULL((SELECT id_composite_product FROM composite_products WHERE id_product = p.id_product LIMIT 1), 0) AS composite_product, p.active
                                   FROM products p
                                     INNER JOIN products_costs pc ON p.id_product = pc.id_product
-                                  WHERE p.id_company = :id_company AND p.active = 1 
+                                  WHERE p.id_company = :id_company
                                   ORDER BY `p`.`product`, `p`.`reference` ASC");
     $stmt->execute(['id_company' => $id_company]);
 
@@ -42,10 +42,11 @@ class ProductsDao
     try {
 
       $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, active) 
-                                      VALUES(:id_company, :reference, :product, 1)");
+                                      VALUES(:id_company, :reference, :product, :active)");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => strtoupper(trim($dataProduct['product'])),
+        'active' => $dataProduct['active'],
         'id_company' => $id_company,
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -62,12 +63,13 @@ class ProductsDao
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product 
+      $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product, active = :active
                                     WHERE id_product = :id_product AND id_company = :id_company");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => strtoupper(trim($dataProduct['product'])),
         'id_product' => $dataProduct['idProduct'],
+        'active' => $dataProduct['active'],
         'id_company' => $id_company
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

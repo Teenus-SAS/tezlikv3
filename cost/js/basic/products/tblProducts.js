@@ -1,14 +1,13 @@
-$(document).ready(function () {
-  dataInactiveProducts = [];
-
+$(document).ready(function () { 
   loadAllData = async () => {
-    const [dataProducts, dataInactives, dataLimit] = await Promise.all([
-      searchData('/api/products'),
-      searchData('/api/inactivesProducts'),
+    const [dataAllProducts, dataLimit] = await Promise.all([
+      searchData('/api/products'), 
       searchData('/api/productsLimit')
     ]);
 
-    dataInactiveProducts = dataInactives;
+    let dataProducts = dataAllProducts.filter(item => item.active == 1);
+    let dataInactiveProducts = dataAllProducts.filter(item => item.active == 0);
+    sessionStorage.setItem('dataInactiveProducts', JSON.stringify(dataInactiveProducts));
 
     if (dataLimit.quantity >= dataLimit.cant_products) $('.limitPlan').show(800);
     else $('.limitPlan').hide(800);

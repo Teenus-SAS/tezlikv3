@@ -79,6 +79,7 @@ $(document).ready(function () {
             profitability: item.rentabilidad,
             commissionSale: item.comision_ventas,
             composite: item.sub_producto,
+            active: item.activo,
           };
         });
 
