@@ -77,19 +77,19 @@ $(document).ready(function () {
 
     for (let i = 0; i < data.length; i++) {
       html += `
-        <tr>
-            <td>${i + 1}</td>
-            <td>${data[i].reference}</td>
-            <td>${data[i].product}</td>
-            <td>
-                <a href="javascript:;">
-                    <span id="checkIn-${data[i].id_product}" class="badge badge-success checkInactiveProduct">Activar</span>
-                </a>
-                <a href="javascript:;">
-                    <i id="${data[i].id_product}" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px; color: red;"></i>
-                </a>
-            </td>
-        </tr>`;
+      <tr>
+        <td>${i + 1}</td>
+        <td>${data[i].reference}</td>
+        <td>${data[i].product}</td>
+        <td>
+          <a href="javascript:;">
+            <span id="checkIn-${data[i].id_product}" class="badge badge-success checkInactiveProduct">Activar</span>
+          </a>
+          <a href="javascript:;">
+            <i id="${data[i].id_product}" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px; color: red;"></i>
+          </a>
+        </td>
+      </tr>`;
     }
 
     tblInactiveProductsBody.innerHTML = html;
@@ -97,12 +97,39 @@ $(document).ready(function () {
     // Mostrar modal
     $("#createInactivesProducts").modal("show");
 
+    // Destruir DataTable si ya existe
+    if ($.fn.DataTable.isDataTable('#tblInactiveProducts')) {
+      $('#tblInactiveProducts').DataTable().destroy();
+    }
+
     // Inicializar DataTable
-    $("#tblInactiveProducts").DataTable({
+    const newTable = $("#tblInactiveProducts").DataTable({
       destroy: true,
       scrollY: "150px",
       scrollCollapse: true,
       dom: '<"datatable-error-console">frtip',
+      data: data, // Configurar data como fuente de datos
+      columns: [
+        { title: "N°", data: null },
+        { title: "Referencia", data: "reference" },
+        { title: "Producto", data: "product" },
+        {
+          title: "Acciones",
+          data: null,
+          render: function (data, type, row, meta) {
+            return `
+            <a href="javascript:;">
+              <span id="checkIn-${row.id_product}" class="badge badge-success checkInactiveProduct">Activar</span>
+            </a>
+            <a href="javascript:;">
+              <i id="${row.id_product}" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px; color: red;"></i>
+            </a>`;
+          }
+        }
+      ],
+      rowCallback: function (row, data, index) {
+        $('td:eq(0)', row).html(index + 1);
+      },
       fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
         if (oSettings.json && oSettings.json.hasOwnProperty("error")) {
           console.error(oSettings.json.error);
