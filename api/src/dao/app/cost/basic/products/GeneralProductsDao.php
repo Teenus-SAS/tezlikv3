@@ -19,9 +19,9 @@ class GeneralProductsDao
     public function findDataBasicProductsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.composite
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.composite, p.active
                                       FROM products p
-                                      WHERE p.id_company = :id_company AND p.active = 1");
+                                      WHERE p.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
