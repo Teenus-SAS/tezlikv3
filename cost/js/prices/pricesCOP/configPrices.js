@@ -151,7 +151,7 @@ $(document).ready(function () {
         referencia: row.reference,
         producto: row.product,
         [titlePrice]: (op == 1 ? row.price : (op == 3 ? row.price_eur : row.price_usd)),
-        margen_sugerido: `${arr.actualProfitability.toLocaleString(
+        margen_sugerido: `${row.profitability.toLocaleString(
           "es-CO",
           {
             minimumFractionDigits: 2,
