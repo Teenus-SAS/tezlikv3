@@ -144,7 +144,8 @@ $(document).ready(function () {
         // $('.cardLoading').remove();
         // $('.cardBottons').show(400);
         // $('#fileProductsProcess').val('');
-        debugg.push({message:`Producto no existe en la base de datos. Fila: ${i + 2}`});
+        debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
+        product = { id_product: '' };
         // importStatus = false;
         // break;
       }

@@ -136,6 +136,7 @@ $(document).ready(function () {
         // $('.cardBottons').show(400);
         // $('#fileProductsMaterials').val('');
         debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
+        product = { id_product: '' };
         // toastr.error(`Producto no existe en la base de datos. Fila: ${i + 2}`);
         // importStatus = false;
         // break;
@@ -194,7 +195,8 @@ $(document).ready(function () {
             // importStatus = false;
             // break;
           } else {
-            if (compositeProduct.composite == 0) {
+            if (typeof compositeProduct === 'object' && !Array.isArray(compositeProduct) && compositeProduct !== null &&
+              compositeProduct.composite == 0) {
               // $('.cardLoading').remove();
               // $('.cardBottons').show(400);
               // $('#fileProductsMaterials').val('');
@@ -216,8 +218,6 @@ $(document).ready(function () {
           // importStatus = false;
         // break;
       }
-
-      // if (!importStatus) break;
     }
 
     return { productMaterialsToImport, debugg };

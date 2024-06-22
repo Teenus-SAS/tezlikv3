@@ -107,6 +107,7 @@ $(document).ready(function () {
 
       if (!product) {
         debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
+        product = { id_product: '' };
       }
 
       externalServiceToImport.push({
