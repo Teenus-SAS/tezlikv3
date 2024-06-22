@@ -195,7 +195,8 @@ $(document).ready(function () {
             // break;
           }
 
-          if (compositeProduct.composite == 0) {
+          if (typeof compositeProduct === 'object' && !Array.isArray(compositeProduct) && compositeProduct !== null &&
+            compositeProduct.composite == 0) {
             // $('.cardLoading').remove();
             // $('.cardBottons').show(400);
             // $('#fileProductsMaterials').val('');
