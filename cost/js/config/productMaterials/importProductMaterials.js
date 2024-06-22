@@ -193,20 +193,20 @@ $(document).ready(function () {
             debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
             // importStatus = false;
             // break;
-          }
-
-          if (typeof compositeProduct === 'object' && !Array.isArray(compositeProduct) && compositeProduct !== null &&
-            compositeProduct.composite == 0) {
-            // $('.cardLoading').remove();
-            // $('.cardBottons').show(400);
-            // $('#fileProductsMaterials').val('');
-            debugg.push({ message: `Producto no está definido como compuesto. Fila: ${i + 2}` });
-            // importStatus = false;
-            // break;
-          }
-          else {
-            productMaterialsToImport[i]['idProduct'] = product.id_product;
-            productMaterialsToImport[i]['compositeProduct'] = compositeProduct.id_product;
+          } else {
+            if (typeof compositeProduct === 'object' && !Array.isArray(compositeProduct) && compositeProduct !== null &&
+              compositeProduct.composite == 0) {
+              // $('.cardLoading').remove();
+              // $('.cardBottons').show(400);
+              // $('#fileProductsMaterials').val('');
+              debugg.push({ message: `Producto no está definido como compuesto. Fila: ${i + 2}` });
+              // importStatus = false;
+              // break;
+            }
+            else {
+              productMaterialsToImport[i]['idProduct'] = product.id_product;
+              productMaterialsToImport[i]['compositeProduct'] = compositeProduct.id_product;
+            }
           }
           break;
 
