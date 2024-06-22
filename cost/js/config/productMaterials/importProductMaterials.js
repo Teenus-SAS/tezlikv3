@@ -194,16 +194,14 @@ $(document).ready(function () {
             // importStatus = false;
             // break;
           } else {
-            if (typeof compositeProduct === 'object' && !Array.isArray(compositeProduct) && compositeProduct !== null &&
-              compositeProduct.composite == 0) {
+            if (compositeProduct.composite == 0) {
               // $('.cardLoading').remove();
               // $('.cardBottons').show(400);
               // $('#fileProductsMaterials').val('');
               debugg.push({ message: `Producto no está definido como compuesto. Fila: ${i + 2}` });
               // importStatus = false;
               // break;
-            }
-            else {
+            } else {
               productMaterialsToImport[i]['idProduct'] = product.id_product;
               productMaterialsToImport[i]['compositeProduct'] = compositeProduct.id_product;
             }
