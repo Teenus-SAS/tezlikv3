@@ -123,47 +123,58 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
 
         $externalService = $dataExternalService['importExternalService'];
 
-        for ($i = 0; $i < sizeof($externalService); $i++) {
-            if (
-                empty($externalService[$i]['referenceProduct']) || empty($externalService[$i]['product']) ||
-                empty($externalService[$i]['service']) || empty($externalService[$i]['costService'])
-            ) {
-                $i = $i + 2;
-                $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
+        if (isset($dataExternalService['debugg']))
+            $debugg = $dataExternalService['debugg'];
+        else $debugg = [];
+
+        $dataImportExternalService = [];
+
+        if (sizeof($debugg) == 0) {
+            for ($i = 0; $i < sizeof($externalService); $i++) {
+                // if (
+                //     empty($externalService[$i]['referenceProduct']) || empty($externalService[$i]['product']) ||
+                //     empty($externalService[$i]['service']) || empty($externalService[$i]['costService'])
+                // ) {
+                //     $i = $i + 2;
+                //     $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                //     break;
+                // }
+                // if (
+                //     empty(trim($externalService[$i]['referenceProduct'])) || empty(trim($externalService[$i]['product'])) ||
+                //     empty(trim($externalService[$i]['service'])) || empty(trim($externalService[$i]['costService']))
+                // ) {
+                //     $i = $i + 2;
+                //     $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                //     break;
+                // }
+
+                // // Obtener id producto
+                // $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
+                // if (!$findProduct) {
+                //     $i = $i + 2;
+                //     $dataImportExternalService = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
+                //     break;
+                // } else $externalService[$i]['idProduct'] = $findProduct['id_product'];
+
+                // $findExternalService = $generalExServicesDao->findExternalService($externalService[$i], $id_company);
+
+                // $findExternalService ? $externalService[$i]['idGService1'] = $findExternalService['id_general_service'] : $externalService[$i]['idGService1'] = '';
+
+                $findExternalService = $generalServicesDao->findExternalService($externalService[$i], $id_company);
+
+                if (!$findExternalService) $insert = $insert + 1;
+                else $update = $update + 1;
+                $dataImportExternalService['insert'] = $insert;
+                $dataImportExternalService['update'] = $update;
             }
-            if (
-                empty(trim($externalService[$i]['referenceProduct'])) || empty(trim($externalService[$i]['product'])) ||
-                empty(trim($externalService[$i]['service'])) || empty(trim($externalService[$i]['costService']))
-            ) {
-                $i = $i + 2;
-                $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
-            }
-
-            // Obtener id producto
-            $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
-            if (!$findProduct) {
-                $i = $i + 2;
-                $dataImportExternalService = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
-                break;
-            } else $externalService[$i]['idProduct'] = $findProduct['id_product'];
-
-            // $findExternalService = $generalExServicesDao->findExternalService($externalService[$i], $id_company);
-
-            // $findExternalService ? $externalService[$i]['idGService1'] = $findExternalService['id_general_service'] : $externalService[$i]['idGService1'] = '';
-
-            $findExternalService = $generalServicesDao->findExternalService($externalService[$i], $id_company);
-
-            if (!$findExternalService) $insert = $insert + 1;
-            else $update = $update + 1;
-            $dataImportExternalService['insert'] = $insert;
-            $dataImportExternalService['update'] = $update;
         }
     } else
         $dataImportExternalService = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
 
-    $response->getBody()->write(json_encode($dataImportExternalService, JSON_NUMERIC_CHECK));
+    $data['import'] = $dataImportExternalService;
+    $data['debugg'] = $debugg;
+
+    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

@@ -168,92 +168,45 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
 
         $productProcess = $dataProductProcess['importProductsProcess'];
 
+        if (isset($dataProductProcess['debugg']))
+            $debugg = $dataProductProcess['debugg'];
+        else $debugg = [];
+
+        $dataImportProductProcess = [];
+
         for ($i = 0; $i < sizeof($productProcess); $i++) {
-            // if (
-            //     empty($productProcess[$i]['referenceProduct']) || empty($productProcess[$i]['product']) || empty($productProcess[$i]['process']) || empty($productProcess[$i]['machine']) ||
-            //     $productProcess[$i]['enlistmentTime'] == '' || $productProcess[$i]['operationTime'] == '' || $productProcess[$i]['efficiency'] == ''
-            //     || empty($productProcess[$i]['autoMachine'])
-            // ) {
-            //     $i = $i + 2;
-            //     $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
-            //     break;
-            // }
-            // if (
-            //     empty(trim($productProcess[$i]['referenceProduct'])) || empty(trim($productProcess[$i]['product'])) || empty(trim($productProcess[$i]['process'])) || empty(trim($productProcess[$i]['machine'])) ||
-            //     trim($productProcess[$i]['enlistmentTime']) == '' || trim($productProcess[$i]['operationTime']) == '' || trim($productProcess[$i]['efficiency']) == ''
-            //     || empty(trim($productProcess[$i]['autoMachine']))
-            // ) {
-            //     $i = $i + 2;
-            //     $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
-            //     break;
-            // }
-
-            // Obtener id producto
-            // $findProduct = $productsDao->findProduct($productProcess[$i], $id_company);
-            // if (!$findProduct) {
-            //     $i = $i + 2;
-            //     $dataImportProductProcess = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
-            //     break;
-            // } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
-
-            // Obtener id proceso
-            // $findProcess = $generalProcessDao->findProcess($productProcess[$i], $id_company);
-            // if (!$findProcess) {
-            //     $i = $i + 2;
-            //     $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila: {$i}");
-            //     break;
-            // }
-
             if ($productProcess[$i]['autoMachine'] == 'NO' && strtoupper(trim($productProcess[$i]['machine'])) != 'PROCESO MANUAL') {
                 $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
                 if (!$findProcess) {
                     $i = $i + 2;
-                    $dataImportProductProcess = array('error' => true, 'message' => "No existe nomina asociada a este proceso<br>Fila: {$i}");
-                    break;
-                }
-                $productProcess[$i]['idProcess'] = $findProcess['id_process'];
+                    array_push($debugg, array('message' => "No existe nomina asociada a este proceso<br>Fila: $i"));
+                    // break;
+                } else
+                    $productProcess[$i]['idProcess'] = $findProcess['id_process'];
             }
 
             if ($productProcess[$i]['autoMachine'] == 'SI' && strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
                 $i = $i + 2;
-                $dataImportProductProcess = array('error' => true, 'message' => "No se permite esa maquina autonoma<br>Fila: {$i}");
+                array_push($debugg, array('message' => "No se permite esa maquina autonoma<br>Fila: $i"));
                 break;
             }
 
-            // Obtener id maquina
-            // Si no está definida agrega 0 a 'idMachine'
-            // if (!isset($productProcess[$i]['machine']) || strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
-            //     $productProcess[$i]['idMachine'] = 0;
-            // } else {
-            //     $findMachine = $machinesDao->findMachine($productProcess[$i], $id_company);
-            //     if (!$findMachine) {
-            //         $i = $i + 2;
-            //         $dataImportProductProcess = array('error' => true, 'message' => "Maquina no existe en la base de datos <br>Fila: {$i}");
-            //         break;
-            //     } else $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
-            // }
+            if (sizeof($debugg) == 0) {
+                $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
-            //tiempo de alistamiento = 0 si no está definido
-            // if (!isset($productProcess[$i]['enlistmentTime'])) {
-            //     $productProcess[$i]['enlistmentTime'] = 0;
-            // }
-
-            // //Tiempo de operación = 0 si no está definido
-            // if (!isset($productProcess[$i]['operationTime'])) {
-            //     $productProcess[$i]['operationTime'] = 0;
-            // }
-
-            $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
-
-            if (!$findProductProcess) $insert = $insert + 1;
-            else $update = $update + 1;
-            $dataImportProductProcess['insert'] = $insert;
-            $dataImportProductProcess['update'] = $update;
+                if (!$findProductProcess) $insert = $insert + 1;
+                else $update = $update + 1;
+                $dataImportProductProcess['insert'] = $insert;
+                $dataImportProductProcess['update'] = $update;
+            }
         }
     } else
         $dataImportProductProcess = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
 
-    $response->getBody()->write(json_encode($dataImportProductProcess, JSON_NUMERIC_CHECK));
+    $data['import'] = $dataImportProductProcess;
+    $data['debugg'] = $debugg;
+
+    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

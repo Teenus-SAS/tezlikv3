@@ -39,7 +39,7 @@ $(document).ready(function () {
     );
 
     importFile(selectedFile)
-      .then((data) => {
+      .then(async (data) => {
         let arr = data.rowObject;
 
          if (arr.length == 0) {
@@ -63,35 +63,77 @@ $(document).ready(function () {
           toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
           return false;
         }
-
-        let externalServiceToImport = arr.map((item) => {
-          let costService = '';
-
-          if (item.costo)
-            costService = item.costo.toString().replace('.', ',');
-
-          return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            service: item.servicio,
-            costService: costService,
-          };
-        });
-        checkExternalService(externalServiceToImport);
+ 
+        let resp = await validateDataSX(arr);
+          checkExternalService(resp.externalServiceToImport, resp.debugg);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
       });
   });
 
+  /* Validar data */ 
+  const validateDataSX = async (data) => {
+    let externalServiceToImport = [];
+    let debugg = []; 
+
+    const dataProducts = JSON.parse(sessionStorage.getItem('dataProducts')); 
+
+    for (let i = 0; i < data.length; i++) {
+      let arr = data[i];
+
+      let costService = arr.costo > 0 ? arr.costo.toString() : '0';
+
+      !arr.referencia_producto ? arr.referencia_producto = '' : arr.referencia_producto;
+      !arr.producto ? arr.producto = '' : arr.producto;
+      !arr.servicio ? arr.servicio = '' : arr.servicio;
+
+      if (
+        !arr.referencia_producto || !arr.producto || !arr.servicio || costService.trim() === '' ||
+        !arr.referencia_producto.toString().trim() || !arr.producto.toString().trim() || !arr.servicio.toString().trim()
+      ) {
+        debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
+      }
+
+      let valSX = parseFloat(costService.replace(',', '.')) * 1;
+      if (isNaN(valSX) || valSX <= 0) {
+        debugg.push({ message: `Costo de servicio debe ser mayor a cero (0). Fila: ${i + 2}` });
+      }
+
+      let product = dataProducts.find(item =>
+        item.reference == arr.referencia_producto.toString().trim() &&
+        item.product == arr.producto.toString().toUpperCase().trim()
+      );
+
+      if (!product) {
+        debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
+      }
+
+      externalServiceToImport.push({
+        idProduct: !product ? '' : product.id_product,
+        referenceProduct: arr.referencia_producto,
+        product: arr.producto,
+        service: arr.servicio,
+        costService: costService
+      });
+    }
+
+    return { externalServiceToImport, debugg };
+  };
+
   /* Mensaje de advertencia */
-  const checkExternalService = (data) => {
+  const checkExternalService = (data, debugg) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/externalServiceDataValidation',
-      data: { importExternalService: data },
+      url: '/api/externalServiceDataValidation',
+      data: {
+        importExternalService: data,
+        debugg: debugg
+      },
       success: function (resp) {
-        if (resp.error == true) {
+        let arr = resp.import;
+
+        if (arr.length > 0 && arr.error == true) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileExternalServices').val('');
@@ -100,29 +142,61 @@ $(document).ready(function () {
           return false;
         }
 
-        bootbox.confirm({
-          title: '¿Desea continuar con la importación?',
-          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
-          buttons: {
-            confirm: {
-              label: 'Si',
-              className: 'btn-success',
+        if (resp.debugg.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileExternalServices').val('');
+
+          // Generar el HTML para cada mensaje
+          let concatenatedMessages = resp.debugg.map(item =>
+            `<li>
+              <span class="badge badge-danger" style="font-size: 16px;">${item.message}</span>
+            </li>
+            <br>`
+          ).join('');
+
+          // Mostramos el mensaje con Bootbox
+          bootbox.alert({
+            title: 'Errores',
+            message: `
+            <div class="container">
+              <div class="col-12">
+                <ul>
+                  ${concatenatedMessages}
+                </ul>
+              </div> 
+            </div>`,
+            size: 'large',
+            backdrop: true
+          });
+          return false;
+        }
+
+        if (typeof arr === 'object' && !Array.isArray(arr) && arr !== null && debugg.length == 0) {
+          bootbox.confirm({
+            title: '¿Desea continuar con la importación?',
+            message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${arr.insert} <br>Datos a actualizar: ${arr.update}`,
+            buttons: {
+              confirm: {
+                label: 'Si',
+                className: 'btn-success',
+              },
+              cancel: {
+                label: 'No',
+                className: 'btn-danger',
+              },
             },
-            cancel: {
-              label: 'No',
-              className: 'btn-danger',
+            callback: function (result) {
+              if (result == true) {
+                saveExternalServiceTable(data);
+              } else {
+                $('.cardLoading').remove();
+                $('.cardBottons').show(400);
+                $('#fileExternalServices').val('');
+              }
             },
-          },
-          callback: function (result) {
-            if (result == true) {
-              saveExternalServiceTable(data);
-            } else {
-              $('.cardLoading').remove();
-              $('.cardBottons').show(400);
-              $('#fileExternalServices').val('');
-            }
-          },
-        });
+          });
+        }
       },
     });
   };

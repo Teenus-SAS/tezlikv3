@@ -176,109 +176,54 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
 
         $productMaterials = $dataProductMaterial['importProductsMaterials'];
 
-        for ($i = 0; $i < sizeof($productMaterials); $i++) {
+        if (isset($dataProductMaterial['debugg']))
+            $debugg = $dataProductMaterial['debugg'];
+        else $debugg = [];
 
+        $dataImportProductsMaterials = [];
+
+        for ($i = 0; $i < sizeof($productMaterials); $i++) {
             // Consultar magnitud
             $magnitude = $magnitudesDao->findMagnitude($productMaterials[$i]);
 
             if (!$magnitude) {
                 $i = $i + 2;
-                $dataImportProductsMaterials = array('error' => true, 'message' => "Magnitud no existe en la base de datos. Fila: $i");
-                break;
-            }
-
-            $productMaterials[$i]['idMagnitude'] = $magnitude['id_magnitude'];
-
-            // Consultar unidad
-            $unit = $unitsDao->findUnit($productMaterials[$i]);
-
-            if (!$unit) {
-                $i = $i + 2;
-                $dataImportProductsMaterials = array('error' => true, 'message' => "Unidad no existe en la base de datos. Fila: $i");
-                break;
-            }
-
-            // if (
-            //     empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) || empty($productMaterials[$i]['nameRawMaterial']) ||
-            //     $productMaterials[$i]['quantity'] == '' || $productMaterials[$i]['waste'] == ''
-            //     || empty($productMaterials[$i]['type'])
-            // ) {
-            //     $i = $i + 2;
-            //     $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
-            //     break;
-            // }
-            // if (
-            //     empty(trim($productMaterials[$i]['referenceProduct'])) || empty(trim($productMaterials[$i]['product'])) || empty(trim($productMaterials[$i]['refRawMaterial'])) || empty(trim($productMaterials[$i]['nameRawMaterial'])) ||
-            //     trim($productMaterials[$i]['quantity']) == '' || trim($productMaterials[$i]['waste']) == ''
-            //     || empty(trim($productMaterials[$i]['type']))
-            // ) {
-            //     $i = $i + 2;
-            //     $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
-            //     break;
-            // }
-
-            // $quantity = str_replace(',', '.', $productMaterials[$i]['quantity']);
-
-            // $quantity = 1 * $quantity;
-
-            // if ($quantity <= 0 || is_nan($quantity)) {
-            //     $i = $i + 2;
-            //     $dataImportProductsMaterials = array('error' => true, 'message' => "La cantidad debe ser mayor a cero (0)<br>Fila: {$i}");
-            //     break;
-            // }
-
-            // // Obtener id producto
-            // $findProduct = $productsDao->findProduct($productMaterials[$i], $id_company);
-            // if (!$findProduct) {
-            //     $i = $i + 2;
-            //     $dataImportProductsMaterials = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
-            //     break;
-            // } else $productMaterials[$i]['idProduct'] = $findProduct['id_product'];
-
-            $type = strtoupper(trim($productMaterials[$i]['type']));
-
-            if ($type == 'MATERIAL') {
-                // Obtener id materia prima
-                // $findMaterial = $materialsDao->findMaterial($productMaterials[$i], $id_company);
-                // if (!$findMaterial) {
-                //     $i = $i + 2;
-                //     $dataImportProductsMaterials = array('error' => true, 'message' => "Materia prima no existe en la base de datos<br>Fila: {$i}");
-                //     break;
-                // } else $productMaterials[$i]['material'] = $findMaterial['id_material'];
-
-                $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i], $id_company);
+                array_push($debugg, array('message' => "Magnitud no existe en la base de datos. Fila: $i"));
+                // break;
             } else {
-                // $data = [];
-                // $data['referenceProduct'] = $productMaterials[$i]['refRawMaterial'];
-                // $data['product'] = $productMaterials[$i]['nameRawMaterial'];
+                $productMaterials[$i]['idMagnitude'] = $magnitude['id_magnitude'];
+                // Consultar unidad
+                $unit = $unitsDao->findUnit($productMaterials[$i]);
 
-                // // Obtener id producto compuesto
-                // $findProduct = $productsDao->findProduct($data, $id_company);
-                // if (!$findProduct) {
-                //     $i = $i + 2;
-                //     $dataImportProductsMaterials = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
-                //     break;
-                // } else {
-                //     if ($findProduct['composite'] == 0) {
-                //         $i = $i + 2;
-                //         $dataImportProductsMaterials = array('error' => true, 'message' => "Producto no esta definido como compuesto<br>Fila: {$i}");
-                //         break;
-                //     }
-                //     $productMaterials[$i]['compositeProduct'] = $findProduct['id_product'];
-                // }
-
-                $findProductsMaterials = $generalCompositeProductsDao->findCompositeProduct($productMaterials[$i], $id_company);
+                if (!$unit) {
+                    $i = $i + 2;
+                    array_push($debugg, array('message' => "Unidad no existe en la base de datos. Fila: $i"));
+                    // break;
+                }
             }
 
-            if (!$findProductsMaterials) $insert = $insert + 1;
-            else $update = $update + 1;
-            $dataImportProductsMaterials['insert'] = $insert;
-            $dataImportProductsMaterials['update'] = $update;
+            if (sizeof($debugg) == 0) {
+                $type = strtoupper(trim($productMaterials[$i]['type']));
+
+                if ($type == 'MATERIAL') {
+                    $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i], $id_company);
+                } else {
+                    $findProductsMaterials = $generalCompositeProductsDao->findCompositeProduct($productMaterials[$i], $id_company);
+                }
+
+                if (!$findProductsMaterials) $insert = $insert + 1;
+                else $update = $update + 1;
+                $dataImportProductsMaterials['insert'] = $insert;
+                $dataImportProductsMaterials['update'] = $update;
+            }
         }
     } else
         $dataImportProductsMaterials = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
 
-    $response->getBody()->write(json_encode($dataImportProductsMaterials, JSON_NUMERIC_CHECK));
+    $data['import'] = $dataImportProductsMaterials;
+    $data['debugg'] = $debugg;
+
+    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

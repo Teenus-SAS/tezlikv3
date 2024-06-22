@@ -65,8 +65,8 @@ $(document).ready(function () {
         }
   
         let resp = await validateDataFTM(arr);
-        if (resp.importStatus == true)
-          checkProductMaterial(resp.productMaterialsToImport);
+        // if (resp.importStatus == true)
+          checkProductMaterial(resp.productMaterialsToImport, resp.debugg);
       })
       .catch(() => {
         $('.cardLoading').remove();
@@ -80,7 +80,8 @@ $(document).ready(function () {
   /* Validar Data */
   const validateDataFTM = async (data) => {
     let productMaterialsToImport = [];
-    let importStatus = true;
+    let debugg = [];
+    // let importStatus = true;
 
     const dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
     let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
@@ -91,28 +92,38 @@ $(document).ready(function () {
       let quantity = arr.cantidad > 0 ? arr.cantidad.toString() : '';
       let waste = arr.desperdicio >= 0 ? arr.desperdicio.toString() : '';
 
+      !arr.referencia_producto ? arr.referencia_producto = '' : arr.referencia_producto;
+      !arr.producto ? arr.producto = '' : arr.producto;
+      !arr.referencia_material ? arr.referencia_material = '' : arr.referencia_material;
+      !arr.material ? arr.material = '' : arr.material;
+      !arr.magnitud ? arr.magnitud = '' : arr.magnitud;
+      !arr.unidad ? arr.unidad = '' : arr.unidad;
+      !arr.tipo ? arr.tipo = '' : arr.tipo;
+
       if (
         !arr.referencia_producto || !arr.producto || !arr.referencia_material || !arr.material || !arr.magnitud || !arr.unidad ||
         quantity.trim() === '' || waste.trim() === '' || !arr.tipo ||
         !arr.referencia_producto.toString().trim() || !arr.producto.toString().trim() || !arr.referencia_material.toString().trim() || !arr.material.toString().trim() || !arr.magnitud.toString().trim() || !arr.unidad.toString().trim() ||
         !arr.tipo.toString().trim()
       ) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileProductsMaterials').val('');
-        toastr.error(`Columna vacía en la fila: ${i + 2}`);
-        importStatus = false;
-        break;
+        // $('.cardLoading').remove();
+        // $('.cardBottons').show(400);
+        // $('#fileProductsMaterials').val('');
+        debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
+        // toastr.error(`Columna vacía en la fila: ${i + 2}`);
+        // importStatus = false;
+        // break;
       }
 
       let valQuantity = parseFloat(quantity.replace(',', '.')) * 1;
       if (isNaN(valQuantity) || valQuantity <= 0) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileProductsMaterials').val('');
-        toastr.error(`La cantidad debe ser mayor a cero (0). Fila: ${i + 2}`);
-        importStatus = false;
-        break;
+        // $('.cardLoading').remove();
+        // $('.cardBottons').show(400);
+        // $('#fileProductsMaterials').val('');
+        debugg.push({ message: `La cantidad debe ser mayor a cero (0). Fila: ${i + 2}` });
+        // toastr.error(`La cantidad debe ser mayor a cero (0). Fila: ${i + 2}`);
+        // importStatus = false;
+        // break;
       }
 
       let product = dataProducts.find(item =>
@@ -121,13 +132,26 @@ $(document).ready(function () {
       );
 
       if (!product) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileProductsMaterials').val('');
-        toastr.error(`Producto no existe en la base de datos. Fila: ${i + 2}`);
-        importStatus = false;
-        break;
+        // $('.cardLoading').remove();
+        // $('.cardBottons').show(400);
+        // $('#fileProductsMaterials').val('');
+        debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
+        // toastr.error(`Producto no existe en la base de datos. Fila: ${i + 2}`);
+        // importStatus = false;
+        // break;
       }
+
+      productMaterialsToImport.push({
+        referenceProduct: arr.referencia_producto,
+        product: arr.producto,
+        refRawMaterial: arr.referencia_material,
+        nameRawMaterial: arr.material,
+        magnitude: arr.magnitud,
+        unit: arr.unidad,
+        quantity: quantity,
+        waste: waste,
+        type: arr.tipo
+      });
 
       let type = arr.tipo.toUpperCase().trim();
 
@@ -144,26 +168,16 @@ $(document).ready(function () {
           );
 
           if (!material) {
-            $('.cardLoading').remove();
-            $('.cardBottons').show(400);
-            $('#fileProductsMaterials').val('');
-            toastr.error(`Materia prima no existe en la base de datos. Fila: ${i + 2}`);
-            importStatus = false;
-            break;
+            // $('.cardLoading').remove();
+            // $('.cardBottons').show(400);
+            // $('#fileProductsMaterials').val('');
+            debugg.push({ message: `Materia prima no existe en la base de datos. Fila: ${i + 2}` });
+            // importStatus = false;
+            // break;
+          } else {
+            productMaterialsToImport[i]['idProduct'] = product.id_product;
+            productMaterialsToImport[i]['material'] = material.id_material;
           }
-          productMaterialsToImport.push({
-            idProduct: product.id_product,
-            material: material['id_material'],
-            referenceProduct: arr.referencia_producto,
-            product: arr.producto,
-            refRawMaterial: arr.referencia_material,
-            nameRawMaterial: arr.material,
-            magnitude: arr.magnitud,
-            unit: arr.unidad,
-            quantity: quantity,
-            waste: waste,
-            type: arr.tipo
-          });
           break;
 
         case 'PRODUCTO':
@@ -173,91 +187,118 @@ $(document).ready(function () {
           );
 
           if (!compositeProduct) {
-            $('.cardLoading').remove();
-            $('.cardBottons').show(400);
-            $('#fileProductsMaterials').val('');
-            toastr.error(`Producto no existe en la base de datos. Fila: ${i + 2}`);
-            importStatus = false;
-            break;
+            // $('.cardLoading').remove();
+            // $('.cardBottons').show(400);
+            // $('#fileProductsMaterials').val('');
+            debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
+            // importStatus = false;
+            // break;
           }
 
           if (compositeProduct.composite == 0) {
-            $('.cardLoading').remove();
-            $('.cardBottons').show(400);
-            $('#fileProductsMaterials').val('');
-            toastr.error(`Producto no está definido como compuesto. Fila: ${i + 2}`);
-            importStatus = false;
-            break;
+            // $('.cardLoading').remove();
+            // $('.cardBottons').show(400);
+            // $('#fileProductsMaterials').val('');
+            debugg.push({ message: `Producto no está definido como compuesto. Fila: ${i + 2}` });
+            // importStatus = false;
+            // break;
           }
-
-          productMaterialsToImport.push({
-            idProduct: product.id_product,
-            compositeProduct: compositeProduct['id_product'],
-            referenceProduct: arr.referencia_producto,
-            product: arr.producto,
-            refRawMaterial: arr.referencia_material,
-            nameRawMaterial: arr.material,
-            magnitude: arr.magnitud,
-            unit: arr.unidad,
-            quantity: quantity,
-            waste: waste,
-            type: arr.tipo
-          });
+          else {
+            productMaterialsToImport[i]['idProduct'] = product.id_product;
+            productMaterialsToImport[i]['compositeProduct'] = compositeProduct.id_product;
+          }
           break;
 
         default:
-          $('.cardLoading').remove();
-          $('.cardBottons').show(400);
-          $('#fileProductsMaterials').val('');
-          toastr.error(`Tipo desconocido en la fila: ${i + 2}`);
-          importStatus = false;
-          break;
+          // $('.cardLoading').remove();
+          // $('.cardBottons').show(400);
+          // $('#fileProductsMaterials').val('');
+          debugg.push({ message: `Tipo desconocido en la fila: ${i + 2}` });
+          // importStatus = false;
+        // break;
       }
 
-      if (!importStatus) break;
+      // if (!importStatus) break;
     }
 
-    return { productMaterialsToImport, importStatus };
+    return { productMaterialsToImport, debugg };
   };
 
   /* Mensaje de advertencia */
-  const checkProductMaterial = (data) => {
+  const checkProductMaterial = (data, debugg) => {
     $.ajax({
       type: 'POST',
       url: '/api/productsMaterialsDataValidation',
-      data: { importProductsMaterials: data },
+      data: {
+        importProductsMaterials: data,
+        debugg: debugg
+      },
       success: function (resp) {
-        if (resp.error == true) {
+        let arr = resp.import;
+
+        if (arr.length > 0 && arr.error == true) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileProductsMaterials').val('');
-          toastr.error(resp.message);
+          toastr.error(arr.message);
           return false;
         }
 
-        bootbox.confirm({
-          title: '¿Desea continuar con la importación?',
-          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
-          buttons: {
-            confirm: {
-              label: 'Si',
-              className: 'btn-success',
+        if (resp.debugg.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProductsMaterials').val('');
+
+          // Generar el HTML para cada mensaje
+          let concatenatedMessages = resp.debugg.map(item =>
+            `<li>
+              <span class="badge badge-danger" style="font-size: 16px;">${item.message}</span>
+            </li>
+            <br>`
+          ).join('');
+
+          // Mostramos el mensaje con Bootbox
+          bootbox.alert({
+            title: 'Errores',
+            message: `
+            <div class="container">
+              <div class="col-12">
+                <ul>
+                  ${concatenatedMessages}
+                </ul>
+              </div> 
+            </div>`,
+            size: 'large',
+            backdrop: true
+          });
+          return false;
+        }
+
+        if (typeof arr === 'object' && !Array.isArray(arr) && arr !== null && debugg.length == 0) {
+          bootbox.confirm({
+            title: '¿Desea continuar con la importación?',
+            message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${arr.insert} <br>Datos a actualizar: ${arr.update}`,
+            buttons: {
+              confirm: {
+                label: 'Si',
+                className: 'btn-success',
+              },
+              cancel: {
+                label: 'No',
+                className: 'btn-danger',
+              },
             },
-            cancel: {
-              label: 'No',
-              className: 'btn-danger',
+            callback: function (result) {
+              if (result == true) {
+                saveProductMaterialTable(data);
+              } else {
+                $('.cardLoading').remove();
+                $('.cardBottons').show(400);
+                $('#fileProductsMaterials').val('');
+              }
             },
-          },
-          callback: function (result) {
-            if (result == true) {
-              saveProductMaterialTable(data);
-            } else {
-              $('.cardLoading').remove();
-              $('.cardBottons').show(400);
-              $('#fileProductsMaterials').val('');
-            }
-          },
-        });
+          });
+        }
       },
     });
   };

@@ -67,8 +67,8 @@ $(document).ready(function () {
 
         let resp = await validateDataFTP(arr);
         
-        if (resp.importStatus == true)
-          checkProductProcess(resp.productProcessToImport);
+        // if (resp.importStatus == true)
+          checkProductProcess(resp.productProcessToImport, resp.debugg);
       })
       .catch(() => {
         $('.cardLoading').remove();
@@ -82,7 +82,8 @@ $(document).ready(function () {
   /* Validar data */ 
   const validateDataFTP = async (data) => {
     let productProcessToImport = [];
-    let importStatus = true;
+    let debugg = [];
+    // let importStatus = true;
 
     const dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
     let dataProcess = JSON.parse(sessionStorage.getItem('dataProcess'));
@@ -105,27 +106,33 @@ $(document).ready(function () {
       let operationTime = arr.tiempo_operacion > 0 ? arr.tiempo_operacion.toString() : '0';
       let efficiency = arr.eficiencia > 0 ? arr.eficiencia.toString() : '0';
 
+      !arr.referencia_producto ? arr.referencia_producto = '' : arr.referencia_producto;
+      !arr.producto ? arr.producto = '' : arr.producto;
+      !arr.proceso ? arr.proceso = '' : arr.proceso;
+      !arr.maquina ? arr.maquina = '' : arr.maquina;
+      !arr.maquina_autonoma ? arr.maquina_autonoma = '' : arr.maquina_autonoma;
+
       if (
         !arr.referencia_producto || !arr.producto || !arr.proceso || !arr.maquina ||
         enlistmentTime.trim() === '' || operationTime.trim() === '' || efficiency.trim() === '' || !arr.maquina_autonoma ||
         !arr.referencia_producto.toString().trim() || !arr.producto.toString().trim() || !arr.proceso.toString().trim() || !arr.maquina.toString().trim() || !arr.maquina_autonoma.toString().trim()
       ) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileProductsProcess').val('');
-        toastr.error(`Columna vacía en la fila: ${i + 2}`);
-        importStatus = false;
-        break;
+        // $('.cardLoading').remove();
+        // $('.cardBottons').show(400);
+        // $('#fileProductsProcess').val('');
+        debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
+        // importStatus = false;
+        // break;
       }
 
       let valOT = parseFloat(operationTime.replace(',', '.')) * 1;
       if (isNaN(valOT) || valOT <= 0) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileProductsProcess').val('');
-        toastr.error(`El tiempo de operación debe ser mayor a cero (0). Fila: ${i + 2}`);
-        importStatus = false;
-        break;
+        // $('.cardLoading').remove();
+        // $('.cardBottons').show(400);
+        // $('#fileProductsProcess').val('');
+        debugg.push({message:`El tiempo de operación debe ser mayor a cero (0). Fila: ${i + 2}`});
+        // importStatus = false;
+        // break;
       }
 
       let product = dataProducts.find(item =>
@@ -134,23 +141,23 @@ $(document).ready(function () {
       );
 
       if (!product) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileProductsProcess').val('');
-        toastr.error(`Producto no existe en la base de datos. Fila: ${i + 2}`);
-        importStatus = false;
-        break;
+        // $('.cardLoading').remove();
+        // $('.cardBottons').show(400);
+        // $('#fileProductsProcess').val('');
+        debugg.push({message:`Producto no existe en la base de datos. Fila: ${i + 2}`});
+        // importStatus = false;
+        // break;
       }
 
       let process = dataProcess.find(item => item.process == arr.proceso.toString().toUpperCase().trim());
 
       if (!process) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileProductsProcess').val('');
-        toastr.error(`Proceso no existe en la base de datos. Fila: ${i + 2}`);
-        importStatus = false;
-        break;
+        // $('.cardLoading').remove();
+        // $('.cardBottons').show(400);
+        // $('#fileProductsProcess').val('');
+        debugg.push({message:`Proceso no existe en la base de datos. Fila: ${i + 2}`});
+        // importStatus = false;
+        // break;
       }
 
       let idMachine = 0;
@@ -158,20 +165,19 @@ $(document).ready(function () {
         let machine = dataMachines.find(item => item.machine == arr.maquina.toString().toUpperCase().trim());
 
         if (!machine) {
-          $('.cardLoading').remove();
-          $('.cardBottons').show(400);
-          $('#fileProductsProcess').val('');
-          toastr.error(`Máquina no existe en la base de datos. Fila: ${i + 2}`);
-          importStatus = false;
-          break;
-        }
-
-        idMachine = machine.id_machine;
+          // $('.cardLoading').remove();
+          // $('.cardBottons').show(400);
+          // $('#fileProductsProcess').val('');
+          debugg.push({message:`Máquina no existe en la base de datos. Fila: ${i + 2}`});
+          // importStatus = false;
+          // break;
+        }else
+          idMachine = machine.id_machine;
       }
 
       productProcessToImport.push({
-        idProduct: product.id_product,
-        idProcess: process.id_process,
+        idProduct: !product ? '' : product.id_product,
+        idProcess: !process ? '' : process.id_process,
         idMachine: idMachine,
         referenceProduct: arr.referencia_producto,
         product: arr.producto,
@@ -185,48 +191,84 @@ $(document).ready(function () {
       });
     }
 
-    return { importStatus, productProcessToImport };
+    return { productProcessToImport, debugg };
   };
+
   /* Mensaje de advertencia */
-  const checkProductProcess = (data) => {
+  const checkProductProcess = (data, debugg) => {
     $.ajax({
       type: 'POST',
       url: '/api/productsProcessDataValidation',
-      data: { importProductsProcess: data },
+      data: {
+        importProductsProcess: data,
+        debugg: debugg
+      },
       success: function (resp) {
+        let arr = resp.import;
 
-        if (resp.error == true) {
+        if (arr.length > 0 && arr.error == true) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
-
           $('#fileProductsProcess').val('');
           toastr.error(resp.message);
           return false;
         }
 
-        bootbox.confirm({
-          title: '¿Desea continuar con la importación?',
-          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
-          buttons: {
-            confirm: {
-              label: 'Si',
-              className: 'btn-success',
+        if (resp.debugg.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProductsProcess').val('');
+
+          // Generar el HTML para cada mensaje
+          let concatenatedMessages = resp.debugg.map(item =>
+            `<li>
+              <span class="badge badge-danger" style="font-size: 16px;">${item.message}</span>
+            </li>
+            <br>`
+          ).join('');
+
+          // Mostramos el mensaje con Bootbox
+          bootbox.alert({
+            title: 'Errores',
+            message: `
+            <div class="container">
+              <div class="col-12">
+                <ul>
+                  ${concatenatedMessages}
+                </ul>
+              </div> 
+            </div>`,
+            size: 'large',
+            backdrop: true
+          });
+          return false;
+        }
+
+        if (typeof arr === 'object' && !Array.isArray(arr) && arr !== null && debugg.length == 0) {
+          bootbox.confirm({
+            title: '¿Desea continuar con la importación?',
+            message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${arr.insert} <br>Datos a actualizar: ${arr.update}`,
+            buttons: {
+              confirm: {
+                label: 'Si',
+                className: 'btn-success',
+              },
+              cancel: {
+                label: 'No',
+                className: 'btn-danger',
+              },
             },
-            cancel: {
-              label: 'No',
-              className: 'btn-danger',
+            callback: function (result) {
+              if (result == true) {
+                saveProductProcessTable(data);
+              } else {
+                $('.cardLoading').remove();
+                $('.cardBottons').show(400);
+                $('#fileProductsProcess').val('');
+              }
             },
-          },
-          callback: function (result) {
-            if (result == true) {
-              saveProductProcessTable(data);
-            } else {
-              $('.cardLoading').remove();
-              $('.cardBottons').show(400);
-              $('#fileProductsProcess').val('');
-            }
-          },
-        });
+          });
+        }
       },
     });
   };
