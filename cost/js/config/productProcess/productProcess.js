@@ -4,12 +4,10 @@ $(document).ready(function () {
   sessionStorage.removeItem('dataMachines');
 
   /* Ocultar panel crear producto */
-
   $('.cardAddProcess').hide();
   $('.checkMachine').hide();
 
   /* Abrir panel crear producto */
-
   $('#btnCreateProcess').click(async function (e) {
     e.preventDefault();
 
@@ -184,7 +182,6 @@ $(document).ready(function () {
   });
 
   /* Actualizar productos Procesos */
-
   $(document).on('click', '.updateProcess',async function (e) {
     $('.cardImportProductsProcess').hide(800);
     $('.checkMachine').hide();
@@ -267,9 +264,7 @@ $(document).ready(function () {
     let emptyInputs = [];
 
     let refP = parseInt($('#idProcess').val());
-    let refM = parseInt($('#idMachine').val());
-    // let enlistmentTime = parseFloat($('#enlistmentTime').val());
-    // let operationTime = parseFloat($('#operationTime').val());
+    let refM = parseInt($('#idMachine').val()); 
 
     // Verificar cada campo y agregar los vacíos a la lista
     if (!refP) {
@@ -278,17 +273,7 @@ $(document).ready(function () {
 
     if (isNaN(refM)) {
       emptyInputs.push('#idMachine');
-    }
-    
-    // if (inyection == '0') {
-    //   if (enlistmentTime) {
-    //     emptyInputs.push('#enlistmentTime');
-    //   }
-    // }
-
-    // if (!operationTime) {
-    //   emptyInputs.push('#operationTime');
-    // }
+    } 
 
     // Marcar los campos vacíos con borde rojo
     emptyInputs.forEach(function (selector) {
@@ -310,25 +295,10 @@ $(document).ready(function () {
       return false;
     }
     let idProduct = parseInt($('#selectNameProduct').val());
-    // let refP = parseInt($('#idProcess').val());
-    // let refM = parseInt($('#idMachine').val());
-    // let enlistmentTime = parseFloat($('#enlistmentTime').val());
-    // let operationTime = parseFloat($('#operationTime').val());
-    // // let efficiency = parseFloat($('#efficiency').val());
     let count_payroll = parseInt(
       $('#idProcess').find('option:selected').attr('class')
     );
 
-    // let data = idProduct * refP * operationTime;
-
-    // if (inyection == '0') data += enlistmentTime;
-
-    // if (!data || isNaN(refM) || data == 0) {
-    //   toastr.error('Ingrese todos los campos');
-    //   return false;
-    // }
-
-    // let dataProductProcess1 = new FormData(formAddProcess);
     let autoMachine = 1;
 
     if (!$('#checkMachine').is(':checked')) {
@@ -342,17 +312,10 @@ $(document).ready(function () {
       }
       autoMachine = 0;
     }
-    let employees = '';
-
-    // dataProductProcess1.append('autoMachine', autoMachine);
-    // dataProductProcess1.append('idProduct', idProduct);
-
-    // if (idProductProcess != '' || idProductProcess != null) {
-    //   dataProductProcess1.append('idProductProcess', idProductProcess);
+    let employees = ''; 
 
     flag_employee == '1' ? (employees = checkBoxEmployees.toString()) : (employees);
-      // dataProductProcess1.append('employees', employees);
-    // }
+    
     $.ajax({
       type: 'POST',
       url: url,
@@ -372,17 +335,11 @@ $(document).ready(function () {
       success: function (resp) {
         messageProcess(resp);
       }
-    });
-
-    // let resp = await sendDataPOST(url, dataProductProcess1);
-
-    
+    });     
   };
 
   /* Eliminar proceso */
-  deleteProcess = (id) => {
-    // let row = $(this.activeElement).parent().parent()[0];
-    // let data = tblConfigProcess.fnGetData(row);
+  deleteProcess = (id) => { 
     let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
     let data = dataProductProcess.find((item) => item.id_product_process == id);
 
@@ -420,78 +377,7 @@ $(document).ready(function () {
     });
   };
 
-  /* Modificar empleados 
-  $(document).on('click', '.updateEmployee', async function () {
-    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
-
-    let data = dataProductProcess.find(
-      (item) => item.id_product_process == this.id
-    );
-
-    let employees = data.employee.toString().split(',');
-    id_product_process = data.id_product_process;
-    id_product = data.id_product;
-
-    let payroll = await searchData(`/api/employees/${id_product_process}`);
-
-    let options = '';
-    for (let i = 0; i < payroll.length; i++) {
-      let checked = '';
-
-      if (!employees[0] == '') {
-        for (let j = 0; j < employees.length; j++) {
-          if (payroll[i].id_payroll == employees[j]) {
-            checked = 'checked';
-            break;
-          }
-        }
-      }
-
-      options += `<div class='checkbox checkbox-success'>
-                    <input class='checkboxEmployees' id='chk-${payroll[i].id_payroll}' type='checkbox' ${checked}>
-                    <label for='chk-${payroll[i].id_payroll}'>${payroll[i].employee}</label>
-                  </div>`;
-    }
-
-    checkBoxEmployees = employees;
-
-    bootbox.confirm({
-      title: 'Empleados',
-      message: options,
-      buttons: {
-        confirm: {
-          label: 'Guardar',
-          className: 'btn-success',
-        },
-        cancel: {
-          label: 'Cancelar',
-          className: 'btn-danger',
-        },
-      },
-      callback: function (result) {
-        if (result == true) {
-          if (checkBoxEmployees.length == 0) {
-            toastr.error('Seleccione un empleado');
-            return false;
-          }
-
-          let data = {};
-          data['idProductProcess'] = id_product_process;
-          data['idProduct'] = id_product;
-          data['employees'] = checkBoxEmployees;
-
-          $.post(
-            '/api/saveEmployees',
-            data,
-            function (data, textStatus, jqXHR) {
-              messageProcess(data);
-            }
-          );
-        }
-      },
-    });
-  }); */
-
+  /* Modificar empleados */ 
   $(document).on('click', '.checkboxEmployees', function () {
     // Obtener el ID del checkbox
     let id = $(this).attr('id');
@@ -513,7 +399,6 @@ $(document).ready(function () {
   });
 
   /* Mensaje de exito */
-
   messageProcess = (data) => {
     $('#fileProductsProcess').val('');
     $('.cardLoading').remove();
@@ -524,8 +409,7 @@ $(document).ready(function () {
       $('.cardImportProductsProcess').hide(800);
       $('#formImportProductProcess').trigger('reset');
       $('.cardAddProcess').hide(800);
-      $('.cardProducts').show(800);
-      // $('.cardAddNewProduct').show(800);
+      $('.cardProducts').show(800); 
       $('#formAddProcess').trigger('reset');
       let idProduct = $('#selectNameProduct').val();
       if (idProduct)

@@ -1,9 +1,9 @@
 $(document).ready(function () {
   let id_product = sessionStorage.getItem('idProduct');
-    
+     
   loadIndicatorsProducts = async (id_product) => {
     try {
-      let data = await searchData(`/api/dashboardPricesProducts/${id_product}`);
+      const data = await searchData(`/api/dashboardPricesProducts/${id_product}`);
 
       sessionStorage.removeItem('imageProduct');
       $('.social-bar').hide(800);
@@ -11,92 +11,48 @@ $(document).ready(function () {
       $('.cardDistribution').show();
 
       let typeCurrency = '1';
-    
-      if (flag_currency_usd == '1' || flag_currency_eur == '1')
+      if (flag_currency_usd == '1' || flag_currency_eur == '1') {
         typeCurrency = sessionStorage.getItem('typeCurrency');
-
-      // price_usd == '1' &&
-
-      switch (typeCurrency) {
-        case '2': // Dolares
-          data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage_usd));
-          data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage_usd));
-          data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage_usd));
-          data.cost_product[0].services = (parseFloat(data.cost_product[0].services) / parseFloat(coverage_usd));
-          data.cost_product[0].assignable_expense = (parseFloat(data.cost_product[0].assignable_expense) / parseFloat(coverage_usd));
-          data.cost_product[0].price = parseFloat(data.cost_product[0].price_usd);
-          data.cost_product[0].sale_price = parseFloat(data.cost_product[0].sale_price_usd);
-          data.cost_product[0].turnover = (parseFloat(data.cost_product[0].turnover) / parseFloat(coverage_usd));
-
-          for (let i = 0; i < data.cost_workforce.length; i++) {
-            data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage_usd);
-          }
-          for (let i = 0; i < data.cost_materials.length; i++) {
-            data.cost_materials[i].totalCostMaterial = parseFloat(data.cost_materials[i].totalCostMaterial) / parseFloat(coverage_usd);
-          }
-          // for (let i = 0; i < data.services.length; i++) {
-          //   data.services[i].cost = parseFloat(data.services[i].cost) / parseFloat(coverage_usd);            
-          // }
-          break;
-        case '3': // Euros
-          data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage_eur));
-          data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage_eur));
-          data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage_eur));
-          data.cost_product[0].services = (parseFloat(data.cost_product[0].services) / parseFloat(coverage_eur));
-          data.cost_product[0].assignable_expense = (parseFloat(data.cost_product[0].assignable_expense) / parseFloat(coverage_eur));
-          data.cost_product[0].price = parseFloat(data.cost_product[0].price_eur);
-          data.cost_product[0].sale_price = parseFloat(data.cost_product[0].sale_price_eur);
-          data.cost_product[0].turnover = (parseFloat(data.cost_product[0].turnover) / parseFloat(coverage_eur));
-
-          for (let i = 0; i < data.cost_workforce.length; i++) {
-            data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage_eur);
-          }
-          for (let i = 0; i < data.cost_materials.length; i++) {
-            data.cost_materials[i].totalCostMaterial = parseFloat(data.cost_materials[i].totalCostMaterial) / parseFloat(coverage_eur);
-          }
-
-          // for (let i = 0; i < data.services.length; i++) {
-          //   data.services[i].cost = parseFloat(data.services[i].cost) / parseFloat(coverage_eur);            
-          // }
-          break;
-      
-        default: // Pesos COP
-          break;
       }
 
-      await generalIndicators(data.cost_product);
-      await UnitsVolSold(data.cost_product);
-      await totalCostData(data.cost_product);
-      await graphicCostExpenses(data.cost_product);
-      await graphicCostWorkforce(data.cost_workforce);
-      await graphicCostTimeProcess(data.cost_time_process);
-      await graphicPromTime(data.average_time_process);
-      await graphicCompPrices(data.cost_product);
-      // await graphicCostServices(data.services);
-      await graphicCostMaterials(data.cost_materials);
+      const convertCurrency = (data, rate, priceKey) => {
+        const product = data.cost_product[0];
+        product.cost_materials /= rate;
+        product.cost_workforce /= rate;
+        product.cost_indirect_cost /= rate;
+        product.services /= rate;
+        product.assignable_expense /= rate;
+        product.price = parseFloat(product[priceKey]);
+        product.sale_price = parseFloat(product[`sale_${priceKey}`]);
+        product.turnover /= rate;
 
-      // if (data.cost_materials.length > 10) {
-      //   data = await searchData(`/api/rawMaterials/${id_product}`);
-      //   data = data['80RawMaterials'];
-      // }
-      // else
-      //   data = data.cost_materials;
+        data.cost_workforce.forEach(item => {
+          item.workforce /= rate;
+        });
 
-      // price_usd == '1' &&
+        data.cost_materials.forEach(item => {
+          item.totalCostMaterial /= rate;
+        });
+      };
 
-      // if (typeCurrency == '2') {
-      //   for (let i = 0; i < data.length; i++) {
-      //     data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage_usd);
-      //   }
-      // } else if (typeCurrency == '3') {
-      //   for (let i = 0; i < data.length; i++) {
-      //     data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage_eur);
-      //   }
-      // }
-    
-      // await graphicCostMaterials(data);
-    }
-    catch (error) {
+      if (typeCurrency === '2') { // Dolares
+        convertCurrency(data, parseFloat(coverage_usd), 'price_usd');
+      } else if (typeCurrency === '3') { // Euros
+        convertCurrency(data, parseFloat(coverage_eur), 'price_eur');
+      }
+
+      await Promise.all([
+        generalIndicators(data.cost_product),
+        UnitsVolSold(data.cost_product),
+        totalCostData(data.cost_product),
+        graphicCostExpenses(data.cost_product),
+        graphicCostWorkforce(data.cost_workforce),
+        graphicCostTimeProcess(data.cost_time_process),
+        graphicPromTime(data.average_time_process),
+        graphicCompPrices(data.cost_product),
+        graphicCostMaterials(data.cost_materials)
+      ]);
+    } catch (error) {
       console.error('Error loading data:', error);
     }
   };
