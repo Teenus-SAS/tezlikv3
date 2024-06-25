@@ -1,28 +1,4 @@
-$(document).ready(function () {
-  // searchData = async (urlApi) => {
-  //   try {
-  //     result = await $.ajax({ url: urlApi });
-  //     return result;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // sendDataPOST = async (urlApi, params) => {
-  //   try {
-  //     result = await $.ajax({
-  //       url: urlApi,
-  //       type: 'POST',
-  //       data: params,
-  //       contentType: false,
-  //       cache: false,
-  //       processData: false,
-  //     });
-  //     return result;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+$(document).ready(function () { 
   const fetchData = async (url, options = {}) => {
     try {
       const result = await $.ajax({ url, ...options });
@@ -34,13 +10,19 @@ $(document).ready(function () {
 
   searchData = async (urlApi) => fetchData(urlApi);
 
-  sendDataPOST = async (urlApi, params) => fetchData(urlApi, {
-    type: 'POST',
-    data: params,
-    contentType: false,
-    cache: false,
-    processData: false,
-  });
+  sendDataPOST = async (urlApi, params) => {
+    let resp = await fetchData(urlApi, {
+      type: 'POST',
+      data: params,
+      contentType: false,
+      cache: false,
+      processData: false,
+    });
+
+    if(typeof resp === 'object') return resp;
+
+    if (resp.includes('<!DOCTYPE html>')) window.location.reload();
+  };
 
   // Función para cargar datos desde la API y almacenar en sessionStorage
   // loadData = async (url, storageKey) => {
