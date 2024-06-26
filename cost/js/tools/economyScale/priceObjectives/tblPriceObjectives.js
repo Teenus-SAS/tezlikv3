@@ -19,19 +19,36 @@ $(document).ready(function () {
     /* Cargue tabla de Proyectos */
 
     const loadTblProducts = (data) => {
-        if ($.fn.dataTable.isDataTable("#tblProducts")) {
-            var table = $("#tblProducts").DataTable();
-            var pageInfo = table.page.info(); // Guardar información de la página actual
-            table.clear();
-            table.rows.add(data).draw();
-            table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
-            return;
+        $('#tblProductsBody').empty();
+        let element = document.getElementById('tblProductsBody');
+
+        for (let i = 0; i < data.length; i++) {
+            element.insertAdjacentHTML('beforeend',
+                `<tr>
+                    <td>${i + 1}</td>
+                    <td>${data[i].reference}</td>
+                    <td>${data[i].product}</td>
+                    <td>
+                        <div id="realPrice-1-${data[i].id_product}">
+                            <span class="badge badge-success" style="font-size: 16px;"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="realPrice-2-${data[i].id_product}">
+                            <span class="badge badge-success" style="font-size: 16px;"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="realPrice-3-${data[i].id_product}">
+                            <span class="badge badge-success" style="font-size: 16px;"></span>
+                        </div>
+                    </td>
+                </tr>`);
         }
 
-        tblProducts = $('#tblProducts').dataTable({
+        $('#tblProducts').DataTable({
             destroy: true,
             pageLength: 50,
-            data: data,
             dom: '<"datatable-error-console">frtip',
             language: {
                 url: '/assets/plugins/i18n/Spanish.json',
@@ -41,58 +58,6 @@ $(document).ready(function () {
                     console.error(oSettings.json.error);
                 }
             },
-            columns: [
-                {
-                    title: 'No.',
-                    data: null,
-                    className: 'uniqueClassName',
-                    render: function (data, type, full, meta) {
-                        return meta.row + 1;
-                    },
-                },
-                {
-                    title: 'Referencia',
-                    data: 'reference',
-                    className: 'uniqueClassName',
-                },
-                {
-                    title: 'Producto',
-                    data: 'product',
-                    className: 'uniqueClassName',
-                },
-                {
-                    title: 'Precio 1',
-                    data: null,
-                    className: 'uniqueClassName',
-                    render: function (data) {
-                        // data.unit_sold == 0 ? units = '' : units = parseInt(data.unit_sold).toLocaleString('es-CO', { minimumFractionDigits: 0 });
-
-                        return `<div id="realPrice-1-${data.id_product}">
-                            <span class="badge badge-success" style="font-size: 16px;"></span>
-                        </div>`;
-                    },
-                }, 
-                {
-                    title: 'Precio 2',
-                    data: null,
-                    className: 'uniqueClassName',
-                    render: function (data) { 
-                        return `<div id="realPrice-2-${data.id_product}">
-                            <span class="badge badge-success" style="font-size: 16px;"></span>
-                        </div>`;
-                    },
-                }, 
-                {
-                    title: 'Precio 3',
-                    data: null,
-                    className: 'uniqueClassName',
-                    render: function (data) { 
-                        return `<div id="realPrice-3-${data.id_product}">
-                            <span class="badge badge-success" style="font-size: 16px;"></span>
-                        </div>`;
-                    },
-                }, 
-            ],
         });
     }
 

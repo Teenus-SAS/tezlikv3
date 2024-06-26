@@ -4,7 +4,9 @@ $(document).ready(function () {
     // let startTime = 0;
 
     // Cuando se ingrese rentabilidad general
-    $(document).on('blur', '.calcPrice', function () {
+    $('#calcPriceObj').click(function (e) {
+        e.preventDefault();
+
         let profitability = parseFloat($('#profitability').val());
         let unit1 = parseFloat($('#unity-1').val());
         let unit2 = parseFloat($('#unity-2').val());
@@ -15,9 +17,10 @@ $(document).ready(function () {
         isNaN(unit2) ? unit2 = 0 : unit2;
         isNaN(unit3) ? unit3 = 0 : unit3;
 
-        let data = unit1 + unit2 + unit3;
+        let data = profitability * unit1 * unit2 * unit3;
 
-        if (profitability <= 0 || data <= 0) {
+        if (data <= 0) {
+            toastr.error('Ingrese todos los campos');
             return false;
         }
  
@@ -35,16 +38,11 @@ $(document).ready(function () {
             </div>`
         );
 
-        // Obtener el ID del elemento
-        let id = $(this).attr('id');
-        // Obtener la parte después del guion '-'
-        let j = id.split('-')[1];
-
-        generalCalc(profitability, parseFloat(this.value), parseInt(j));
+        generalCalc(profitability, [unit1, unit2, unit3]);
     });
 
     // Calculo general economia de escala para obtener unidades
-    /* */ const generalCalc = async (profitability,unit,j) => {
+    /* */ const generalCalc = async (profitability, units) => {
         try { 
             let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
@@ -54,7 +52,7 @@ $(document).ready(function () {
 
             // Definir una función asíncrona para manejar cada iteración del ciclo
             const handleIteration = async (arr, c_unit) => {
-                // if (c_unit > 0) {
+                if (c_unit > 0) {
                     /* Costos Variables */
                     let economyScale = allEconomyScale.find(item => item.id_product == arr.id_product);
 
@@ -96,8 +94,8 @@ $(document).ready(function () {
                         cant += 100;
                         return -1;
                     // }
-                // } else
-                //     return unit;
+                } else
+                    return c_unit;
             };
 
             
@@ -107,38 +105,40 @@ $(document).ready(function () {
 
                 // real_price = parseFloat(dataProducts[i].real_price) == 0 ? real_price : parseFloat(dataProducts[i].real_price);
 
-                // for (let j = 0; j < units.length; j++) {
-                // let product_price = await handleIteration(dataProducts[i], units[j]);
-                let product_price = await handleIteration(dataProducts[i], unit);
+                for (let j = 0; j < units.length; j++) {
+                    let product_price = await handleIteration(dataProducts[i], units[j]);
+                    // let product_price = await handleIteration(dataProducts[i], unit);
 
-                dataProducts[i].profitability = profitability;
+                    // dataProducts[i][`price_${j + 1}`] = product_price;
 
-                // if (typeof product_price === 'object' && !Array.isArray(product_price)) {
-                //     $(`#realPrice-${j + 1}-${dataProducts[i].id_product}`).html(
-                //         `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 13px;">$ ${product_price.price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
-                //     );
+                    // if (typeof product_price === 'object' && !Array.isArray(product_price)) {
+                    //     $(`#realPrice-${j + 1}-${dataProducts[i].id_product}`).html(
+                    //         `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 13px;">$ ${product_price.price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
+                    //     );
                     
-                //     dataProducts[i].real_price = product_price.price;
-                //     cant = 1;
-                //     real_price = 1;
-                //     startTime = performance.now();
-                //     // break;
-                // } else {
+                    //     dataProducts[i].real_price = product_price.price;
+                    //     cant = 1;
+                    //     real_price = 1;
+                    //     startTime = performance.now();
+                    //     // break;
+                    // } else {
 
-                if (product_price === -1) {
-                    i = i - 1;
-                } else {
-                    $(`#realPrice-${j}-${dataProducts[i].id_product}`).html(`
-                            <span class="badge badge-success" style="font-size: 13px;">$ ${product_price.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>
-                        `);
-                    dataProducts[i].real_price = real_price;
+                    if (product_price === -1) {
+                        j = j - 1;
+                    } else {
+                        // let element = document.getElementById(`realPrice-${j + 1}-${dataProducts[i].id_product}`);
 
-                    cant = 1;
-                    real_price = 100;
-                    startTime = performance.now();
+                        // element.insertAdjacentHTML('beforeend',
+                        //     `<span class="badge badge-success" style="font-size: 13px;">$ ${product_price.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>`);
+                        $(`#realPrice-${j + 1}-${dataProducts[i].id_product}`).html(`<span class="badge badge-success" style="font-size: 13px;">$ ${product_price.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>`);
+                        
+                        dataProducts[i][`price_${j + 1}`] = product_price;
+                        cant = 1;
+                        real_price = 100;
+                        startTime = performance.now();
+                    }
+                    // }
                 }
-                // }
-                // }                
             }
  
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
@@ -163,6 +163,33 @@ $(document).ready(function () {
     //         }
     //     });
     // }; 
+
+    $('#btnExportPObjectives').click(function (e) {
+        e.preventDefault();
+
+        let wb = XLSX.utils.book_new();
+        let data = [];
+
+        /* Productos */
+        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts')); 
+
+        if (dataProducts.length > 0) {
+            for (i = 0; i < dataProducts.length; i++) {
+                data.push({
+                    referencia: dataProducts[i].reference,
+                    producto: dataProducts[i].product,
+                    precio_1: `${isNaN(parseFloat(dataProducts[i].price_1)) ? 0 : parseFloat(dataProducts[i].price_1)}`,
+                    precio_2: `${isNaN(parseFloat(dataProducts[i].price_2)) ? 0 : parseFloat(dataProducts[i].price_2)}`,
+                    precio_3: `${isNaN(parseFloat(dataProducts[i].price_3)) ? 0 : parseFloat(dataProducts[i].price_3)}`,
+                });
+            }
+
+            let ws = XLSX.utils.json_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+        }
+        XLSX.writeFile(wb, 'Objetivos_Precios.xlsx');
+        
+    }); 
 
     $(document).on('click', '.warningUnit', function () {
         toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes');

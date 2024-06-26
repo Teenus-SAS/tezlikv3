@@ -138,12 +138,12 @@ if (sizeof($_SESSION) == 0)
                                                 <h5>Producto</h5>
                                             </div>
                                             <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                <select class="form-control refESProduct" name="refProduct" id="refProduct"></select>
+                                                <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
                                                 <label for="refProduct" class="form-label">Referencia <span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                             <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                <select class="form-control selectESNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
+                                                <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                                                 <label for="selectNameProduct" class="form-label">Producto <span class="text-danger">*</span></label>
                                             </div>
                                         </div>
