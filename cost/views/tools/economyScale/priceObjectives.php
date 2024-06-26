@@ -17,7 +17,7 @@ if (sizeof($_SESSION) == 0)
     <meta name="keywords" content="">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Cost | Prices-USD</title>
+    <title>Tezlik - Cost | Price-Objectives</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
@@ -36,7 +36,7 @@ if (sizeof($_SESSION) == 0)
         <div class="main-content">
             <!-- Loader -->
             <div class="loading">
-                <a href="javascript:;" class="close-btn"><i class="bi bi-x-circle-fill"></i></a>
+                <a href="javascript:;" class="close-btn" style="display: none;"><i class="bi bi-x-circle-fill"></i></a>
                 <div class="loader"></div>
             </div>
 
@@ -70,30 +70,33 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-title-box">
                     <div class="container-fluid">
                         <div class="row align-items-center">
-                            <div class="col-sm-4 col-xl-4">
+                            <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Precios Venta USD</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-graph-up mr-1"></i>Objetivos De Precios</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">La cobertura cambiaria lo protege contra el riesgo de las fluctuaciónes del tipo de cambio.</li>
+                                        <li class="breadcrumb-item active">Cantidades de producto minimas a vender para cumplir con el margen requerido</li>
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-xl-8 form-inline justify-content-sm-end" id="USDHeader">
-                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
-                                    <label class="font-weight-bold text-dark">Dolar Hoy</label>
-                                    <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" readonly>
+                            <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
+                                    <input type="number" class="form-control calcPrice text-center" id="profitability">
+                                    <label for="profitability">Rentabilidad</label>
                                 </div>
-                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
-                                    <label class="font-weight-bold text-dark">Dolar con Cobertura</label>
-                                    <input type="text" class="form-control text-center" name="valueCoverage" id="valueCoverage" readonly>
+                                <div id="spinnerLoading"></div>
+                            </div>
+                            <div class="col-sm-4 col-xl-12 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2 cardBottons">
+                                    <label class="text-dark"> Unidades</label>
                                 </div>
-                                <div class="col-xs-2 form-group floating-label enable-floating-label mr-2 USDInputs">
-                                    <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
-                                    <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" readonly>
+                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
+                                    <input type="number" class="form-control calcPrice text-center" id="unity-1">
                                 </div>
-                                <div class="col-xs-2 form-group floating-label enable-floating-label USDInputs">
-                                    <label class="font-weight-bold text-dark">Correción TRM</label>
-                                    <input type="text" class="form-control text-center" name="deviation" id="deviation">
+                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
+                                    <input type="number" class="form-control calcPrice text-center" id="unity-2">
+                                </div>
+                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
+                                    <input type="number" class="form-control calcPrice text-center" id="unity-3">
                                 </div>
                             </div>
                         </div>
@@ -107,12 +110,9 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <div class="card disable-select">
-                                    <div class="card-header">
-                                        <h5 class="card-title" id="headerPrices">Precios</h5>
-                                    </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblPricesUSD">
+                                            <table class="table table-striped" id="tblProducts">
 
                                             </table>
                                         </div>
@@ -135,21 +135,17 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
-        // price_usd = 
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
+        anual_expense = "<?= $_SESSION['anual_expense'] ?>";
+        flag_expense_anual = "<?= $_SESSION['flag_expense_anual'] ?>";
     </script>
+
+    <script src="/cost/js/tools/economyScale/priceObjectives/priceObjectives.js"></script>
+    <script src="/cost/js/tools/economyScale/priceObjectives/tblPriceObjectives.js"></script>
     <script src="/global/js/global/orderData.js"></script>
-    <script src="/cost/js/prices/pricesUSD/tblPricesUSD.js"></script>
-    <script src="/cost/js/prices/pricesUSD/pricesUSD.js"></script>
-    <script src="/cost/js/tools/economyScale/efficientNegotiations/configTypePrices.js"></script>
-    <script>
-        $(document).ready(function() {
-            checkFlagPrice(3);
-        });
-    </script>
 </body>
 
 </html>

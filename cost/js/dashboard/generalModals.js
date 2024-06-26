@@ -42,9 +42,6 @@ $(document).ready(function () {
     });
 
     /* Guardar datos para grafica */
-
-    // products.length > length ? (count = length) : (count = products.length);
-
     for (i = 0; i < products.length; i++) {
       product.push(products[i].name);
       profitability.push(products[i].profitability);
@@ -68,12 +65,7 @@ $(document).ready(function () {
       maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
       isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
-    }
-    // let step = Math.ceil(valueRange / 10 / 10) * 10;
-
-    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
-
-    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    } 
 
     chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
 
@@ -82,14 +74,12 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: "bar",
       data: {
-        labels: product.slice(startIndex, startIndex + numToShow),
-        // labels: product, 
+        labels: product.slice(startIndex, startIndex + numToShow), 
         formatter: function (value, context) {
           return context.chart.data.labels[context.dataIndex];
         },
         datasets: [
-          {
-            // data: profitability,
+          { 
             data: profitability.slice(startIndex, startIndex + numToShow),
             backgroundColor: getRandomColor(numToShow),
             borderWidth: 1,
@@ -106,8 +96,7 @@ $(document).ready(function () {
             max: maxYValue,
             stacked: true,
           },
-        },
-        //plugins: [ChartDataLabels],
+        }, 
         plugins: {
           legend: {
             display: false,
@@ -239,12 +228,7 @@ $(document).ready(function () {
       maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
       isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
-    }
-    // let step = Math.ceil(valueRange / 10 / 10) * 10;
-
-    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
-
-    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    } 
 
     chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
 
@@ -275,8 +259,7 @@ $(document).ready(function () {
             stacked: true,
             max: maxYValue,
           },
-        },
-        //plugins: [ChartDataLabels],
+        }, 
         plugins: {
           legend: {
             display: false,
@@ -345,8 +328,7 @@ $(document).ready(function () {
     
     if(flag_currency_usd == '1' || flag_currency_eur == '1')
       typeCurrency = sessionStorage.getItem('typeCurrency');
-
-    // price_usd == '1' &&
+ 
     switch (typeCurrency) {
       case '2': // Dolares
         value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
@@ -359,12 +341,7 @@ $(document).ready(function () {
       default:// Pesos COP
         value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
         break;
-    }
-    // if (typeCurrency == '2' && flag_currency_usd == '1') {
-    //   value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
-    // } else {
-    //   value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
-    // }
+    } 
 
     $('.cardGeneralDashboard').append(`<div class="chart-container">
                                           <canvas id="chartGeneralDashboard"></canvas> 
@@ -384,19 +361,7 @@ $(document).ready(function () {
         puc = dataExpenses[i].number_count;
         break;
       }
-    }
-    /*switch (label) {
-      case 'Operacionales de administración':
-        puc = '51';
-        break;
-
-      case 'Gastos de Ventas':
-        puc = '52';
-        break;
-      case 'No operacionales':
-        puc = '53';
-        break;
-    } */
+    } 
 
     /* Capturar y ordenar de mayor a menor  */
     for (i = 0; i < dataPucExpenes.length; i++) {

@@ -31,9 +31,7 @@ $(document).ready(function () {
     chartMultiproducts = new Chart(cmc, {
       plugins: [ChartDataLabels],
       type: "doughnut",
-      data: {
-        // labels: ['Vender'],
-        // labels: [percentage.toFixed(2) + "% Hecho", (100 - percentage).toFixed(2) + "% Restante"],
+      data: { 
         formatter: function (value, context) {
           return context.chart.data.labels[context.dataIndex];
         },
@@ -52,12 +50,7 @@ $(document).ready(function () {
           },
           datalabels: {
             formatter: function (value, context) {
-              return '';
-              // if (context.datasetIndex === 0) {
-              //   return percentage + "%";
-              // } else {
-              //   return value;
-              // }
+              return ''; 
             },
             color: "white",
             font: {
@@ -65,12 +58,7 @@ $(document).ready(function () {
               weight: "bold",
             },
           },
-        },
-        // maintainAspectRatio: 1,
-        // animation: { duration: 2500 },
-        // scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
-        // legend: { display: !1 },
-        // tooltips: { enabled: !1 },
+        }, 
       },
     });
   };
@@ -102,13 +90,7 @@ $(document).ready(function () {
 
       isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
     }
-
-    // let step = Math.ceil(valueRange / 10 / 10) * 10;
-
-    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
-
-    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
-
+ 
     const cmc = document.getElementById("chartTimeProcessProducts");
     chartTimeProcessProducts ? chartTimeProcessProducts.destroy() : chartTimeProcessProducts;
 
@@ -195,21 +177,7 @@ $(document).ready(function () {
           maximumFractionDigits: 0,
         })}`;
         break;
-    }
-
-    // price_usd == '1' && 
-
-    // if (sessionStorage.getItem('typeCurrency') == '2' && flag_currency_usd == '1') {
-    //   totalCost = `$ ${totalCost.toLocaleString("es-CO", {
-    //     minimumFractionDigits: 1,
-    //     maximumFractionDigits: 2,
-    //   })} (USD)`;
-    // } else {
-    //   totalCost = `$ ${totalCost.toLocaleString("es-CO", {
-    //     minimumFractionDigits: 0,
-    //     maximumFractionDigits: 0,
-    //   })}`;      
-    // }
+    } 
 
     $("#totalCostWorkforce").html(totalCost);
 
@@ -300,8 +268,7 @@ $(document).ready(function () {
         datasets: [
           {
             data: costMinute,
-            backgroundColor: getRandomColor(data.length),
-            //borderColor: [],
+            backgroundColor: getRandomColor(data.length), 
             borderWidth: 1,
           },
         ],
@@ -338,7 +305,6 @@ $(document).ready(function () {
   };
 
   /* Gastos generales */
-
   graphicGeneralCost = (data) => {
     let expenseLabel = [];
     let expenseCount = [];
@@ -374,20 +340,7 @@ $(document).ready(function () {
           maximumFractionDigits: 0,
         })}`;
         break;
-    }
-
-    // price_usd == '1' && 
-    // if (sessionStorage.getItem('typeCurrency') == '2' && flag_currency_usd == '1') {
-    //   totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
-    //     minimumFractionDigits: 1,
-    //     maximumFractionDigits: 2,
-    //   })} (USD)`;
-    // } else {
-    //   totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
-    //     minimumFractionDigits: 0,
-    //     maximumFractionDigits: 0,
-    //   })}`;      
-    // }
+    } 
 
     $("#totalCost").html(totalExpense);
 
@@ -403,8 +356,7 @@ $(document).ready(function () {
         datasets: [
           {
             data: expenseCount,
-            backgroundColor: getRandomColor(3),
-            //borderColor: [],
+            backgroundColor: getRandomColor(3), 
             borderWidth: 1,
           },
         ],
@@ -531,12 +483,7 @@ $(document).ready(function () {
       maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
       isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
-    }
-    // let step = Math.ceil(valueRange / 10 / 10) * 10;
-
-    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
-
-    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    } 
 
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 
@@ -545,8 +492,7 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: "bar",
       data: {
-        labels: product,
-        //labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        labels: product, 
         formatter: function (value, context) {
           return context.chart.data.labels[context.dataIndex];
         },
@@ -567,8 +513,7 @@ $(document).ready(function () {
           x: {
             display: false,
           },
-        },
-        //plugins: [ChartDataLabels],
+        }, 
         plugins: {
           legend: {
             display: false,
@@ -640,13 +585,7 @@ $(document).ready(function () {
       maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
       isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
-    }
-
-    // let step = Math.ceil(valueRange / 10 / 10) * 10;
-
-    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
-
-    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    } 
 
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 
@@ -655,8 +594,7 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: "bar",
       data: {
-        labels: product,
-        //labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        labels: product, 
         formatter: function (value, context) {
           return context.chart.data.labels[context.dataIndex];
         },
@@ -677,8 +615,7 @@ $(document).ready(function () {
           x: {
             display: false,
           },
-        },
-        //plugins: [ChartDataLabels],
+        }, 
         plugins: {
           legend: {
             display: false,

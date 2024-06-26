@@ -1,111 +1,72 @@
 $(document).ready(function () {
   getDataCost = (data) => {
-    let profitability = 0;
-    let profitability2 = 0;
-    let costProfitability = 0;
-    let costCommissionSale = 0;
-    let costActualProfitability = 0;
-    let price2 = 0; 
-    let recomendedPrice = 0; 
-    let expense = parseFloat(data.assignable_expense); 
+    let {
+      assignable_expense: expense,
+      cost_materials,
+      cost_workforce,
+      cost_indirect_cost,
+      services,
+      expense_recover,
+      profitability,
+      commission_sale,
+      turnover,
+      units_sold,
+      sale_price
+    } = data;
 
-    // Calcular costo
-    cost = parseFloat(data.cost_materials) + parseFloat(data.cost_workforce) + parseFloat(data.cost_indirect_cost) + parseFloat(data.services);
+    expense = parseFloat(expense);
 
-    // Calcular Costo total dependiendo de el acceso activo
-    if (flag_expense === '0' || flag_expense === '1') { // Distribucion
+    let cost = parseFloat(cost_materials) + parseFloat(cost_workforce) + parseFloat(cost_indirect_cost) + parseFloat(services);
+    let costTotal;
+
+    if (flag_expense === '0' || flag_expense === '1') {
       costTotal = cost + expense;
-    } else if (flag_expense === '2') { // Recuperacion
-      costTotal = cost / (1 - parseFloat(data.expense_recover) / 100);
-      expense = costTotal * (parseFloat(data.expense_recover) / 100);
+    } else if (flag_expense === '2') {
+      costTotal = cost / (1 - parseFloat(expense_recover) / 100);
+      expense = costTotal * (parseFloat(expense_recover) / 100);
     }
 
-    // Calcular precio parcial 
-    pPrice = costTotal / (1 - parseFloat(data.profitability) / 100);
+    const pPrice = costTotal / (1 - parseFloat(profitability) / 100);
+    const price = pPrice / (1 - parseFloat(commission_sale) / 100);
+    const costProfitability = pPrice * (parseFloat(profitability) / 100);
+    const costCommissionSale = price * (parseFloat(commission_sale) / 100);
+    const recomendedPrice = parseFloat(turnover) / parseFloat(units_sold);
 
-    // Calcular precio con precio parcial (calculado)
-    price = pPrice / (1 - parseFloat(data.commission_sale) / 100);
+    let profitabilityResult = 0;
+    let profitability2 = 0;
+    let profitability3 = 0;
+    let costActualProfitability = 0;
+    let price2 = 0;
 
-    // Calcular costo de rentabilidad con el precio parcial
-    costProfitability = pPrice * (parseFloat(data.profitability) / 100);
-
-    // Calcular comision con precio
-    costCommissionSale = price * (parseFloat(data.commission_sale) / 100);
-
-    // Calcular precio real
-    recomendedPrice = parseFloat(data.turnover) / parseFloat(data.units_sold);
-
-    // Calcular rentabilidades de acuedo al acceso activo
-    if (flag_expense === "2" || flag_expense_distribution === "2") { // Acceso distribucion por familia o Recuperacion 
-      price2 = 0;
-
-      // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
-
-      // Rentabilidad de precio actual
-      // profitability = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
-      // profitability2 = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
-      profitability = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
-      profitability2 = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
-      profitability3 = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
-      // profitability3 = ((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100;
-
-      // Rentabilidad de precio real
-      // profitability = 0;
-      // profitability = ((recomendedPrice - costTotal) / recomendedPrice) * 100;
-      // profitability3 = ((recomendedPrice - costTotal) / recomendedPrice) * 100;
-
-      // Costo de rentabilidad del precio actual
-      costActualProfitability = parseFloat(data.sale_price) * (profitability / 100);
-
-    } else if ((parseFloat(data.units_sold) > 0 && parseFloat(data.turnover) > 0) || flag_expense === "1") { // Acceso distribucion por producto
-
-      // Calcular precio parcial para realizar calculos despues
-      price2 = costTotal * parseFloat(data.units_sold);
-
-      // Rentabilidad con precio parcial (calculado)
-      profitability = ((parseFloat(data.turnover) - price2) / price2) * 100;
-
-      // Rentabilidad con precio actual
-      profitability3 = (((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100); 
-
-      // Rentabilidad con precio real
-      profitability2 = (((recomendedPrice - costTotal) / recomendedPrice) * 100); 
-
-      // Costo de rentabilidad de precio parcial (calculado)
-      costActualProfitability = parseFloat(data.turnover) - price2; 
+    if (flag_expense === "2" || flag_expense_distribution === "2") {
+      profitabilityResult = ((parseFloat(sale_price) - costTotal) / parseFloat(sale_price)) * 100;
+      profitability2 = profitabilityResult;
+      profitability3 = profitabilityResult;
+      costActualProfitability = parseFloat(sale_price) * (profitabilityResult / 100);
+    } else if ((parseFloat(units_sold) > 0 && parseFloat(turnover) > 0) || flag_expense === "1") {
+      price2 = costTotal * parseFloat(units_sold);
+      profitabilityResult = ((parseFloat(turnover) - price2) / price2) * 100;
+      profitability3 = ((parseFloat(sale_price) - costTotal) / parseFloat(sale_price)) * 100;
+      profitability2 = ((recomendedPrice - costTotal) / recomendedPrice) * 100;
+      costActualProfitability = parseFloat(turnover) - price2;
     }
 
-    // Validar si alguno de los calculos anteriores es de formato NaN que devuelva cero (0) 
-    isNaN(profitability) ? (profitability = 0) : profitability;
-    isNaN(profitability2) ? (profitability2 = 0) : profitability2;
-    isNaN(profitability3) ? (profitability3 = 0) : profitability3;
-    !isFinite(profitability) ? (profitability = 0) : profitability;
-    !isFinite(profitability2) ? (profitability2 = 0) : profitability2;
-    !isFinite(profitability3) ? (profitability3 = 0) : profitability3;
-    isNaN(recomendedPrice) ? (recomendedPrice = 0) : recomendedPrice;
-    isNaN(costProfitability) ? (costProfitability = 0) : costProfitability;
-    isNaN(costCommissionSale) ? (costCommissionSale = 0) : costCommissionSale;
-    isNaN(costActualProfitability)
-      ? (costActualProfitability = 0)
-      : costActualProfitability;
-    
-    // Convertir valores calculados a array 
-    dataCost = {
-      cost: cost,
-      costTotal: costTotal,
-      actualProfitability: profitability,
-      actualProfitability2: profitability2,
-      actualProfitability3: profitability3,
-      costCommissionSale: costCommissionSale,
-      costProfitability: costProfitability,
-      costActualProfitability: costActualProfitability,
-      expense: expense,
-      recomendedPrice: recomendedPrice,
-      price: price,
-      price2: price2,
+    const sanitize = (value) => isNaN(value) || !isFinite(value) ? 0 : value;
+
+    return {
+      cost,
+      costTotal,
+      actualProfitability: sanitize(profitabilityResult),
+      actualProfitability2: sanitize(profitability2),
+      actualProfitability3: sanitize(profitability3),
+      costCommissionSale: sanitize(costCommissionSale),
+      costProfitability: sanitize(costProfitability),
+      costActualProfitability: sanitize(costActualProfitability),
+      expense: sanitize(expense),
+      recomendedPrice: sanitize(recomendedPrice),
+      price: sanitize(price),
+      price2: sanitize(price2),
     };
-
-    // Retornar
-    return dataCost;
   };
+
 });

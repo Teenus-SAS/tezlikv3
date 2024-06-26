@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  loadNotification = () => {
+  const loadNotification = () => {
     $.ajax({
       url: '/api/recentNotification',
       success: function (resp) {
@@ -14,7 +14,7 @@ $(document).ready(function () {
 
   loadNotification();
 
-  fetchNotification = async (data) => {
+  const fetchNotification = async (data) => {
     $('.notify-scrollbar').empty();
 
     let notify_scrollbar = document.getElementsByClassName('notify-scrollbar');
@@ -43,7 +43,7 @@ $(document).ready(function () {
   };
 
   /* Cargar notificaciones */
-  getNotifications = (data) => {
+  const getNotifications = (data) => {
     let n = 0;
 
     data.length > 5 ? (count = 5) : (count = data.length);
@@ -106,7 +106,7 @@ $(document).ready(function () {
     });
   };
 
-  msgNotification = (data) => {
+  const msgNotification = (data) => {
     if (data.success == true) {
       loadNotification();
       toastr.success(data.message);

@@ -162,7 +162,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $location = '../../admin/';
     }
 
-    $exp = strtotime('+30 minutes');
+    $exp = strtotime('+1 hours');
     $key = $_ENV['jwt_key'];
 
     $payload = [

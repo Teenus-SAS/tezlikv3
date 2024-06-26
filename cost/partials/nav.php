@@ -101,9 +101,9 @@
                                                 </a>
                                                 <ul class="dropdown-menu1">
                                                     <?php if ($_SESSION['plan_cost_economy_sale'] == 1 || ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['flag_economy_scale'] == 1)) { ?>
-                                                        <a class="dropdown-item aEconomyScale" href="/cost/economyScale">
+                                                        <a class="dropdown-item aEconomyScale" href="/cost/efficientNegotiations">
                                                         <?php } else { ?>
-                                                            <a class="dropdown-item aEconomyScale" href="/cost/economyScale" style="display: none;">
+                                                            <a class="dropdown-item aEconomyScale" href="/cost/efficientNegotiations" style="display: none;">
                                                             <?php } ?>
                                                             <i class="fas fa-bullseye mr-1"></i> Negociaciones Eficientes
                                                             </a>
@@ -113,6 +113,13 @@
                                                                     <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives" style="display: none;">
                                                                     <?php } ?>
                                                                     <i class="bi bi-graph-up mr-1"></i> Objetivos De Ventas
+                                                                    </a>
+                                                                    <!-- < ?php if ($_SESSION['plan_sale_objectives'] == 1 || ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)) { ?> -->
+                                                                    <a class="dropdown-item aPriceObjectives" href="/cost/priceObjectives">
+                                                                        <!-- < ?php } else { ?>
+                                                                    <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives" style="display: none;">
+                                                                    < ?php } ?> -->
+                                                                        <i class="bi bi-graph-up mr-1"></i> Objetivos De Precios
                                                                     </a>
                                                 </ul>
                                     </li>

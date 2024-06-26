@@ -20,17 +20,17 @@ if (sizeof($_SESSION) == 0)
     <title>Tezlik - Cost | Sale-Objectives</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
     <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->
-        <?php include_once dirname(dirname(__DIR__)) . '/partials/header.php'; ?>
+        <?php include_once dirname(dirname(dirname(__DIR__))) . '/partials/header.php'; ?>
 
         <!-- Begin Left Navigation -->
-        <?php include_once dirname(dirname(__DIR__)) . '/partials/nav.php'; ?>
+        <?php include_once dirname(dirname(dirname(__DIR__))) . '/partials/nav.php'; ?>
 
         <!-- Begin main content -->
         <div class="main-content">
@@ -98,20 +98,6 @@ if (sizeof($_SESSION) == 0)
                                     <button class="btn btn-success" id="btnExportSObjectives" data-toggle="tooltip" title="" style="height: 39px" data-original-title="Exportar"><i class="fas fa-file-excel fa-lg"></i></button>
                                 </div>
                             </div>
-                            <!-- <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
-                                $_SESSION['price_usd'] == 1 && 
-                                <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
-                                    <div class="col-xs-2">
-                                        <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
-                                    </div>
-                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;margin-bottom:0px;">
-                                        <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
-                                        <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                            $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
-                                                                                                                                                                                            echo  $coverage ?>" readonly>
-                                    </div>
-                                <?php } ?>
-                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -140,11 +126,11 @@ if (sizeof($_SESSION) == 0)
         <!-- Main content end -->
 
         <!-- Footer -->
-        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
+        <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
     </div>
     <!-- Page End -->
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -156,57 +142,10 @@ if (sizeof($_SESSION) == 0)
         // coverage = "<?= $_SESSION['coverage_usd'] ?>";
         anual_expense = "<?= $_SESSION['anual_expense'] ?>";
         flag_expense_anual = "<?= $_SESSION['flag_expense_anual'] ?>";
-
-        // $(document).ready(function() {
-
-        //     // Validar que precio estaba anteriormente seleccionado
-        //     let session_flag = sessionStorage.getItem('flag_type_price');
-
-        //     var sugeredElement = document.getElementById("sugered");
-        //     var actualElement = document.getElementById("actual");
-
-        //     // Precio Sugerido
-        //     if (session_flag == '1') {
-        //         $('#labelDescription').html(`Descripción (Precio Sugerido)`);
-
-        //         sugeredElement.classList.remove("btn-outline-primary");
-        //         sugeredElement.classList.add("btn-primary");
-
-        //         actualElement.classList.remove("btn-primary");
-        //         actualElement.classList.add("btn-outline-primary");
-        //     } else { // Precio Actual
-        //         $('#labelDescription').html(`Descripción (Precio Actual)`);
-
-        //         sugeredElement.classList.remove("btn-primary");
-        //         sugeredElement.classList.add("btn-outline-primary");
-
-        //         actualElement.classList.remove("btn-outline-primary");
-        //         actualElement.classList.add("btn-primary");
-        //     }
-
-        //     if (price_usd == '1' && flag_currency_usd == '1') {
-        //         // Validar que valor de precio esta seleccionado
-        //         let typePrice = sessionStorage.getItem('typePrice');
-
-        //         let element = document.getElementsByClassName('btnPricesUSD')[0];
-
-        //         // Dolares
-        //         if (typePrice == '1' || !typePrice) {
-        //             element.id = 'usd';
-        //             element.innerText = 'Precios USD';
-
-        //             $('.cardUSD').hide(800);
-        //         } else { // Pesos
-        //             element.id = 'cop';
-        //             element.innerText = 'Precios COP';
-        //             $('.cardUSD').show(800);
-        //         }
-        //     }
-        // });
     </script>
 
-    <script src="/cost/js/tools/saleObjectives/saleObjectives.js"></script>
-    <script src="/cost/js/tools/saleObjectives/tblSaleObjectives.js"></script>
+    <script src="/cost/js/tools/economyScale/saleObjectives/saleObjectives.js"></script>
+    <script src="/cost/js/tools/economyScale/saleObjectives/tblSaleObjectives.js"></script>
     <script src="/global/js/global/orderData.js"></script>
 </body>
 
