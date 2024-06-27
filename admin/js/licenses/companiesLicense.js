@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     let data = dataPlans.find(item => item.id_plan == id_plan);
 
-    if (data.cost_economy_scale == 1 && data.cost_sale_objectives == 1) {
+    if (data.cost_economy_scale == 1 && data.cost_sale_objectives == 1 && data.cost_price_objectives) {
       $('.economyScale').hide(800);
     } else {
       $('.economyScale').show(800);
@@ -66,6 +66,7 @@ $(document).ready(function () {
     data.flag_composite_product == '1' ? (compositeProducts = '1') : (compositeProducts = '2');
     data.flag_economy_scale == '1' ? (economyScale = '1') : (economyScale = '2');
     data.flag_sales_objective == '1' ? (salesObjective = '1') : (salesObjective = '2');
+    data.flag_price_objective == '1' ? (priceObjective = '1') : (priceObjective = '2');
     data.flag_production_center == '1' ? (production = '1') : (production = '2');
     data.flag_expense_anual == '1' ? (anualExpenses = '1') : (anualExpenses = '2');
     data.cost_historical == '1' ? (historical = '1') : (historical = '2');
@@ -79,6 +80,7 @@ $(document).ready(function () {
     $(`#compositeProducts option[value=${compositeProducts}]`).prop('selected', true);
     $(`#economyScale option[value=${economyScale}]`).prop('selected', true);
     $(`#salesObjective option[value=${salesObjective}]`).prop('selected', true);
+    $(`#priceObjective option[value=${priceObjective}]`).prop('selected', true);
     $(`#production option[value=${production}]`).prop('selected', true);
     $(`#anualExpenses option[value=${anualExpenses}]`).prop('selected', true);
     $(`#historical option[value=${historical}]`).prop('selected', true);
@@ -108,6 +110,7 @@ $(document).ready(function () {
     let compositeProducts = parseFloat($('#compositeProducts').val());
     let economyScale = parseFloat($('#economyScale').val());
     let salesObjective = parseFloat($('#salesObjective').val());
+    let priceObjective = parseFloat($('#priceObjective').val());
     let historical = parseFloat($('#historical').val());
     let exportImport = parseFloat($('#exportImport').val());
     let indirect = parseFloat($('#indirect').val());
@@ -116,7 +119,7 @@ $(document).ready(function () {
     let anualExpenses = parseFloat($('#anualExpenses').val());
 
     data = company * quantityUsers * plan * currencyUSD * currencyEUR * payrollEmployee * compositeProducts * economyScale
-      * salesObjective * historical * inyection * indirect * exportImport * production * anualExpenses;
+      * salesObjective * priceObjective * historical * inyection * indirect * exportImport * production * anualExpenses;
 
     if (license_start == '' || license_end == '' || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
@@ -134,6 +137,7 @@ $(document).ready(function () {
     compositeProducts == 1 ? (compositeProducts = 1) : (compositeProducts = 0);
     economyScale == 1 ? (economyScale = 1) : (economyScale = 0);
     salesObjective == 1 ? (salesObjective = 1) : (salesObjective = 0);
+    priceObjective == 1 ? (priceObjective = 1) : (priceObjective = 0);
     production == 1 ? (production = 1) : (production = 0);
     anualExpenses == 1 ? (anualExpenses = 1) : (anualExpenses = 0);
     historical == 1 ? (historical = 1) : (historical = 0);
@@ -148,6 +152,7 @@ $(document).ready(function () {
     dataCompany.append('compositeProducts', compositeProducts);
     dataCompany.append('economyScale', economyScale);
     dataCompany.append('salesObjective', salesObjective);
+    dataCompany.append('priceObjective', priceObjective);
     dataCompany.append('production', production);
     dataCompany.append('anualExpenses', anualExpenses);
     dataCompany.append('historical', historical);

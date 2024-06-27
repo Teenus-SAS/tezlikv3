@@ -121,6 +121,14 @@ $(document).ready(function () {
             });
 
             permissions.push({
+              name: "Objetivos De Precios",
+              icon: data.cost_price_objectives == 1
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
+
+            permissions.push({
               name: "Pto De Equilibrio Multiproducto",
               icon: data.cost_multiproduct == 1
                 ? "bi bi-check-circle-fill text-success"

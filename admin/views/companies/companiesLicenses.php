@@ -175,6 +175,16 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label economyScale">
+                                                    <div class="form-group m-0">
+                                                        <label>Objetivos De Precios</label>
+                                                        <select name="priceObjective" id="priceObjective" class="form-control">
+                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>Historico</label>

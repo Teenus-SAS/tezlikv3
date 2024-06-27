@@ -230,62 +230,70 @@
                                                                                                 <input id="checkbox-19" name="saleObjectives" type="checkbox">
                                                                                                 <label for="checkbox-19">Objetivos De Ventas</label>
                                                                                                 </div>
-                                                                                                <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
+                                                                                                <?php if ($_SESSION['plan_price_objectives'] == 1 || $_SESSION['flag_price_objective'] == 1) { ?>
                                                                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                                                                     <?php } else { ?>
                                                                                                         <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
                                                                                                         <?php } ?>
-                                                                                                        <input id="checkbox-20" name="multiproduct" type="checkbox">
-                                                                                                        <label for="checkbox-20">Pto De Equilibrio Multiproducto</label>
+                                                                                                        <input id="checkbox-20" name="priceObjectives" type="checkbox">
+                                                                                                        <label for="checkbox-20">Objetivos De Precios</label>
                                                                                                         </div>
-                                                                                                        <?php if ($_SESSION['plan_cost_simulator'] == 1) { ?>
+                                                                                                        <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
                                                                                                             <div class="checkbox checkbox-success checkbox-circle">
                                                                                                             <?php } else { ?>
                                                                                                                 <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
                                                                                                                 <?php } ?>
-                                                                                                                <input id="checkbox-21" name="simulator" type="checkbox">
-                                                                                                                <label for="checkbox-21">Simulador</label>
+                                                                                                                <input id="checkbox-21" name="multiproduct" type="checkbox">
+                                                                                                                <label for="checkbox-21">Pto De Equilibrio Multiproducto</label>
                                                                                                                 </div>
-                                                                                                                <?php if ($_SESSION['plan_cost_historical'] == 1) { ?>
+                                                                                                                <?php if ($_SESSION['plan_cost_simulator'] == 1) { ?>
                                                                                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                                                                                     <?php } else { ?>
                                                                                                                         <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
                                                                                                                         <?php } ?>
-                                                                                                                        <input id="checkbox-22" name="historical" type="checkbox">
-                                                                                                                        <label for="checkbox-22">Historico</label>
+                                                                                                                        <input id="checkbox-22" name="simulator" type="checkbox">
+                                                                                                                        <label for="checkbox-22">Simulador</label>
                                                                                                                         </div>
-                                                                                                                    </div>
-
-                                                                                                                    <div class="col-sm-3">Reportes
-                                                                                                                        <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                                                                                            <input id="checkbox-23" name="generalCostReport" type="checkbox">
-                                                                                                                            <label for="checkbox-23">R. General De Costos</label>
-                                                                                                                        </div>
-                                                                                                                    </div>
-
-                                                                                                                    <?php if ($_SESSION['plan_cost_quote'] == 1) { ?>
-                                                                                                                        <div class="mt-4 col-sm-3">
-                                                                                                                        <?php } else { ?>
-                                                                                                                            <div class="mt-4 col-sm-3" style="display: none;">
-                                                                                                                            <?php } ?>
+                                                                                                                        <?php if ($_SESSION['plan_cost_historical'] == 1) { ?>
                                                                                                                             <div class="checkbox checkbox-success checkbox-circle">
-                                                                                                                                <input id="checkbox-24" name="quotes" type="checkbox">
-                                                                                                                                <label for="checkbox-24">Cotización</label>
+                                                                                                                            <?php } else { ?>
+                                                                                                                                <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
+                                                                                                                                <?php } ?>
+                                                                                                                                <input id="checkbox-23" name="historical" type="checkbox">
+                                                                                                                                <label for="checkbox-23">Historico</label>
+                                                                                                                                </div>
                                                                                                                             </div>
+
+                                                                                                                            <div class="col-sm-3">Reportes
+                                                                                                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
+                                                                                                                                    <input id="checkbox-24" name="generalCostReport" type="checkbox">
+                                                                                                                                    <label for="checkbox-24">R. General De Costos</label>
+                                                                                                                                </div>
                                                                                                                             </div>
-                                                                                                                            <?php if ($_SESSION['plan_cost_support'] == 1) { ?>
+
+                                                                                                                            <?php if ($_SESSION['plan_cost_quote'] == 1) { ?>
                                                                                                                                 <div class="mt-4 col-sm-3">
                                                                                                                                 <?php } else { ?>
                                                                                                                                     <div class="mt-4 col-sm-3" style="display: none;">
                                                                                                                                     <?php } ?>
                                                                                                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                                                                                                        <input id="checkbox-25" name="tools" type="checkbox">
-                                                                                                                                        <label for="checkbox-25">Soporte</label>
+                                                                                                                                        <input id="checkbox-25" name="quotes" type="checkbox">
+                                                                                                                                        <label for="checkbox-25">Cotización</label>
                                                                                                                                     </div>
                                                                                                                                     </div>
+                                                                                                                                    <?php if ($_SESSION['plan_cost_support'] == 1) { ?>
+                                                                                                                                        <div class="mt-4 col-sm-3">
+                                                                                                                                        <?php } else { ?>
+                                                                                                                                            <div class="mt-4 col-sm-3" style="display: none;">
+                                                                                                                                            <?php } ?>
+                                                                                                                                            <div class="checkbox checkbox-success checkbox-circle">
+                                                                                                                                                <input id="checkbox-26" name="tools" type="checkbox">
+                                                                                                                                                <label for="checkbox-26">Soporte</label>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <hr>
                                                                                                                                 </div>
-                                                                                                                                <hr>
-                                                                                                                        </div>
                                 </form>
                             </div>
                         </div>

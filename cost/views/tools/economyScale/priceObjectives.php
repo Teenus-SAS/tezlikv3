@@ -102,7 +102,7 @@ if (sizeof($_SESSION) == 0)
                                     <button class="btn btn-warning cardBottons" id="calcPriceObj">Calcular</button>
                                 </div>
                                 <div class="col-xs-2">
-                                    <button class="btn btn-success" id="btnExportPObjectives" data-toggle="tooltip" title="" style="height: 39px" data-original-title="Exportar"><i class="fas fa-file-excel fa-lg"></i></button>
+                                    <button class="btn btn-success cardBottons" id="btnExportPObjectives" data-toggle="tooltip" title="" style="height: 39px" data-original-title="Exportar"><i class="fas fa-file-excel fa-lg"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -119,19 +119,6 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblProducts">
-                                                <thead>
-                                                    <tr>
-                                                        <td>No.</td>
-                                                        <td>Referencia</td>
-                                                        <td>Producto</td>
-                                                        <td>Precio 1</td>
-                                                        <td>Precio 2</td>
-                                                        <td>Precio 3</td>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tblProductsBody">
-
-                                                </tbody>
                                             </table>
                                         </div>
                                     </div>

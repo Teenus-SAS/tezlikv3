@@ -63,20 +63,23 @@ $(document).ready(function () {
 
     // Calculo general economia de escala para obtener unidades
     /* */ const generalCalc = async (profitability) => {
-        try { 
+        try {
             let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
 
             let typeExpense = '1';
 
-            if(anual_expense == '1' && flag_expense_anual == '1')
+            if (anual_expense == '1' && flag_expense_anual == '1')
                 typeExpense = sessionStorage.getItem('selectTypeExpense');
 
+            // Limpiar la columna 
+            dataProducts = dataProducts.map(item => ({ ...item, unit_sold: false }));
+            await loadTblProducts(dataProducts);
             unit = 1;
             cant = 1;
 
             // Definir una función asíncrona para manejar cada iteración del ciclo
-            const handleIteration = async (arr) => { 
+            const handleIteration = async (arr) => {
                 /* Costos Variables */
                 let economyScale = allEconomyScale.find(item => item.id_product == arr.id_product);
 
@@ -137,21 +140,20 @@ $(document).ready(function () {
             var startTime = performance.now();
 
             // Iterar sobre cada índice 
-            for (let i = 0; i < dataProducts.length; i++) { 
+            for (let i = 0; i < dataProducts.length; i++) {
                 let product_unit = await handleIteration(dataProducts[i]);
 
                 dataProducts[i].profitability = profitability;
 
                 if (typeof product_unit === 'object' && !Array.isArray(product_unit)) {
-
                     typeExpense == '2' ? product_unit.unit = parseInt(product_unit.unit) / 12 : product_unit.unit;
-
-                    // $(`#unitsSold-${dataProducts[i].id_product}`).css('color', 'red');
-                    $(`#unitsSold-${dataProducts[i].id_product}`).html(
-                        `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 16px;">${product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
-                    );
+ 
+                    // $(`#unit_sold-${dataProducts[i].id_product}`).html(
+                    //     `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 16px;">${product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
+                    // );
                     
-                    dataProducts[i].unitsSold = product_unit.unit;
+                    dataProducts[i].unit_sold = product_unit.unit;
+                    dataProducts[i].error = 'true';
                     cant = 1;
                     unit = 1;
                     startTime = performance.now();
@@ -162,22 +164,22 @@ $(document).ready(function () {
                         i = i - 1;
                     } else {
                         typeExpense == '2' ? product_unit.unit = parseInt(product_unit.unit) / 12 : product_unit.unit;
-
-                        $(`#unitsSold-${dataProducts[i].id_product}`).html(`
-                            <span class="badge badge-success" style="font-size: 16px;">${product_unit.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>
-                        `);
-
-                        dataProducts[i].unitsSold = product_unit;
+                        // $(`#unit_sold-${dataProducts[i].id_product}`).html(`
+                        //     <span class="badge badge-success" style="font-size: 16px;">${product_unit.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>
+                        // `);
+                        dataProducts[i].unit_sold = product_unit;
+                        dataProducts[i].error = 'false';
 
                         cant = 1;
                         unit = 1;
                         startTime = performance.now();
                     }
-                } 
+                }
             }
  
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
-            saveSaleObjectives(dataProducts); 
+            loadTblProducts(dataProducts);
+            saveSaleObjectives(dataProducts);
         } catch (error) {
             console.log(error);
         }
@@ -212,7 +214,7 @@ $(document).ready(function () {
                 data.push({
                     referencia: dataProducts[i].reference,
                     producto: dataProducts[i].product,
-                    unidades: `${isNaN(parseFloat(dataProducts[i].unitsSold)) ? 0 : parseFloat(dataProducts[i].unitsSold)}`,
+                    unidades: `${isNaN(parseFloat(dataProducts[i].unit_sold)) ? 0 : parseFloat(dataProducts[i].unit_sold)}`,
                     // precio_real: parseFloat(dataProducts[i].real_price),
                     // rentabilidad: profitability,
                 });

@@ -25,8 +25,7 @@ $(document).ready(function () {
     };
 
     /* Cargue tabla de Proyectos */
-
-    const loadTblProducts = (data) => {
+    loadTblProducts = (data) => {
         if ($.fn.dataTable.isDataTable("#tblProducts")) {
             var table = $("#tblProducts").DataTable();
             var pageInfo = table.page.info(); // Guardar información de la página actual
@@ -36,7 +35,7 @@ $(document).ready(function () {
             return;
         }
 
-        tblProducts = $('#tblProducts').dataTable({
+        tblProducts = $('#tblProducts').DataTable({
             destroy: true,
             pageLength: 50,
             data: data,
@@ -73,11 +72,16 @@ $(document).ready(function () {
                     data: null,
                     className: 'uniqueClassName',
                     render: function (data) {
-                        data.unit_sold == 0 ? units = '' : units = parseInt(data.unit_sold).toLocaleString('es-CO', { minimumFractionDigits: 0 });
+                        if (data.unit_sold === false)
+                            return '';
+                        else {
+                            data.unit_sold == 0 ? units = '' : units = parseInt(data.unit_sold).toLocaleString('es-CO', { minimumFractionDigits: 0 });
 
-                        return `<div id="unitsSold-${data.id_product}">
-                            <span class="badge badge-success" style="font-size: 16px;">${units}</span>
-                        </div>`;
+                            if (data.error === 'false')
+                                return `<span class="units badge badge-success" style="font-size: 16px;">${units}</span>`;
+                            else
+                                return `<a href="javascript:;" ><span class="units badge badge-success" style="font-size: 16px;">${units}</span></a>`;
+                        }
                     },
                 },
                 {

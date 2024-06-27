@@ -44,6 +44,7 @@ class GeneralUserAccessDao
                                             IFNULL(cua.economy_scale, 0) AS cost_economy_scale, 
                                             IFNULL(cua.multiproduct, 0) AS cost_multiproduct, 
                                             IFNULL(cua.sale_objectives, 0) AS sale_objectives, 
+                                            IFNULL(cua.price_objectives, 0) AS price_objectives, 
                                             IFNULL(cua.quote_payment_method, 0) AS quote_payment_method, 
                                             IFNULL(cua.quote_company, 0) AS quote_company, 
                                             IFNULL(cua.quote_contact, 0) AS quote_contact, 
@@ -62,6 +63,7 @@ class GeneralUserAccessDao
                                             cl.flag_composite_product, 
                                             cl.flag_economy_scale, 
                                             cl.flag_sales_objective, 
+                                            cl.flag_price_objective, 
                                             cl.flag_production_center, 
                                             cl.flag_expense_anual, 
                                             cl.flag_employee, 
@@ -81,6 +83,7 @@ class GeneralUserAccessDao
                                             pa.cost_quote AS plan_cost_quote, 
                                             pa.cost_economy_scale AS plan_cost_economy_sale, 
                                             pa.cost_sale_objectives AS plan_sale_objectives, 
+                                            pa.cost_price_objectives AS plan_price_objectives, 
                                             pa.cost_multiproduct AS plan_cost_multiproduct, 
                                         -- Información de usuario
                                             u.firstname, 
@@ -133,6 +136,7 @@ class GeneralUserAccessDao
         $_SESSION['general_cost_report'] = $userAccess['general_cost_report'];
         $_SESSION['cost_economy_scale'] = $userAccess['cost_economy_scale'];
         $_SESSION['sale_objectives'] = $userAccess['sale_objectives'];
+        $_SESSION['price_objectives'] = $userAccess['price_objectives'];
         $_SESSION['quote_payment_method'] = $userAccess['quote_payment_method'];
         $_SESSION['quote_company'] = $userAccess['quote_company'];
         $_SESSION['quote_contact'] = $userAccess['quote_contact'];
@@ -158,9 +162,11 @@ class GeneralUserAccessDao
         $_SESSION['plan_cost_quote'] = $userAccess['plan_cost_quote'];
         $_SESSION['plan_cost_economy_sale'] = $userAccess['plan_cost_economy_sale'];
         $_SESSION['plan_sale_objectives'] = $userAccess['plan_sale_objectives'];
+        $_SESSION['plan_price_objectives'] = $userAccess['plan_price_objectives'];
         $_SESSION['plan_cost_multiproduct'] = $userAccess['plan_cost_multiproduct'];
         $_SESSION['flag_economy_scale'] = $userAccess['flag_economy_scale'];
         $_SESSION['flag_sales_objective'] = $userAccess['flag_sales_objective'];
+        $_SESSION['flag_price_objective'] = $userAccess['flag_price_objective'];
         $_SESSION['flag_production_center'] = $userAccess['flag_production_center'];
         $_SESSION['flag_expense_anual'] = $userAccess['flag_expense_anual'];
         $_SESSION['flag_composite_product'] = $userAccess['flag_composite_product'];

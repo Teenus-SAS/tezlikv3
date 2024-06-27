@@ -1,11 +1,11 @@
 <?php
 
-use tezlikv3\dao\EconomyScaleDao;
+use tezlikv3\dao\EfficientNegotiationsDao;
 use tezlikv3\dao\GeneralCompanyLicenseDao;
 use tezlikv3\dao\PricesDao;
 use tezlikv3\dao\WebTokenDao;
 
-$economyScaleDao = new EconomyScaleDao();
+$economyScaleDao = new EfficientNegotiationsDao();
 $webTokenDao = new WebTokenDao();
 $priceDao = new PricesDao();
 $generalCompanyLicenseDao = new GeneralCompanyLicenseDao();
@@ -60,9 +60,6 @@ $app->get('/calcEconomyScale', function (Request $request, Response $response, $
 
         $data = array('info' => true, 'message' => $message);
     }
-    // $data['dataPrice'] = $price;
-    // $data['dataFixedCost'] = $fixedCosts;
-    // $data['dataVariableCost'] = $variableCosts;
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
