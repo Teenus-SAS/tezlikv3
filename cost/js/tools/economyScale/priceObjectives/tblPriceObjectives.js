@@ -31,6 +31,13 @@ $(document).ready(function () {
             return;
         }
 
+        // Obtener los títulos dinámicamente del primer elemento de datos
+        let columnTitles = data.length > 0 ? {
+            title1: data[0].unit_1,
+            title2: data[0].unit_2,
+            title3: data[0].unit_3
+        } : { title1: "Precio 1", title2: "Precio 2", title3: "Precio 3" };
+
         tblProducts = $('#tblProducts').dataTable({
             destroy: true,
             pageLength: 50,
@@ -64,30 +71,43 @@ $(document).ready(function () {
                     className: 'uniqueClassName',
                 }, 
                 {
-                    title: 'Precio 1',
+                    title: 'Precio Lista',
+                    data: 'sale_price',
+                    className: 'classCenter',
+                    render: function (data) {
+                        let sale_price = parseFloat(data);
+                        
+                        if (Math.abs(sale_price) < 0.01) { 
+                            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+                        } else
+                            sale_price = sale_price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+                        return `$ ${sale_price}`;
+                    },
+                },
+                {
+                    title: columnTitles.title1,
                     data: null,
                     className: 'classCenter',
                     render: function (data) {
                         if (data.price_1 === false) {
                             return '';
                         } else {
-                            data.price_1 === 0 ? price_1 = '' : price_1 = parseInt(data.price_1);
+                            data.price_1 == 0 ? price_1 = '' : price_1 = parseInt(data.price_1);
 
-                            if (isNaN(price_1)) {
-                                price_1 = 0;
-                            } else if (Math.abs(price_1) < 0.01) {
-                                price_1 = `$ ${price_1.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 })}`;
+                            let txt = '';
+
+                            if (price_1 > data.sale_price) {
+                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_1.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span></a>`;
                             } else
-                                price_1 = `$ ${price_1.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
-            
-                            return `<div id="realPrice-1-${data.id_product}">
-                                        <span class="badge badge-success" style="font-size: 13px;">${price_1}</span>
-                                    </div>`;
+                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_1.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span>`;
+                        
+                            return txt;
                         }
                     },
                 }, 
                 {
-                    title: 'Precio 2',
+                    title: columnTitles.title2,
                     data: null,
                     className: 'classCenter',
                     render: function (data) {
@@ -95,22 +115,19 @@ $(document).ready(function () {
                             return '';
                         } else {
                             data.price_2 == 0 ? price_2 = '' : price_2 = parseInt(data.price_2);
+                            let txt = '';
 
-                            if (isNaN(price_2)) {
-                                price_2 = 0;
-                            } else if (Math.abs(price_2) < 0.01) {
-                                price_2 = `$ ${price_2.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 })}`;
+                            if (price_2 > data.sale_price) {
+                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span></a>`;
                             } else
-                                price_2 = `$ ${price_2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span>`;
                         
-                            return `<div id="realPrice-2-${data.id_product}">
-                                        <span class="badge badge-success" style="font-size: 13px;">${price_2}</span>
-                                    </div>`;
+                            return txt;
                         }
                     },
                 }, 
                 {
-                    title: 'Precio 3',
+                    title: columnTitles.title3,
                     data: null,
                     className: 'classCenter',
                     render: function (data) {
@@ -118,17 +135,14 @@ $(document).ready(function () {
                             return '';
                         } else {
                             data.price_3 == 0 ? price_3 = '' : price_3 = parseInt(data.price_3);
+                            let txt = '';
 
-                            if (isNaN(price_3)) {
-                                price_3 = 0;
-                            } else if (Math.abs(price_3) < 0.01) {
-                                price_3 = `$ ${price_3.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 })}`;
+                            if (price_3 > data.sale_price) {
+                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_3.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span></a>`;
                             } else
-                                price_3 = `$ ${price_3.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_3.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span>`;
                         
-                            return `<div class="prices" id="realPrice-3-${data.id_product}">
-                                        <span class="badge badge-success" style="font-size: 13px;">${price_3}</span>
-                                    </div>`;
+                            return txt;
                         }
                     },
                 }, 

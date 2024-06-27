@@ -1,7 +1,7 @@
 $(document).ready(function () {
     let real_price = 100;
     let cant = 1;
-    // let startTime = 0;
+    let dataPO = [];
 
     // Cuando se ingrese rentabilidad general
     $('#calcPriceObj').click(function (e) {
@@ -24,6 +24,7 @@ $(document).ready(function () {
             return false;
         }
  
+        dataPO = [];
         $('.cardBottons').hide();
 
         let form = document.getElementById('spinnerLoading');
@@ -48,9 +49,8 @@ $(document).ready(function () {
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
 
             // Limpiar data 
-            dataProducts = dataProducts.map(item => ({ ...item, price_1: false, price_2: false, price_3: false, }));
-            await loadTblProducts(dataProducts);
-            // unit = 1;
+            // dataProducts = dataProducts.map(item => ({ ...item, price_1: false, price_2: false, price_3: false, }));
+            // await loadTblProducts(dataProducts); 
             cant = 1;
 
             // Definir una función asíncrona para manejar cada iteración del ciclo
@@ -85,69 +85,37 @@ $(document).ready(function () {
                         return real_price;
 
                     real_price = Math.ceil((totalCostsAndExpense / c_unit) + cant);
- 
-                    // var endTime = performance.now();
-                    // var mSeconds = endTime - startTime;
-                    // var seconds = mSeconds / 1000;
-
-                    // if (seconds > 5) {
-                    //     return { price: real_price };
-                    // } else {
+  
                     await new Promise(resolve => setTimeout(resolve, 0));
                     cant += 100;
-                    return -1;
-                    // }
+                    return -1; 
                 } else
                     return c_unit;
             };
 
             
             // Iterar sobre cada índice 
-            for (let i = 0; i < dataProducts.length; i++) {
-                // startTime = performance.now();
-
-                // real_price = parseFloat(dataProducts[i].real_price) == 0 ? real_price : parseFloat(dataProducts[i].real_price);
-
+            for (let i = 0; i < dataProducts.length; i++) { 
                 for (let j = 0; j < units.length; j++) {
-                    let product_price = await handleIteration(dataProducts[i], units[j]);
-                    // let product_price = await handleIteration(dataProducts[i], unit);
-
-                    // dataProducts[i][`price_${j + 1}`] = product_price;
-
-                    // if (typeof product_price === 'object' && !Array.isArray(product_price)) {
-                    //     $(`#realPrice-${j + 1}-${dataProducts[i].id_product}`).html(
-                    //         `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 13px;">$ ${product_price.price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
-                    //     );
-                    
-                    //     dataProducts[i].real_price = product_price.price;
-                    //     cant = 1;
-                    //     real_price = 1;
-                    //     startTime = performance.now();
-                    //     // break;
-                    // } else {
+                    let product_price = await handleIteration(dataProducts[i], units[j]); 
 
                     if (product_price === -1) {
                         j = j - 1;
-                    } else {
-                        // let element = document.getElementById(`realPrice-${j + 1}-${dataProducts[i].id_product}`);
-
-                        // element.insertAdjacentHTML('beforeend',
-                        //     `<span class="badge badge-success" style="font-size: 13px;">$ ${product_price.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>`);
-                        // $(`#realPrice-${j + 1}-${dataProducts[i].id_product}`).html(`<span class="badge badge-success" style="font-size: 13px;">$ ${product_price.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>`);
-                        
+                    } else { 
                         dataProducts[i].profitability = profitability;
                         dataProducts[i][`unit_${j + 1}`] = units[j];
                         dataProducts[i][`price_${j + 1}`] = product_price;
                         cant = 1;
                         real_price = 100;
                         startTime = performance.now();
-                    }
-                    // }
+                    } 
                 }
+
+                dataPO.push(dataProducts[i]);
+                loadTblProducts(dataPO);
             }
  
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
-            loadTblProducts(dataProducts);
             savePriceObjectives(dataProducts);
         } catch (error) {
             console.log(error);
@@ -161,6 +129,7 @@ $(document).ready(function () {
             url: "/api/savePriceObjectives",
             data: { products: data },
             success: function (resp) {
+                dataPO = [];
                 // console.log(resp);
                 $('.cardLoading').remove();
                 $('.cardBottons').show(400);
@@ -178,24 +147,32 @@ $(document).ready(function () {
         let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
 
         if (dataProducts.length > 0) {
+            let unit_1 = dataProducts[0].unit_1;
+            let unit_2 = dataProducts[0].unit_2;
+            let unit_3 = dataProducts[0].unit_3;
+
             for (i = 0; i < dataProducts.length; i++) {
                 data.push({
                     referencia: dataProducts[i].reference,
                     producto: dataProducts[i].product,
-                    precio_1: `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_1)}`,
-                    precio_2: `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_2)}`,
-                    precio_3: `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_3)}`,
+                    precio_lista: dataProducts[i].sale_price,
+                    [unit_1]: `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_1)}`,
+                    [unit_2]: `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_2)}`,
+                    [unit_3]: `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_3)}`,
                 });
             }
 
-            let ws = XLSX.utils.json_to_sheet(data);
+            let ws = XLSX.utils.json_to_sheet(data, {
+                header: ['referencia', 'producto', 'precio_lista', unit_1, unit_2, unit_3]
+            });
+
             XLSX.utils.book_append_sheet(wb, ws, 'Productos');
         }
         XLSX.writeFile(wb, 'Objetivos_Precios.xlsx');
         
     });
 
-    $(document).on('click', '.warningUnit', function () {
-        toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes');
+    $(document).on('click', '.warningPrice', function () {
+        toastr.error('Precio por encima de precio de lista.');
     });
 });

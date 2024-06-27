@@ -78,9 +78,9 @@ $(document).ready(function () {
                             data.unit_sold == 0 ? units = '' : units = parseInt(data.unit_sold).toLocaleString('es-CO', { minimumFractionDigits: 0 });
 
                             if (data.error === 'false')
-                                return `<span class="units badge badge-success" style="font-size: 16px;">${units}</span>`;
+                                return `<span class="badge badge-success" style="font-size: 16px;">${units}</span>`;
                             else
-                                return `<a href="javascript:;" ><span class="units badge badge-success" style="font-size: 16px;">${units}</span></a>`;
+                                return `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 16px;">${units}</span></a>`;
                         }
                     },
                 },
