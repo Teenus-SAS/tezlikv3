@@ -8,6 +8,35 @@ $(document).ready(function () {
         sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
         sessionStorage.setItem('allEconomyScale', JSON.stringify(dataEconomyScale));
+
+        let typeCurrency = '1';
+    
+        if (flag_currency_usd == '1' || flag_currency_eur == '1')
+            typeCurrency = sessionStorage.getItem('typeCurrency');
+
+        $('.selectTypeExpense').hide();
+
+        // price_usd == '1' &&
+        switch (typeCurrency) {
+            case '2': // Dolares
+                for (let i = 0; i < dataProducts.length; i++) {
+                    dataProducts[i].sale_price = parseFloat(dataProducts[i].sale_price) / parseFloat(coverage_usd);
+                    dataProducts[i].price_1 = parseFloat(dataProducts[i].price_1) / parseFloat(coverage_usd);
+                    dataProducts[i].price_2 = parseFloat(dataProducts[i].price_2) / parseFloat(coverage_usd);
+                    dataProducts[i].price_3 = parseFloat(dataProducts[i].price_3) / parseFloat(coverage_usd);
+                }
+                break;
+            case '3': // Euros
+                for (let i = 0; i < dataProducts.length; i++) {
+                    dataProducts[i].sale_price = parseFloat(dataProducts[i].sale_price) / parseFloat(coverage_eur);
+                    dataProducts[i].price_1 = parseFloat(dataProducts[i].price_1) / parseFloat(coverage_eur);
+                    dataProducts[i].price_2 = parseFloat(dataProducts[i].price_2) / parseFloat(coverage_eur);
+                    dataProducts[i].price_3 = parseFloat(dataProducts[i].price_3) / parseFloat(coverage_eur);
+                }
+                break;
+            default:// Pesos COP 
+                break;
+        }
  
         await loadTblProducts(dataProducts);
 
@@ -19,17 +48,62 @@ $(document).ready(function () {
         };
     };
 
-    /* Cargue tabla de Proyectos */
+    // Seleccionar moneda
+    $(document).on('change', '#selectCurrency', function () {
+        let currency = this.value;
+ 
+        sessionStorage.setItem('typeCurrency', currency);
+        $('.cardUSD').hide();
+        $('.cardEUR').hide();
+        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+        
+        switch (currency) {
+            case '1': // Pesos
+                break;
+            case '2': // Dolares
+                for (let i = 0; i < dataProducts.length; i++) {
+                    dataProducts[i].sale_price = parseFloat(dataProducts[i].sale_price) / parseFloat(coverage_usd);
+                    dataProducts[i].price_1 = parseFloat(dataProducts[i].price_1) / parseFloat(coverage_usd);
+                    dataProducts[i].price_2 = parseFloat(dataProducts[i].price_2) / parseFloat(coverage_usd);
+                    dataProducts[i].price_3 = parseFloat(dataProducts[i].price_3) / parseFloat(coverage_usd);
+                }
+                
+                $('.cardUSD').show(800);
+                break;
+            case '3': // Euros
+                for (let i = 0; i < dataProducts.length; i++) {
+                    dataProducts[i].sale_price = parseFloat(dataProducts[i].sale_price) / parseFloat(coverage_eur);
+                    dataProducts[i].price_1 = parseFloat(dataProducts[i].price_1) / parseFloat(coverage_eur);
+                    dataProducts[i].price_2 = parseFloat(dataProducts[i].price_2) / parseFloat(coverage_eur);
+                    dataProducts[i].price_3 = parseFloat(dataProducts[i].price_3) / parseFloat(coverage_eur);
+                }
 
-    loadTblProducts = (data) => { 
-        if ($.fn.dataTable.isDataTable("#tblProducts")) {
-            var table = $("#tblProducts").DataTable();
-            var pageInfo = table.page.info(); // Guardar información de la página actual
-            table.clear();
-            table.rows.add(data).draw();
-            table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
-            return;
+                $('.cardEUR').show(800);
+                break;
+    
+            default:
+                break;
         }
+
+        loadTblProducts(dataProducts);
+    });
+
+    /* Cargue tabla de Proyectos */
+    loadTblProducts = (data) => { 
+        // if ($.fn.dataTable.isDataTable("#tblProducts")) {
+        //     var table = $("#tblProducts").DataTable();
+        //     var pageInfo = table.page.info(); // Guardar información de la página actual
+        //     table.clear();
+        //     table.rows.add(data).draw();
+        //     table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
+        //     return;
+        // }
+
+        let typeCurrency = '1';
+    
+        if (flag_currency_usd == '1' || flag_currency_eur == '1')
+            typeCurrency = sessionStorage.getItem('typeCurrency');
+
 
         // Obtener los títulos dinámicamente del primer elemento de datos
         let columnTitles = data.length > 0 ? {
@@ -77,10 +151,12 @@ $(document).ready(function () {
                     render: function (data) {
                         let sale_price = parseFloat(data);
                         
-                        if (Math.abs(sale_price) < 0.01) { 
+                        if (Math.abs(sale_price) < 0.01) {
                             sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+                        } else if (typeCurrency != '1') {
+                            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2  });
                         } else
-                            sale_price = sale_price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+                            sale_price = sale_price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
             
                         return `$ ${sale_price}`;
                     },
@@ -97,10 +173,15 @@ $(document).ready(function () {
 
                             let txt = '';
 
-                            if (price_1 > data.sale_price) {
-                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_1.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span></a>`;
+                            if (typeCurrency != '1') {
+                                price_1 = price_1.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                             } else
-                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_1.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span>`;
+                                price_1 = price_1.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+
+                            if (price_1 > data.sale_price) {
+                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_1}</span></a>`;
+                            } else
+                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_1}</span>`;
                         
                             return txt;
                         }
@@ -117,10 +198,15 @@ $(document).ready(function () {
                             data.price_2 == 0 ? price_2 = '' : price_2 = parseInt(data.price_2);
                             let txt = '';
 
-                            if (price_2 > data.sale_price) {
-                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span></a>`;
+                            if (typeCurrency != '1') {
+                                price_2 = price_2.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                             } else
-                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span>`;
+                                price_2 = price_2.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+
+                            if (price_2 > data.sale_price) {
+                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_2}</span></a>`;
+                            } else
+                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_2}</span>`;
                         
                             return txt;
                         }
@@ -137,10 +223,15 @@ $(document).ready(function () {
                             data.price_3 == 0 ? price_3 = '' : price_3 = parseInt(data.price_3);
                             let txt = '';
 
-                            if (price_3 > data.sale_price) {
-                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_3.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span></a>`;
+                            if (typeCurrency != '1') {
+                                price_3 = price_3.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                             } else
-                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_3.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</span>`;
+                                price_3 = price_3.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+
+                            if (price_3 > data.sale_price) {
+                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_3}</span></a>`;
+                            } else
+                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_3}</span>`;
                         
                             return txt;
                         }

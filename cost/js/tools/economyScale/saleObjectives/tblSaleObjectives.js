@@ -10,30 +10,92 @@ $(document).ready(function () {
         // if (flag_composite_product == '1')
         //     sessionStorage.setItem('dataProducts', JSON.stringify(parents));
         // else
-            sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+        sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
         sessionStorage.setItem('allEconomyScale', JSON.stringify(dataEconomyScale));
 
         // if (flag_composite_product == '1')
         //     await loadTblProducts(parents);
         // else
-            await loadTblProducts(dataProducts);
+        let typeCurrency = '1';
+    
+        if (flag_currency_usd == '1' || flag_currency_eur == '1')
+            typeCurrency = sessionStorage.getItem('typeCurrency');
+
+        $('.selectTypeExpense').hide();
+
+        // price_usd == '1' &&
+        switch (typeCurrency) {
+            case '2': // Dolares
+                for (let i = 0; i < dataProducts.length; i++) {
+                    dataProducts[i].real_price = parseFloat(dataProducts[i].real_price) / parseFloat(coverage_usd);
+                }
+                break;
+            case '3': // Euros
+                for (let i = 0; i < dataProducts.length; i++) {
+                    dataProducts[i].real_price = parseFloat(dataProducts[i].real_price) / parseFloat(coverage_eur);
+                }
+                break;
+            default:// Pesos COP 
+                break;
+        }
+
+        await loadTblProducts(dataProducts);
 
         if (dataProducts.length > 0) {
             $('#profitability').val(dataProducts[0].profitability);
         };
     };
 
+    // Seleccionar moneda
+    $(document).on('change', '#selectCurrency', function () {
+        let currency = this.value;
+ 
+        sessionStorage.setItem('typeCurrency', currency);
+        $('.cardUSD').hide();
+        $('.cardEUR').hide();
+        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+        
+        switch (currency) {
+            case '1': // Pesos
+                break;
+            case '2': // Dolares
+                for (let i = 0; i < dataProducts.length; i++) {
+                    dataProducts[i].real_price = parseFloat(dataProducts[i].real_price) / parseFloat(coverage_usd);
+                }
+                
+                $('.cardUSD').show(800);
+                break;
+            case '3': // Euros
+                for (let i = 0; i < dataProducts.length; i++) {
+                    dataProducts[i].real_price = parseFloat(dataProducts[i].real_price) / parseFloat(coverage_eur);
+                }
+
+                $('.cardEUR').show(800);
+                break;
+    
+            default:
+                break;
+        }
+
+        loadTblProducts(dataProducts);
+    });
+    
     /* Cargue tabla de Proyectos */
     loadTblProducts = (data) => {
-        if ($.fn.dataTable.isDataTable("#tblProducts")) {
-            var table = $("#tblProducts").DataTable();
-            var pageInfo = table.page.info(); // Guardar información de la página actual
-            table.clear();
-            table.rows.add(data).draw();
-            table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
-            return;
-        }
+        let typeCurrency = '1';
+    
+        if (flag_currency_usd == '1' || flag_currency_eur == '1')
+            typeCurrency = sessionStorage.getItem('typeCurrency');
+
+        // if ($.fn.dataTable.isDataTable("#tblProducts")) {
+        //     var table = $("#tblProducts").DataTable();
+        //     var pageInfo = table.page.info(); // Guardar información de la página actual
+        //     table.clear();
+        //     table.rows.add(data).draw();
+        //     table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
+        //     return;
+        // }
 
         tblProducts = $('#tblProducts').DataTable({
             destroy: true,
@@ -93,8 +155,10 @@ $(document).ready(function () {
 
                         if (isNaN(price)) {
                             price = 0;
-                        } else if (Math.abs(price) < 0.01) { 
+                        } else if (Math.abs(price) < 0.01 ) { 
                             price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+                        } else if (typeCurrency != '1') {  
+                            price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         } else
                             price = price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
             

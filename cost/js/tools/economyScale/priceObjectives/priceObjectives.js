@@ -130,13 +130,51 @@ $(document).ready(function () {
             data: { products: data },
             success: function (resp) {
                 dataPO = [];
-                // console.log(resp);
+                $('html, body').animate({ scrollTop: 0 }, 1000);
                 $('.cardLoading').remove();
                 $('.cardBottons').show(400);
+
+                if (resp.success == true) {
+                    toastr.success(resp.message);
+                    return false;
+                } else if (resp.error == true) toastr.error(resp.message);
+                else if (resp.info == true) toastr.info(resp.message); 
+                
             }
         });
     };
 
+    // $('#btnExportPObjectives').click(function (e) {
+    //     e.preventDefault();
+
+    //     let wb = XLSX.utils.book_new();
+    //     let data = [];
+
+    //     /* Productos */
+    //     let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+
+    //     if (dataProducts.length > 0) {
+    //         let unit_1 = dataProducts[0].unit_1.toString();
+    //         let unit_2 = dataProducts[0].unit_2.toString();
+    //         let unit_3 = dataProducts[0].unit_3.toString();
+
+    //         for (i = 0; i < dataProducts.length; i++) {
+    //             data.push({
+    //                 referencia: dataProducts[i].reference,
+    //                 producto: dataProducts[i].product,
+    //                 precio_lista: dataProducts[i].sale_price,
+    //                 [unit_1]: `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_1)}`,
+    //                 [unit_2]: `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_2)}`,
+    //                 [unit_3]: `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_3)}`,
+    //             });
+    //         }
+
+    //         let ws = XLSX.utils.json_to_sheet(data);
+
+    //         XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+    //     }
+    //     XLSX.writeFile(wb, 'Objetivos_Precios.xlsx');
+    // }); 
     $('#btnExportPObjectives').click(function (e) {
         e.preventDefault();
 
@@ -147,29 +185,33 @@ $(document).ready(function () {
         let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
 
         if (dataProducts.length > 0) {
-            let unit_1 = dataProducts[0].unit_1;
-            let unit_2 = dataProducts[0].unit_2;
-            let unit_3 = dataProducts[0].unit_3;
+            // Definir nombres de los campos
+            let unit_1_name = dataProducts[0].unit_1.toString();
+            let unit_2_name = dataProducts[0].unit_2.toString();
+            let unit_3_name = dataProducts[0].unit_3.toString();
 
-            for (i = 0; i < dataProducts.length; i++) {
-                data.push({
+            for (let i = 0; i < dataProducts.length; i++) {
+                let item = {
                     referencia: dataProducts[i].reference,
                     producto: dataProducts[i].product,
-                    precio_lista: dataProducts[i].sale_price,
-                    [unit_1]: `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_1)}`,
-                    [unit_2]: `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_2)}`,
-                    [unit_3]: `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_3)}`,
-                });
+                    precio_lista: dataProducts[i].sale_price
+                };
+
+                item[unit_1_name] = `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_1)}`;
+                item[unit_2_name] = `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_2)}`;
+                item[unit_3_name] = `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_3)}`;
+
+                data.push(item);
             }
 
+            // Ordenar los campos al generar la hoja
             let ws = XLSX.utils.json_to_sheet(data, {
-                header: ['referencia', 'producto', 'precio_lista', unit_1, unit_2, unit_3]
+                header: ['referencia', 'producto', 'precio_lista', unit_1_name, unit_2_name, unit_3_name]
             });
 
             XLSX.utils.book_append_sheet(wb, ws, 'Productos');
         }
         XLSX.writeFile(wb, 'Objetivos_Precios.xlsx');
-        
     });
 
     $(document).on('click', '.warningPrice', function () {
