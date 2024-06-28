@@ -107,22 +107,22 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 <?php } ?>
                                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
+                                    <label for="profitability">Rentabilidad Esperada</label>
                                     <input type="number" class="form-control calcPrice text-center" id="profitability">
-                                    <label for="profitability">Rentabilidad</label>
                                 </div>
                                 <div id="spinnerLoading"></div>
                             </div>
                             <div class="col-sm-4 col-xl-12 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2 cardBottons">
-                                    <label class="text-dark"> Unidades</label>
-                                </div>
                                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
+                                    <label class="text-dark"> Unidades</label>
                                     <input type="number" class="form-control calcPrice text-center" id="unity-1">
                                 </div>
                                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
+                                    <label class="text-dark"> Unidades</label>
                                     <input type="number" class="form-control calcPrice text-center" id="unity-2">
                                 </div>
                                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
+                                    <label class="text-dark"> Unidades</label>
                                     <input type="number" class="form-control calcPrice text-center" id="unity-3">
                                 </div>
                                 <div class="col-xs-2 mr-2">
