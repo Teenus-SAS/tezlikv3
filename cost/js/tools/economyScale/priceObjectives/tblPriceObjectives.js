@@ -175,7 +175,7 @@ $(document).ready(function () {
                         if (data.price_1 === false) {
                             return '';
                         } else {
-                            data.price_1 == 0 ? price_1 = '' : price_1 = parseInt(data.price_1);
+                            data.price_1 == 0 ? price_1 = '' : price_1 = parseFloat(data.price_1);
 
                             let txt = '';
 
@@ -201,7 +201,7 @@ $(document).ready(function () {
                         if (data.price_2 === false) {
                             return '';
                         } else {
-                            data.price_2 == 0 ? price_2 = '' : price_2 = parseInt(data.price_2);
+                            data.price_2 == 0 ? price_2 = '' : price_2 = parseFloat(data.price_2);
                             let txt = '';
 
                             if (typeCurrency != '1') {
@@ -226,7 +226,7 @@ $(document).ready(function () {
                         if (data.price_3 === false) {
                             return '';
                         } else {
-                            data.price_3 == 0 ? price_3 = '' : price_3 = parseInt(data.price_3);
+                            data.price_3 == 0 ? price_3 = '' : price_3 = parseFloat(data.price_3);
                             let txt = '';
 
                             if (typeCurrency != '1') {
