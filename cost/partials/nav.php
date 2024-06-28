@@ -112,14 +112,14 @@
                                                                 <?php } else { ?>
                                                                     <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives" style="display: none;">
                                                                     <?php } ?>
-                                                                    <i class="bi bi-graph-up mr-1"></i> Objetivos De Ventas
+                                                                    <i class="fas fa-boxes mr-1"></i> Objetivos de Ventas (Und)
                                                                     </a>
                                                                     <!-- < ?php if ($_SESSION['plan_sale_objectives'] == 1 || ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)) { ?> -->
                                                                     <a class="dropdown-item aPriceObjectives" href="/cost/priceObjectives">
                                                                         <!-- < ?php } else { ?>
                                                                     <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives" style="display: none;">
                                                                     < ?php } ?> -->
-                                                                        <i class="bi bi-graph-up mr-1"></i> Objetivos De Precios
+                                                                        <i class="fas fa-donate mr-1"></i> Precios Objetivo (Escala)
                                                                     </a>
                                                 </ul>
                                     </li>
