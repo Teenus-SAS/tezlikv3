@@ -72,9 +72,9 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-graph-up mr-1"></i>Precios Objetivo (Escalas)</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-graph-up mr-1"></i>Ventas Objetivo (Unidades)</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Precios minimos a vender de acuerdo con las unidades establecidas y la rentabilidad deseada.</li>
+                                        <li class="breadcrumb-item active">Cantidades minimas a vender por producto para cumplir con el margen requerido.</li>
                                     </ol>
                                 </div>
                             </div>
