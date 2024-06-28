@@ -107,7 +107,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 <?php } ?>
                                 <div class="col-xs-2 cardBottons py-2 mr-2">
-                                    <button class="btn btn-info" id="btnNewCalcPO">Calcular Productos</button>
+                                    <button class="btn btn-info" id="btnNewCalcPO">Calcular Precios</button>
                                 </div>
                                 <div class="col-xs-2 cardBottons mr-2">
                                     <button class="btn btn-success" id="btnExportPObjectives" data-toggle="tooltip" title="" style="height: 39px" data-original-title="Exportar"><i class="fas fa-file-excel fa-lg"></i></button>
