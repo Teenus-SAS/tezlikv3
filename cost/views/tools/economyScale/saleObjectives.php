@@ -93,13 +93,13 @@ if (sizeof($_SESSION) == 0)
                                             <?php } ?>
                                         </select>
                                     </div>
-                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;margin-bottom:0px;">
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label mr-2 cardUSD" style="display:none;margin-bottom:0px;">
                                         <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageUSD" id="valueCoverageUSD" value="<?php
                                                                                                                                                                                         $coverage_usd = sprintf('$ %s', number_format($_SESSION['coverage_usd'], 2, ',', '.'));
                                                                                                                                                                                         echo  $coverage_usd ?>" readonly>
                                     </div>
-                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardEUR" style="display: none; margin-bottom:0px;">
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label mr-2 cardEUR" style="display: none; margin-bottom:0px;">
                                         <label class="font-weight-bold text-dark">Valor Euro</label>
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
                                                                                                                                                                                         $coverage_eur = sprintf('$ %s', number_format($_SESSION['coverage_eur'], 2, ',', '.'));

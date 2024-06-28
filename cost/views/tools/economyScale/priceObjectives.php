@@ -78,9 +78,9 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
+                            <div class="col-sm-4 col-xl-12 form-inline justify-content-sm-end">
                                 <?php if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
-                                    <div class="col-xs-2 mr-2 floating-label enable-floating-label show-label" style="margin-bottom: 0px;">
+                                    <div class="col-xs-2 mr-2 cardBottons floating-label enable-floating-label show-label" style="margin-bottom: 0px;">
                                         <label class="text-dark">Moneda</label>
                                         <select class="form-control selectCurrency" id="selectCurrency">
                                             <option disabled>Seleccionar</option>
@@ -93,43 +93,67 @@ if (sizeof($_SESSION) == 0)
                                             <?php } ?>
                                         </select>
                                     </div>
-                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;margin-bottom:0px;">
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD mr-2" style="display:none;margin-bottom:0px;">
                                         <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageUSD" id="valueCoverageUSD" value="<?php
                                                                                                                                                                                         $coverage_usd = sprintf('$ %s', number_format($_SESSION['coverage_usd'], 2, ',', '.'));
                                                                                                                                                                                         echo  $coverage_usd ?>" readonly>
                                     </div>
-                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardEUR" style="display: none; margin-bottom:0px;">
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardEUR mr-2" style="display: none; margin-bottom:0px;">
                                         <label class="font-weight-bold text-dark">Valor Euro</label>
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
                                                                                                                                                                                         $coverage_eur = sprintf('$ %s', number_format($_SESSION['coverage_eur'], 2, ',', '.'));
                                                                                                                                                                                         echo  $coverage_eur ?>" readonly>
                                     </div>
                                 <?php } ?>
-                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
-                                    <label for="profitability">Rentabilidad Esperada</label>
-                                    <input type="number" class="form-control calcPrice text-center" id="profitability">
+                                <div class="col-xs-2 cardBottons py-2 mr-2">
+                                    <button class="btn btn-info" id="btnNewCalcPO">Calcular Productos</button>
                                 </div>
-                                <div id="spinnerLoading"></div>
+                                <div class="col-xs-2 cardBottons mr-2">
+                                    <button class="btn btn-success" id="btnExportPObjectives" data-toggle="tooltip" title="" style="height: 39px" data-original-title="Exportar"><i class="fas fa-file-excel fa-lg"></i></button>
+                                </div>
+                                <div id="formProducts"></div>
                             </div>
-                            <div class="col-sm-4 col-xl-12 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
-                                    <label class="text-dark"> Unidades</label>
-                                    <input type="number" class="form-control calcPrice text-center" id="unity-1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content-wrapper mt--45 mb-5 cardCalcPriceObjectives">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-row">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                <label class="text-dark"> Unidades</label>
+                                                <input type="number" class="form-control calcPrice text-center" id="unity-1">
+                                            </div>
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                <label class="text-dark"> Unidades</label>
+                                                <input type="number" class="form-control calcPrice text-center" id="unity-2">
+                                            </div>
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                <label class="text-dark"> Unidades</label>
+                                                <input type="number" class="form-control calcPrice text-center" id="unity-3">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
-                                    <label class="text-dark"> Unidades</label>
-                                    <input type="number" class="form-control calcPrice text-center" id="unity-2">
-                                </div>
-                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
-                                    <label class="text-dark"> Unidades</label>
-                                    <input type="number" class="form-control calcPrice text-center" id="unity-3">
-                                </div>
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning cardBottons" id="calcPriceObj">Calcular</button>
-                                </div>
-                                <div class="col-xs-2">
-                                    <button class="btn btn-success cardBottons" id="btnExportPObjectives" data-toggle="tooltip" title="" style="height: 39px" data-original-title="Exportar"><i class="fas fa-file-excel fa-lg"></i></button>
+                            </div>
+                            <div class="col-4">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-row formProducts">
+                                            <div class="col-sm-8 cardBottons floating-label enable-floating-label show-label">
+                                                <label for="profitability">Rentabilidad Esperada</label>
+                                                <input type="number" class="form-control calcPrice text-center" id="profitability">
+                                            </div>
+                                            <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                <button class="btn btn-warning cardBottons" id="calcPriceObj">Calcular</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
