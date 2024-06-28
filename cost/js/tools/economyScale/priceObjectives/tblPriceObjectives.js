@@ -175,7 +175,7 @@ $(document).ready(function () {
                         if (data.price_1 === false) {
                             return '';
                         } else {
-                            data.price_1 == 0 ? price_1 = '' : price_1 = parseInt(data.price_1);
+                            data.price_1 == 0 ? price_1 = '' : price_1 = parseFloat(data.price_1);
 
                             let txt = '';
 
