@@ -6,6 +6,7 @@ $(document).ready(function () {
   visible_analysis_material = plan_cost_analysis_material === '1';
   visible_economy_sale = plan_cost_economy_sale === '1' || flag_economy_scale === '1';
   visible_sale_objectives = plan_cost_economy_sale === '1' || flag_sales_objective === '1';
+  visible_price_objectives = plan_cost_economy_sale === '1' || flag_price_objective === '1';
   visible_multiproduct = plan_cost_multiproduct === '1';
   visible_simulator = plan_cost_simulator === '1';
   visible_historical = plan_cost_historical === '1';
@@ -381,6 +382,15 @@ $(document).ready(function () {
             permissions.push({
               name: "Objetivos De Ventas",
               icon: data.sale_objectives
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
+          
+          if (visible_price_objectives == true)
+            permissions.push({
+              name: "Objetivos De Precios",
+              icon: data.price_objectives
                 ? "bi bi-check-circle-fill text-success"
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },

@@ -124,13 +124,14 @@ require_once('../api/src/routes/app/cost/prices/customPrices/routeCustomPercenta
 require_once('../api/src/routes/app/cost/support/routeSupport.php');
 
 // Tools
-require_once('../api/src/routes/app/cost/tools/routeEconomyScale.php');
 require_once('../api/src/routes/app/cost/tools/routeMultiproducts.php');
 require_once('../api/src/routes/app/cost/tools/analysisMaterials/routeProducts.php');
 require_once('../api/src/routes/app/cost/tools/analysisMaterials/routeLots.php');
 require_once('../api/src/routes/app/cost/tools/routeSimulator.php');
 require_once('../api/src/routes/app/cost/tools/routeHistorical.php');
-require_once('../api/src/routes/app/cost/tools/routeSaleObjectives.php');
+require_once('../api/src/routes/app/cost/tools/economyScale/routeEfficientNegotiations.php');
+require_once('../api/src/routes/app/cost/tools/economyScale/routeSaleObjectives.php');
+require_once('../api/src/routes/app/cost/tools/economyScale/routePriceObjectives.php');
 
 // Reportes
 require_once('../api/src/routes/app/cost/report/routeReport.php');

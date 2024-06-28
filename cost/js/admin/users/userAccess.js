@@ -22,6 +22,7 @@ $(document).ready(function () {
             aAnalysisMaterials: data.analysis_material,
             aEconomyScale: data.economy_scale,
             aSaleObjectives: data.sale_objectives,
+            aPriceObjectives: data.price_objectives,
             aMultiproducts: data.multiproduct,
             aSimulator: data.simulator,
             aHistorical: data.historical,
@@ -108,6 +109,7 @@ $(document).ready(function () {
             access.aAnalysisMaterials == 0 &&
             access.aEconomyScale == 0 &&
             access.aSaleObjectives == 0 &&
+            access.aPriceObjectives == 0 &&
             access.aMultiproducts == 0 &&
             access.aSimulator == 0 &&
             access.aHistorical == 0
@@ -118,7 +120,8 @@ $(document).ready(function () {
         
         if ( 
             access.aEconomyScale == 0 &&
-            access.aSaleObjectives == 0
+            access.aSaleObjectives == 0&&
+            access.aPriceObjectives == 0
         ) {
             $('#navbarEconomy').hide();
         } else

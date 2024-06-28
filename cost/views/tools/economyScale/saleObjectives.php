@@ -79,6 +79,33 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
+                                <?php if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
+                                    <div class="col-xs-2 mr-2 floating-label enable-floating-label show-label" style="margin-bottom: 0px;">
+                                        <label class="text-dark">Moneda</label>
+                                        <select class="form-control selectCurrency" id="selectCurrency">
+                                            <option disabled>Seleccionar</option>
+                                            <option value="1" selected>COP</option>
+                                            <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                                <option value="2">USD</option>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['flag_currency_eur'] == 1) { ?>
+                                                <option value="3">EUR</option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;margin-bottom:0px;">
+                                        <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
+                                        <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageUSD" id="valueCoverageUSD" value="<?php
+                                                                                                                                                                                        $coverage_usd = sprintf('$ %s', number_format($_SESSION['coverage_usd'], 2, ',', '.'));
+                                                                                                                                                                                        echo  $coverage_usd ?>" readonly>
+                                    </div>
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardEUR" style="display: none; margin-bottom:0px;">
+                                        <label class="font-weight-bold text-dark">Valor Euro</label>
+                                        <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
+                                                                                                                                                                                        $coverage_eur = sprintf('$ %s', number_format($_SESSION['coverage_eur'], 2, ',', '.'));
+                                                                                                                                                                                        echo  $coverage_eur ?>" readonly>
+                                    </div>
+                                <?php } ?>
                                 <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
                                     <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
                                         <select class="form-control" id="selectTypeExpense">
@@ -136,12 +163,40 @@ if (sizeof($_SESSION) == 0)
 
         // price_usd = 
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
+        flag_currency_eur = "<?= $_SESSION['flag_currency_eur'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
-        // coverage = "<?= $_SESSION['coverage_usd'] ?>";
+        coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
+        coverage_eur = "<?= $_SESSION['coverage_eur'] ?>";
         anual_expense = "<?= $_SESSION['anual_expense'] ?>";
         flag_expense_anual = "<?= $_SESSION['flag_expense_anual'] ?>";
+
+        $(document).ready(function() {
+            if (flag_currency_usd == '1' || flag_currency_eur == '1') {
+                // Validar que valor de precio esta seleccionado
+                let typeCurrency = sessionStorage.getItem('typeCurrency');
+
+                $('.cardUSD').hide(800);
+                $('.cardEUR').hide(800);
+
+                switch (typeCurrency) {
+                    default: // Pesos COP
+                        $('#selectCurrency').val('1');
+                        $('.selectTypeExpense').show();
+                        break;
+                    case '2': // Dólares  
+                        $('#selectCurrency').val('2');
+
+                        $('.cardUSD').show(800);
+                        break;
+                    case '3': // Euros
+                        $('#selectCurrency').val('3');
+                        $('.cardEUR').show(800);
+                        break;
+                }
+            }
+        });
     </script>
 
     <script src="/cost/js/tools/economyScale/saleObjectives/saleObjectives.js"></script>

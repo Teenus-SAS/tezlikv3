@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class EconomyScaleDao
+class EfficientNegotiationsDao
 {
     private $logger;
 

@@ -20,7 +20,7 @@ class SaleObjectivesDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.sale_price, pc.profitability, pc.commission_sale, pc.price, p.img, IFNULL(ed.turnover / ed.units_sold, 0) AS real_price, IFNULL(IFNULL(eda.turnover, 0) / IFNULL(eda.units_sold, 0), 0) AS real_price_anual, 
-                                             p.composite, IFNULL(so.unit_sold, 0) AS unit_sold, IFNULL(eda.units_sold, 0) AS units_sold_anual, IFNULL(so.profitability, 0) AS profitability
+                                             p.composite, IFNULL(so.unit_sold, 0) AS unit_sold, IFNULL(eda.units_sold, 0) AS units_sold_anual, IFNULL(so.profitability, 0) AS profitability, 'false' AS error
                                       FROM products p
                                         INNER JOIN products_costs pc ON p.id_product = pc.id_product
                                         INNER JOIN expenses_distribution ed ON ed.id_product = p.id_product
@@ -57,7 +57,7 @@ class SaleObjectivesDao
             $stmt->execute([
                 'id_company' => $id_company,
                 'id_product' => $dataSale['id_product'],
-                'unit_sold' => $dataSale['unitsSold'],
+                'unit_sold' => $dataSale['unit_sold'],
                 'profitability' => $dataSale['profitability']
             ]);
         } catch (\Exception $e) {
@@ -72,7 +72,7 @@ class SaleObjectivesDao
             $stmt = $connection->prepare("UPDATE sale_objectives SET unit_sold = :unit_sold, profitability = :profitability 
                                           WHERE id_product = :id_product");
             $stmt->execute([
-                'unit_sold' => $dataSale['unitsSold'],
+                'unit_sold' => $dataSale['unit_sold'],
                 'profitability' => $dataSale['profitability'],
                 'id_product' => $dataSale['id_product'],
             ]);

@@ -27,10 +27,10 @@ $(document).ready(function () {
         populateSelect('.refProduct', r, 'reference');
         populateSelect('.selectNameProduct', r, 'product');
 
-        if (flag_composite_product == '1') {
-          economyScaleOtions('.refESProduct', r, 'reference');
-          economyScaleOtions('.selectESNameProduct', r, 'product');
-        }
+        // if (flag_composite_product == '1') {
+        //   economyScaleOtions('.refESProduct', r, 'reference');
+        //   economyScaleOtions('.selectESNameProduct', r, 'product');
+        // }
 
         let compositeProduct = r.filter(item => item.composite == 1);
         populateOptions('#refCompositeProduct', compositeProduct, 'reference');

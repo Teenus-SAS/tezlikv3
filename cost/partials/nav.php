@@ -90,7 +90,8 @@
                                         <?php if (
                                             ($_SESSION['plan_cost_economy_sale'] == 1 && $_SESSION['plan_sale_objectives'] == 1) ||
                                             ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['flag_economy_scale'] == 1 ||
-                                                $_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)
+                                                $_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1 ||
+                                                $_SESSION['price_objectives'] == 1 && $_SESSION['flag_price_objective'] == 1)
                                         ) { ?>
                                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarEconomy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <?php } else { ?>
@@ -100,27 +101,27 @@
                                                 <i class="bx bx-chevron-right"></i>
                                                 </a>
                                                 <ul class="dropdown-menu1">
-                                                    <?php if ($_SESSION['plan_cost_economy_sale'] == 1 || ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['flag_economy_scale'] == 1)) { ?>
+                                                    <?php if ($_SESSION['plan_cost_economy_sale'] == 1 && $_SESSION['cost_economy_scale'] == 1 /*&& $_SESSION['flag_economy_scale'] == 1*/) { ?>
                                                         <a class="dropdown-item aEconomyScale" href="/cost/efficientNegotiations">
                                                         <?php } else { ?>
                                                             <a class="dropdown-item aEconomyScale" href="/cost/efficientNegotiations" style="display: none;">
                                                             <?php } ?>
                                                             <i class="fas fa-bullseye mr-1"></i> Negociaciones Eficientes
                                                             </a>
-                                                            <?php if ($_SESSION['plan_sale_objectives'] == 1 || ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)) { ?>
+                                                            <?php if ($_SESSION['plan_sale_objectives'] == 1 && $_SESSION['sale_objectives'] == 1 /*&& $_SESSION['flag_sales_objective'] == 1*/) { ?>
                                                                 <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives">
                                                                 <?php } else { ?>
                                                                     <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives" style="display: none;">
                                                                     <?php } ?>
                                                                     <i class="fas fa-boxes mr-1"></i> Objetivos de Ventas (Und)
                                                                     </a>
-                                                                    <!-- < ?php if ($_SESSION['plan_sale_objectives'] == 1 || ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)) { ?> -->
-                                                                    <a class="dropdown-item aPriceObjectives" href="/cost/priceObjectives">
-                                                                        <!-- < ?php } else { ?>
-                                                                    <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives" style="display: none;">
-                                                                    < ?php } ?> -->
-                                                                        <i class="fas fa-donate mr-1"></i> Precios Objetivo (Escala)
-                                                                    </a>
+                                                                    <?php if ($_SESSION['plan_price_objectives'] == 1 && $_SESSION['price_objectives'] == 1 /*&& $_SESSION['flag_price_objective'] == 1*/) { ?>
+                                                                        <a class="dropdown-item aPriceObjectives" href="/cost/priceObjectives">
+                                                                        <?php } else { ?>
+                                                                            <a class="dropdown-item aPriceObjectives" href="/cost/priceObjectives" style="display: none;">
+                                                                            <?php } ?>
+                                                                            <i class="bi bi-graph-up mr-1"></i> Objetivos De Precios
+                                                                            </a>
                                                 </ul>
                                     </li>
                                     <?php if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { ?>

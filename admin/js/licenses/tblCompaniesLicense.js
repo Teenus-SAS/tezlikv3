@@ -127,10 +127,20 @@ $(document).ready(function () {
             });
           }
           
-          if(data.cost_sale_objectives == 0){
+          if (data.cost_sale_objectives == 0) {
             permissions.push({
               name: "Objetivos de Venta",
               icon: data.flag_sales_objective == 1
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
+          }
+
+          if (data.cost_price_objectives == 0) {
+            permissions.push({
+              name: "Objetivos de Precios",
+              icon: data.flag_price_objective == 1
                 ? "bi bi-check-circle-fill text-success"
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
@@ -196,7 +206,7 @@ $(document).ready(function () {
 
           return output;
         },
-      }, 
+      },
       {
         title: 'Acciones',
         data: 'id_company',

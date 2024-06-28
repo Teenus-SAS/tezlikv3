@@ -1,10 +1,12 @@
 $(document).ready(function () {
     let real_price = 100;
-    let cant = 1; 
-    // let startTime = 0;
+    let cant = 1;
+    let dataPO = [];
 
     // Cuando se ingrese rentabilidad general
-    $(document).on('blur', '.calcPrice', function () {
+    $('#calcPriceObj').click(function (e) {
+        e.preventDefault();
+
         let profitability = parseFloat($('#profitability').val());
         let unit1 = parseFloat($('#unity-1').val());
         let unit2 = parseFloat($('#unity-2').val());
@@ -15,12 +17,14 @@ $(document).ready(function () {
         isNaN(unit2) ? unit2 = 0 : unit2;
         isNaN(unit3) ? unit3 = 0 : unit3;
 
-        let data = unit1 + unit2 + unit3;
+        let data = profitability * unit1 * unit2 * unit3;
 
-        if (profitability <= 0 || data <= 0) {
+        if (data <= 0) {
+            toastr.error('Ingrese todos los campos');
             return false;
         }
  
+        dataPO = [];
         $('.cardBottons').hide();
 
         let form = document.getElementById('spinnerLoading');
@@ -35,26 +39,23 @@ $(document).ready(function () {
             </div>`
         );
 
-        // Obtener el ID del elemento
-        let id = $(this).attr('id');
-        // Obtener la parte después del guion '-'
-        let j = id.split('-')[1];
-
-        generalCalc(profitability, parseFloat(this.value), parseInt(j));
+        generalCalc(profitability, [unit1, unit2, unit3]);
     });
 
     // Calculo general economia de escala para obtener unidades
-    /* */ const generalCalc = async (profitability,unit,j) => {
-        try { 
+    /* */ const generalCalc = async (profitability, units) => {
+        try {
             let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
 
-            // unit = 1;
+            // Limpiar data 
+            // dataProducts = dataProducts.map(item => ({ ...item, price_1: false, price_2: false, price_3: false, }));
+            // await loadTblProducts(dataProducts); 
             cant = 1;
 
             // Definir una función asíncrona para manejar cada iteración del ciclo
             const handleIteration = async (arr, c_unit) => {
-                // if (c_unit > 0) {
+                if (c_unit > 0) {
                     /* Costos Variables */
                     let economyScale = allEconomyScale.find(item => item.id_product == arr.id_product);
 
@@ -84,87 +85,136 @@ $(document).ready(function () {
                         return real_price;
 
                     real_price = Math.ceil((totalCostsAndExpense / c_unit) + cant);
- 
-                    // var endTime = performance.now();
-                    // var mSeconds = endTime - startTime;
-                    // var seconds = mSeconds / 1000;
-
-                    // if (seconds > 5) {
-                    //     return { price: real_price };
-                    // } else {
-                        await new Promise(resolve => setTimeout(resolve, 0));
-                        cant += 100;
-                        return -1;
-                    // }
-                // } else
-                //     return unit;
+  
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    cant += 100;
+                    return -1; 
+                } else
+                    return c_unit;
             };
 
             
             // Iterar sobre cada índice 
-            for (let i = 0; i < dataProducts.length; i++) {
-                // startTime = performance.now();
+            for (let i = 0; i < dataProducts.length; i++) { 
+                for (let j = 0; j < units.length; j++) {
+                    let product_price = await handleIteration(dataProducts[i], units[j]); 
 
-                // real_price = parseFloat(dataProducts[i].real_price) == 0 ? real_price : parseFloat(dataProducts[i].real_price);
-
-                // for (let j = 0; j < units.length; j++) {
-                // let product_price = await handleIteration(dataProducts[i], units[j]);
-                let product_price = await handleIteration(dataProducts[i], unit);
-
-                dataProducts[i].profitability = profitability;
-
-                // if (typeof product_price === 'object' && !Array.isArray(product_price)) {
-                //     $(`#realPrice-${j + 1}-${dataProducts[i].id_product}`).html(
-                //         `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 13px;">$ ${product_price.price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
-                //     );
-                    
-                //     dataProducts[i].real_price = product_price.price;
-                //     cant = 1;
-                //     real_price = 1;
-                //     startTime = performance.now();
-                //     // break;
-                // } else {
-
-                if (product_price === -1) {
-                    i = i - 1;
-                } else {
-                    $(`#realPrice-${j}-${dataProducts[i].id_product}`).html(`
-                            <span class="badge badge-success" style="font-size: 13px;">$ ${product_price.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>
-                        `);
-                    dataProducts[i].real_price = real_price;
-
-                    cant = 1;
-                    real_price = 100;
-                    startTime = performance.now();
+                    if (product_price === -1) {
+                        j = j - 1;
+                    } else { 
+                        dataProducts[i].profitability = profitability;
+                        dataProducts[i][`unit_${j + 1}`] = units[j];
+                        dataProducts[i][`price_${j + 1}`] = product_price;
+                        cant = 1;
+                        real_price = 100;
+                        startTime = performance.now();
+                    } 
                 }
-                // }
-                // }                
+
+                dataPO.push(dataProducts[i]);
+                loadTblProducts(dataPO);
             }
  
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
-            $('.cardLoading').remove();
-            $('.cardBottons').show(400);
-            // saveSaleObjectives(dataProducts); 
+            savePriceObjectives(dataProducts);
         } catch (error) {
             console.log(error);
         }
     };
 
     // Guardar datos objetivos de ventas
-    // const saveSaleObjectives = (data) => {
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/api/saveSaleObjectives",
-    //         data: { products: data },
-    //         success: function (resp) {
-    //             // console.log(resp);
-    //             $('.cardLoading').remove();
-    //             $('.cardBottons').show(400);
-    //         }
-    //     });
-    // }; 
+    const savePriceObjectives = (data) => {
+        $.ajax({
+            type: "POST",
+            url: "/api/savePriceObjectives",
+            data: { products: data },
+            success: function (resp) {
+                dataPO = [];
+                $('html, body').animate({ scrollTop: 0 }, 1000);
+                $('.cardLoading').remove();
+                $('.cardBottons').show(400);
 
-    $(document).on('click', '.warningUnit', function () {
-        toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes');
+                if (resp.success == true) {
+                    toastr.success(resp.message);
+                    return false;
+                } else if (resp.error == true) toastr.error(resp.message);
+                else if (resp.info == true) toastr.info(resp.message); 
+                
+            }
+        });
+    };
+
+    // $('#btnExportPObjectives').click(function (e) {
+    //     e.preventDefault();
+
+    //     let wb = XLSX.utils.book_new();
+    //     let data = [];
+
+    //     /* Productos */
+    //     let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+
+    //     if (dataProducts.length > 0) {
+    //         let unit_1 = dataProducts[0].unit_1.toString();
+    //         let unit_2 = dataProducts[0].unit_2.toString();
+    //         let unit_3 = dataProducts[0].unit_3.toString();
+
+    //         for (i = 0; i < dataProducts.length; i++) {
+    //             data.push({
+    //                 referencia: dataProducts[i].reference,
+    //                 producto: dataProducts[i].product,
+    //                 precio_lista: dataProducts[i].sale_price,
+    //                 [unit_1]: `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_1)}`,
+    //                 [unit_2]: `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_2)}`,
+    //                 [unit_3]: `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_3)}`,
+    //             });
+    //         }
+
+    //         let ws = XLSX.utils.json_to_sheet(data);
+
+    //         XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+    //     }
+    //     XLSX.writeFile(wb, 'Objetivos_Precios.xlsx');
+    // }); 
+    $('#btnExportPObjectives').click(function (e) {
+        e.preventDefault();
+
+        let wb = XLSX.utils.book_new();
+        let data = [];
+
+        /* Productos */
+        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+
+        if (dataProducts.length > 0) {
+            // Definir nombres de los campos
+            let unit_1_name = dataProducts[0].unit_1.toString();
+            let unit_2_name = dataProducts[0].unit_2.toString();
+            let unit_3_name = dataProducts[0].unit_3.toString();
+
+            for (let i = 0; i < dataProducts.length; i++) {
+                let item = {
+                    referencia: dataProducts[i].reference,
+                    producto: dataProducts[i].product,
+                    precio_lista: dataProducts[i].sale_price
+                };
+
+                item[unit_1_name] = `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_1)}`;
+                item[unit_2_name] = `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_2)}`;
+                item[unit_3_name] = `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_3)}`;
+
+                data.push(item);
+            }
+
+            // Ordenar los campos al generar la hoja
+            let ws = XLSX.utils.json_to_sheet(data, {
+                header: ['referencia', 'producto', 'precio_lista', unit_1_name, unit_2_name, unit_3_name]
+            });
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+        }
+        XLSX.writeFile(wb, 'Objetivos_Precios.xlsx');
+    });
+
+    $(document).on('click', '.warningPrice', function () {
+        toastr.error('Precio por encima de precio de lista.');
     });
 });

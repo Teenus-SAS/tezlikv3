@@ -1,6 +1,7 @@
 $(document).ready(function () {
     let unit = 1;
     let cant = 1; 
+    let dataSO = [];
 
     // Seleccionar tipo de gasto
     let typeExpense = '1';
@@ -42,6 +43,8 @@ $(document).ready(function () {
             return false;
         }
 
+        dataSO = [];
+
         // sessionStorage.setItem('profitability', this.value);
 
         $('.cardBottons').hide();
@@ -62,22 +65,25 @@ $(document).ready(function () {
     });
 
     // Calculo general economia de escala para obtener unidades
-    /* */ const generalCalc = async (profitability) => {
-        try { 
+    /* const generalCalc = async (profitability) => {
+        try {
             let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
 
             let typeExpense = '1';
 
-            if(anual_expense == '1' && flag_expense_anual == '1')
+            if (anual_expense == '1' && flag_expense_anual == '1')
                 typeExpense = sessionStorage.getItem('selectTypeExpense');
 
+            // Limpiar la columna 
+            dataProducts = dataProducts.map(item => ({ ...item, unit_sold: false }));
+            await loadTblProducts(dataProducts);
             unit = 1;
             cant = 1;
 
             // Definir una función asíncrona para manejar cada iteración del ciclo
-            const handleIteration = async (arr) => { 
-                /* Costos Variables */
+            const handleIteration = async (arr) => {
+                // Costos Variables
                 let economyScale = allEconomyScale.find(item => item.id_product == arr.id_product);
 
                 let totalVariableCost = economyScale.variableCost * unit;
@@ -88,22 +94,22 @@ $(document).ready(function () {
                 typeExpense == '2' ? costFixed = economyScale.costFixedAnual : costFixed;
                 typeExpense == '2' ? real_price = parseFloat(arr.real_price_anual) : real_price;
 
-                /* Total Costos y Gastos */
+                // Total Costos y Gastos
                 let totalCostsAndExpense = costFixed + totalVariableCost;
  
-                /* Calculo Total Ingresos */
+                // Calculo Total Ingresos
                 let totalRevenue = unit * real_price;
 
-                /* Calculo Costo x Unidad */
+                // Calculo Costo x Unidad
                 let unityCost = parseFloat(totalCostsAndExpense) / unit;
 
-                /* Calculo Utilidad x Unidad */
+                // Calculo Utilidad x Unidad
                 let unitUtility = real_price - unityCost;
 
-                /* Calculo Utilidad Neta */
+                // Calculo Utilidad Neta
                 let netUtility = unitUtility * unit;
 
-                /* Porcentaje */
+                // Porcentaje
                 let percentage = (netUtility / totalRevenue) * 100;
 
                 if (profitability <= percentage)
@@ -137,21 +143,22 @@ $(document).ready(function () {
             var startTime = performance.now();
 
             // Iterar sobre cada índice 
-            for (let i = 0; i < dataProducts.length; i++) { 
+            for (let i = 0; i < dataProducts.length; i++) {
                 let product_unit = await handleIteration(dataProducts[i]);
 
                 dataProducts[i].profitability = profitability;
 
                 if (typeof product_unit === 'object' && !Array.isArray(product_unit)) {
-
                     typeExpense == '2' ? product_unit.unit = parseInt(product_unit.unit) / 12 : product_unit.unit;
-
-                    // $(`#unitsSold-${dataProducts[i].id_product}`).css('color', 'red');
-                    $(`#unitsSold-${dataProducts[i].id_product}`).html(
-                        `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 16px;">${product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
-                    );
+ 
+                    // $(`#unit_sold-${dataProducts[i].id_product}`).html(
+                    //     `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 16px;">${product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
+                    // );
                     
-                    dataProducts[i].unitsSold = product_unit.unit;
+                    dataProducts[i].unit_sold = product_unit.unit;
+                    dataProducts[i].error = 'true';
+                    dataSO.push(dataProducts[i]);
+                    loadTblProducts(dataSO);
                     cant = 1;
                     unit = 1;
                     startTime = performance.now();
@@ -162,22 +169,116 @@ $(document).ready(function () {
                         i = i - 1;
                     } else {
                         typeExpense == '2' ? product_unit.unit = parseInt(product_unit.unit) / 12 : product_unit.unit;
-
-                        $(`#unitsSold-${dataProducts[i].id_product}`).html(`
-                            <span class="badge badge-success" style="font-size: 16px;">${product_unit.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>
-                        `);
-
-                        dataProducts[i].unitsSold = product_unit;
-
+                        // $(`#unit_sold-${dataProducts[i].id_product}`).html(`
+                        //     <span class="badge badge-success" style="font-size: 16px;">${product_unit.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>
+                        // `);
+                        dataProducts[i].unit_sold = product_unit;
+                        dataProducts[i].error = 'false';
+                        dataSO.push(dataProducts[i]);
+                        loadTblProducts(dataSO);
                         cant = 1;
                         unit = 1;
                         startTime = performance.now();
                     }
-                } 
+                }
             }
  
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
-            saveSaleObjectives(dataProducts); 
+            saveSaleObjectives(dataProducts);
+        } catch (error) {
+            console.log(error);
+        }
+    }; */
+    const generalCalc = async (profitability) => {
+        try {
+            let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+            let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
+            let typeExpense = '1';
+
+            if (anual_expense === '1' && flag_expense_anual === '1') {
+                typeExpense = sessionStorage.getItem('selectTypeExpense');
+            }
+
+            for (let i = 0; i < dataProducts.length; i++) {
+                let unit = 1;
+                let cant = 1;
+                let startTime = performance.now();
+                let endTime, mSeconds, seconds;
+
+                /* Costos Variables */
+                let economyScale = allEconomyScale.find(item => item.id_product === dataProducts[i].id_product);
+                let totalVariableCost = economyScale.variableCost * unit;
+                let costFixed = economyScale.costFixed;
+                let real_price = parseFloat(dataProducts[i].real_price);
+
+                if (typeExpense === '2') {
+                    costFixed = economyScale.costFixedAnual;
+                    real_price = parseFloat(dataProducts[i].real_price_anual);
+                }
+
+                /* Total Costos y Gastos */
+                let totalCostsAndExpense = costFixed + totalVariableCost;
+
+                /* Calculo Total Ingresos */
+                let totalRevenue = unit * real_price;
+
+                /* Calculo Costo x Unidad */
+                let unityCost = parseFloat(totalCostsAndExpense) / unit;
+
+                /* Calculo Utilidad x Unidad */
+                let unitUtility = real_price - unityCost;
+
+                /* Calculo Utilidad Neta */
+                let netUtility = unitUtility * unit;
+
+                /* Porcentaje */
+                let percentage = (netUtility / totalRevenue) * 100;
+
+                if (profitability <= percentage) {
+                    dataProducts[i].profitability = profitability;
+                    continue;
+                }
+
+                if (percentage > 0) {
+                    cant += 2;
+                } else {
+                    cant = 1;
+                }
+
+                let division = Math.ceil((totalCostsAndExpense / real_price) + cant);
+
+                if (division > 10000000) {
+                    // toastr.error(`Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes, referencia: ${dataProducts[i].reference}`);
+                    continue;
+                }
+
+                endTime = performance.now();
+                mSeconds = endTime - startTime;
+                seconds = mSeconds / 1000;
+
+                if (seconds > 5) {
+                    continue;
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 0));
+                unit = division;
+
+                let product_unit = {
+                    unit: unit
+                };
+
+                if (typeExpense === '2') {
+                    product_unit.unit /= 12;
+                }
+
+                dataProducts[i].unit_sold = product_unit.unit;
+                dataProducts[i].error = (product_unit instanceof Object) && !(product_unit instanceof Array) ? 'true' : 'false';
+                dataSO.push(dataProducts[i]);
+                loadTblProducts(dataSO);
+            }
+
+            sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+            saveSaleObjectives(dataProducts);
         } catch (error) {
             console.log(error);
         }
@@ -190,7 +291,7 @@ $(document).ready(function () {
             url: "/api/saveSaleObjectives",
             data: { products: data },
             success: function (resp) {
-                // console.log(resp);
+                dataSO = [];
                 $('.cardLoading').remove();
                 $('.cardBottons').show(400);
             }
@@ -212,7 +313,7 @@ $(document).ready(function () {
                 data.push({
                     referencia: dataProducts[i].reference,
                     producto: dataProducts[i].product,
-                    unidades: `${isNaN(parseFloat(dataProducts[i].unitsSold)) ? 0 : parseFloat(dataProducts[i].unitsSold)}`,
+                    unidades: `${isNaN(parseFloat(dataProducts[i].unit_sold)) ? 0 : parseFloat(dataProducts[i].unit_sold)}`,
                     // precio_real: parseFloat(dataProducts[i].real_price),
                     // rentabilidad: profitability,
                 });

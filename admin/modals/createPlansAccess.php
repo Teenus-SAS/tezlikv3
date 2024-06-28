@@ -59,27 +59,31 @@
                                                         <label for="checkbox-4">Economias de Escala</label>
                                                     </div>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-5" name="salesOjective" type="checkbox">
+                                                        <input id="checkbox-5" name="salesObjective" type="checkbox">
                                                         <label for="checkbox-5">Objetivos De Ventas</label>
                                                     </div>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-6" name="multiproduct" type="checkbox">
-                                                        <label for="checkbox-6">Pto De Equilibrio Multiproducto</label>
+                                                        <input id="checkbox-6" name="priceObjective" type="checkbox">
+                                                        <label for="checkbox-6">Objetivos De Precio</label>
                                                     </div>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-7" name="simulator" type="checkbox">
-                                                        <label for="checkbox-7">Simulacion</label>
+                                                        <input id="checkbox-7" name="multiproduct" type="checkbox">
+                                                        <label for="checkbox-7">Pto De Equilibrio Multiproducto</label>
+                                                    </div>
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-8" name="simulator" type="checkbox">
+                                                        <label for="checkbox-8">Simulacion</label>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-4">
                                                     <div class="mt-4 checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-8" name="quotes" type="checkbox">
-                                                        <label for="checkbox-8">Cotizaciones</label>
+                                                        <input id="checkbox-9" name="quotes" type="checkbox">
+                                                        <label for="checkbox-9">Cotizaciones</label>
                                                     </div>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-9" name="support" type="checkbox">
-                                                        <label for="checkbox-9">Soporte</label>
+                                                        <input id="checkbox-10" name="support" type="checkbox">
+                                                        <label for="checkbox-10">Soporte</label>
                                                     </div>
                                                 </div>
                                             </div>
