@@ -3,6 +3,14 @@ $(document).ready(function () {
     let cant = 1;
     let dataPO = [];
 
+    $('.cardCalcPriceObjectives').hide();
+
+    $('#btnNewCalcPO').click(function (e) { 
+        e.preventDefault();
+
+        $('.cardCalcPriceObjectives').toggle(800);        
+    });
+
     // Cuando se ingrese rentabilidad general
     $('#calcPriceObj').click(function (e) {
         e.preventDefault();
@@ -25,10 +33,11 @@ $(document).ready(function () {
         }
  
         dataPO = [];
-        $('.cardBottons').hide();
 
-        let form = document.getElementById('spinnerLoading');
-        $('#spinnerLoading').empty();
+        $('.cardBottons').hide();
+        $('.cardCalcPriceObjectives').hide(800);
+
+        let form = document.getElementById('formProducts');
 
         form.insertAdjacentHTML(
             'beforeend',
@@ -88,34 +97,43 @@ $(document).ready(function () {
   
                     await new Promise(resolve => setTimeout(resolve, 0));
                     cant += 100;
-                    return -1; 
+                    return -1;
                 } else
                     return c_unit;
             };
 
             
             // Iterar sobre cada índice 
-            for (let i = 0; i < dataProducts.length; i++) { 
+            for (let i = 0; i < dataProducts.length; i++) {
                 for (let j = 0; j < units.length; j++) {
-                    let product_price = await handleIteration(dataProducts[i], units[j]); 
+                    let product_price = await handleIteration(dataProducts[i], units[j]);
 
                     if (product_price === -1) {
                         j = j - 1;
-                    } else { 
+                    } else {
                         dataProducts[i].profitability = profitability;
                         dataProducts[i][`unit_${j + 1}`] = units[j];
                         dataProducts[i][`price_${j + 1}`] = product_price;
                         cant = 1;
                         real_price = 100;
-                        startTime = performance.now();
-                    } 
+                        // startTime = performance.now();
+                    }
                 }
 
-                dataPO.push(dataProducts[i]);
-                loadTblProducts(dataPO);
+                let dataCPts = JSON.parse(JSON.stringify(dataProducts)); 
+                
+                if (flag_currency_usd == '1' || flag_currency_eur == '1'){
+                    let arr = await setCurrency([dataCPts[i]]);
+                    dataCPts[i] = arr[0];
+                }
+
+                dataPO.push(dataCPts[i]);
+                
+                loadTblProducts(dataPO, 1);
             }
  
-            sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+            sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts)); 
+            
             savePriceObjectives(dataProducts);
         } catch (error) {
             console.log(error);
@@ -133,48 +151,18 @@ $(document).ready(function () {
                 $('html, body').animate({ scrollTop: 0 }, 1000);
                 $('.cardLoading').remove();
                 $('.cardBottons').show(400);
+                $('.cardCalcPriceObjectives').show(400);
 
                 if (resp.success == true) {
-                    toastr.success(resp.message);
+                    toastr.success(resp.message); 
                     return false;
                 } else if (resp.error == true) toastr.error(resp.message);
-                else if (resp.info == true) toastr.info(resp.message); 
+                else if (resp.info == true) toastr.info(resp.message);
                 
             }
         });
-    };
+    }; 
 
-    // $('#btnExportPObjectives').click(function (e) {
-    //     e.preventDefault();
-
-    //     let wb = XLSX.utils.book_new();
-    //     let data = [];
-
-    //     /* Productos */
-    //     let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
-
-    //     if (dataProducts.length > 0) {
-    //         let unit_1 = dataProducts[0].unit_1.toString();
-    //         let unit_2 = dataProducts[0].unit_2.toString();
-    //         let unit_3 = dataProducts[0].unit_3.toString();
-
-    //         for (i = 0; i < dataProducts.length; i++) {
-    //             data.push({
-    //                 referencia: dataProducts[i].reference,
-    //                 producto: dataProducts[i].product,
-    //                 precio_lista: dataProducts[i].sale_price,
-    //                 [unit_1]: `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_1)}`,
-    //                 [unit_2]: `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_2)}`,
-    //                 [unit_3]: `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_3)}`,
-    //             });
-    //         }
-
-    //         let ws = XLSX.utils.json_to_sheet(data);
-
-    //         XLSX.utils.book_append_sheet(wb, ws, 'Productos');
-    //     }
-    //     XLSX.writeFile(wb, 'Objetivos_Precios.xlsx');
-    // }); 
     $('#btnExportPObjectives').click(function (e) {
         e.preventDefault();
 
@@ -185,6 +173,10 @@ $(document).ready(function () {
         let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
 
         if (dataProducts.length > 0) {
+            
+            if (flag_currency_usd == '1' || flag_currency_eur == '1')
+                dataProducts = setCurrency(dataProducts);
+            
             // Definir nombres de los campos
             let unit_1_name = dataProducts[0].unit_1.toString();
             let unit_2_name = dataProducts[0].unit_2.toString();
@@ -197,9 +189,9 @@ $(document).ready(function () {
                     precio_lista: dataProducts[i].sale_price
                 };
 
-                item[unit_1_name] = `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_1)}`;
-                item[unit_2_name] = `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_2)}`;
-                item[unit_3_name] = `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : parseFloat(dataProducts[i].price_3)}`;
+                item[unit_1_name] = `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : dataProducts[i].price_1.toString().replace('.',',')}`;
+                item[unit_2_name] = `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? '' : dataProducts[i].price_2.toString().replace('.',',')}`;
+                item[unit_3_name] = `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? '' : dataProducts[i].price_3.toString().replace('.',',')}`;
 
                 data.push(item);
             }

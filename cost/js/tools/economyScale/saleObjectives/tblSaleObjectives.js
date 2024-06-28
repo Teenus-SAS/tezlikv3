@@ -1,46 +1,18 @@
 $(document).ready(function () {
     const loadAllData = async () => {
-        const [dataProducts, dataEconomyScale] = await Promise.all([
+        let [dataProducts, dataEconomyScale] = await Promise.all([
             searchData('/api/saleObjectives'),
             searchData('/api/calcEconomyScale')
-        ]);
+        ]); 
 
-        // let parents = dataProducts.filter(item => parseInt(item.composite) == 0);
-
-        // if (flag_composite_product == '1')
-        //     sessionStorage.setItem('dataProducts', JSON.stringify(parents));
-        // else
         sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
         sessionStorage.setItem('allEconomyScale', JSON.stringify(dataEconomyScale));
-
-        // if (flag_composite_product == '1')
-        //     await loadTblProducts(parents);
-        // else
-        let typeCurrency = '1';
     
         if (flag_currency_usd == '1' || flag_currency_eur == '1')
-            typeCurrency = sessionStorage.getItem('typeCurrency');
+            dataProducts = setCurrency(dataProducts);
 
-        $('.selectTypeExpense').hide();
-
-        // price_usd == '1' &&
-        switch (typeCurrency) {
-            case '2': // Dolares
-                for (let i = 0; i < dataProducts.length; i++) {
-                    dataProducts[i].real_price = parseFloat(dataProducts[i].real_price) / parseFloat(coverage_usd);
-                }
-                break;
-            case '3': // Euros
-                for (let i = 0; i < dataProducts.length; i++) {
-                    dataProducts[i].real_price = parseFloat(dataProducts[i].real_price) / parseFloat(coverage_eur);
-                }
-                break;
-            default:// Pesos COP 
-                break;
-        }
-
-        await loadTblProducts(dataProducts);
+        await loadTblProducts(dataProducts, 1);
 
         if (dataProducts.length > 0) {
             $('#profitability').val(dataProducts[0].profitability);
@@ -78,24 +50,49 @@ $(document).ready(function () {
                 break;
         }
 
-        loadTblProducts(dataProducts);
+        loadTblProducts(dataProducts, 2);
     });
+
+    setCurrency = (data) => {
+        let typeCurrency = '1';
+    
+        typeCurrency = sessionStorage.getItem('typeCurrency');
+
+        $('.selectTypeExpense').hide();
+ 
+        switch (typeCurrency) {
+            case '2': // Dolares
+                for (let i = 0; i < data.length; i++) {
+                    data[i].real_price = parseFloat(data[i].real_price) / parseFloat(coverage_usd);
+                }
+                break;
+            case '3': // Euros
+                for (let i = 0; i < data.length; i++) {
+                    data[i].real_price = parseFloat(data[i].real_price) / parseFloat(coverage_eur); 
+                }
+                break;
+            default:// Pesos COP 
+                break;
+        }
+
+        return data;
+    }
     
     /* Cargue tabla de Proyectos */
-    loadTblProducts = (data) => {
+    loadTblProducts = (data, op) => {
         let typeCurrency = '1';
     
         if (flag_currency_usd == '1' || flag_currency_eur == '1')
             typeCurrency = sessionStorage.getItem('typeCurrency');
 
-        // if ($.fn.dataTable.isDataTable("#tblProducts")) {
-        //     var table = $("#tblProducts").DataTable();
-        //     var pageInfo = table.page.info(); // Guardar información de la página actual
-        //     table.clear();
-        //     table.rows.add(data).draw();
-        //     table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
-        //     return;
-        // }
+        if ($.fn.dataTable.isDataTable("#tblProducts") && op == 1) {
+            var table = $("#tblProducts").DataTable();
+            var pageInfo = table.page.info(); // Guardar información de la página actual
+            table.clear();
+            table.rows.add(data).draw();
+            table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
+            return;
+        }
 
         tblProducts = $('#tblProducts').DataTable({
             destroy: true,
