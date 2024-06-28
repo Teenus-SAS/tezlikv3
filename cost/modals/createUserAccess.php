@@ -228,7 +228,7 @@
                                                                                                 <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
                                                                                                 <?php } ?>
                                                                                                 <input id="checkbox-19" name="saleObjectives" type="checkbox">
-                                                                                                <label for="checkbox-19">Objetivos De Ventas</label>
+                                                                                                <label for="checkbox-19">Ventas Objetivo(Und)</label>
                                                                                                 </div>
                                                                                                 <?php if ($_SESSION['plan_price_objectives'] == 1 || $_SESSION['flag_price_objective'] == 1) { ?>
                                                                                                     <div class="checkbox checkbox-success checkbox-circle">
@@ -236,7 +236,7 @@
                                                                                                         <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
                                                                                                         <?php } ?>
                                                                                                         <input id="checkbox-20" name="priceObjectives" type="checkbox">
-                                                                                                        <label for="checkbox-20">Objetivos De Precios</label>
+                                                                                                        <label for="checkbox-20">Precios Objetivo(Escalas)</label>
                                                                                                         </div>
                                                                                                         <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
                                                                                                             <div class="checkbox checkbox-success checkbox-circle">
