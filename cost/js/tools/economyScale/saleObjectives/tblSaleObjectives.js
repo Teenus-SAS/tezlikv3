@@ -127,6 +127,11 @@ $(document).ready(function () {
                     className: 'uniqueClassName',
                 },
                 {
+                    title: 'Und Vendidas / Distribucion',
+                    data: 'units_sold',
+                    className: 'uniqueClassName',
+                },
+                {
                     title: 'Unidades',
                     data: null,
                     className: 'uniqueClassName',
@@ -141,6 +146,16 @@ $(document).ready(function () {
                             else
                                 return `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 16px;">${units}</span></a>`;
                         }
+                    },
+                },
+                {
+                    title: '% Cumplimiento',
+                    data: null,
+                    className: 'uniqueClassName',
+                    render: function (data) {
+                        let percentage = parseInt(data.units_sold) / parseInt(data.unit_sold);
+
+                        return `${percentage.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`;                        
                     },
                 },
                 {

@@ -32,7 +32,7 @@ $(document).ready(function () {
       isFinite(dataCost.actualProfitability2) ? actualProfitability = dataCost.actualProfitability2 : actualProfitability = 0;
 
       products.push({
-        name: data[i].product,
+        name: `${data[i].reference} - ${data[i].product}`,
         profitability: actualProfitability,
       });
     }
@@ -185,14 +185,14 @@ $(document).ready(function () {
 
       if (typePrice == '1')
         products.push({
-          name: data[i].product,
+          name: `${data[i].reference} - ${data[i].product}`,
           cost: dataCost.costProfitability,
         });
       else {
         isFinite(dataCost.costActualProfitability) ? costActualProfitability = dataCost.costActualProfitability : costActualProfitability = 0;
 
         products.push({
-          name: data[i].product,
+          name: `${data[i].reference} - ${data[i].product}`,
           cost: costActualProfitability,
         });
         
