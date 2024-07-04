@@ -140,15 +140,53 @@ $(document).ready(function () {
 
       let dataUser = {};
 
-      if (selectExpenses == '0') {
-        dataUser['expense'] = 1;
-        dataUser['expenseDistribution'] = 1;
-      } else if (selectExpenses == '1') {
-        dataUser['expense'] = 1;
-        dataUser['expenseDistribution'] = 0;
-      } else {
-        dataUser['expense'] = 0;
-        dataUser['expenseDistribution'] = 1;
+      // if (selectExpenses == '0') {
+      //   dataUser['expense'] = 1;
+      //   dataUser['expenseDistribution'] = 1;
+      // } else if (selectExpenses == '1') {
+      //   dataUser['expense'] = 1;
+      //   dataUser['expenseDistribution'] = 0;
+      // } else {
+      //   dataUser['expense'] = 0;
+      //   dataUser['expenseDistribution'] = 1;
+      // }
+
+      // let selectExpenses = $('#selectExpenses').val();
+
+      // if (!selectExpenses) {
+      //   toastr.error('Seleccione tipo de gasto');
+      //   return false;
+      // }
+
+      if ((selectExpenses == '0' || selectExpenses == '2') && (flag_expense == '1' || flag_expense == '0')) {
+        if ($(`#typeExpenses`).is(':checked')) typeExpenses = 1;
+        else typeExpenses = 0;
+      }
+      
+      dataUser['expense'] = 0;
+      dataUser['expenseDistribution'] = 0;
+      dataUser['production'] = 0;
+      dataUser['anualExpense'] = 0;
+
+      switch (selectExpenses) {
+        case '0':// Todos
+          dataUser['expense'] = 1;
+          dataUser['expenseDistribution'] = 1;
+          dataUser['production'] = 1;
+          dataUser['anualExpense'] = 1;
+          break;
+        case '1':// Asignacion
+          dataUser['expense'] = 1;
+          break;
+        case '2': // Distribucion o Recuperacion
+          dataUser['expenseDistribution'] = 1;
+          break;
+        case '3': // Unidad Produccion
+          dataUser['production'] = 1;
+          break;
+        case '4': // Gastos anuales
+          dataUser['anualExpense'] = 1;
+          break;
       }
       
       dataUser['nameUser'] = nameUser;
