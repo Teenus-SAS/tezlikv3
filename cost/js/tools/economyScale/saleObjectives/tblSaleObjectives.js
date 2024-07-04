@@ -142,9 +142,9 @@ $(document).ready(function () {
                             data.unit_sold == 0 ? units = '' : units = parseInt(data.unit_sold).toLocaleString('es-CO', { minimumFractionDigits: 0 });
 
                             if (data.error === 'false')
-                                return `<span class="badge badge-success" style="font-size: 16px;">${units}</span>`;
+                                return `${units}`;
                             else
-                                return `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 16px;">${units}</span></a>`;
+                                return `<a href="javascript:;" class="warningUnit" style="color:red;">${units}</a>`;
                         }
                     },
                 },
@@ -153,9 +153,26 @@ $(document).ready(function () {
                     data: null,
                     className: 'uniqueClassName',
                     render: function (data) {
-                        let percentage = parseInt(data.units_sold) / parseInt(data.unit_sold);
+                        let percentage = (parseInt(data.units_sold) / parseInt(data.unit_sold)) * 100;
+                        isNaN(percentage) || !isFinite(percentage) ? percentage = 0 : percentage;
+ 
+                        const percentageClasses = [
+                            { limit: 100, className: 'badge-success' },
+                            { limit: 80, className: 'badge-info' },
+                            { limit: 50, className: 'badge-warning' },
+                            { limit: 0, className: 'badge-danger' },
+                        ];
 
-                        return `${percentage.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`;                        
+                        let className = 'badge-danger'; // Default class
+
+                        for (let i = 0; i < percentageClasses.length; i++) {
+                            if (percentage > percentageClasses[i].limit) {
+                                className = percentageClasses[i].className;
+                                break;
+                            }
+                        }
+
+                        return `<span class="badge ${className}" style="font-size: 16px;">${percentage.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %</span>`;
                     },
                 },
                 {
