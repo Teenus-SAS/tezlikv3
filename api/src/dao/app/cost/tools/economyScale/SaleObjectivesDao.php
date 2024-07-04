@@ -19,7 +19,7 @@ class SaleObjectivesDao
     public function findAllProductsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.sale_price, pc.profitability, pc.commission_sale, pc.price, p.img, IFNULL(ed.turnover / ed.units_sold, 0) AS real_price, IFNULL(IFNULL(eda.turnover, 0) / IFNULL(eda.units_sold, 0), 0) AS real_price_anual, 
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.sale_price, pc.profitability, pc.commission_sale, pc.price, p.img, IFNULL(ed.units_sold, 0) AS units_sold, IFNULL(ed.turnover / ed.units_sold, 0) AS real_price, IFNULL(IFNULL(eda.turnover, 0) / IFNULL(eda.units_sold, 0), 0) AS real_price_anual, 
                                              p.composite, IFNULL(so.unit_sold, 0) AS unit_sold, IFNULL(eda.units_sold, 0) AS units_sold_anual, IFNULL(so.profitability, 0) AS profitability, 'false' AS error
                                       FROM products p
                                         INNER JOIN products_costs pc ON p.id_product = pc.id_product

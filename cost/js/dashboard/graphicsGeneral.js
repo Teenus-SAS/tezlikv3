@@ -70,7 +70,7 @@ $(document).ready(function () {
 
     data.length > length ? (count = length) : (count = data.length);
     for (i = 0; i < count; i++) {
-      product.push(data[i].product);
+      product.push(`${data[i].reference} - ${data[i].product}`);
       totalTime.push(data[i].totalTime);
     }
 
@@ -449,7 +449,7 @@ $(document).ready(function () {
     for (i = 0; i < data.length; i++) {
       let dataCost = getDataCost(data[i]);
       products.push({
-        name: data[i].product,
+        name: `${data[i].reference} - ${data[i].product}`,
         cost: dataCost.costProfitability,
       });
     }
@@ -550,7 +550,7 @@ $(document).ready(function () {
 
       if (isFinite(dataCost.costActualProfitability) && dataCost.costActualProfitability > 0) {
         products.push({
-          name: data[i].product,
+          name: `${data[i].reference} - ${data[i].product}`,
           cost: dataCost.costActualProfitability,
         });
       }
