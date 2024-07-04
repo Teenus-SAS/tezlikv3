@@ -65,7 +65,7 @@ $(document).ready(function () {
     });
 
     // Calculo general economia de escala para obtener unidades
-    /* const generalCalc = async (profitability) => {
+    const generalCalc = async (profitability) => {
         try {
             let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
@@ -74,10 +74,7 @@ $(document).ready(function () {
 
             if (anual_expense == '1' && flag_expense_anual == '1')
                 typeExpense = sessionStorage.getItem('selectTypeExpense');
-
-            // Limpiar la columna 
-            dataProducts = dataProducts.map(item => ({ ...item, unit_sold: false }));
-            await loadTblProducts(dataProducts);
+ 
             unit = 1;
             cant = 1;
 
@@ -157,8 +154,17 @@ $(document).ready(function () {
                     
                     dataProducts[i].unit_sold = product_unit.unit;
                     dataProducts[i].error = 'true';
-                    dataSO.push(dataProducts[i]);
-                    loadTblProducts(dataSO);
+
+                    let dataCPts = JSON.parse(JSON.stringify(dataProducts));
+                
+                    if (flag_currency_usd == '1' || flag_currency_eur == '1') {
+                        let arr = await setCurrency([dataCPts[i]]);
+                        dataCPts[i] = arr[0];
+                    }
+
+                    dataSO.push(dataCPts[i]);
+                    loadTblProducts(dataSO, 1);
+
                     cant = 1;
                     unit = 1;
                     startTime = performance.now();
@@ -174,8 +180,17 @@ $(document).ready(function () {
                         // `);
                         dataProducts[i].unit_sold = product_unit;
                         dataProducts[i].error = 'false';
-                        dataSO.push(dataProducts[i]);
-                        loadTblProducts(dataSO);
+
+                        let dataCPts = JSON.parse(JSON.stringify(dataProducts));
+                
+                        if (flag_currency_usd == '1' || flag_currency_eur == '1') {
+                            let arr = await setCurrency([dataCPts[i]]);
+                            dataCPts[i] = arr[0];
+                        }
+
+                        dataSO.push(dataCPts[i]);
+                        loadTblProducts(dataSO, 1);
+
                         cant = 1;
                         unit = 1;
                         startTime = performance.now();
@@ -188,101 +203,7 @@ $(document).ready(function () {
         } catch (error) {
             console.log(error);
         }
-    }; */
-    const generalCalc = async (profitability) => {
-        try {
-            let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
-            let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
-            let typeExpense = '1';
-
-            if (anual_expense === '1' && flag_expense_anual === '1') {
-                typeExpense = sessionStorage.getItem('selectTypeExpense');
-            }
-
-            for (let i = 0; i < dataProducts.length; i++) {
-                let unit = 1;
-                let cant = 1;
-                let startTime = performance.now();
-                let endTime, mSeconds, seconds;
-
-                /* Costos Variables */
-                let economyScale = allEconomyScale.find(item => item.id_product === dataProducts[i].id_product);
-                let totalVariableCost = economyScale.variableCost * unit;
-                let costFixed = economyScale.costFixed;
-                let real_price = parseFloat(dataProducts[i].real_price);
-
-                if (typeExpense === '2') {
-                    costFixed = economyScale.costFixedAnual;
-                    real_price = parseFloat(dataProducts[i].real_price_anual);
-                }
-
-                /* Total Costos y Gastos */
-                let totalCostsAndExpense = costFixed + totalVariableCost;
-
-                /* Calculo Total Ingresos */
-                let totalRevenue = unit * real_price;
-
-                /* Calculo Costo x Unidad */
-                let unityCost = parseFloat(totalCostsAndExpense) / unit;
-
-                /* Calculo Utilidad x Unidad */
-                let unitUtility = real_price - unityCost;
-
-                /* Calculo Utilidad Neta */
-                let netUtility = unitUtility * unit;
-
-                /* Porcentaje */
-                let percentage = (netUtility / totalRevenue) * 100;
-
-                if (profitability <= percentage) {
-                    dataProducts[i].profitability = profitability;
-                    continue;
-                }
-
-                if (percentage > 0) {
-                    cant += 2;
-                } else {
-                    cant = 1;
-                }
-
-                let division = Math.ceil((totalCostsAndExpense / real_price) + cant);
-
-                if (division > 10000000) {
-                    // toastr.error(`Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes, referencia: ${dataProducts[i].reference}`);
-                    continue;
-                }
-
-                endTime = performance.now();
-                mSeconds = endTime - startTime;
-                seconds = mSeconds / 1000;
-
-                if (seconds > 5) {
-                    continue;
-                }
-
-                await new Promise(resolve => setTimeout(resolve, 0));
-                unit = division;
-
-                let product_unit = {
-                    unit: unit
-                };
-
-                if (typeExpense === '2') {
-                    product_unit.unit /= 12;
-                }
-
-                dataProducts[i].unit_sold = product_unit.unit;
-                dataProducts[i].error = (product_unit instanceof Object) && !(product_unit instanceof Array) ? 'true' : 'false';
-                dataSO.push(dataProducts[i]);
-                loadTblProducts(dataSO);
-            }
-
-            sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
-            saveSaleObjectives(dataProducts);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    }; 
 
     // Guardar datos objetivos de ventas
     const saveSaleObjectives = (data) => {
@@ -308,7 +229,7 @@ $(document).ready(function () {
         let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
         // let profitability = $('#profitability').val();
 
-        if (dataProducts.length > 0) {
+        if (dataProducts.length > 0) { 
             for (i = 0; i < dataProducts.length; i++) {
                 data.push({
                     referencia: dataProducts[i].reference,

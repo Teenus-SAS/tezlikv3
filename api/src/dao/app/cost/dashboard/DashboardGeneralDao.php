@@ -33,7 +33,7 @@ class DashboardGeneralDao
   public function findTimeProcessForProductByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.product, IFNULL((SUM(pp.enlistment_time) + SUM(pp.operation_time)), 0) AS totalTime
+    $stmt = $connection->prepare("SELECT p.reference, p.product, IFNULL((SUM(pp.enlistment_time) + SUM(pp.operation_time)), 0) AS totalTime
                                       FROM products p
                                         LEFT JOIN products_process pp ON pp.id_product = p.id_product
                                       WHERE p.id_company = :id_company AND p.active = 1
