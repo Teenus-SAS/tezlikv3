@@ -226,17 +226,19 @@ $(document).ready(function () {
         let data = [];
 
         /* Productos */
-        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
-        // let profitability = $('#profitability').val();
+        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts')); 
 
         if (dataProducts.length > 0) { 
             for (i = 0; i < dataProducts.length; i++) {
+                let percentage = (parseInt(dataProducts[i].units_sold) / parseInt(dataProducts[i].unit_sold)) * 100;
+                isNaN(percentage) || !isFinite(percentage) ? percentage = 0 : percentage;
+                
                 data.push({
                     referencia: dataProducts[i].reference,
                     producto: dataProducts[i].product,
+                    unidades_vendidas: parseFloat(dataProducts[i].units_sold),
                     unidades: `${isNaN(parseFloat(dataProducts[i].unit_sold)) ? 0 : parseFloat(dataProducts[i].unit_sold)}`,
-                    // precio_real: parseFloat(dataProducts[i].real_price),
-                    // rentabilidad: profitability,
+                    cumplimiento: percentage, 
                 });
             }
 
