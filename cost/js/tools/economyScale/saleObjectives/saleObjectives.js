@@ -91,6 +91,13 @@ $(document).ready(function () {
                 typeExpense == '2' ? costFixed = economyScale.costFixedAnual : costFixed;
                 typeExpense == '2' ? real_price = parseFloat(arr.real_price_anual) : real_price;
 
+                if (real_price <= 0) {
+                    if (arr.sale_price <= 0)
+                        real_price = arr.price;
+                    else
+                        real_price = arr.sale_price;
+                };
+
                 // Total Costos y Gastos
                 let totalCostsAndExpense = costFixed + totalVariableCost;
  
