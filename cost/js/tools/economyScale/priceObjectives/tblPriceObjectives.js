@@ -152,10 +152,14 @@ $(document).ready(function () {
                 }, 
                 {
                     title: 'Precio Lista',
-                    data: 'sale_price',
+                    data: null,
                     className: 'classCenter',
                     render: function (data) {
-                        let sale_price = parseFloat(data);
+                        let sale_price = parseFloat(data.sale_price);
+
+                        if (sale_price <= 0) { 
+                            sale_price = parseFloat(data.price); 
+                        };
                         
                         if (Math.abs(sale_price) < 0.01) {
                             sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
