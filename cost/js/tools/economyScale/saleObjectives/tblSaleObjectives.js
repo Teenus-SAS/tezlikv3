@@ -177,23 +177,30 @@ $(document).ready(function () {
                 },
                 {
                     title: 'Precio Real',
-                    data: 'real_price',
+                    data: null,
                     className: 'classCenter',
                     render: function (data) {
-                        let price = parseFloat(data);
+                        let price = parseFloat(data.real_price);
+
+                        if (price <= 0) {
+                            if (data.sale_price <= 0)
+                                price = parseFloat(data.price);
+                            else
+                                price = parseFloat(data.sale_price);
+                        };
 
                         if (isNaN(price)) {
                             price = 0;
-                        } else if (Math.abs(price) < 0.01 ) { 
+                        } else if (Math.abs(price) < 0.01) {
                             price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-                        } else if (typeCurrency != '1') {  
+                        } else if (typeCurrency != '1') {
                             price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         } else
                             price = price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
             
                         return `$ ${price}`;
                     },
-                }, 
+                },
             ],
         });
     }
