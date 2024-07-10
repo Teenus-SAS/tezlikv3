@@ -108,8 +108,8 @@ $(document).ready(function () {
 
         let typeCurrency = '1';
     
-        if (flag_currency_usd == '1' || flag_currency_eur == '1')
-            typeCurrency = !sessionStorage.getItem('typeCurrency') ? typeCurrency = '1' : sessionStorage.getItem('typeCurrency');
+        if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
+            typeCurrency = sessionStorage.getItem('typeCurrency');
 
         // Obtener los títulos dinámicamente del primer elemento de datos
         let columnTitles = data.length > 0 ? {
@@ -151,20 +151,26 @@ $(document).ready(function () {
                     className: 'uniqueClassName',
                 }, 
                 {
-                    title: 'Precio Lista',
-                    data: 'sale_price',
+                    title: 'Precio',
+                    data: null,
                     className: 'classCenter',
                     render: function (data) {
-                        let sale_price = parseFloat(data);
+                        let sale_price = parseFloat(data.sale_price);
+                        let title = 'Precio Lista';
+
+                        if (sale_price <= 0) { 
+                            sale_price = parseFloat(data.price);
+                            title = 'Precio Sugerido';
+                        };
                         
                         if (Math.abs(sale_price) < 0.01) {
                             sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
                         } else if (typeCurrency != '1') {
-                            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2  });
+                            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         } else
-                            sale_price = sale_price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+                            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
             
-                        return `$ ${sale_price}`;
+                        return `<a href="javascript:;"><i title="${title}" style="color:black;">$ ${sale_price}</i></a>`;
                     },
                 },
                 {
@@ -176,6 +182,11 @@ $(document).ready(function () {
                             return '';
                         } else {
                             data.price_1 == 0 ? price_1 = '' : price_1 = parseFloat(data.price_1);
+                            let sale_price = parseFloat(data.sale_price);
+
+                            if (sale_price <= 0) {
+                                sale_price = parseFloat(data.price);
+                            };
 
                             let txt = '';
 
@@ -184,7 +195,7 @@ $(document).ready(function () {
                             } else
                                 price_1 = price_1.toLocaleString('es-CO', { maximumFractionDigits: 0 });
 
-                            if (parseFloat(data.price_1) > parseFloat(data.sale_price)) {
+                            if (parseFloat(data.price_1) > sale_price) {
                                 txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_1}</span></a>`;
                             } else
                                 txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_1}</span>`;
@@ -202,6 +213,12 @@ $(document).ready(function () {
                             return '';
                         } else {
                             data.price_2 == 0 ? price_2 = '' : price_2 = parseFloat(data.price_2);
+                            let sale_price = parseFloat(data.sale_price);
+
+                            if (sale_price <= 0) {
+                                sale_price = parseFloat(data.price);
+                            };
+
                             let txt = '';
 
                             if (typeCurrency != '1') {
@@ -209,7 +226,7 @@ $(document).ready(function () {
                             } else
                                 price_2 = price_2.toLocaleString('es-CO', { maximumFractionDigits: 0 });
 
-                            if (parseFloat(data.price_2) > parseFloat(data.sale_price)) {
+                            if (parseFloat(data.price_2) > sale_price) {
                                 txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_2}</span></a>`;
                             } else
                                 txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_2}</span>`;
@@ -227,6 +244,12 @@ $(document).ready(function () {
                             return '';
                         } else {
                             data.price_3 == 0 ? price_3 = '' : price_3 = parseFloat(data.price_3);
+                            let sale_price = parseFloat(data.sale_price);
+
+                            if (sale_price <= 0) {
+                                sale_price = parseFloat(data.price);
+                            };
+
                             let txt = '';
 
                             if (typeCurrency != '1') {
@@ -234,7 +257,7 @@ $(document).ready(function () {
                             } else
                                 price_3 = price_3.toLocaleString('es-CO', { maximumFractionDigits: 0 });
 
-                            if (parseFloat(data.price_3) > parseFloat(data.sale_price)) {
+                            if (parseFloat(data.price_3) > sale_price) {
                                 txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_3}</span></a>`;
                             } else
                                 txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_3}</span>`;

@@ -57,9 +57,6 @@ $(document).ready(function () {
             let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
 
-            // Limpiar data 
-            // dataProducts = dataProducts.map(item => ({ ...item, price_1: false, price_2: false, price_3: false, }));
-            // await loadTblProducts(dataProducts); 
             cant = 1;
 
             // Definir una función asíncrona para manejar cada iteración del ciclo
@@ -115,8 +112,7 @@ $(document).ready(function () {
                         dataProducts[i][`unit_${j + 1}`] = units[j];
                         dataProducts[i][`price_${j + 1}`] = product_price;
                         cant = 1;
-                        real_price = 100;
-                        // startTime = performance.now();
+                        real_price = 100; 
                     }
                 }
 
@@ -183,10 +179,16 @@ $(document).ready(function () {
             let unit_3_name = dataProducts[0].unit_3.toString();
 
             for (let i = 0; i < dataProducts.length; i++) {
+                let sale_price = parseFloat(dataProducts[i].sale_price);
+
+                if (sale_price <= 0) {
+                    sale_price = parseFloat(dataProducts[i].price);
+                };
+
                 let item = {
                     referencia: dataProducts[i].reference,
                     producto: dataProducts[i].product,
-                    precio_lista: dataProducts[i].sale_price
+                    precio: sale_price
                 };
 
                 item[unit_1_name] = `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? '' : dataProducts[i].price_1.toString().replace('.',',')}`;
@@ -198,7 +200,7 @@ $(document).ready(function () {
 
             // Ordenar los campos al generar la hoja
             let ws = XLSX.utils.json_to_sheet(data, {
-                header: ['referencia', 'producto', 'precio_lista', unit_1_name, unit_2_name, unit_3_name]
+                header: ['referencia', 'producto', 'precio', unit_1_name, unit_2_name, unit_3_name]
             });
 
             XLSX.utils.book_append_sheet(wb, ws, 'Productos');

@@ -11,7 +11,7 @@ $(document).ready(function () {
       $('.cardDistribution').show();
 
       let typeCurrency = '1';
-      if (flag_currency_usd == '1' || flag_currency_eur == '1') {
+      if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency')) {
         typeCurrency = sessionStorage.getItem('typeCurrency');
       }
 
@@ -90,7 +90,7 @@ $(document).ready(function () {
 
     let typeCurrency = '1';
     
-    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+    if((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
       typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
@@ -159,7 +159,7 @@ $(document).ready(function () {
   UnitsVolSold = (data) => {
      let typeCurrency = '1';
     
-    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+    if((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
       typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
@@ -198,7 +198,7 @@ $(document).ready(function () {
   totalCostData = (data) => {
     let typeCurrency = '1';
     
-    if (flag_currency_usd == '1' || flag_currency_eur == '1')
+    if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
       typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
