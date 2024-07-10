@@ -82,7 +82,7 @@ $(document).ready(function () {
     loadTblProducts = (data, op) => {
         let typeCurrency = '1';
     
-        if (flag_currency_usd == '1' || flag_currency_eur == '1')
+        if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
             typeCurrency = sessionStorage.getItem('typeCurrency');
 
         if ($.fn.dataTable.isDataTable("#tblProducts") && op == 1) {
@@ -176,17 +176,22 @@ $(document).ready(function () {
                     },
                 },
                 {
-                    title: 'Precio Real',
+                    title: 'Precio',
                     data: null,
                     className: 'classCenter',
                     render: function (data) {
                         let price = parseFloat(data.real_price);
+                        let title = 'Precio Real';
 
                         if (price <= 0) {
-                            if (data.sale_price <= 0)
+                            if (data.sale_price <= 0) {
                                 price = parseFloat(data.price);
-                            else
+                                title = 'Precio Lista';
+                            }
+                            else {
                                 price = parseFloat(data.sale_price);
+                                title = 'Precio Sugerido';
+                            }
                         };
 
                         if (isNaN(price)) {
@@ -196,9 +201,9 @@ $(document).ready(function () {
                         } else if (typeCurrency != '1') {
                             price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         } else
-                            price = price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+                            price = price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
             
-                        return `$ ${price}`;
+                        return `<a href="javascript:;" <i title="${title}" style="color:black;">$ ${price}</i></a>`;
                     },
                 },
             ],
