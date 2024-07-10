@@ -88,7 +88,11 @@ $(document).ready(function () {
 
     // Total
     total = subtotal / (efficiency / 100);
-    !isFinite(total) ? (total = 0) : (total = total.toFixed(2));
+
+    !isFinite(total) ? (total = 0) : total;
+
+    if (Math.abs(total) < 0.01)
+      total = total.toFixed(3);
 
     $('#totalTime').val(total);
   });
