@@ -97,11 +97,13 @@ $(document).ready(function () {
         return false;
       }
  
-      let selectExpenses = $('#selectExpenses').val();
+      if ($(`#chckExpenses`).is(':checked')) {
+        let selectExpenses = $('#selectExpenses').val();
 
-      if (!selectExpenses) {
-        toastr.error('Seleccione tipo de gasto');
-        return false;
+        if (!selectExpenses) {
+          toastr.error('Seleccione tipo de gasto');
+          return false;
+        }
       }
 
       /* Validar que al menos un acceso sea otorgado */
@@ -138,25 +140,7 @@ $(document).ready(function () {
         else typeExpenses = 0;
       }
 
-      let dataUser = {};
-
-      // if (selectExpenses == '0') {
-      //   dataUser['expense'] = 1;
-      //   dataUser['expenseDistribution'] = 1;
-      // } else if (selectExpenses == '1') {
-      //   dataUser['expense'] = 1;
-      //   dataUser['expenseDistribution'] = 0;
-      // } else {
-      //   dataUser['expense'] = 0;
-      //   dataUser['expenseDistribution'] = 1;
-      // }
-
-      // let selectExpenses = $('#selectExpenses').val();
-
-      // if (!selectExpenses) {
-      //   toastr.error('Seleccione tipo de gasto');
-      //   return false;
-      // }
+      let dataUser = {}; 
 
       if ((selectExpenses == '0' || selectExpenses == '2') && (flag_expense == '1' || flag_expense == '0')) {
         if ($(`#typeExpenses`).is(':checked')) typeExpenses = 1;
@@ -350,11 +334,13 @@ $(document).ready(function () {
     let typeExpenses = flag_expense_distribution;
     let dataUser = {};
      
-    let selectExpenses = $('#selectExpenses').val();
+    if ($(`#chckExpenses`).is(':checked')) {
+      let selectExpenses = $('#selectExpenses').val();
 
-    if (!selectExpenses) {
-      toastr.error('Seleccione tipo de gasto');
-      return false;
+      if (!selectExpenses) {
+        toastr.error('Seleccione tipo de gasto');
+        return false;
+      }
     }
 
     if ((selectExpenses == '0' || selectExpenses == '2') && (flag_expense == '1' || flag_expense == '0')) {
