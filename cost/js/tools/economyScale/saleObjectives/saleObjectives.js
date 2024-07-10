@@ -44,9 +44,7 @@ $(document).ready(function () {
         }
 
         dataSO = [];
-
-        // sessionStorage.setItem('profitability', this.value);
-
+ 
         $('.cardBottons').hide();
 
         let form = document.getElementById('spinnerLoading');
@@ -124,10 +122,8 @@ $(document).ready(function () {
                 let division = Math.ceil((totalCostsAndExpense / real_price) + cant);
 
                 if (division > 10000000) {
-                    // toastr.error(`Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes, referencia: ${arr.reference}`);
                     return { unit: unit };
-                }
-                // } else { 
+                } 
 
                 var endTime = performance.now();
                 var mSeconds = endTime - startTime;
@@ -136,8 +132,7 @@ $(document).ready(function () {
                 if (seconds > 5) {
                     return { unit: unit };
                 } else {
-                    await new Promise(resolve => setTimeout(resolve, 0));
-                    // cant += 1;
+                    await new Promise(resolve => setTimeout(resolve, 0)); 
                     unit = division;
                     return 0;
                 }
@@ -153,12 +148,7 @@ $(document).ready(function () {
                 dataProducts[i].profitability = profitability;
 
                 if (typeof product_unit === 'object' && !Array.isArray(product_unit)) {
-                    typeExpense == '2' ? product_unit.unit = parseInt(product_unit.unit) / 12 : product_unit.unit;
- 
-                    // $(`#unit_sold-${dataProducts[i].id_product}`).html(
-                    //     `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 16px;">${product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
-                    // );
-                    
+                    typeExpense == '2' ? product_unit.unit = parseInt(product_unit.unit) / 12 : product_unit.unit;                     
                     dataProducts[i].unit_sold = product_unit.unit;
                     dataProducts[i].error = 'true';
 
@@ -174,17 +164,13 @@ $(document).ready(function () {
 
                     cant = 1;
                     unit = 1;
-                    startTime = performance.now();
-                    // break;
+                    startTime = performance.now(); 
                 } else {
 
                     if (product_unit == 0) {
                         i = i - 1;
                     } else {
                         typeExpense == '2' ? product_unit.unit = parseInt(product_unit.unit) / 12 : product_unit.unit;
-                        // $(`#unit_sold-${dataProducts[i].id_product}`).html(`
-                        //     <span class="badge badge-success" style="font-size: 16px;">${product_unit.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>
-                        // `);
                         dataProducts[i].unit_sold = product_unit;
                         dataProducts[i].error = 'false';
 

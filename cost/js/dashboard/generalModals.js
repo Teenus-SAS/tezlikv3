@@ -326,7 +326,7 @@ $(document).ready(function () {
 
     let typeCurrency = '1';
     
-    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+    if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
       typeCurrency = sessionStorage.getItem('typeCurrency');
  
     switch (typeCurrency) {

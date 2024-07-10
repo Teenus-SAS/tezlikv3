@@ -274,16 +274,16 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             if ($productProcess == null) {
                 if ($dataProductProcess['autoMachine'] == '0') {
                     if ($_SESSION['inyection'] == 1)
-                        $resolution = $costWorkforceDao->calcCostPayrollInyection($dataProductProcess['idProduct'], $id_company);
+                        $productProcess = $costWorkforceDao->calcCostPayrollInyection($dataProductProcess['idProduct'], $id_company);
                     else
-                        $resolution = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+                        $productProcess = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
                 }
+            }
 
-                // Calcular costo nomina total
-                if ($resolution == null) {
-                    $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProductProcess['idProduct'], $id_company);
-                    $productProcess = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
-                }
+            // Calcular costo nomina total
+            if ($productProcess == null) {
+                $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProductProcess['idProduct'], $id_company);
+                $productProcess = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
             }
 
             // Calcular costo indirecto
