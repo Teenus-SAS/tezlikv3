@@ -156,35 +156,35 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
                 $newPass = $generateCodeDao->GenerateCode();
 
                 // Se envia email con usuario(email) y contraseña
-                // $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
+                $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
 
-                // $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
+                $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
 
-                // if (!isset($sendEmail['info'])) {
-                $pass = password_hash($newPass, PASSWORD_DEFAULT);
+                if (!isset($sendEmail['info'])) {
+                    $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
-                /* Almacena el usuario */
-                $users = $userDao->saveUser($dataUser, $pass, $id_company);
+                    /* Almacena el usuario */
+                    $users = $userDao->saveUser($dataUser, $pass, $id_company);
 
-                if ($users == null) {
-                    $user = $userDao->findUser($dataUser['emailUser']);
-                    $dataUser['id_user'] = $user['id_user'];
+                    if ($users == null) {
+                        $user = $userDao->findUser($dataUser['emailUser']);
+                        $dataUser['id_user'] = $user['id_user'];
 
-                    if (sizeof($dataUser['typeCustomPrices']) == 1)
-                        $typeCustomPrice = $dataUser['typeCustomPrices'][0];
-                    else
-                        $typeCustomPrice = implode(',', $dataUser['typeCustomPrices']);
+                        if (sizeof($dataUser['typeCustomPrices']) == 1)
+                            $typeCustomPrice = $dataUser['typeCustomPrices'][0];
+                        else
+                            $typeCustomPrice = implode(',', $dataUser['typeCustomPrices']);
 
-                    $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $typeCustomPrice);
+                        $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $typeCustomPrice);
 
-                    // if ($dataUser['typeExpenses'] != 0) {
-                    //     $companiesLicenseDao->changeFlagExpense($dataUser, $id_company);
-                    // }
+                        // if ($dataUser['typeExpenses'] != 0) {
+                        //     $companiesLicenseDao->changeFlagExpense($dataUser, $id_company);
+                        // }
 
-                    if ($usersAccess == null && isset($dataUser['check']) && $dataUser['check'] == '1')
-                        $usersAccess = $generalCostUserAccessDao->changePrincipalUser($dataUser);
+                        if ($usersAccess == null && isset($dataUser['check']) && $dataUser['check'] == '1')
+                            $usersAccess = $generalCostUserAccessDao->changePrincipalUser($dataUser);
+                    }
                 }
-                // }
             } else $users = 1;
         }
 

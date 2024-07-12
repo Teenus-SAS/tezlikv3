@@ -146,7 +146,7 @@ $(document).ready(function () {
     expense = parseFloat(strReplaceNumber(expense.replace('$ ', '')));
     let productionCenter = 0;
 
-    let data = refProduct * nameProduct;
+    let data = refProduct * nameProduct * unitExp * volExp;
     
     if (production_center == '1' && flag_production_center == '1'){
       productionCenter = parseFloat($('#selectProductionCenterED').val());
