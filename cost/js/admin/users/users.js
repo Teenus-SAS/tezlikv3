@@ -252,35 +252,37 @@ $(document).ready(function () {
       i++;
     });
  
-    let selectExpenses;
-    $(`#chckExpenses`).prop('checked', true);
-    $('.cardChkExpenses').show();
+    if (data.expense == '1') {
+      let selectExpenses;
+      $(`#chckExpenses`).prop('checked', true);
+      $('.cardChkExpenses').show();
 
-    // Combinación de condiciones utilizando un objeto para mapeo
-    const conditions = {
-      '1-1-1-1': 0,
-      '0-1-0-0': 1,
-      '1-0-0-0': 2,
-      '0-0-1-0': 3,
-      '0-0-0-1': 4
-    };
+      // Combinación de condiciones utilizando un objeto para mapeo
+      const conditions = {
+        '1-1-1-1': 0,
+        '0-1-0-0': 1,
+        '1-0-0-0': 2,
+        '0-0-1-0': 3,
+        '0-0-0-1': 4
+      };
 
-    const key = `${data.expense_distribution}-${data.expense}-${data.production_center}-${data.anual_expense}`;
+      const key = `${data.expense_distribution}-${data.expense}-${data.production_center}-${data.anual_expense}`;
 
-    selectExpenses = conditions[key] ?? selectExpenses;
+      selectExpenses = conditions[key] ?? selectExpenses;
 
-    if (selectExpenses === 1) {
-      $('.cardTypeExpenses').hide();
-    } else if ((selectExpenses === 0 || selectExpenses === 2) && (flag_expense === '1' || flag_expense === '0')) {
-      $('.cardTypeExpenses').show();
+      if (selectExpenses === 1) {
+        $('.cardTypeExpenses').hide();
+      } else if ((selectExpenses === 0 || selectExpenses === 2) && (flag_expense === '1' || flag_expense === '0')) {
+        $('.cardTypeExpenses').show();
+      }
+
+      $(`#selectExpenses option[value=${selectExpenses}]`).prop('selected', true);
+
+      if (data.type_expense == 1)
+        $(`#typeExpenses`).prop('checked', true);
+      else
+        $(`#typeExpenses`).prop('checked', false);
     }
-
-    $(`#selectExpenses option[value=${selectExpenses}]`).prop('selected', true);
-
-    if (data.type_expense == 1)
-      $(`#typeExpenses`).prop('checked', true);
-    else
-      $(`#typeExpenses`).prop('checked', false);
       
     if ($(`#checkbox-9`).is(':checked')) $('.cardTypePayroll').show();
 

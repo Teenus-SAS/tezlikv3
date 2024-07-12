@@ -316,6 +316,11 @@ $(document).ready(function () {
       }
       autoMachine = 0;
     }
+
+    let idMachine = $('#idMachine').val();
+
+    if (idMachine == '0') autoMachine = 0;
+
     let employees = ''; 
 
     flag_employee == '1' ? (employees = checkBoxEmployees.toString()) : (employees);
@@ -325,7 +330,7 @@ $(document).ready(function () {
       url: url,
       data: {
         idProcess: $('#idProcess').val(),
-        idMachine: $('#idMachine').val(),
+        idMachine: idMachine,
         enlistmentTime: $('#enlistmentTime').val(),
         operationTime: $('#operationTime').val(),
         subTotalTime: $('#subTotalTime').val(),
