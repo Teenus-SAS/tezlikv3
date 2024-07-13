@@ -11,10 +11,7 @@ $(document).ready(function () {
     
     $('.imgProduct').empty();
     
-    if (flag_indirect == '1') {
-      $('.inputProf').show(800);
-      $('#profitability').val('');
-    }
+    $('.inputProf').hide();
 
     $('#quantity').val('');
     $('#price').val('');
@@ -34,9 +31,7 @@ $(document).ready(function () {
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
 
-    if (flag_indirect == '1') {
-      $('.inputProf').show();
-    }
+    $('.inputProf').hide();
     
     let op = 1;
     if (custom_price == 1)
@@ -53,9 +48,9 @@ $(document).ready(function () {
     $('#price').val('');
     $('#totalPrice').val('');
 
-    if (flag_indirect == '1') {
-      $('.inputProf').show();
-    }
+    // if (flag_indirect == '1') {
+    //   $('.inputProf').show();
+    // }
 
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
@@ -79,7 +74,8 @@ $(document).ready(function () {
 
     if (data.profitability > 0 && flag_indirect == '1') {
       $('#profitability').val(data.profitability);
-      $('.inputProf').hide();
+    } else if (flag_indirect == '1') {
+      $('.inputProf').show();
     }
 
     $('.imgProduct').empty();

@@ -335,10 +335,9 @@ $(document).ready(function () {
     
     let typeExpenses = flag_expense_distribution;
     let dataUser = {};
+    let selectExpenses = $('#selectExpenses').val();
      
     if ($(`#chckExpenses`).is(':checked')) {
-      let selectExpenses = $('#selectExpenses').val();
-
       if (!selectExpenses) {
         toastr.error('Seleccione tipo de gasto');
         return false;

@@ -425,6 +425,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
 
                     //AGREGA ULTIMO ID A DATA
                     $dataProduct['idProduct'] = $lastProductId['id_product'];
+                    $dataProduct['newProduct'] = 1;
                     $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
 
                     // 
@@ -454,6 +455,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                         $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
                         $products[$i]['idProduct'] = $lastProductId['id_product'];
+                        $products[$i]['newProduct'] = 1;
 
                         $resolution = $productsCostDao->insertProductsCostByCompany($products[$i], $id_company);
                     }
@@ -724,6 +726,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
             if (isset($lastProductId)) {
                 //AGREGA ULTIMO ID A DATA
                 $dataProduct['idProduct'] = $lastProductId['id_product'];
+                $dataProduct['newProduct'] = 0;
                 $resolution = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
             }
 
@@ -966,8 +969,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
                     if (isset($resolution['info']))
                         break;
-                    if (isset($resolution['totalPrice']))
-                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                    if (isset($data['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info']))
                         break;

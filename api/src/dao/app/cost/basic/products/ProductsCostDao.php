@@ -46,7 +46,7 @@ class ProductsCostDao
                 'sale_price' => $dataProduct['salePrice'],
                 'profitability' => trim($dataProduct['profitability']),
                 'commission_sale' => trim($dataProduct['commissionSale']),
-                'new_product' => 1
+                'new_product' => $dataProduct['newProduct']
             ]);
         } catch (\Exception $e) {
             $error = array('info' => true, 'message' => $e->getMessage());

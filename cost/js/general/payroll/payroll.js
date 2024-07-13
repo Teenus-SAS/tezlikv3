@@ -218,7 +218,8 @@ $(document).ready(function () {
     bootbox.confirm({
       title: 'Eliminar',
       message: msg +
-        'Está seguro de eliminar esta nómina? Esta acción no se puede reversar.',
+        `Está seguro de eliminar esta nómina? Esta acción no se puede reversar.<br><br>
+        Si elimina el operador, recomendamos revisar los tiempos y procesos en los productos que estaba asociado para concluir si los tiempos consignados son exactos con el numero de operadores que hacen la actividad.`,
       buttons: {
         confirm: {
           label: 'Si',
