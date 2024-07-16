@@ -5,8 +5,30 @@ $(document).ready(function () {
 
     $('.cardCalcPriceObjectives').hide();
 
-    $('#btnNewCalcPO').click(function (e) { 
-        e.preventDefault();
+    $('#btnNewCalcPO').click(function () { 
+        // e.preventDefault();
+
+        let checks = $('.checkProduct');
+        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+
+        for (let i = 0; i < checks.length; i++) {
+            let id_product = checks[i].id.split('-')[1]; 
+            let newValue;
+
+            if ($(checks[i]).is(':checked'))
+                newValue = 1;
+            else
+                newValue = 0;
+
+            dataProducts = dataProducts.map(item => {
+                if (item.id_product === id_product) {
+                    return { ...item, check: newValue };
+                }
+                return item;
+            }); 
+        }
+
+        sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
         $('.cardCalcPriceObjectives').toggle(800);        
     });
@@ -31,7 +53,15 @@ $(document).ready(function () {
             toastr.error('Ingrese todos los campos');
             return false;
         }
- 
+
+        if (!$('.checkProduct').is(':checked')) {
+            let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+
+            dataProducts = dataProducts.map((item) => ({ ...item, check: 0 }));
+
+            sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+        }
+
         dataPO = [];
 
         $('.cardBottons').hide();
@@ -99,33 +129,80 @@ $(document).ready(function () {
                     return c_unit;
             };
 
+            let check = dataProducts.filter(item => item.check == 1);
             
-            // Iterar sobre cada índice 
-            for (let i = 0; i < dataProducts.length; i++) {
-                for (let j = 0; j < units.length; j++) {
-                    let product_price = await handleIteration(dataProducts[i], units[j]);
+            if (check.length == 0) {
+                for (let i = 0; i < dataProducts.length; i++) {
+                    // Iterar sobre cada índice 
+                    for (let j = 0; j < units.length; j++) {
+                        let product_price = await handleIteration(dataProducts[i], units[j]);
 
-                    if (product_price === -1) {
-                        j = j - 1;
-                    } else {
-                        dataProducts[i].profitability = profitability;
-                        dataProducts[i][`unit_${j + 1}`] = units[j];
-                        dataProducts[i][`price_${j + 1}`] = product_price;
-                        cant = 1;
-                        real_price = 100; 
+                        if (product_price === -1) {
+                            j = j - 1;
+                        } else {
+                            dataProducts[i].profitability = profitability;
+                            dataProducts[i][`unit_${j + 1}`] = units[j];
+                            dataProducts[i][`price_${j + 1}`] = product_price;
+                            cant = 1;
+                            real_price = 100;
+                        }
                     }
-                }
 
-                let dataCPts = JSON.parse(JSON.stringify(dataProducts)); 
+                    let dataCPts = JSON.parse(JSON.stringify(dataProducts));
                 
-                if (flag_currency_usd == '1' || flag_currency_eur == '1'){
-                    let arr = await setCurrency([dataCPts[i]]);
-                    dataCPts[i] = arr[0];
-                }
+                    if (flag_currency_usd == '1' || flag_currency_eur == '1') {
+                        let arr = await setCurrency([dataCPts[i]]);
+                        dataCPts[i] = arr[0];
+                    }
 
-                dataPO.push(dataCPts[i]);
+                    dataPO.push(dataCPts[i]);
                 
-                loadTblProducts(dataPO, 1);
+                    loadTblProducts(dataPO, 1);
+                }
+            } else {
+                // Si no hay ningun producto checkeado calcula global
+                for (let i = 0; i < check.length; i++) {
+                    // Iterar sobre cada índice 
+                    for (let j = 0; j < units.length; j++) {
+                        let product_price = await handleIteration(check[i], units[j]);
+
+                        if (product_price === -1) {
+                            j = j - 1;
+                        } else {
+                            check[i].profitability = profitability;
+                            check[i][`unit_${j + 1}`] = units[j];
+                            check[i][`price_${j + 1}`] = product_price;
+                            cant = 1;
+                            real_price = 100;
+                        }
+                    }
+
+                    let dataCPts = JSON.parse(JSON.stringify(check));
+                
+                    if (flag_currency_usd == '1' || flag_currency_eur == '1') {
+                        let arr = await setCurrency([dataCPts[i]]);
+                        dataCPts[i] = arr[0];
+                    }
+                    dataPO.push(dataCPts[i]);
+                    loadTblProducts(dataPO, 1);
+
+                    dataProducts = dataProducts.map(item => {
+                        if (item.id_product === check[i].id_product) {
+                            return {
+                                ...item, profitability: check[i].profitability,
+                                unit_1: check[i].unit_1,
+                                unit_2: check[i].unit_2,
+                                unit_3: check[i].unit_3,
+                                price_1: check[i].price_1,
+                                price_2: check[i].price_2,
+                                price_3: check[i].price_3,
+                            };
+                        }
+                        return item;
+                    });                
+                    
+                };
+                loadTblProducts(dataProducts, 1);
             }
  
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts)); 
@@ -144,13 +221,18 @@ $(document).ready(function () {
             data: { products: data },
             success: function (resp) {
                 dataPO = [];
+
+                let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+                dataProducts = dataProducts.map((item) => ({ ...item, check: 0 }));
+                sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+                
                 $('html, body').animate({ scrollTop: 0 }, 1000);
                 $('.cardLoading').remove();
                 $('.cardBottons').show(400);
                 $('.cardCalcPriceObjectives').show(400);
 
                 if (resp.success == true) {
-                    toastr.success(resp.message); 
+                    toastr.success(resp.message);
                     return false;
                 } else if (resp.error == true) toastr.error(resp.message);
                 else if (resp.info == true) toastr.info(resp.message);
@@ -210,5 +292,24 @@ $(document).ready(function () {
 
     $(document).on('click', '.warningPrice', function () {
         toastr.error('Precio por encima de precio de lista.');
+    });
+
+    // Checkear producto manualmente
+    $(document).on('click', '.checkProduct', function () {
+        // Obtener el ID del elemento
+        let id = $(this).attr('id');
+        // Obtener la parte después del guion '-'
+        let id_product = id.split('-')[1];
+
+        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+
+        for (let i = 0; i < dataProducts.length; i++) {
+            if (id_product == dataProducts[i].id_product) {
+                dataProducts[i].check = 1;
+                break;
+            }            
+        }
+
+        sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
     });
 });

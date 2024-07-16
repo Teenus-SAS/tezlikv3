@@ -170,6 +170,19 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblProducts">
+                                                <!-- <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>Referencia</th>
+                                                        <th>Producto</th>
+                                                        <th>Precio</th>
+                                                        <th id="titlePrice1"></th>
+                                                        <th id="titlePrice2"></th>
+                                                        <th id="titlePrice3"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblProductsBody">
+                                                </tbody> -->
                                             </table>
                                         </div>
                                     </div>

@@ -4,6 +4,8 @@ $(document).ready(function () {
             searchData('/api/priceObjectives'),
             searchData('/api/calcEconomyScale')
         ]); 
+
+        dataProducts = dataProducts.map((item) => ({ ...item, check: 0 }));
             
         sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
@@ -93,7 +95,7 @@ $(document).ready(function () {
         }
 
         return data;
-    }
+    };
 
     /* Cargue tabla de Proyectos */
     loadTblProducts = (data, op) => { 
@@ -132,6 +134,14 @@ $(document).ready(function () {
                 }
             },
             columns: [
+                {
+                    title: '',
+                    data: null,
+                    className: 'uniqueClassName',
+                    render: function (data, type, full, meta) {
+                        return `<input type="checkbox" class="form-control-updated checkProduct" id="check-${data.id_product}">`;
+                    },
+                },
                 {
                     title: 'No.',
                     data: null,
