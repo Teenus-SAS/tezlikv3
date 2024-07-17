@@ -38,16 +38,20 @@ $(document).ready(function () {
         e.preventDefault();
 
         let profitability = parseFloat($('#profitability').val());
+        let minProfitability = parseFloat($('#minProfitability').val());
+        let maxProfitability = parseFloat($('#maxProfitability').val());
         let unit1 = parseFloat($('#unity-1').val());
         let unit2 = parseFloat($('#unity-2').val());
         let unit3 = parseFloat($('#unity-3').val());
 
         isNaN(profitability) ? profitability = 0 : profitability;
+        isNaN(minProfitability) ? minProfitability = 0 : minProfitability;
+        isNaN(maxProfitability) ? maxProfitability = 0 : maxProfitability;
         isNaN(unit1) ? unit1 = 0 : unit1;
         isNaN(unit2) ? unit2 = 0 : unit2;
         isNaN(unit3) ? unit3 = 0 : unit3;
 
-        let data = profitability * unit1 * unit2 * unit3;
+        let data = (profitability + (minProfitability * maxProfitability)) * unit1 * unit2 * unit3;
 
         if (data <= 0) {
             toastr.error('Ingrese todos los campos');
@@ -55,12 +59,14 @@ $(document).ready(function () {
         }
 
         if (!$('.checkProduct').is(':checked')) {
-            let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+            // let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
 
-            dataProducts = dataProducts.map((item) => ({ ...item, check: 0 }));
+            // dataProducts = dataProducts.map((item) => ({ ...item, check: 0 }));
 
-            sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
-        }
+            // sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+            toastr.error('Seleccione un campo para realizar el calculo');
+            return false;
+        } 
 
         dataPO = [];
 
@@ -86,6 +92,10 @@ $(document).ready(function () {
         try {
             let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
+            let minProfitability = parseFloat($('#minProfitability').val());
+            let maxProfitability = parseFloat($('#maxProfitability').val());
+            isNaN(minProfitability) ? minProfitability = 0 : minProfitability;
+            isNaN(maxProfitability) ? maxProfitability = 0 : maxProfitability;
 
             cant = 1;
 
@@ -117,8 +127,14 @@ $(document).ready(function () {
                     /* Porcentaje */
                     let percentage = (netUtility / totalRevenue) * 100;
 
-                    if (profitability <= percentage)
-                        return real_price;
+                    if (profitability <= 0) {                         
+                        if (percentage > minProfitability && percentage <= maxProfitability) {
+                            return real_price;
+                        }
+                    } else {
+                        if (profitability <= percentage)
+                            return real_price;
+                    }
 
                     real_price = Math.ceil((totalCostsAndExpense / c_unit) + cant);
   
@@ -131,7 +147,7 @@ $(document).ready(function () {
 
             let check = dataProducts.filter(item => item.check == 1);
             
-            if (check.length == 0) {
+            if (check.length == dataProducts.length) {
                 for (let i = 0; i < dataProducts.length; i++) {
                     // Iterar sobre cada índice 
                     for (let j = 0; j < units.length; j++) {
@@ -140,6 +156,8 @@ $(document).ready(function () {
                         if (product_price === -1) {
                             j = j - 1;
                         } else {
+                            dataProducts[i].min_profitability = minProfitability;
+                            dataProducts[i].max_profitability = maxProfitability;
                             dataProducts[i].profitability = profitability;
                             dataProducts[i][`unit_${j + 1}`] = units[j];
                             dataProducts[i][`price_${j + 1}`] = product_price;
@@ -169,6 +187,8 @@ $(document).ready(function () {
                         if (product_price === -1) {
                             j = j - 1;
                         } else {
+                            check[i].min_profitability = minProfitability;
+                            check[i].max_profitability = maxProfitability;
                             check[i].profitability = profitability;
                             check[i][`unit_${j + 1}`] = units[j];
                             check[i][`price_${j + 1}`] = product_price;
@@ -199,8 +219,7 @@ $(document).ready(function () {
                             };
                         }
                         return item;
-                    });                
-                    
+                    });                                    
                 };
                 loadTblProducts(dataProducts, 1);
             }
@@ -223,7 +242,7 @@ $(document).ready(function () {
                 dataPO = [];
 
                 let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
-                dataProducts = dataProducts.map((item) => ({ ...item, check: 0 }));
+                // dataProducts = dataProducts.map((item) => ({ ...item, check: 0 }));
                 sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
                 
                 $('html, body').animate({ scrollTop: 0 }, 1000);
@@ -296,18 +315,65 @@ $(document).ready(function () {
 
     // Checkear producto manualmente
     $(document).on('click', '.checkProduct', function () {
-        // Obtener el ID del elemento
-        let id = $(this).attr('id');
-        // Obtener la parte después del guion '-'
-        let id_product = id.split('-')[1];
+        $('.cardCalcPriceObjectives').show(800);
+        $('html, body').animate({ scrollTop: 0 }, 1000); 
 
+        // Obtener el ID del elemento 
+        let id = $(this).attr('id');
+        $('.calcPrice').val('');
+    
         let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
 
-        for (let i = 0; i < dataProducts.length; i++) {
-            if (id_product == dataProducts[i].id_product) {
-                dataProducts[i].check = 1;
-                break;
-            }            
+        if (id.includes('all')) {
+            let check = 0;
+
+            if ($(`#${id}`).is(':checked')) {
+                check = 1;
+                $('.checkProduct').prop('checked', true);
+            } else {
+                check = 0;
+                $('.checkProduct').prop('checked', false);
+            }
+
+            dataProducts = dataProducts.map((item) => ({ ...item, check: check }));
+        } else {
+            // Obtener la parte después del guion '-'
+            let id_product = id.split('-')[1];
+            let statusInputs = true;
+            let check = 0;
+
+            if ($(`#${id}`).is(':checked')) check = 1;
+            
+            for (let i = 0; i < dataProducts.length; i++) {
+                if (id_product == dataProducts[i].id_product) {
+                    dataProducts[i].check = check;
+                    break;
+                }
+            }
+
+            let arr = dataProducts.find(item => item.id_product == id_product);
+            let checks = dataProducts.filter(item => item.check == 1 && item.id_product != id_product);
+
+            for (let i = 0; i < checks.length; i++) {
+                if (
+                    checks[i].profitability != arr.profitability ||
+                    checks[i].unit_1 != arr.unit_1 ||
+                    checks[i].unit_2 != arr.unit_2 ||
+                    checks[i].unit_3 != arr.unit_3
+                ) {
+                    statusInputs = false;
+                    break;
+                }
+            }
+
+            if (statusInputs == true) {
+                $('#unity-1').val(arr.unit_1);
+                $('#unity-2').val(arr.unit_2);
+                $('#unity-3').val(arr.unit_3); 
+                $('#profitability').val(arr.profitability); 
+                $('#minProfitability').val(arr.min_profitability); 
+                $('#maxProfitability').val(arr.max_profitability); 
+            }
         }
 
         sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));

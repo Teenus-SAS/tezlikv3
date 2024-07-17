@@ -121,7 +121,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardCalcPriceObjectives">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-4">
                                 <div class="card">
                                     <div class="card-body pt-3">
                                         <div class="form-row">
@@ -141,13 +141,21 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-8">
                                 <div class="card">
                                     <div class="card-body pt-3">
                                         <div class="form-row formProducts">
-                                            <div class="col-sm-8 cardBottons floating-label enable-floating-label show-label">
+                                            <div class="col-sm-3 cardBottons floating-label enable-floating-label show-label">
                                                 <label for="profitability">Rentabilidad Esperada</label>
                                                 <input type="number" class="form-control calcPrice text-center" id="profitability">
+                                            </div>
+                                            <div class="col-sm-3 cardBottons floating-label enable-floating-label show-label">
+                                                <label for="profitability">Rentabilidad Minima</label>
+                                                <input type="number" class="form-control calcPrice text-center" id="minProfitability">
+                                            </div>
+                                            <div class="col-sm-3 cardBottons floating-label enable-floating-label show-label">
+                                                <label for="profitability">Rentabilidad Maxima</label>
+                                                <input type="number" class="form-control calcPrice text-center" id="maxProfitability">
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
                                                 <button class="btn btn-warning cardBottons" id="calcPriceObj">Calcular</button>
@@ -170,19 +178,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblProducts">
-                                                <!-- <thead>
-                                                    <tr>
-                                                        <th>No.</th>
-                                                        <th>Referencia</th>
-                                                        <th>Producto</th>
-                                                        <th>Precio</th>
-                                                        <th id="titlePrice1"></th>
-                                                        <th id="titlePrice2"></th>
-                                                        <th id="titlePrice3"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tblProductsBody">
-                                                </tbody> -->
+
                                             </table>
                                         </div>
                                     </div>

@@ -85,30 +85,30 @@ $app->get('/logoutInactiveUser', function (Request $request, Response $response,
     $statusActiveUserDao,
     $webTokenDao
 ) {
-    $info = $webTokenDao->getToken();
+    // $info = $webTokenDao->getToken();
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
+    // if (!is_object($info) && ($info == 1)) {
+    //     $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+    //     return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    // }
 
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
-    }
+    // if (is_array($info)) {
+    //     $response->getBody()->write(json_encode(['error' => $info['info']]));
+    //     // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    //     return $response->withHeader('Location', '/')->withStatus(302);
+    // }
 
-    $validate = $webTokenDao->validationToken($info);
+    // $validate = $webTokenDao->validationToken($info);
 
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
+    // if (!$validate) {
+    //     $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+    //     return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    // }
 
     // session_start();
     $statusActiveUserDao->changeStatusUserLogin();
     $resp = array('inactive' => true, 'message' => 'Tiempo de inactividad cumplido');
-    session_destroy();
+
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

@@ -18,12 +18,12 @@ $(document).ready(function () {
  
         await loadTblProducts(dataProducts, 1);
 
-        if (dataProducts.length > 0) {
-            $('#profitability').val(dataProducts[0].profitability_po);
-            $('#unity-1').val(dataProducts[0].unit_1);
-            $('#unity-2').val(dataProducts[0].unit_2);
-            $('#unity-3').val(dataProducts[0].unit_3);
-        };
+        // if (dataProducts.length > 0) {
+        //     $('#profitability').val(dataProducts[0].profitability_po);
+        //     $('#unity-1').val(dataProducts[0].unit_1);
+        //     $('#unity-2').val(dataProducts[0].unit_2);
+        //     $('#unity-3').val(dataProducts[0].unit_3);
+        // };
     };
 
     // Seleccionar moneda
@@ -99,186 +99,309 @@ $(document).ready(function () {
 
     /* Cargue tabla de Proyectos */
     loadTblProducts = (data, op) => { 
-        if ($.fn.dataTable.isDataTable("#tblProducts") && op == 1) {
-            var table = $("#tblProducts").DataTable();
-            var pageInfo = table.page.info(); // Guardar información de la página actual
-            table.clear();
-            table.rows.add(data).draw();
-            table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
-            return;
-        }
+        $('#tblProducts').empty();
 
-        let typeCurrency = '1';
+        // Destruir DataTable si ya existe
+        // if ($.fn.DataTable.isDataTable('#tblProducts')) {
+        //     $('#tblProducts').DataTable().destroy();
+        // }
+
+        typeCurrency = '1';
     
         if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
             typeCurrency = sessionStorage.getItem('typeCurrency');
 
         // Obtener los títulos dinámicamente del primer elemento de datos
-        let columnTitles = data.length > 0 ? {
-            title1: String(data[0].unit_1 || "Precio 1"),
-            title2: String(data[0].unit_2 || "Precio 2"),
-            title3: String(data[0].unit_3 || "Precio 3")
-        } : { title1: "Precio 1", title2: "Precio 2", title3: "Precio 3" };
+        let title1, title2, title3;
 
-        tblProducts = $('#tblProducts').dataTable({
-            destroy: true,
-            pageLength: 50,
-            data: data,
-            dom: '<"datatable-error-console">frtip',
-            language: {
-                url: '/assets/plugins/i18n/Spanish.json',
-            },
-            fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-                if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
-                    console.error(oSettings.json.error);
-                }
-            },
-            columns: [
-                {
-                    title: '',
-                    data: null,
-                    className: 'uniqueClassName',
-                    render: function (data, type, full, meta) {
-                        return `<input type="checkbox" class="form-control-updated checkProduct" id="check-${data.id_product}">`;
-                    },
-                },
-                {
-                    title: 'No.',
-                    data: null,
-                    className: 'uniqueClassName',
-                    render: function (data, type, full, meta) {
-                        return meta.row + 1;
-                    },
-                },
-                {
-                    title: 'Referencia',
-                    data: 'reference',
-                    className: 'uniqueClassName',
-                },
-                {
-                    title: 'Producto',
-                    data: 'product',
-                    className: 'uniqueClassName',
-                }, 
-                {
-                    title: 'Precio',
-                    data: null,
-                    className: 'classCenter',
-                    render: function (data) {
-                        let sale_price = parseFloat(data.sale_price);
-                        let title = 'Precio Lista';
+        if (data.length > 0) {
+            title1 = String(data[0].unit_1);
+            title2 = String(data[0].unit_2);
+            title3 = String(data[0].unit_3);
+        } else {
+            title1 = 'Precio 1';
+            title2 = 'Precio 2';
+            title3 = 'Precio 3';            
+        };
 
-                        if (sale_price <= 0) { 
-                            sale_price = parseFloat(data.price);
-                            title = 'Precio Sugerido';
-                        };
+        let check = data.filter(item => item.check == 1);
+
+        let tbl = document.getElementById('tblProducts');
+        tbl.insertAdjacentHTML('beforeend',
+            `<thead>
+                <tr>
+                    <th class="uniqueClassName">
+                        <label>Seleccionar Todos</label><br>
+                        <input class="form-control-updated checkProduct" type="checkbox" id="all" ${check.length == data.length ? 'checked' : ''}>
+                    </th>
+                    <th class="uniqueClassName">No.</th>
+                    <th class="uniqueClassName">Referencia</th>
+                    <th class="uniqueClassName">Producto</th>
+                    <th class="uniqueClassName">Precio</th>
+                    <th class="uniqueClassName">${title1}</th>
+                    <th class="uniqueClassName">${title2}</th>
+                    <th class="uniqueClassName">${title3}</th>
+                </tr>
+            </thead>
+            <tbody id="tblProductsBody">
+            </tbody>`);
+ 
+        let body = document.getElementById('tblProductsBody');
+
+        for (let i = 0; i < data.length; i++) {
+            body.insertAdjacentHTML('beforeend',
+                `<tr>
+                    <td class="uniqueClassName">
+                        <input type="checkbox" class="form-control-updated checkProduct" id="check-${data[i].id_product}" ${data[i].check == 1 ? 'checked' : ''}>
+                    </td>
+                    <td class="uniqueClassName">${i+1}</td>
+                    <td class="uniqueClassName">${data[i].reference}</td>
+                    <td class="uniqueClassName">${data[i].product}</td>
+                    <td class="uniqueClassName">${txtTypePrice(data[i])}</td>
+                    <td class="uniqueClassName">${txtProductPrice(data[i], 'price_1')}</td>
+                    <td class="uniqueClassName">${txtProductPrice(data[i], 'price_2')}</td>
+                    <td class="uniqueClassName">${txtProductPrice(data[i], 'price_3')}</td>
+                </tr>`); 
+        } 
+        
+        // tblProducts = $('#tblProducts').DataTable({
+        //     destroy: true,
+        //     pageLength: 50,
+        //     dom: '<"datatable-error-console">frtip',
+        //     language: {
+        //         url: '/assets/plugins/i18n/Spanish.json',
+        //     },
+        //     fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        //         if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+        //             console.error(oSettings.json.error);
+        //         }
+        //     },
+        // });
+        // if ($.fn.dataTable.isDataTable("#tblProducts") && op == 1) {
+        //     var table = $("#tblProducts").DataTable();
+        //     var pageInfo = table.page.info(); // Guardar información de la página actual
+        //     table.clear();
+        //     table.rows.add(data).draw();
+        //     table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
+        //     return;
+        // }
+
+        // let typeCurrency = '1';
+    
+        // if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
+        //     typeCurrency = sessionStorage.getItem('typeCurrency');
+
+        // // Obtener los títulos dinámicamente del primer elemento de datos
+        // let columnTitles = data.length > 0 ? {
+        //     title1: String(data[0].unit_1 || "Precio 1"),
+        //     title2: String(data[0].unit_2 || "Precio 2"),
+        //     title3: String(data[0].unit_3 || "Precio 3")
+        // } : { title1: "Precio 1", title2: "Precio 2", title3: "Precio 3" };
+
+        // tblProducts = $('#tblProducts').dataTable({
+        //     destroy: true,
+        //     pageLength: 50,
+        //     data: data,
+        //     dom: '<"datatable-error-console">frtip',
+        //     language: {
+        //         url: '/assets/plugins/i18n/Spanish.json',
+        //     },
+        //     fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        //         if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+        //             console.error(oSettings.json.error);
+        //         }
+        //     },
+        //     columns: [
+        //         {
+        //             title: '',
+        //             data: null,
+        //             className: 'uniqueClassName',
+        //             render: function (data, type, full, meta) {
+        //                 return `<input type="checkbox" class="form-control-updated checkProduct" id="check-${data.id_product}">`;
+        //             },
+        //         },
+        //         {
+        //             title: 'No.',
+        //             data: null,
+        //             className: 'uniqueClassName',
+        //             render: function (data, type, full, meta) {
+        //                 return meta.row + 1;
+        //             },
+        //         },
+        //         {
+        //             title: 'Referencia',
+        //             data: 'reference',
+        //             className: 'uniqueClassName',
+        //         },
+        //         {
+        //             title: 'Producto',
+        //             data: 'product',
+        //             className: 'uniqueClassName',
+        //         }, 
+        //         {
+        //             title: 'Precio',
+        //             data: null,
+        //             className: 'classCenter',
+        //             render: function (data) {
+        //                 let sale_price = parseFloat(data.sale_price);
+        //                 let title = 'Precio Lista';
+
+        //                 if (sale_price <= 0) { 
+        //                     sale_price = parseFloat(data.price);
+        //                     title = 'Precio Sugerido';
+        //                 };
                         
-                        if (Math.abs(sale_price) < 0.01) {
-                            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-                        } else if (typeCurrency != '1') {
-                            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                        } else
-                            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        //                 if (Math.abs(sale_price) < 0.01) {
+        //                     sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+        //                 } else if (typeCurrency != '1') {
+        //                     sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        //                 } else
+        //                     sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
             
-                        return `<a href="javascript:;"><i title="${title}" style="color:black;">$ ${sale_price}</i></a>`;
-                    },
-                },
-                {
-                    title: columnTitles.title1,
-                    data: null,
-                    className: 'classCenter',
-                    render: function (data) {
-                        if (data.price_1 === false) {
-                            return '';
-                        } else {
-                            data.price_1 == 0 ? price_1 = '' : price_1 = parseFloat(data.price_1);
-                            let sale_price = parseFloat(data.sale_price);
+        //                 return `<a href="javascript:;"><i title="${title}" style="color:black;">$ ${sale_price}</i></a>`;
+        //             },
+        //         },
+        //         {
+        //             title: columnTitles.title1,
+        //             data: null,
+        //             className: 'classCenter',
+        //             render: function (data) {
+        //                 if (data.price_1 === false) {
+        //                     return '';
+        //                 } else {
+        //                     data.price_1 == 0 ? price_1 = '' : price_1 = parseFloat(data.price_1);
+        //                     let sale_price = parseFloat(data.sale_price);
 
-                            if (sale_price <= 0) {
-                                sale_price = parseFloat(data.price);
-                            };
+        //                     if (sale_price <= 0) {
+        //                         sale_price = parseFloat(data.price);
+        //                     };
 
-                            let txt = '';
+        //                     let txt = '';
 
-                            if (typeCurrency != '1') {
-                                price_1 = price_1.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                            } else
-                                price_1 = price_1.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+        //                     if (typeCurrency != '1') {
+        //                         price_1 = price_1.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        //                     } else
+        //                         price_1 = price_1.toLocaleString('es-CO', { maximumFractionDigits: 0 });
 
-                            if (parseFloat(data.price_1) > sale_price) {
-                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_1}</span></a>`;
-                            } else
-                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_1}</span>`;
+        //                     if (parseFloat(data.price_1) > sale_price) {
+        //                         txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_1}</span></a>`;
+        //                     } else
+        //                         txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_1}</span>`;
                         
-                            return txt;
-                        }
-                    },
-                }, 
-                {
-                    title: columnTitles.title2,
-                    data: null,
-                    className: 'classCenter',
-                    render: function (data) {
-                        if (data.price_2 === false) {
-                            return '';
-                        } else {
-                            data.price_2 == 0 ? price_2 = '' : price_2 = parseFloat(data.price_2);
-                            let sale_price = parseFloat(data.sale_price);
+        //                     return txt;
+        //                 }
+        //             },
+        //         }, 
+        //         {
+        //             title: columnTitles.title2,
+        //             data: null,
+        //             className: 'classCenter',
+        //             render: function (data) {
+        //                 if (data.price_2 === false) {
+        //                     return '';
+        //                 } else {
+        //                     data.price_2 == 0 ? price_2 = '' : price_2 = parseFloat(data.price_2);
+        //                     let sale_price = parseFloat(data.sale_price);
 
-                            if (sale_price <= 0) {
-                                sale_price = parseFloat(data.price);
-                            };
+        //                     if (sale_price <= 0) {
+        //                         sale_price = parseFloat(data.price);
+        //                     };
 
-                            let txt = '';
+        //                     let txt = '';
 
-                            if (typeCurrency != '1') {
-                                price_2 = price_2.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                            } else
-                                price_2 = price_2.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+        //                     if (typeCurrency != '1') {
+        //                         price_2 = price_2.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        //                     } else
+        //                         price_2 = price_2.toLocaleString('es-CO', { maximumFractionDigits: 0 });
 
-                            if (parseFloat(data.price_2) > sale_price) {
-                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_2}</span></a>`;
-                            } else
-                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_2}</span>`;
+        //                     if (parseFloat(data.price_2) > sale_price) {
+        //                         txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_2}</span></a>`;
+        //                     } else
+        //                         txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_2}</span>`;
                         
-                            return txt;
-                        }
-                    },
-                }, 
-                {
-                    title: columnTitles.title3,
-                    data: null,
-                    className: 'classCenter',
-                    render: function (data) {
-                        if (data.price_3 === false) {
-                            return '';
-                        } else {
-                            data.price_3 == 0 ? price_3 = '' : price_3 = parseFloat(data.price_3);
-                            let sale_price = parseFloat(data.sale_price);
+        //                     return txt;
+        //                 }
+        //             },
+        //         }, 
+        //         {
+        //             title: columnTitles.title3,
+        //             data: null,
+        //             className: 'classCenter',
+        //             render: function (data) {
+        //                 if (data.price_3 === false) {
+        //                     return '';
+        //                 } else {
+        //                     data.price_3 == 0 ? price_3 = '' : price_3 = parseFloat(data.price_3);
+        //                     let sale_price = parseFloat(data.sale_price);
 
-                            if (sale_price <= 0) {
-                                sale_price = parseFloat(data.price);
-                            };
+        //                     if (sale_price <= 0) {
+        //                         sale_price = parseFloat(data.price);
+        //                     };
 
-                            let txt = '';
+        //                     let txt = '';
 
-                            if (typeCurrency != '1') {
-                                price_3 = price_3.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                            } else
-                                price_3 = price_3.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+        //                     if (typeCurrency != '1') {
+        //                         price_3 = price_3.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        //                     } else
+        //                         price_3 = price_3.toLocaleString('es-CO', { maximumFractionDigits: 0 });
 
-                            if (parseFloat(data.price_3) > sale_price) {
-                                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_3}</span></a>`;
-                            } else
-                                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_3}</span>`;
+        //                     if (parseFloat(data.price_3) > sale_price) {
+        //                         txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price_3}</span></a>`;
+        //                     } else
+        //                         txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price_3}</span>`;
                         
-                            return txt;
-                        }
-                    },
-                }, 
-            ],
-        });
+        //                     return txt;
+        //                 }
+        //             },
+        //         }, 
+        //     ],
+        // });
     }
 
+    function txtTypePrice(data) {
+        let sale_price = parseFloat(data.sale_price);
+        let title = 'Precio Lista';
+
+        if (sale_price <= 0) {
+            sale_price = parseFloat(data.price);
+            title = 'Precio Sugerido';
+        };
+                        
+        if (Math.abs(sale_price) < 0.01) {
+            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+        } else if (typeCurrency != '1') {
+            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        } else
+            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            
+        return `<a href="javascript:;"><i title="${title}" style="color:black;">$ ${sale_price}</i></a>`;
+    }
+
+    function txtProductPrice(data, price) {
+        if (data[price] === false) {
+            return '';
+        } else {
+            data[price] == 0 ? price = '' : price = parseFloat(data[price]);
+            let sale_price = parseFloat(data.sale_price);
+
+            if (sale_price <= 0) {
+                sale_price = parseFloat(data.price);
+            };
+
+            let txt = '';
+
+            if (typeCurrency != '1') {
+                price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            } else
+                price = price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+
+            if (parseFloat(data.price) > sale_price) {
+                txt = `<a href="javascript:;" ><span class="badge badge-danger warningPrice" style="font-size: 13px;">$ ${price}</span></a>`;
+            } else
+                txt = `<span class="badge badge-success" style="font-size: 13px;">$ ${price}</span>`;
+                        
+            return txt;
+        }
+    }
     loadAllData();
 });
