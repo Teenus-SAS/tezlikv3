@@ -146,16 +146,16 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body pt-3">
                                         <div class="form-row formProducts">
                                             <div class="col-sm-3 cardBottons floating-label enable-floating-label show-label">
-                                                <label for="profitability">Rentabilidad Esperada</label>
-                                                <input type="number" class="form-control calcPrice text-center" id="profitability">
+                                                <label for="profitability1">Rentabilidad Esperada</label>
+                                                <input type="number" class="form-control calcPrice text-center" id="profitability1">
                                             </div>
                                             <div class="col-sm-3 cardBottons floating-label enable-floating-label show-label">
-                                                <label for="profitability">Rentabilidad Esperada</label>
-                                                <input type="number" class="form-control calcPrice text-center" id="minProfitability">
+                                                <label for="profitability2">Rentabilidad Esperada</label>
+                                                <input type="number" class="form-control calcPrice text-center" id="profitability2">
                                             </div>
                                             <div class="col-sm-3 cardBottons floating-label enable-floating-label show-label">
-                                                <label for="profitability">Rentabilidad Esperada</label>
-                                                <input type="number" class="form-control calcPrice text-center" id="maxProfitability">
+                                                <label for="profitability3">Rentabilidad Esperada</label>
+                                                <input type="number" class="form-control calcPrice text-center" id="profitability3">
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
                                                 <button class="btn btn-warning cardBottons" id="calcPriceObj">Calcular</button>

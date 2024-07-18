@@ -37,21 +37,22 @@ $(document).ready(function () {
     $('#calcPriceObj').click(function (e) {
         e.preventDefault();
 
-        let profitability = parseFloat($('#profitability').val());
-        let minProfitability = parseFloat($('#minProfitability').val());
-        let maxProfitability = parseFloat($('#maxProfitability').val());
+        let profitability_1 = parseFloat($('#profitability1').val());
+        let profitability_2 = parseFloat($('#profitability2').val());
+        let profitability_3 = parseFloat($('#profitability3').val());
+
         let unit1 = parseFloat($('#unity-1').val());
         let unit2 = parseFloat($('#unity-2').val());
         let unit3 = parseFloat($('#unity-3').val());
 
-        isNaN(profitability) ? profitability = 0 : profitability;
-        isNaN(minProfitability) ? minProfitability = 0 : minProfitability;
-        isNaN(maxProfitability) ? maxProfitability = 0 : maxProfitability;
+        isNaN(profitability_1) ? profitability_1 = 0 : profitability_1;
+        isNaN(profitability_2) ? profitability_2 = 0 : profitability_2;
+        isNaN(profitability_3) ? profitability_3 = 0 : profitability_3;
         isNaN(unit1) ? unit1 = 0 : unit1;
         isNaN(unit2) ? unit2 = 0 : unit2;
         isNaN(unit3) ? unit3 = 0 : unit3;
 
-        let data = (profitability + (minProfitability * maxProfitability)) * unit1 * unit2 * unit3;
+        let data = profitability_1 * profitability_2 * profitability_3 * unit1 * unit2 * unit3;
 
         if (data <= 0) {
             toastr.error('Ingrese todos los campos');
@@ -84,23 +85,19 @@ $(document).ready(function () {
             </div>`
         );
 
-        generalCalc(profitability, [unit1, unit2, unit3]);
+        generalCalc([unit1, unit2, unit3], [profitability_1, profitability_2, profitability_3]);
     });
 
     // Calculo general economia de escala para obtener unidades
-    /* */ const generalCalc = async (profitability, units) => {
+    /* */ const generalCalc = async (units, profitabilities) => {
         try {
             let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
-            let minProfitability = parseFloat($('#minProfitability').val());
-            let maxProfitability = parseFloat($('#maxProfitability').val());
-            isNaN(minProfitability) ? minProfitability = 0 : minProfitability;
-            isNaN(maxProfitability) ? maxProfitability = 0 : maxProfitability;
 
             cant = 1;
 
             // Definir una función asíncrona para manejar cada iteración del ciclo
-            const handleIteration = async (arr, c_unit) => {
+            const handleIteration = async (arr, c_unit, profitability) => {
                 if (c_unit > 0) {
                     /* Costos Variables */
                     let economyScale = allEconomyScale.find(item => item.id_product == arr.id_product);
@@ -126,15 +123,9 @@ $(document).ready(function () {
 
                     /* Porcentaje */
                     let percentage = (netUtility / totalRevenue) * 100;
-
-                    if (profitability <= 0) {                         
-                        if (percentage > minProfitability && percentage <= maxProfitability) {
-                            return real_price;
-                        }
-                    } else {
-                        if (profitability <= percentage)
-                            return real_price;
-                    }
+ 
+                    if (profitability <= percentage)
+                        return real_price;
 
                     real_price = Math.ceil((totalCostsAndExpense / c_unit) + cant);
   
@@ -151,14 +142,12 @@ $(document).ready(function () {
                 for (let i = 0; i < dataProducts.length; i++) {
                     // Iterar sobre cada índice 
                     for (let j = 0; j < units.length; j++) {
-                        let product_price = await handleIteration(dataProducts[i], units[j]);
+                        let product_price = await handleIteration(dataProducts[i], units[j], profitabilities[j]);
 
                         if (product_price === -1) {
                             j = j - 1;
                         } else {
-                            dataProducts[i].min_profitability = minProfitability;
-                            dataProducts[i].max_profitability = maxProfitability;
-                            dataProducts[i].profitability = profitability;
+                            dataProducts[i][`profitability_${j + 1}`] = profitabilities[j];
                             dataProducts[i][`unit_${j + 1}`] = units[j];
                             dataProducts[i][`price_${j + 1}`] = product_price;
                             cant = 1;
@@ -182,14 +171,12 @@ $(document).ready(function () {
                 for (let i = 0; i < check.length; i++) {
                     // Iterar sobre cada índice 
                     for (let j = 0; j < units.length; j++) {
-                        let product_price = await handleIteration(check[i], units[j]);
+                        let product_price = await handleIteration(check[i], units[j], profitabilities[j]);
 
                         if (product_price === -1) {
                             j = j - 1;
                         } else {
-                            check[i].min_profitability = minProfitability;
-                            check[i].max_profitability = maxProfitability;
-                            check[i].profitability = profitability;
+                            check[i][`profitability_${j + 1}`] = profitabilities[j];
                             check[i][`unit_${j + 1}`] = units[j];
                             check[i][`price_${j + 1}`] = product_price;
                             cant = 1;
@@ -209,7 +196,10 @@ $(document).ready(function () {
                     dataProducts = dataProducts.map(item => {
                         if (item.id_product === check[i].id_product) {
                             return {
-                                ...item, profitability: check[i].profitability,
+                                ...item,
+                                profitability_1: check[i].profitability_1,
+                                profitability_2: check[i].profitability_2,
+                                profitability_3: check[i].profitability_3,
                                 unit_1: check[i].unit_1,
                                 unit_2: check[i].unit_2,
                                 unit_3: check[i].unit_3,
@@ -356,7 +346,9 @@ $(document).ready(function () {
 
             for (let i = 0; i < checks.length; i++) {
                 if (
-                    checks[i].profitability != arr.profitability ||
+                    checks[i].profitability_1 != arr.profitability_1 ||
+                    checks[i].profitability_2 != arr.profitability_2 ||
+                    checks[i].profitability_3 != arr.profitability_3 ||
                     checks[i].unit_1 != arr.unit_1 ||
                     checks[i].unit_2 != arr.unit_2 ||
                     checks[i].unit_3 != arr.unit_3
@@ -370,9 +362,9 @@ $(document).ready(function () {
                 $('#unity-1').val(arr.unit_1);
                 $('#unity-2').val(arr.unit_2);
                 $('#unity-3').val(arr.unit_3); 
-                $('#profitability').val(arr.profitability); 
-                $('#minProfitability').val(arr.min_profitability); 
-                $('#maxProfitability').val(arr.max_profitability); 
+                $('#profitability1').val(arr.profitability_1); 
+                $('#profitability2').val(arr.profitability_2); 
+                $('#profitability3').val(arr.profitability_3); 
             }
         }
 
