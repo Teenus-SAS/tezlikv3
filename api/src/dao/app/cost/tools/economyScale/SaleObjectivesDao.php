@@ -24,9 +24,10 @@ class SaleObjectivesDao
                                       FROM products p
                                         INNER JOIN products_costs pc ON p.id_product = pc.id_product
                                         LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                        LEFT JOIN expenses_recover er ON er.id_product = p.id_product
                                         LEFT JOIN expenses_distribution_anual eda ON eda.id_product = p.id_product
                                         LEFT JOIN sale_objectives so ON so.id_product = p.id_product 
-                                      WHERE p.id_company = :id_company AND p.active = 1 -- AND ed.units_sold != 0
+                                      WHERE p.id_company = :id_company AND p.active = 1 AND (ed.units_sold != 0 OR er.expense_recover != 0)
                                       ORDER BY p.product, p.reference ASC");
         $stmt->execute(['id_company' => $id_company]);
 

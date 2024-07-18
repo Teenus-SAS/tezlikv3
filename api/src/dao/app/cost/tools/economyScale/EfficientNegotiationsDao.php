@@ -28,7 +28,10 @@ class EfficientNegotiationsDao
                                         FROM products p
                                         INNER JOIN products_costs pc ON pc.id_product = p.id_product
                                         LEFT JOIN multiproducts mp ON mp.id_product = p.id_product
-                                      WHERE p.active = 1 AND p.id_company = :id_company");
+                                        LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                        LEFT JOIN expenses_recover er ON er.id_product = p.id_product
+                                      WHERE p.active = 1 AND p.id_company = :id_company
+                                      AND (ed.units_sold != 0 OR er.expense_recover != 0)");
             $stmt->execute([
                 'id_company' => $id_company
             ]);

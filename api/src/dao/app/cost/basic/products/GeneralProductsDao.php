@@ -186,6 +186,24 @@ class GeneralProductsDao
         return $products;
     }
 
+    public function findAllEDAndERProducts($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.active
+                                      FROM products p
+                                      LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                      LEFT JOIN expenses_recover er ON er.id_product = p.id_product
+                                      WHERE p.id_company = :id_company
+                                      AND (ed.units_sold != 0 OR er.expense_recover != 0)");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("products", array('products' => $products));
+        return $products;
+    }
+
     // Modificar precio
     public function updatePrice($idProduct, $totalPrice)
     {

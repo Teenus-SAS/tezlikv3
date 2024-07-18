@@ -311,7 +311,7 @@ if (sizeof($_SESSION) == 0)
         flag_expense_anual = "<?= $_SESSION['flag_expense_anual'] ?>";
 
         $(document).ready(function() {
-            getDataProducts('/api/products');
+            getDataProducts('/api/ENegotiationsProducts');
             // Validar que precio estaba anteriormente seleccionado
             let session_flag = sessionStorage.getItem('flag_type_price');
 
