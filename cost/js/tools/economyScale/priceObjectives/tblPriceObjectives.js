@@ -402,24 +402,24 @@ $(document).ready(function () {
         // });
     }
 
-    // function txtTypePrice(data) {
-    //     let sale_price = parseFloat(data.sale_price);
-    //     let title = 'Precio Lista';
+    const txtTypePrice = (data) => {
+        let sale_price = parseFloat(data.sale_price);
+        let title = 'Precio Lista';
 
-    //     if (sale_price <= 0) {
-    //         sale_price = parseFloat(data.price);
-    //         title = 'Precio Sugerido';
-    //     };
+        if (sale_price <= 0) {
+            sale_price = parseFloat(data.price);
+            title = 'Precio Sugerido';
+        };
                         
-    //     if (Math.abs(sale_price) < 0.01) {
-    //         sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-    //     } else if (typeCurrency != '1') {
-    //         sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    //     } else
-    //         sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        if (Math.abs(sale_price) < 0.01) {
+            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+        } else if (typeCurrency != '1') {
+            sale_price = sale_price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        } else
+            sale_price = sale_price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-    //     return `<a href="javascript:;"><i title="${title}" style="color:black;">$ ${sale_price}</i></a>`;
-    // }
+        return `<a href="javascript:;"><i title="${title}" style="color:black;">$ ${sale_price}</i></a>`;
+    }
 
     // function txtProductPrice(data, name) {
     //     if (data[name] === false) {
@@ -453,16 +453,17 @@ $(document).ready(function () {
     const formatPrice = (price, options = { minimumFractionDigits: 0, maximumFractionDigits: 0 }) =>
         price.toLocaleString('es-CO', options);
 
-    const txtTypePrice = (data) => {
-        let sale_price = parseFloat(data.sale_price) || parseFloat(data.price);
-        let title = sale_price <= 0 ? 'Precio Sugerido' : 'Precio Lista';
+    // const txtTypePrice = (data) => {
+    //     let sale_price = parseFloat(data.sale_price) || parseFloat(data.price);
+    //     let title = sale_price <= 0 ? 'Precio Sugerido' : 'Precio Lista';
 
-        sale_price = Math.abs(sale_price) < 0.01
-            ? formatPrice(sale_price, { minimumFractionDigits: 2, maximumFractionDigits: 9 })
-            : formatPrice(sale_price, typeCurrency !== '1' ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : {});
+    //     sale_price = Math.abs(sale_price) < 0.01
+    //         ? formatPrice(sale_price, { minimumFractionDigits: 2, maximumFractionDigits: 9 })
+    //         : formatPrice(sale_price, typeCurrency !== '1' ?
+    //             { minimumFractionDigits: 2, maximumFractionDigits: 2 } : {});
 
-        return `<a href="javascript:;"><i title="${title}" style="color:black;">$ ${sale_price}</i></a>`;
-    }
+    //     return `<a href="javascript:;"><i title="${title}" style="color:black;">$ ${sale_price}</i></a>`;
+    // }
 
     const txtProductPrice = (data, name) => {
         if (data[name] === false) return '';
