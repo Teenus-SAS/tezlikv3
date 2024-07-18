@@ -121,7 +121,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardCalcPriceObjectives">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-5">
                                 <div class="card">
                                     <div class="card-body pt-3">
                                         <div class="form-row">
@@ -141,7 +141,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-8">
+                            <div class="col-7">
                                 <div class="card">
                                     <div class="card-body pt-3">
                                         <div class="form-row formProducts">
@@ -150,11 +150,11 @@ if (sizeof($_SESSION) == 0)
                                                 <input type="number" class="form-control calcPrice text-center" id="profitability">
                                             </div>
                                             <div class="col-sm-3 cardBottons floating-label enable-floating-label show-label">
-                                                <label for="profitability">Rentabilidad Minima</label>
+                                                <label for="profitability">Rentabilidad Esperada</label>
                                                 <input type="number" class="form-control calcPrice text-center" id="minProfitability">
                                             </div>
                                             <div class="col-sm-3 cardBottons floating-label enable-floating-label show-label">
-                                                <label for="profitability">Rentabilidad Maxima</label>
+                                                <label for="profitability">Rentabilidad Esperada</label>
                                                 <input type="number" class="form-control calcPrice text-center" id="maxProfitability">
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
