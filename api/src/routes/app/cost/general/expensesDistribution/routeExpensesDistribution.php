@@ -573,6 +573,10 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
 
         if ($expensesDistribution == null) {
+            $expensesDistribution = $generalProductsDao->updateStatusNewProduct($dataExpensesDistribution['selectNameProduct'], 0);
+        }
+
+        if ($expensesDistribution == null) {
             $multiproducts = $multiproductsDao->findMultiproduct($dataExpensesDistribution['selectNameProduct']);
 
             $data = [];
