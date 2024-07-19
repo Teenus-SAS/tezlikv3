@@ -726,7 +726,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
             if (isset($lastProductId)) {
                 //AGREGA ULTIMO ID A DATA
                 $dataProduct['idProduct'] = $lastProductId['id_product'];
-                $dataProduct['newProduct'] = 0;
+                $dataProduct['newProduct'] = 1;
                 $resolution = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
             }
 
@@ -823,16 +823,17 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                                 $resolution = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
                             }
                         }
-                    } else {
-                        // $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($arr, $id_company);
-
-                        // if (!$findExpenseDistribution)
-                        //     $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
-                        // else {
-                        //     $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
-                        //     $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
-                        // }
                     }
+                    // else {
+                    // $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($arr, $id_company);
+
+                    // if (!$findExpenseDistribution)
+                    //     $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
+                    // else {
+                    //     $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+                    //     $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
+                    // }
+                    // }
                 }
             }
 

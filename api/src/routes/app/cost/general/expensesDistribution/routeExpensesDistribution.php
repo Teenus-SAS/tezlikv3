@@ -755,7 +755,6 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     }
 
     $products = $generalProductsDao->findAllEDProductsByCompany($id_company);
-    // $products = $generalProductsDao->findAllProducts($id_company);
 
     for ($i = 0; $i < sizeof($products); $i++) {
         if (isset($expensesDistribution['info'])) break;

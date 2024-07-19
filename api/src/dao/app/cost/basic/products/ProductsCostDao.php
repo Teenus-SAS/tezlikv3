@@ -35,9 +35,6 @@ class ProductsCostDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            // $salePrice = str_replace('.', '', $dataProduct['salePrice']);
-            // $salePrice = str_replace(',', '.', $salePrice);
-
             $stmt = $connection->prepare("INSERT INTO products_costs(id_product, id_company, sale_price, profitability, commission_sale, new_product) 
                                         VALUES (:id_product, :id_company, :sale_price, :profitability, :commission_sale, :new_product)");
             $stmt->execute([
@@ -59,9 +56,6 @@ class ProductsCostDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            // $salePrice = str_replace('.', '', $dataProduct['salePrice']);
-            // $salePrice = str_replace(',', '.', $salePrice);
-
             $stmt = $connection->prepare("UPDATE products_costs SET sale_price = :sale_price, profitability = :profitability, commission_sale = :commission_sale
                                       WHERE id_product = :id_product");
             $stmt->execute([
