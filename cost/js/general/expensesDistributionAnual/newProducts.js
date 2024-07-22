@@ -28,9 +28,29 @@ $(document).ready(function () {
         }); 
     });
 
+    $('#refOldProduct').change(function (e) {
+        e.preventDefault(); 
+        let id = this.value;
+        
+        $('#oldNameProduct option').prop('selected', function () {
+            return $(this).val() == id;
+        }); 
+
+        let data = JSON.parse(sessionStorage.getItem('dataProducts'));
+
+        data = data.find(item => item.id_product == id);
+
+        $('#pAssignableExpense').val((parseFloat(data.assignable_expense)).toFixed(2));
+    });
+
     $('#oldNameProduct').change(function (e) {
         e.preventDefault();
         let id = this.value;
+
+        $('#refOldProduct option').prop('selected', function () {
+            return $(this).val() == id;
+        }); 
+
         let data = JSON.parse(sessionStorage.getItem('dataProducts'));
 
         data = data.find(item => item.id_product == id);
