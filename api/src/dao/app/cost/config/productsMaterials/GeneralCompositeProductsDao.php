@@ -116,7 +116,10 @@ class GeneralCompositeProductsDao
         try {
             $connection = Connection::getInstance()->getConnection();
             if ($_SESSION['flag_currency_usd'] == 1) {
-                $cost_usd = floatval($dataProduct['cost']) / floatval($_SESSION['coverage_usd']);
+                $cost_usd = 0;
+
+                if ($_SESSION['coverage_usd'] > 0)
+                    $cost_usd = floatval($dataProduct['cost']) / floatval($_SESSION['coverage_usd']);
 
                 $stmt = $connection->prepare("UPDATE composite_products SET cost = :cost, cost_usd = :cost_usd
                                               WHERE id_product = :id_product AND id_child_product = :id_child_product");

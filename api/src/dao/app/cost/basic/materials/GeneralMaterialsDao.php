@@ -181,7 +181,10 @@ class GeneralMaterialsDao
                 $cost = $quantity * $dataMaterial['cost'];
 
             if ($_SESSION['flag_currency_usd'] == 1) {
-                $cost_usd = $cost / floatval($_SESSION['coverage_usd']);
+                $cost_usd = 0;
+
+                if ($_SESSION['coverage_usd'] > 0)
+                    $cost_usd = $cost / floatval($_SESSION['coverage_usd']);
 
                 $stmt = $connection->prepare("UPDATE products_materials SET cost = :cost, cost_usd = :cost_usd 
                                               WHERE id_product_material = :id_product_material");

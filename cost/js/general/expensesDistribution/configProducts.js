@@ -114,6 +114,7 @@ $(document).ready(function () {
         // Productos creados
         let createdData = r.filter(item => parseInt(item.status) !== 0 && parseInt(item.units_sold) > 0 && parseInt(item.turnover) > 0);
         sessionStorage.setItem('dataProducts', JSON.stringify(createdData));
+        appendOptions($(`#refOldProduct`), sortFunction(createdData, 'product'), 'id_product', 'product');
         appendOptions($(`#oldNameProduct`), sortFunction(createdData, 'product'), 'id_product', 'product');
 
         // Productos nuevos

@@ -562,10 +562,11 @@ if (sizeof($_SESSION) == 0)
                                                             <select class="form-control" name="newNameProduct" id="newNameProduct"></select>
                                                             <label for="newNameProduct">Nombre Producto (Nuevo producto)</label>
                                                         </div>
-                                                        <!-- <div class="col-sm-2 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                        <div class="w-100"></div>
+                                                        <div class="col-sm-2 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                             <select class="form-control refProduct" name="refOldProduct" id="refOldProduct"></select>
                                                             <label for="refOldProduct">Referencia (Creado)</label>
-                                                        </div> -->
+                                                        </div>
                                                         <div class="col-sm-5 distribution input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                             <select class="form-control" name="oldNameProduct" id="oldNameProduct"></select>
                                                             <label for="oldNameProduct">Nombre Producto (Creado)</label>
