@@ -282,9 +282,9 @@ $(document).ready(function () {
                     precio: sale_price
                 };
 
-                item[unit_1_name] = `${parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? (parseFloat(dataProducts[i].price_1)* -1) : dataProducts[i].price_1.toString().replace('.', ',')}`;
-                item[unit_2_name] = `${parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? (parseFloat(dataProducts[i].price_2) * -1) : dataProducts[i].price_2.toString().replace('.', ',')}`;
-                item[unit_3_name] = `${parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? (parseFloat(dataProducts[i].price_3) * -1) : dataProducts[i].price_3.toString().replace('.', ',')}`;
+                item[unit_1_name] = parseFloat(dataProducts[i].price_1) > parseFloat(dataProducts[i].sale_price) ? (parseFloat(dataProducts[i].price_1)* -1) : parseFloat(dataProducts[i].price_1.toString().replace('.', ','));
+                item[unit_2_name] = parseFloat(dataProducts[i].price_2) > parseFloat(dataProducts[i].sale_price) ? (parseFloat(dataProducts[i].price_2) * -1) : parseFloat(dataProducts[i].price_2.toString().replace('.', ','));
+                item[unit_3_name] = parseFloat(dataProducts[i].price_3) > parseFloat(dataProducts[i].sale_price) ? (parseFloat(dataProducts[i].price_3) * -1) : parseFloat(dataProducts[i].price_3.toString().replace('.', ','));
 
                 data.push(item);
             }
