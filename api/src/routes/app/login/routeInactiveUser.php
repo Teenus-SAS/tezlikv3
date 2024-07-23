@@ -105,10 +105,10 @@ $app->get('/logoutInactiveUser', function (Request $request, Response $response,
     //     return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     // }
 
-    // session_start();
+    session_start();
     $statusActiveUserDao->changeStatusUserLogin();
+    session_destroy();
     $resp = array('inactive' => true, 'message' => 'Tiempo de inactividad cumplido');
-
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
