@@ -220,8 +220,8 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="refOldProduct">Referencia (Creado)</label>
                                                 </div>
                                                 <div class="col-sm-5 distribution input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <select class="form-control selectNameProduct" name="oldNameProduct" id="oldNameProduct"></select>
-                                                    <label for="oldNameProduct">Nombre Producto (Creado)</label>
+                                                    <select class="form-control selectNameProduct" name="nameOldProduct" id="nameOldProduct"></select>
+                                                    <label for="nameOldProduct">Nombre Producto (Creado)</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
                                                     <input type="number" class="form-control text-center" id="pAssignableExpense" name="pAssignableExpense" readonly>

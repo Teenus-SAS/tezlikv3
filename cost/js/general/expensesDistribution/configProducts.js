@@ -43,7 +43,7 @@ $(document).ready(function () {
   //       data = r.filter(item => parseInt(item.status) != 0 && parseInt(item.units_sold) > 0 && parseInt(item.turnover) > 0);
   //       sessionStorage.setItem('dataProducts', JSON.stringify(data));
         
-  //       $select = $(`#oldNameProduct`);
+  //       $select = $(`#nameOldProduct`);
   //       $select.empty();
 
   //       // let ref = r.sort(sortReference);
@@ -115,7 +115,7 @@ $(document).ready(function () {
         let createdData = r.filter(item => parseInt(item.status) !== 0 && parseInt(item.units_sold) > 0 && parseInt(item.turnover) > 0);
         sessionStorage.setItem('dataProducts', JSON.stringify(createdData));
         appendOptions($(`#refOldProduct`), sortFunction(createdData, 'product'), 'id_product', 'reference');
-        appendOptions($(`#oldNameProduct`), sortFunction(createdData, 'product'), 'id_product', 'product');
+        appendOptions($(`#nameOldProduct`), sortFunction(createdData, 'product'), 'id_product', 'product');
 
         // Productos nuevos
         let newProductData = r.filter(item => parseInt(item.status) === 0 && parseInt(item.new_product) === 1 && parseInt(item.units_sold) === 0 && parseInt(item.turnover) === 0);

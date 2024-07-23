@@ -100,13 +100,7 @@ $(document).ready(function () {
     };
 
     /* Cargue tabla de Proyectos */
-    loadTblProducts = (data, op) => {
-        
-        // Destruir DataTable si ya existe
-        // if ($.fn.DataTable.isDataTable('#tblProducts')) {
-        //     $('#tblProducts').DataTable().destroy();
-        // }
-            
+    loadTblProducts = (data, op) => {            
         $('#tblProducts').empty();
         typeCurrency = '1';
     
@@ -138,25 +132,7 @@ $(document).ready(function () {
             </thead>
             <tbody id="tblProductsBody"></tbody>`;
 
-        $('#tblProducts').append(tblHeader);
- 
-        // let body = document.getElementById('tblProductsBody');
-
-        // for (let i = 0; i < data.length; i++) {
-        //     body.insertAdjacentHTML('beforeend',
-        //         `<tr>
-        //             <td class="uniqueClassName">
-        //                 <input type="checkbox" class="form-control-updated checkProduct" id="check-${data[i].id_product}" ${data[i].check == 1 ? 'checked' : ''}>
-        //             </td>
-        //             <td class="uniqueClassName">${i + 1}</td>
-        //             <td class="uniqueClassName">${data[i].reference}</td>
-        //             <td class="uniqueClassName">${data[i].product}</td>
-        //             <td class="uniqueClassName">${txtTypePrice(data[i])}</td>
-        //             <td class="uniqueClassName">${txtProductPrice(data[i], 'price_1')}</td>
-        //             <td class="uniqueClassName">${txtProductPrice(data[i], 'price_2')}</td>
-        //             <td class="uniqueClassName">${txtProductPrice(data[i], 'price_3')}</td>
-        //         </tr>`);
-        // }
+        $('#tblProducts').append(tblHeader); 
 
         const rows = data.map((item, index) => `
             <tr>
@@ -173,7 +149,7 @@ $(document).ready(function () {
             </tr>`).join('');
 
         $('#tblProductsBody').append(rows);
-    }
+    };
 
     // loadTblProducts = (data, op) => {
     //     $('#tblProducts').empty();

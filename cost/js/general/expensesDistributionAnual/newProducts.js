@@ -32,7 +32,7 @@ $(document).ready(function () {
         e.preventDefault(); 
         let id = this.value;
         
-        $('#oldNameProduct option').prop('selected', function () {
+        $('#nameOldProduct option').prop('selected', function () {
             return $(this).val() == id;
         }); 
 
@@ -43,7 +43,7 @@ $(document).ready(function () {
         $('#pAssignableExpense').val((parseFloat(data.assignable_expense)).toFixed(2));
     });
 
-    $('#oldNameProduct').change(function (e) {
+    $('#nameOldProduct').change(function (e) {
         e.preventDefault();
         let id = this.value;
 
@@ -62,7 +62,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         let newProduct = $('#newNameProduct').val();
-        let oldProduct = $('#oldNameProduct').val();
+        let oldProduct = $('#nameOldProduct').val();
 
         let data = newProduct * oldProduct;
 

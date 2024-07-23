@@ -1,6 +1,7 @@
 $(document).ready(function () {
   // Variable para almacenar la última ruta visitada
   let lastVisitedRoute = window.location.pathname;
+  // let hasExecuted = false;
 
   // Tiempo de inactividad
   (function () {

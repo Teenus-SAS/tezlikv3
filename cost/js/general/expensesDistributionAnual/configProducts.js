@@ -43,7 +43,7 @@ $(document).ready(function () {
         // data = r.filter(item => parseInt(item.status) != 0 && parseInt(item.units_sold) > 0 && parseInt(item.turnover) > 0);
         // sessionStorage.setItem('dataProducts', JSON.stringify(data));
         
-        // $select = $(`#oldNameProduct`);
+        // $select = $(`#nameOldProduct`);
         // $select.empty();
 
         // // let ref = r.sort(sortReference);
