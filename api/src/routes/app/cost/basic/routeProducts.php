@@ -372,6 +372,8 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
     $webTokenDao,
     $productsDao,
     $generalProductsDao,
+    $priceProductDao,
+    $pricesUSDDao,
     $lastDataDao,
     $FilesDao,
     $productsCostDao,
@@ -400,6 +402,8 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
     // session_start();
     $id_company = $_SESSION['id_company'];
     $id_plan = $_SESSION['plan'];
+    $coverage_usd = $_SESSION['coverage_usd'];
+
     $dataProduct = $request->getParsedBody();
 
     /* Inserta datos */
@@ -442,8 +446,10 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                 $resp = array('info' => true, 'message' => 'El producto ya existe en la base de datos. Ingrese uno nuevo');
         } else {
             $products = $dataProduct['importProducts'];
+            $resolution = null;
 
             for ($i = 0; $i < sizeof($products); $i++) {
+                if (isset($resolution['info'])) break;
 
                 $product = $generalProductsDao->findProduct($products[$i], $id_company);
                 $products[$i]['active'] == 'SI' ? $products[$i]['active'] = 1 : $products[$i]['active'] = 0;
@@ -451,30 +457,53 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                 if (!$product) {
                     $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
 
-                    if ($resolution == null) {
-                        $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
+                    if (isset($resolution['info'])) break;
 
-                        $products[$i]['idProduct'] = $lastProductId['id_product'];
-                        $products[$i]['newProduct'] = 1;
+                    $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
-                        $resolution = $productsCostDao->insertProductsCostByCompany($products[$i], $id_company);
-                    }
+                    $products[$i]['idProduct'] = $lastProductId['id_product'];
+                    $products[$i]['newProduct'] = 1;
+
+                    $resolution = $productsCostDao->insertProductsCostByCompany($products[$i], $id_company);
                 } else {
                     $products[$i]['idProduct'] = $product['id_product'];
                     $resolution = $productsDao->updateProductByCompany($products[$i], $id_company);
 
-                    if ($resolution == null)
-                        $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
+                    if (isset($resolution['info'])) break;
+
+                    $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
+
+                    if (isset($resolution['info'])) break;
+
+                    $product = $priceProductDao->calcPrice($products[$i]['idProduct']);
+                    if (isset($product['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($products[$i]['idProduct'], $product['totalPrice']);
+
+                    // Convertir a Dolares
+                    if (isset($resolution['info'])) break;
+
+                    if ($_SESSION['flag_currency_usd'] == '1') {
+                        $arr = [];
+                        $arr['price'] = $product['totalPrice'];
+                        $arr['sale_price'] = $product['sale_price'];
+                        $arr['id_product'] = $products[$i]['idProduct'];
+
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($arr, $coverage_usd);
+                    }
                 }
+
+                if (isset($resolution['info'])) break;
 
                 if ($_SESSION['flag_composite_product'] == '1') {
                     $products[$i]['composite'] == 'SI' ? $op = 1 : $op = 0;
 
-                    $product = $generalProductsDao->changeCompositeProduct($products[$i]['idProduct'], $op);
+                    $resolution = $generalProductsDao->changeCompositeProduct($products[$i]['idProduct'], $op);
                 }
             }
             if ($resolution == null)
                 $resp = array('success' => true, 'message' => 'Productos importados correctamente');
+            else if (isset($resolution['info']))
+                $resp = array('info' => true, 'message' => $resolution['message']);
             else
                 $resp = array('error' => true, 'message' => 'Ocurrió un error mientras importaba los datos. Intente nuevamente');
         }
