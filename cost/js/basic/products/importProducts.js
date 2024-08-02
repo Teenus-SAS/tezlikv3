@@ -49,10 +49,13 @@ $(document).ready(function () {
           return false;
         }
 
-        let expectedHeaders = ['referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas'];
+        let expectedHeaders = ['id', 'referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas', 'sub_producto'];
 
-        if (flag_composite_product == '1')
-          expectedHeaders = ['referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas', 'sub_producto'];
+        if (flag_composite_product == '0')
+          // expectedHeaders = ['referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas', ];
+          expectedHeaders.splice(expectedHeaders.length - 1, 1);
+        if(idUser !='1')
+          expectedHeaders.splice(0, 1);
         
         const actualHeaders = data.actualHeaders;
 
@@ -72,15 +75,35 @@ $(document).ready(function () {
           if (item.precio_venta)
             salePrice = item.precio_venta.toString().replace('.', ',');
 
-          return {
+          let dataImport = { 
             referenceProduct: item.referencia,
             product: item.producto,
             salePrice: salePrice,
             profitability: item.rentabilidad,
             commissionSale: item.comision_ventas,
             composite: item.sub_producto,
-            active: item.activo,
+            active: item.activo
           };
+
+          if (idUser == '1') {
+            let id = '';
+
+            if (item.id)
+              id = item.id;
+
+            dataImport = {
+              id: id,
+              referenceProduct: item.referencia,
+              product: item.producto,
+              salePrice: salePrice,
+              profitability: item.rentabilidad,
+              commissionSale: item.comision_ventas,
+              composite: item.sub_producto,
+              active: item.activo,
+            };
+          }
+          
+          return dataImport;
         });
 
         checkProduct(productsToImport);
@@ -149,10 +172,11 @@ $(document).ready(function () {
   $('#btnDownloadImportsProducts').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Productos.xlsx';
+    let url = idUser == '1' ? 'assets/formatsXlsx/Productos(Admin).xlsx':'assets/formatsXlsx/Productos.xlsx';
 
-    if(flag_composite_product == '1')
-      url = 'assets/formatsXlsx/Productos(Compuesto).xlsx';
+    if(flag_composite_product == '1'){
+      url = idUser == '1' ? 'assets/formatsXlsx/Productos(Compuesto-Admin).xlsx': 'assets/formatsXlsx/Productos(Compuesto).xlsx';
+    }
 
     link = document.createElement('a');
     link.target = '_blank';

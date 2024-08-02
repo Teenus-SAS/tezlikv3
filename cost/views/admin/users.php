@@ -143,7 +143,7 @@ if (sizeof($_SESSION) == 0)
         flag_production_center = "<?= $_SESSION['flag_production_center'] ?>";
         flag_expense_anual = "<?= $_SESSION['flag_expense_anual'] ?>";
         flag_export_import = "<?= $_SESSION['flag_export_import'] ?>";
-        idUser = "<?= $_SESSION['idUser'] ?>";
+        // idUser = "< ?= $_SESSION['idUser'] ?>";
     </script>
     <script src="/cost/js/general/priceList/configPriceList.js"></script>
     <script>

@@ -83,6 +83,20 @@ class GeneralProductsDao
         return $findProduct;
     }
 
+    /* Consultar si existe producto en BD por id */
+    public function findProductById($id_product)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM products
+                                      WHERE id_product = :id_product");
+        $stmt->execute([
+            'id_product' => $id_product
+        ]);
+        $findProduct = $stmt->fetch($connection::FETCH_ASSOC);
+        return $findProduct;
+    }
+
     public function findProductCost($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();

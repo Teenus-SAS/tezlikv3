@@ -283,6 +283,7 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
 
     if (isset($dataProduct)) {
         $id_company = $_SESSION['id_company'];
+        $id_user = $_SESSION['idUser'];
         $products = $dataProduct['importProducts'];
 
         // Verificar duplicados
@@ -336,21 +337,25 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
                     break;
                 }
 
-                $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
+                if ($id_user == '1') {
+                    $findProduct = $generalProductsDao->findProductById($products[$i]['id']);
+                } else {
+                    $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
 
-                if ($_SESSION['flag_composite_product'] == '1') {
-                    if (empty(trim($products[$i]['composite'])) || trim($products[$i]['composite']) == '') {
-                        $i = $i + 2;
-                        $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
-                        break;
-                    }
-
-                    if ($findProduct && $products[$i]['composite'] == 'NO') {
-                        $product = $generalCompositeProductsDao->findCompositeProductByChild($findProduct['id_product']);
-
-                        if (sizeof($product) > 0) {
-                            $dataImportProduct = array('error' => true, 'message' => "No se puede desactivar el producto. Tiene datos relacionados a él, fila: $i");
+                    if ($_SESSION['flag_composite_product'] == '1') {
+                        if (empty(trim($products[$i]['composite'])) || trim($products[$i]['composite']) == '') {
+                            $i = $i + 2;
+                            $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
                             break;
+                        }
+
+                        if ($findProduct && $products[$i]['composite'] == 'NO') {
+                            $product = $generalCompositeProductsDao->findCompositeProductByChild($findProduct['id_product']);
+
+                            if (sizeof($product) > 0) {
+                                $dataImportProduct = array('error' => true, 'message' => "No se puede desactivar el producto. Tiene datos relacionados a él, fila: $i");
+                                break;
+                            }
                         }
                     }
                 }
@@ -447,11 +452,16 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
         } else {
             $products = $dataProduct['importProducts'];
             $resolution = null;
+            $id_user = $_SESSION['idUser'];
 
             for ($i = 0; $i < sizeof($products); $i++) {
                 if (isset($resolution['info'])) break;
 
-                $product = $generalProductsDao->findProduct($products[$i], $id_company);
+                if ($id_user == '1')
+                    $product = $generalProductsDao->findProductById($products[$i]['id']);
+                else
+                    $product = $generalProductsDao->findProduct($products[$i], $id_company);
+
                 $products[$i]['active'] == 'SI' ? $products[$i]['active'] = 1 : $products[$i]['active'] = 0;
 
                 if (!$product) {

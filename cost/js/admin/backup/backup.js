@@ -15,15 +15,27 @@ $(document).ready(function () {
       let dataProducts = await searchData('/api/products');
       if (dataProducts.length > 0) {
         for (i = 0; i < dataProducts.length; i++) {
-          data.push({
-            referencia: dataProducts[i].reference,
-            producto: dataProducts[i].product,
-            precio_venta: parseFloat(dataProducts[i].sale_price),
-            rentabilidad: parseFloat(dataProducts[i].profitability),
-            comision_ventas: parseFloat(dataProducts[i].commission_sale),
-            sub_producto: `${dataProducts[i].composite == 1 ? 'SI' : 'NO'}`,
-            activo: `${dataProducts[i].active == 1 ? 'SI' : 'NO'}`,
-          });
+          if (idUser == '1')
+            data.push({
+              id: dataProducts[i].id_product,
+              referencia: dataProducts[i].reference,
+              producto: dataProducts[i].product,
+              precio_venta: parseFloat(dataProducts[i].sale_price),
+              rentabilidad: parseFloat(dataProducts[i].profitability),
+              comision_ventas: parseFloat(dataProducts[i].commission_sale),
+              sub_producto: `${dataProducts[i].composite == 1 ? 'SI' : 'NO'}`,
+              activo: `${dataProducts[i].active == 1 ? 'SI' : 'NO'}`,
+            });
+          else
+            data.push({
+              referencia: dataProducts[i].reference,
+              producto: dataProducts[i].product,
+              precio_venta: parseFloat(dataProducts[i].sale_price),
+              rentabilidad: parseFloat(dataProducts[i].profitability),
+              comision_ventas: parseFloat(dataProducts[i].commission_sale),
+              sub_producto: `${dataProducts[i].composite == 1 ? 'SI' : 'NO'}`,
+              activo: `${dataProducts[i].active == 1 ? 'SI' : 'NO'}`,
+            });
         }
 
         let ws = XLSX.utils.json_to_sheet(data);
