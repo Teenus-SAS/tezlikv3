@@ -435,13 +435,13 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                     //AGREGA ULTIMO ID A DATA
                     $dataProduct['idProduct'] = $lastProductId['id_product'];
                     $dataProduct['newProduct'] = 1;
-                    $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
+                    $products = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
 
                     // 
                     // $generalProductsDao->updateStatusNewProduct($lastProductId['id_product'], 1);
                 }
 
-                if ($products == null &&  $productsCost == null)
+                if ($products == null)
                     $resp = array('success' => true, 'message' => 'Producto creado correctamente');
                 else if (isset($products['info']))
                     $resp = array('info' => true, 'message' => $products['message']);
@@ -588,7 +588,8 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
         if (sizeof($_FILES) > 0)
             $FilesDao->imageProduct($dataProduct['idProduct'], $id_company);
 
-        $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
+        if ($products == null)
+            $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
 
         if ($products == null)
             $product = $priceProductDao->calcPrice($dataProduct['idProduct']);
