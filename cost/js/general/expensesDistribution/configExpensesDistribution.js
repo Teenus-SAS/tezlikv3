@@ -51,7 +51,7 @@ $(document).ready(function () {
       $('#expensesToDistribution').val(`$ ${total_expense.toLocaleString('es-CO')}`);
       $('#expensesToDistribution').prop('disabled', true);
 
-      if (flag_expense === 0) {
+      if (parseInt(flag_expense) === 0) {
         /* Seleccionar tipo de gasto */
         bootbox.confirm({
           closeButton: false,
