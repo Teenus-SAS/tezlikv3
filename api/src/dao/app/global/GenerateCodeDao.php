@@ -28,7 +28,7 @@ class GenerateCodeDao
         //     $code .= substr($string, $pos, 1);
         // }
         // return $code;
-        $string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz!#$%&/()=?¡*][_:;,.><';
+        $string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz!#%&/()=?¡*][_:;,.><';
         $codeLength = 12;
         $code = '';
 
