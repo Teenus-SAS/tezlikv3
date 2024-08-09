@@ -942,6 +942,73 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/calcGeneralWorkforce', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
+    $generalProductsProcessDao,
+    $costWorkforceDao
+) {
+    $info = $webTokenDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
+    }
+
+    $validate = $webTokenDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $id_company = $_SESSION['id_company'];
+    $productProcess = $generalProductsProcessDao->findAllProductsprocess($id_company);
+
+    for ($i = 0; $i < sizeof($productProcess); $i++) {
+        if (isset($resolution['info'])) break;
+
+        if ($productProcess[$i]['auto_machine'] == 'SI') {
+            if ($productProcess[$i]['employee'] == '' || $_SESSION['flag_employee'] == 0) {
+                if ($_SESSION['inyection'] == 1)
+                    $resolution = $costWorkforceDao->calcCostPayrollInyection($productProcess[$i]['id_product'], $id_company);
+                else
+                    $resolution = $costWorkforceDao->calcCostPayroll($productProcess[$i]['id_product'], $id_company);
+            } else {
+                if ($_SESSION['inyection'] == 1)
+                    $resolution = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($productProcess[$i]['id_product'], $productProcess[$i]['employee']);
+                else {
+                    $resolution = $costWorkforceDao->calcCostPayrollGroupByEmployee($productProcess[$i]['id_product'], $id_company, $productProcess[$i]['employee']);
+                }
+            }
+        } else {
+            $resolution = $costWorkforceDao->calcCostPayroll($productProcess[$i]['id_product'], $id_company);
+            $resolution = $generalProductsProcessDao->updateEmployees($productProcess[$i]['id_product_process'], '');
+        }
+
+        // Calcular costo nomina total
+        if (isset($resolution['info'])) break;
+        $dataPayroll = $costWorkforceDao->sumTotalCostPayroll($productProcess[$i]['id_product'], $id_company);
+
+        $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $productProcess[$i]['id_product'], $id_company);
+    }
+
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => 'Calculo de mano de obra actualizados correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
 // $app->post('/saveEmployees', function (Request $request, Response $response, $args) use (
 //     $webTokenDao,
 //     $generalProductsProcessDao,

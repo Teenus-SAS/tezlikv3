@@ -619,9 +619,15 @@ if (sizeof($_SESSION) == 0)
         coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
 
         $(document).ready(function() {
-            // loadAllDataGServices(2);
             getDataProducts('/api/selectProducts');
-            // getSelectMachine('/api/selectMachines');
+
+            const generalCalcWrkf = async () => {
+                let resp = await searchData('/api/calcGeneralWorkforce');
+                console.log(resp);
+            }
+
+            if (idUser == '1')
+                generalCalcWrkf();
         });
         // $('.loading').show(800);
         // document.body.style.overflow = 'hidden';
