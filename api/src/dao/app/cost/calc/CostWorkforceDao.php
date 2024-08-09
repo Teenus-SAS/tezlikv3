@@ -39,7 +39,8 @@ class CostWorkforceDao
             $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(IFNULL(p.minute_value, 0) * IFNULL(((pp.enlistment_time + pp.operation_time) / (IF(pp.efficiency = 0, 100, pp.efficiency) / 100)), 0)) AS cost, pp.auto_machine
                                           FROM products_process pp 
                                             LEFT JOIN payroll p ON p.id_process = pp.id_process 
-                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company GROUP BY `pp`.`id_product_process`");
+                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company AND pp.employee = ''
+                                          GROUP BY `pp`.`id_product_process`");
             $stmt->execute([
                 'id_product' => $idProduct,
                 'id_company' => $id_company
@@ -68,11 +69,13 @@ class CostWorkforceDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / (pp.operation_time / 100))) AS cost, pp.auto_machine
+            $stmt = $connection->prepare("SELECT pp.id_product_process, pp.auto_machine,-- SUM(p.minute_value * (m.unity_time / (pp.operation_time / 100))) AS cost, 
+                                                 IFNULL(SUM(IFNULL(p.minute_value, 0) *(IFNULL((IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0)) / IFNULL((IF(pp.efficiency = 0, 100, pp.efficiency) / 100), 0), 0))), 0) AS cost
                                           FROM products_process pp 
                                             INNER JOIN payroll p ON p.id_process = pp.id_process 
                                             INNER JOIN machines m ON m.id_machine = pp.id_machine 
-                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company GROUP BY `pp`.`id_product_process`");
+                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company AND pp.employee = ''
+                                          GROUP BY `pp`.`id_product_process`");
             $stmt->execute([
                 'id_product' => $idProduct,
                 'id_company' => $id_company
@@ -101,7 +104,8 @@ class CostWorkforceDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / (pp.operation_time / 100))) AS cost
+            $stmt = $connection->prepare("SELECT pp.id_product_process, -- SUM(p.minute_value * (m.unity_time / (pp.operation_time / 100))) AS cost
+                                                 IFNULL(SUM(IFNULL(p.minute_value, 0) *(IFNULL((IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0)) / IFNULL((IF(pp.efficiency = 0, 100, pp.efficiency) / 100), 0), 0))), 0) AS cost
                                           FROM products_process pp 
                                             INNER JOIN payroll p ON p.id_process = pp.id_process 
                                             INNER JOIN machines m ON m.id_machine = pp.id_machine 
@@ -131,10 +135,12 @@ class CostWorkforceDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (pp.enlistment_time + pp.operation_time)) AS cost
+            $stmt = $connection->prepare("SELECT pp.id_product_process, -- SUM(p.minute_value * (pp.enlistment_time + pp.operation_time)) AS cost
+                                                 IFNULL(SUM(IFNULL(p.minute_value, 0) *(IFNULL((IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0)) / IFNULL((IF(pp.efficiency = 0, 100, pp.efficiency) / 100), 0), 0))), 0) AS cost
                                           FROM products_process pp 
                                             INNER JOIN payroll p ON p.id_process = pp.id_process 
                                           WHERE pp.id_product = :id_product AND pp.id_company = :id_company AND p.id_payroll IN ($employees)
+                                          AND pp.auto_machine = 0
                                           GROUP BY `pp`.`id_product_process`");
             $stmt->execute([
                 'id_product' => $idProduct,
@@ -177,6 +183,25 @@ class CostWorkforceDao
         return $payroll;
     }
 
+    public function sumTotalCostPayroll($idProduct, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("SELECT IFNULL(SUM(pp.workforce_cost), 0) AS cost
+                                          FROM products_process pp  
+                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company AND pp.auto_machine = 0");
+            $stmt->execute([
+                'id_product' => $idProduct,
+                'id_company' => $id_company
+            ]);
+            $payroll = $stmt->fetch($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $payroll = array('info' => true, 'message' => $message);
+        }
+        return $payroll;
+    }
+
     // public function sumTotalCostPayroll($idProduct, $id_company)
     // {
     //     $connection = Connection::getInstance()->getConnection();
@@ -201,10 +226,10 @@ class CostWorkforceDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("SELECT SUM(p.minute_value * (pp.enlistment_time + pp.operation_time)) AS cost
+            $stmt = $connection->prepare("SELECT IFNULL(SUM(IFNULL(p.minute_value, 0) *(IFNULL((IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0)) / IFNULL((IF(pp.efficiency = 0, 100, pp.efficiency) / 100), 0), 0))), 0) AS cost
                                           FROM products_process pp 
-                                            INNER JOIN payroll p ON p.id_process = pp.id_process 
-                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company AND p.id_payroll IN($employees)");
+                                            INNER JOIN payroll p ON p.id_process = pp.id_process AND p.id_payroll IN($employees) AND pp.auto_machine = 0
+                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
             $stmt->execute([
                 'id_product' => $idProduct,
                 'id_company' => $id_company
