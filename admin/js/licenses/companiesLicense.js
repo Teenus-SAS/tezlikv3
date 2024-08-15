@@ -98,7 +98,7 @@ $(document).ready(function () {
     $('html, body').animate({ scrollTop: 0 }, 1000);
   }); 
 
-  checkLicences = async(url, idCompany) => {
+  const checkLicences = async(url, idCompany) => {
     let company = parseFloat($('#company').val());
     let license_start = $('#license_start').val();
     let license_end = $('#license_end').val();
@@ -171,7 +171,10 @@ $(document).ready(function () {
   /* Cambiar Estado Licencia */
   $(document).on('click', '.licenseStatus', function (e) {
     e.preventDefault();
-    id_company = this.id;
+    // Obtener el ID del elemento
+    let id = $(this).attr('id');
+    // Obtener la parte después del guion '-'
+    let id_company = id.split('-')[1]; 
 
     $.ajax({
       type: 'POST',
@@ -190,7 +193,7 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data) => {
+  const message = (data) => {
     if (data.success == true) {
       $('.cardCreateLicense').hide(800);
       $('#formAddLicense').trigger('reset');

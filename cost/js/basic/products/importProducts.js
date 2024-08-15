@@ -178,14 +178,21 @@ $(document).ready(function () {
       url = idUser == '1' ? 'assets/formatsXlsx/Productos(Compuesto-Admin).xlsx': 'assets/formatsXlsx/Productos(Compuesto).xlsx';
     }
 
-    link = document.createElement('a');
-    link.target = '_blank';
+    let newFileName = 'Productos.xlsx';
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = newFileName;
 
-    document.body.removeChild(link);
-    delete link;
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href); // liberar memoria
+      })
+      .catch(console.error);
   });
 });
