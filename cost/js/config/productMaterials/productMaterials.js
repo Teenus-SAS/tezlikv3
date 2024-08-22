@@ -407,7 +407,7 @@ $(document).ready(function () {
     else if (data.info) toastr.info(data.message);
   };
 
-  $('.btnDownloadXlsx').click(function (e) {
+  $('.btnDownloadXlsx').click(async function (e) {
     e.preventDefault();
 
     let wb = XLSX.utils.book_new();
@@ -456,21 +456,54 @@ $(document).ready(function () {
 
     /* Procesos */
     data = [];
-    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess')); 
 
     arr = dataProductProcess.filter((item) => item.id_product == id_product);
     if (arr.length > 0) {
-      for (i = 0; i < arr.length; i++) {
-        data.push({
-          referencia_producto: arr[i].reference,
-          producto: arr[i].product,
-          proceso: arr[i].process,
-          maquina: arr[i].machine,
-          tiempo_enlistamiento: arr[i].enlistment_time,
-          tiempo_operacion: arr[i].operation_time,
-          eficiencia: arr[i].efficiency,
-          maquina_autonoma: arr[i].auto_machine,
-        });
+      for (i = 0; i < arr.length; i++) { 
+        if (flag_employee == '1' && arr[i].employee != '') {
+          let str_name_employees = '';
+          let dataPayroll = sessionStorage.getItem('dataPayroll');
+
+          if (!dataPayroll) {
+            dataPayroll = await searchData('/api/basicPayroll');
+            sessionStorage.setItem('dataPayroll', JSON.stringify(dataPayroll));
+          }
+          
+          let employees = arr[i].employee.toString().split(',');
+          let arr_name_employees = [];
+
+          employees.forEach(item => {
+            let k = dataPayroll.find(obj => obj.id_payroll == item);
+            arr_name_employees.push(k.employee);
+          });
+
+          str_name_employees = arr_name_employees.join(',');
+
+          data.push({
+            referencia_producto: arr[i].reference,
+            producto: arr[i].product,
+            proceso: arr[i].process,
+            maquina: arr[i].machine,
+            tiempo_enlistamiento: arr[i].enlistment_time,
+            tiempo_operacion: arr[i].operation_time,
+            eficiencia: arr[i].efficiency,
+            maquina_autonoma: arr[i].auto_machine,
+            empleados: str_name_employees
+          });
+        } else {
+          data.push({
+            referencia_producto: arr[i].reference,
+            producto: arr[i].product,
+            proceso: arr[i].process,
+            maquina: arr[i].machine,
+            tiempo_enlistamiento: arr[i].enlistment_time,
+            tiempo_operacion: arr[i].operation_time,
+            eficiencia: arr[i].efficiency,
+            maquina_autonoma: arr[i].auto_machine,
+          });
+          
+        }
       }
 
       ws = XLSX.utils.json_to_sheet(data);

@@ -197,22 +197,53 @@ $(document).ready(function () {
       if (execute == false) return false;
       /* Productos Procesos */
       let dataProductsProcess = await searchData('/api/allProductsProcess');
+      /* Nomina */
+      let dataPayroll = await searchData('/api/payroll');
+
       if (dataProductsProcess.length > 0) {
-        data = [];
+        data = []; 
 
         for (i = 0; i < dataProductsProcess.length; i++) {
-          data.push({
-            referencia_producto: dataProductsProcess[i].reference,
-            producto: dataProductsProcess[i].product,
-            proceso: dataProductsProcess[i].process,
-            maquina: dataProductsProcess[i].machine,
-            tiempo_enlistamiento: parseFloat(dataProductsProcess[i].enlistment_time),
-            tiempo_operacion: parseFloat(dataProductsProcess[i].operation_time),
-            eficiencia: parseFloat(dataProductsProcess[i].efficiency),
-            mano_de_obra: parseFloat(dataProductsProcess[i].workforce_cost),
-            costo_indirecto: parseFloat(dataProductsProcess[i].indirect_cost),
-            maquina_autonoma: dataProductsProcess[i].auto_machine
-          });
+          if (flag_employee == '1' && dataProductsProcess[i].employee != '') {
+            let str_name_employees = '';
+
+            let employees = dataProductsProcess[i].employee.toString().split(',');
+            let arr_name_employees = [];
+
+            employees.forEach(item => {
+              let k = dataPayroll.find(obj => obj.id_payroll == item);
+              arr_name_employees.push(k.employee);
+            });
+
+            str_name_employees = arr_name_employees.join(',');
+            
+            data.push({
+              referencia_producto: dataProductsProcess[i].reference,
+              producto: dataProductsProcess[i].product,
+              proceso: dataProductsProcess[i].process,
+              maquina: dataProductsProcess[i].machine,
+              tiempo_enlistamiento: parseFloat(dataProductsProcess[i].enlistment_time),
+              tiempo_operacion: parseFloat(dataProductsProcess[i].operation_time),
+              eficiencia: parseFloat(dataProductsProcess[i].efficiency),
+              mano_de_obra: parseFloat(dataProductsProcess[i].workforce_cost),
+              costo_indirecto: parseFloat(dataProductsProcess[i].indirect_cost),
+              maquina_autonoma: dataProductsProcess[i].auto_machine,
+              empleados: str_name_employees,
+            });
+          } else {
+            data.push({
+              referencia_producto: dataProductsProcess[i].reference,
+              producto: dataProductsProcess[i].product,
+              proceso: dataProductsProcess[i].process,
+              maquina: dataProductsProcess[i].machine,
+              tiempo_enlistamiento: parseFloat(dataProductsProcess[i].enlistment_time),
+              tiempo_operacion: parseFloat(dataProductsProcess[i].operation_time),
+              eficiencia: parseFloat(dataProductsProcess[i].efficiency),
+              mano_de_obra: parseFloat(dataProductsProcess[i].workforce_cost),
+              costo_indirecto: parseFloat(dataProductsProcess[i].indirect_cost),
+              maquina_autonoma: dataProductsProcess[i].auto_machine,
+            });
+          }
         }
 
         ws = XLSX.utils.json_to_sheet(data);
@@ -257,8 +288,7 @@ $(document).ready(function () {
       }
 
       if (execute == false) return false;
-      /* Nomina */
-      let dataPayroll = await searchData('/api/payroll');
+      
       if (dataPayroll.length > 0) {
         data = [];
 

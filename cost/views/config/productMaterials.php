@@ -612,7 +612,6 @@ if (sizeof($_SESSION) == 0)
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
-        flag_employee = "<?= $_SESSION['flag_employee'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
         inyection = "<?= $_SESSION['inyection'] ?>";
         coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";

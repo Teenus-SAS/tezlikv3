@@ -71,6 +71,7 @@
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         export_import = "<?= $_SESSION['export_import'] ?>";
         flag_export_import = "<?= $_SESSION['flag_export_import'] ?>";
+        flag_employee = "<?= $_SESSION['flag_employee'] ?>";
         anual_expense = "<?= $_SESSION['anual_expense'] ?>";
         idUser = "<?= $_SESSION['idUser'] ?>";
 
