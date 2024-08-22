@@ -545,9 +545,9 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                             $resolution = $costWorkforceDao->calcCostPayroll($productProcess[$i]['idProduct'], $id_company);
                     } else {
                         if ($_SESSION['inyection'] == 1)
-                            $productProcess = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($productProcess[$i]['idProduct'], $productProcess[$i]['employees']);
+                            $resolution = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($productProcess[$i]['idProduct'], $productProcess[$i]['employees']);
                         else {
-                            $productProcess = $costWorkforceDao->calcCostPayrollGroupByEmployee($productProcess[$i]['idProduct'], $id_company, $productProcess[$i]['employees']);
+                            $resolution = $costWorkforceDao->calcCostPayrollGroupByEmployee($productProcess[$i]['idProduct'], $id_company, $productProcess[$i]['employees']);
                         }
                     }
                 } else {

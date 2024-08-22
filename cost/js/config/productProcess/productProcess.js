@@ -28,7 +28,7 @@ $(document).ready(function () {
     $('.cardAddProcess').toggle(800);
 
     if (inyection == '1') $('#enlistmentTime').prop('readonly', true);
-
+ 
     $('#btnEmployees').html('');
     $('#formAddProcess').trigger('reset');
     $('.inputs').css('border-color', '');
@@ -36,30 +36,30 @@ $(document).ready(function () {
   });
 
   /* Validar numero de empleados por proceso */
-  if (flag_employee == '1') {
-    $('#idProcess').change(async function (e) {
-      e.preventDefault();
+  // if (flag_employee == '1') {
+  $('#idProcess').change(async function (e) {
+    e.preventDefault();
     
-      checkBoxEmployees = [''];
-      let count_payroll = parseInt(
-        $('#idProcess').find('option:selected').attr('class')
-      );
+    checkBoxEmployees = [''];
+    let count_payroll = parseInt(
+      $('#idProcess').find('option:selected').attr('class')
+    );
 
-      if (count_payroll == 0) {
-        toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
-      }
+    if (count_payroll == 0) {
+      toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
+    }
 
-      $('#btnEmployees').html(count_payroll);
-      let dataPayroll = sessionStorage.getItem('dataPayroll');
+    $('#btnEmployees').html(count_payroll);
+    let dataPayroll = sessionStorage.getItem('dataPayroll');
 
-      if (!dataPayroll) {
-        let data = await searchData('/api/basicPayroll');
-        sessionStorage.setItem('dataPayroll', JSON.stringify(data));
-      }
+    if (!dataPayroll) {
+      let data = await searchData('/api/basicPayroll');
+      sessionStorage.setItem('dataPayroll', JSON.stringify(data));
+    }
 
-      $('.employees').show(800);
-    });
-  }
+    $('.employees').show(800);
+  });
+  // }
 
   /* Seleccionar producto */
   $('#selectNameProduct').change(function (e) {
@@ -97,81 +97,83 @@ $(document).ready(function () {
     $('#totalTime').val(total);
   });
 
-  /* Mostrar operadores */
-  $('#btnEmployees').click(function (e) {
-    e.preventDefault();
+  if (flag_employee == '1') {
+    /* Mostrar operadores */
+    $('#btnEmployees').click(function (e) {
+      e.preventDefault();
     
-    let id_process = $('#idProcess').val();
+      let id_process = $('#idProcess').val();
 
-    let dataPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
-    let idProductProcess = sessionStorage.getItem('id_product_process');
-    let employees = [''];
+      let dataPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
+      let idProductProcess = sessionStorage.getItem('id_product_process');
+      let employees = [''];
 
-    // Filtrar empleados por proceso
-    let data = dataPayroll.filter(item => item.id_process == id_process);
+      // Filtrar empleados por proceso
+      let data = dataPayroll.filter(item => item.id_process == id_process);
 
-    if(checkBoxEmployees[0] == '' || checkBoxEmployees.length == 0)
-      checkBoxEmployees = data.map(item=> (item.id_payroll).toString());
+      if (checkBoxEmployees[0] == '' || checkBoxEmployees.length == 0)
+        checkBoxEmployees = data.map(item => (item.id_payroll).toString());
 
-    if (idProductProcess) {
-      let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+      if (idProductProcess) {
+        let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
 
-      let arr = dataProductProcess.find(
-        (item) => item.id_product_process == idProductProcess
-      );
+        let arr = dataProductProcess.find(
+          (item) => item.id_product_process == idProductProcess
+        );
 
-      if (checkBoxEmployees[0] == '') {
-        employees = arr.employee.toString().split(',');
-      }
-      else
+        if (checkBoxEmployees[0] == '') {
+          employees = arr.employee.toString().split(',');
+        }
+        else
+          employees = checkBoxEmployees;
+
+        if (arr.employee != '')
+          checkBoxEmployees = employees;
+      } else
         employees = checkBoxEmployees;
 
-      if (arr.employee != '')
-        checkBoxEmployees = employees;
-    } else
-      employees = checkBoxEmployees;
-
-    let copyCheckBoxEmployees = [...checkBoxEmployees];
+      let copyCheckBoxEmployees = [...checkBoxEmployees];
     
-    let options = data.map(payrollItem => {
-      let checked = '';
-      if (employees[0] == '') checked = 'checked';
-      else checked = employees.includes(payrollItem.id_payroll.toString()) ? 'checked' : '';
+      let options = data.map(payrollItem => {
+        let checked = '';
+        if (employees[0] == '') checked = 'checked';
+        else checked = employees.includes(payrollItem.id_payroll.toString()) ? 'checked' : '';
 
-      return `<div class='checkbox checkbox-success'>
+        return `<div class='checkbox checkbox-success'>
             <input class='checkboxEmployees' id='chk-${payrollItem.id_payroll}' type='checkbox' ${checked}>
             <label for='chk-${payrollItem.id_payroll}'>${payrollItem.employee}</label>
           </div>`;
-    }).join('');
+      }).join('');
 
 
-    bootbox.confirm({
-      title: 'Empleados',
-      message: options,
-      buttons: {
-        confirm: {
-          label: 'Guardar',
-          className: 'btn-success',
+      bootbox.confirm({
+        title: 'Empleados',
+        message: options,
+        buttons: {
+          confirm: {
+            label: 'Guardar',
+            className: 'btn-success',
+          },
+          cancel: {
+            label: 'Cancelar',
+            className: 'btn-danger',
+          },
         },
-        cancel: {
-          label: 'Cancelar',
-          className: 'btn-danger',
-        },
-      },
-      callback: function (result) {
-        if (result) {
-          if (checkBoxEmployees.length === 0) {
-            toastr.error('Seleccione un empleado');
-            return false;
-          } 
+        callback: function (result) {
+          if (result) {
+            if (checkBoxEmployees.length === 0) {
+              toastr.error('Seleccione un empleado');
+              return false;
+            }
 
-          $('#btnEmployees').html(checkBoxEmployees.length);
-        } else {
-          checkBoxEmployees = copyCheckBoxEmployees;
-        }
-      },
+            $('#btnEmployees').html(checkBoxEmployees.length);
+          } else {
+            checkBoxEmployees = copyCheckBoxEmployees;
+          }
+        },
+      });
     });
-  });
+  }
 
   /* Adicionar nuevo proceso */
   $('#btnAddProcess').click(function (e) {
