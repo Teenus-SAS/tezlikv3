@@ -298,10 +298,18 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             /* Calcular costo nomina */
             if ($productProcess == null) {
                 if ($dataProductProcess['autoMachine'] == '0') {
-                    if ($_SESSION['inyection'] == 1)
-                        $productProcess = $costWorkforceDao->calcCostPayrollInyection($dataProductProcess['idProduct'], $id_company);
-                    else
-                        $productProcess = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+                    if ($dataProductProcess['employees'] == '' || $_SESSION['flag_employee'] == 0) {
+                        if ($_SESSION['inyection'] == 1)
+                            $productProcess = $costWorkforceDao->calcCostPayrollInyection($dataProductProcess['idProduct'], $id_company);
+                        else
+                            $productProcess = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+                    } else {
+                        if ($_SESSION['inyection'] == 1)
+                            $productProcess = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($dataProductProcess['idProduct'], $dataProductProcess['employees']);
+                        else {
+                            $productProcess = $costWorkforceDao->calcCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $dataProductProcess['employees']);
+                        }
+                    }
                 } else
                     $productProcess = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
             }
@@ -530,10 +538,18 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             /* Calcular costo nomina */
             if ($resolution == null) {
                 if ($productProcess[$i]['autoMachine'] == 0) {
-                    if ($_SESSION['inyection'] == 1)
-                        $resolution = $costWorkforceDao->calcCostPayrollInyection($productProcess[$i]['idProduct'], $id_company);
-                    else
-                        $resolution = $costWorkforceDao->calcCostPayroll($productProcess[$i]['idProduct'], $id_company);
+                    if ($productProcess[$i]['employees'] == '' || $_SESSION['flag_employee'] == 0) {
+                        if ($_SESSION['inyection'] == 1)
+                            $resolution = $costWorkforceDao->calcCostPayrollInyection($productProcess[$i]['idProduct'], $id_company);
+                        else
+                            $resolution = $costWorkforceDao->calcCostPayroll($productProcess[$i]['idProduct'], $id_company);
+                    } else {
+                        if ($_SESSION['inyection'] == 1)
+                            $productProcess = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($productProcess[$i]['idProduct'], $productProcess[$i]['employees']);
+                        else {
+                            $productProcess = $costWorkforceDao->calcCostPayrollGroupByEmployee($productProcess[$i]['idProduct'], $id_company, $productProcess[$i]['employees']);
+                        }
+                    }
                 } else {
                     $resolution = $costWorkforceDao->calcCostPayroll($productProcess[$i]['idProduct'], $id_company);
 
