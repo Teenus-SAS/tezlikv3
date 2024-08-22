@@ -104,74 +104,76 @@ $(document).ready(function () {
     
       let id_process = $('#idProcess').val();
 
-      let dataPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
-      let idProductProcess = sessionStorage.getItem('id_product_process');
-      let employees = [''];
+      if (id_process) {
 
-      // Filtrar empleados por proceso
-      let data = dataPayroll.filter(item => item.id_process == id_process);
+        let dataPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
+        let idProductProcess = sessionStorage.getItem('id_product_process');
+        let employees = [''];
 
-      if (checkBoxEmployees[0] == '' || checkBoxEmployees.length == 0)
-        checkBoxEmployees = data.map(item => (item.id_payroll).toString());
+        // Filtrar empleados por proceso
+        let data = dataPayroll.filter(item => item.id_process == id_process);
 
-      if (idProductProcess) {
-        let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+        if (checkBoxEmployees[0] == '' || checkBoxEmployees.length == 0)
+          checkBoxEmployees = data.map(item => (item.id_payroll).toString());
 
-        let arr = dataProductProcess.find(
-          (item) => item.id_product_process == idProductProcess
-        );
+        if (idProductProcess) {
+          let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
 
-        if (checkBoxEmployees[0] == '') {
-          employees = arr.employee.toString().split(',');
-        }
-        else
+          let arr = dataProductProcess.find(
+            (item) => item.id_product_process == idProductProcess
+          );
+
+          if (checkBoxEmployees[0] == '') {
+            employees = arr.employee.toString().split(',');
+          }
+          else
+            employees = checkBoxEmployees;
+
+          if (arr.employee != '')
+            checkBoxEmployees = employees;
+        } else
           employees = checkBoxEmployees;
 
-        if (arr.employee != '')
-          checkBoxEmployees = employees;
-      } else
-        employees = checkBoxEmployees;
-
-      let copyCheckBoxEmployees = [...checkBoxEmployees];
+        let copyCheckBoxEmployees = [...checkBoxEmployees];
     
-      let options = data.map(payrollItem => {
-        let checked = '';
-        if (employees[0] == '') checked = 'checked';
-        else checked = employees.includes(payrollItem.id_payroll.toString()) ? 'checked' : '';
+        let options = data.map(payrollItem => {
+          let checked = '';
+          if (employees[0] == '') checked = 'checked';
+          else checked = employees.includes(payrollItem.id_payroll.toString()) ? 'checked' : '';
 
-        return `<div class='checkbox checkbox-success'>
+          return `<div class='checkbox checkbox-success'>
             <input class='checkboxEmployees' id='chk-${payrollItem.id_payroll}' type='checkbox' ${checked}>
             <label for='chk-${payrollItem.id_payroll}'>${payrollItem.employee}</label>
           </div>`;
-      }).join('');
+        }).join('');
 
+        bootbox.confirm({
+          title: 'Empleados',
+          message: options,
+          buttons: {
+            confirm: {
+              label: 'Guardar',
+              className: 'btn-success',
+            },
+            cancel: {
+              label: 'Cancelar',
+              className: 'btn-danger',
+            },
+          },
+          callback: function (result) {
+            if (result) {
+              if (checkBoxEmployees.length === 0) {
+                toastr.error('Seleccione un empleado');
+                return false;
+              }
 
-      bootbox.confirm({
-        title: 'Empleados',
-        message: options,
-        buttons: {
-          confirm: {
-            label: 'Guardar',
-            className: 'btn-success',
-          },
-          cancel: {
-            label: 'Cancelar',
-            className: 'btn-danger',
-          },
-        },
-        callback: function (result) {
-          if (result) {
-            if (checkBoxEmployees.length === 0) {
-              toastr.error('Seleccione un empleado');
-              return false;
+              $('#btnEmployees').html(checkBoxEmployees.length);
+            } else {
+              checkBoxEmployees = copyCheckBoxEmployees;
             }
-
-            $('#btnEmployees').html(checkBoxEmployees.length);
-          } else {
-            checkBoxEmployees = copyCheckBoxEmployees;
-          }
-        },
-      });
+          },
+        });
+      }
     });
   }
 
