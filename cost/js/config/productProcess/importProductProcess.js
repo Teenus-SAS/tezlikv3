@@ -51,8 +51,12 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion', 'eficiencia', 'maquina_autonoma'];
+        const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion', 'eficiencia', 'empleados', 'maquina_autonoma'];
         const actualHeaders = data.actualHeaders;
+
+        if (flag_employee == '0') {
+          expectedHeaders.splice(expectedHeaders.length - 2, 1);
+        }
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
 
@@ -66,9 +70,8 @@ $(document).ready(function () {
         }
 
         let resp = await validateDataFTP(arr);
-        
-        // if (resp.importStatus == true)
-          checkProductProcess(resp.productProcessToImport, resp.debugg);
+         
+        checkProductProcess(resp.productProcessToImport, resp.debugg);
       })
       .catch(() => {
         $('.cardLoading').remove();
@@ -82,8 +85,7 @@ $(document).ready(function () {
   /* Validar data */ 
   const validateDataFTP = async (data) => {
     let productProcessToImport = [];
-    let debugg = [];
-    // let importStatus = true;
+    let debugg = []; 
 
     const dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
     let dataProcess = JSON.parse(sessionStorage.getItem('dataProcess'));
@@ -111,67 +113,52 @@ $(document).ready(function () {
       !arr.proceso ? arr.proceso = '' : arr.proceso;
       !arr.maquina ? arr.maquina = '' : arr.maquina;
       !arr.maquina_autonoma ? arr.maquina_autonoma = '' : arr.maquina_autonoma;
+      !arr.empleados ? arr.empleados = '' : arr.empleados;
 
       if (
         !arr.referencia_producto || !arr.producto || !arr.proceso || !arr.maquina ||
         enlistmentTime.trim() === '' || operationTime.trim() === '' || efficiency.trim() === '' || !arr.maquina_autonoma ||
         !arr.referencia_producto.toString().trim() || !arr.producto.toString().trim() || !arr.proceso.toString().trim() || !arr.maquina.toString().trim() || !arr.maquina_autonoma.toString().trim()
-      ) {
-        // $('.cardLoading').remove();
-        // $('.cardBottons').show(400);
-        // $('#fileProductsProcess').val('');
-        debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
-        // importStatus = false;
-        // break;
+      ) { 
+        debugg.push({ message: `Columna vacía en la fila: ${i + 2}` }); 
       }
+
+      if (flag_employee == '1') {
+        if (!arr.empleados || !arr.empleados.toString().trim()) {
+          debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
+        }
+      } 
 
       let valOT = parseFloat(operationTime.replace(',', '.')) * 1;
-      if (isNaN(valOT) || valOT <= 0) {
-        // $('.cardLoading').remove();
-        // $('.cardBottons').show(400);
-        // $('#fileProductsProcess').val('');
-        debugg.push({message:`El tiempo de operación debe ser mayor a cero (0). Fila: ${i + 2}`});
-        // importStatus = false;
-        // break;
+      if (isNaN(valOT) || valOT <= 0) { 
+        debugg.push({message:`El tiempo de operación debe ser mayor a cero (0). Fila: ${i + 2}`}); 
       }
 
+      let reference = arr.referencia_producto.toString().trim();
+      let nameProduct = arr.producto.toString().toUpperCase().trim();
+
       let product = dataProducts.find(item =>
-        item.reference == arr.referencia_producto.toString().trim() &&
-        item.product == arr.producto.toString().toUpperCase().trim()
+        item.reference ==  reference &&
+        item.product == nameProduct
       );
 
-      if (!product) {
-        // $('.cardLoading').remove();
-        // $('.cardBottons').show(400);
-        // $('#fileProductsProcess').val('');
+      if (!product) { 
         debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
-        product = { id_product: '' };
-        // importStatus = false;
-        // break;
+        product = { id_product: '' }; 
       }
 
       let process = dataProcess.find(item => item.process == arr.proceso.toString().toUpperCase().trim());
 
       if (!process) {
-        // $('.cardLoading').remove();
-        // $('.cardBottons').show(400);
-        // $('#fileProductsProcess').val('');
-        debugg.push({message:`Proceso no existe en la base de datos. Fila: ${i + 2}`});
-        // importStatus = false;
-        // break;
+        debugg.push({message:`Proceso no existe en la base de datos. Fila: ${i + 2}`}); 
       }
 
       let idMachine = 0;
       if (arr.maquina.toString().toUpperCase().trim() !== 'PROCESO MANUAL') {
         let machine = dataMachines.find(item => item.machine == arr.maquina.toString().toUpperCase().trim());
 
-        if (!machine) {
-          // $('.cardLoading').remove();
-          // $('.cardBottons').show(400);
-          // $('#fileProductsProcess').val('');
-          debugg.push({message:`Máquina no existe en la base de datos. Fila: ${i + 2}`});
-          // importStatus = false;
-          // break;
+        if (!machine) { 
+          debugg.push({message:`Máquina no existe en la base de datos. Fila: ${i + 2}`}); 
         }else
           idMachine = machine.id_machine;
       }
@@ -187,7 +174,7 @@ $(document).ready(function () {
         enlistmentTime: enlistmentTime,
         operationTime: operationTime,
         efficiency: efficiency,
-        employees: '',
+        employees: arr.empleados,
         autoMachine: arr.maquina_autonoma
       });
     }
@@ -287,18 +274,29 @@ $(document).ready(function () {
 
   /* Descargar formato */
   $('#btnDownloadImportsProductsProcess').click(function (e) {
-    e.preventDefault();
-    
+    e.preventDefault(); 
+
     let url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
 
-    let link = document.createElement('a');
-    link.target = '_blank';
+    if (flag_employee == '1') { 
+        url = 'assets/formatsXlsx/Productos_Procesos(Empleados).xlsx'; 
+    } 
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
+    let newFileName = 'Productos_Procesos.xlsx';
 
-    document.body.removeChild(link);
-    delete link;
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = newFileName;
+
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href); // liberar memoria
+      })
+      .catch(console.error);
   });
 });

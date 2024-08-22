@@ -191,6 +191,31 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
                 break;
             }
 
+            if ($_SESSION['flag_employee'] == '1') {
+                $employees = explode(',', $productProcess[$i]['employees']);
+
+                foreach ($employees as $arr) {
+                    // Consultar que exista empleado en nomina
+                    $findEmployee = $generalPayrollDao->findAllPayrollByEmployee($arr, $id_company);
+
+                    if (sizeof($findEmployee) == 0) {
+                        $i = $i + 2;
+                        array_push($debugg, array('message' => "No existe nomina con ese empleado.<br>Nombre: $arr<br>Fila: $i"));
+                    }
+
+                    // Consultar si existe Proceso asociado a el empleado
+                    $data = [];
+                    $data['employee'] = strtoupper(trim($arr));
+                    $data['idProcess'] = isset($productProcess[$i]['idProcess']) ? $productProcess[$i]['idProcess'] : 0;
+                    $findPayroll = $generalPayrollDao->findPayroll($data, $id_company);
+
+                    if (!$findPayroll) {
+                        $i = $i + 2;
+                        array_push($debugg, array('message' => "No existe proceso asociado con ese empleado.<br>Nombre: $arr<br>Fila: $i"));
+                    }
+                }
+            }
+
             if (sizeof($debugg) == 0) {
                 $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
@@ -453,34 +478,33 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
         for ($i = 0; $i < sizeof($productProcess); $i++) {
             if (isset($resolution['info'])) break;
 
-            // Obtener id producto
-            // $findProduct = $productsDao->findProduct($productProcess[$i], $id_company);
-            // $productProcess[$i]['idProduct'] = $findProduct['id_product'];
-
             // Obtener id proceso
             if ($productProcess[$i]['autoMachine'] == 'NO' && strtoupper(trim($productProcess[$i]['machine'])) != 'PROCESO MANUAL') {
                 $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
                 $productProcess[$i]['idProcess'] = $findProcess['id_process'];
             }
-            // } else
-            //     $findProcess = $generalProcessDao->findProcess($productProcess[$i], $id_company);
-
-
-            // Obtener id maquina
-            // Si no está definida agrega 0 a 'idMachine'
-            // if (!isset($productProcess[$i]['machine']) || strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
-            //     $productProcess[$i]['idMachine'] = 0;
-            // } else {
-            //     // Obtener id maquina
-            //     $findMachine = $machinesDao->findMachine($productProcess[$i], $id_company);
-            //     $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
-            // }
 
             //consultar si existe producto_proceso en bd
             //false = no, id_product_process = si
             $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
-            // $productProcess[$i] = $convertDataDao->strReplaceProductsProcess($productProcess[$i]);
+            // Consultar empleados
+            if ($_SESSION['flag_employee'] == '1') {
+                $employees = explode(',', $productProcess[$i]['employees']);
+                $payrolls = [];
+
+                foreach ($employees as $arr) {
+                    $data = [];
+                    $data['employee'] = $arr;
+                    $data['idProcess'] = $productProcess[$i]['idProcess'];
+
+                    $findPayroll = $generalPayrollDao->findPayroll($data, $id_company);
+                    array_push($payrolls, $findPayroll['id_payroll']);
+                }
+
+                $productProcess[$i]['employees'] = implode(',', $payrolls);
+            }
+
             $productProcess[$i]['autoMachine'] == 'SI' ? $productProcess[$i]['autoMachine'] = 1 : $productProcess[$i]['autoMachine'] = 0;
 
             if (!$findProductProcess) {
@@ -491,14 +515,13 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     $i = $i + 2;
                     $resp = array('error' => true, 'message' => "El Proceso ya se encuentra en la Base de Datos<br>Fila: {$i}");
                     break;
-                } //else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
+                }
 
                 $lastInserted = $lastDataDao->findLastInsertedProductProcess($id_company);
 
                 $lastRoute = $generalProductsProcessDao->findNextRouteByProduct($productProcess[$i]['idProduct']);
 
                 $resolution = $generalProductsProcessDao->changeRouteById($lastInserted['id_product_process'], $lastRoute['route']);
-                // $productProcess[$i]['idProductProcess'] = $lastInserted['id_product_process'];
             } else {
                 $productProcess[$i]['idProductProcess'] = $findProductProcess['id_product_process'];
                 $resolution = $productsProcessDao->updateProductsProcess($productProcess[$i]);
@@ -973,7 +996,7 @@ $app->get('/calcGeneralWorkforce', function (Request $request, Response $respons
     for ($i = 0; $i < sizeof($productProcess); $i++) {
         if (isset($resolution['info'])) break;
 
-        if ($productProcess[$i]['auto_machine'] == 'SI') {
+        if ($productProcess[$i]['auto_machine'] == 'NO') {
             if ($productProcess[$i]['employee'] == '' || $_SESSION['flag_employee'] == 0) {
                 if ($_SESSION['inyection'] == 1)
                     $resolution = $costWorkforceDao->calcCostPayrollInyection($productProcess[$i]['id_product'], $id_company);

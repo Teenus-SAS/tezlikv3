@@ -69,7 +69,7 @@ $date = date('Y-m-d');
 
 $lastTrm = $trmDao->findLastInsertedTrm($date);
 
-!is_array($lastTrm) ? $data['date_trm'] =  date('Y-m-d', strtotime($date . ' -1 day')) : $data = $lastTrm;
+!is_array($lastTrm) || isset($lastTrm['info']) ? $data['date_trm'] = date('Y-m-d', strtotime($date . ' -1 day')) : $data = $lastTrm;
 
 if ($date > $data['date_trm'])
     updateLastTrm($trmDao, $date);

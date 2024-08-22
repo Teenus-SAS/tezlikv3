@@ -63,42 +63,7 @@ $(document).ready(function () {
           return false;
         }
         let resp = await validateDataPy(arr);
-
-        // let payrollToImport = arr.map((item) => {
-        //   let basicSalary = '';
-        //   let transport = '';
-        //   let endowment = '';
-        //   let extraTime = '';
-        //   let bonification = '';
-
-        //   if (item.salario_basico)
-        //     basicSalary = item.salario_basico.toString().replace('.', ',');
-        //   if (item.transporte)
-        //     transport = item.transporte.toString().replace('.', ',');
-        //   if (item.dotaciones)
-        //     endowment = item.dotaciones.toString().replace('.', ',');
-        //   if (item.horas_extras)
-        //     extraTime = item.horas_extras.toString().replace('.', ',');
-        //   if (item.otros_ingresos)
-        //     bonification = item.otros_ingresos.toString().replace('.', ',');
-
-
-        //   return {
-        //     employee: item.nombres_y_apellidos,
-        //     process: item.proceso,
-        //     basicSalary: item.salario_basico,
-        //     transport: item.transporte,
-        //     endowment: item.dotaciones,
-        //     extraTime: item.horas_extras,
-        //     bonification: item.otros_ingresos,
-        //     benefit: item.prestacional,
-        //     workingHoursDay: item.horas_trabajo_x_dia,
-        //     workingDaysMonth: item.dias_trabajo_x_mes,
-        //     riskLevel: item.tipo_riesgo,
-        //     typeFactor: item.tipo_nomina,
-        //     factor: item.factor,
-        //   };
-        // });
+ 
         if (resp.importStatus == true)
           checkPayroll(resp.payrollToImport, resp.insert, resp.update);
       })
@@ -235,20 +200,7 @@ $(document).ready(function () {
   };
 
   /* Mensaje de advertencia */
-  const checkPayroll = (data, insert, update) => {
-    // $.ajax({
-    //   type: 'POST',
-    //   url: '/api/payrollDataValidation',
-    //   data: { importPayroll: data },
-    //   success: function (resp) {
-    // if (resp.error == true) {
-    //   toastr.error(resp.message);
-    //   $('.cardLoading').remove();
-    //   $('.cardBottons').show(400);
-    //   $('#filePayroll').val('');
-    //   return false;
-    // }
-
+  const checkPayroll = (data, insert, update) => { 
     bootbox.confirm({
       title: '¿Desea continuar con la importación?',
       message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${insert} <br>Datos a actualizar: ${update}`,
@@ -271,9 +223,7 @@ $(document).ready(function () {
           $('#filePayroll').val('');
         }
       },
-    });
-    // },
-    // });
+    }); 
   };
 
   const savePayroll = (data) => {

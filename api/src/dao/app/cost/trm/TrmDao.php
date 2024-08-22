@@ -30,14 +30,18 @@ class TrmDao
 
     public function findLastInsertedTrm($date)
     {
-        $connection = Connection::getInstance()->getConnection();
+        try {
+            $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM historical_trm WHERE date_trm = :date_trm");
-        $stmt->execute(['date_trm' => $date]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            $stmt = $connection->prepare("SELECT * FROM historical_trm WHERE date_trm = :date_trm");
+            $stmt->execute(['date_trm' => $date]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
-        $historicalTrm = $stmt->fetch($connection::FETCH_ASSOC);
-        return $historicalTrm;
+            $historicalTrm = $stmt->fetch($connection::FETCH_ASSOC);
+            return $historicalTrm;
+        } catch (\Exception $e) {
+            return ['info' => true, 'message' => $e->getMessage()];
+        }
     }
 
     public function getLastTrm()

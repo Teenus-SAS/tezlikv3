@@ -103,7 +103,6 @@ $(document).ready(function () {
     $('#tblConfigProcessBody').empty();
     var body = document.getElementById('tblConfigProcessBody');
 
-
     data.forEach((arr, index) => {
       const i = index;
       const dataRow = body.insertRow();

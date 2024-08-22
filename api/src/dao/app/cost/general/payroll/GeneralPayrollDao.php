@@ -115,7 +115,7 @@ class GeneralPayrollDao
 
         $stmt = $connection->prepare("SELECT * FROM payroll WHERE employee = :employee AND id_company = :id_company");
         $stmt->execute([
-            'employee' => $employee,
+            'employee' => strtoupper(trim($employee)),
             'id_company' => $id_company
         ]);
         $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
