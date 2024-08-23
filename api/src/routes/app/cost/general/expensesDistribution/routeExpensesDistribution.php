@@ -350,6 +350,10 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
         }
 
         if ($resolution == null)
+            // Activar Productos
+            $resolution = $generalProductsDao->activeOrInactiveProducts($dataExpensesDistribution['selectNameProduct'], 1);
+
+        if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
         else if (isset($resolution['info']))
             $resp = array('info' => true, 'message' => $resolution['message']);
