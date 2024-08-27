@@ -624,8 +624,8 @@ if (sizeof($_SESSION) == 0)
                 console.log(resp);
             }
 
-            if (idUser == '1')
-                generalCalcWrkf();
+            // if (idUser == '1')
+            generalCalcWrkf();
         });
         // $('.loading').show(800);
         // document.body.style.overflow = 'hidden';
