@@ -131,35 +131,6 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
 
         if (sizeof($debugg) == 0) {
             for ($i = 0; $i < sizeof($externalService); $i++) {
-                // if (
-                //     empty($externalService[$i]['referenceProduct']) || empty($externalService[$i]['product']) ||
-                //     empty($externalService[$i]['service']) || empty($externalService[$i]['costService'])
-                // ) {
-                //     $i = $i + 2;
-                //     $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                //     break;
-                // }
-                // if (
-                //     empty(trim($externalService[$i]['referenceProduct'])) || empty(trim($externalService[$i]['product'])) ||
-                //     empty(trim($externalService[$i]['service'])) || empty(trim($externalService[$i]['costService']))
-                // ) {
-                //     $i = $i + 2;
-                //     $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                //     break;
-                // }
-
-                // // Obtener id producto
-                // $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
-                // if (!$findProduct) {
-                //     $i = $i + 2;
-                //     $dataImportExternalService = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
-                //     break;
-                // } else $externalService[$i]['idProduct'] = $findProduct['id_product'];
-
-                // $findExternalService = $generalExServicesDao->findExternalService($externalService[$i], $id_company);
-
-                // $findExternalService ? $externalService[$i]['idGService1'] = $findExternalService['id_general_service'] : $externalService[$i]['idGService1'] = '';
-
                 $findExternalService = $generalServicesDao->findExternalService($externalService[$i], $id_company);
 
                 if (!$findExternalService) $insert = $insert + 1;

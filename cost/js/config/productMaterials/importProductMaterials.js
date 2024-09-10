@@ -80,8 +80,7 @@ $(document).ready(function () {
   /* Validar Data */
   const validateDataFTM = async (data) => {
     let productMaterialsToImport = [];
-    let debugg = [];
-    // let importStatus = true;
+    let debugg = []; 
 
     const dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
     let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
@@ -105,25 +104,13 @@ $(document).ready(function () {
         quantity.trim() === '' || waste.trim() === '' || !arr.tipo ||
         !arr.referencia_producto.toString().trim() || !arr.producto.toString().trim() || !arr.referencia_material.toString().trim() || !arr.material.toString().trim() || !arr.magnitud.toString().trim() || !arr.unidad.toString().trim() ||
         !arr.tipo.toString().trim()
-      ) {
-        // $('.cardLoading').remove();
-        // $('.cardBottons').show(400);
-        // $('#fileProductsMaterials').val('');
-        debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
-        // toastr.error(`Columna vacía en la fila: ${i + 2}`);
-        // importStatus = false;
-        // break;
+      ) { 
+        debugg.push({ message: `Columna vacía en la fila: ${i + 2}` }); 
       }
 
       let valQuantity = parseFloat(quantity.replace(',', '.')) * 1;
-      if (isNaN(valQuantity) || valQuantity <= 0) {
-        // $('.cardLoading').remove();
-        // $('.cardBottons').show(400);
-        // $('#fileProductsMaterials').val('');
-        debugg.push({ message: `La cantidad debe ser mayor a cero (0). Fila: ${i + 2}` });
-        // toastr.error(`La cantidad debe ser mayor a cero (0). Fila: ${i + 2}`);
-        // importStatus = false;
-        // break;
+      if (isNaN(valQuantity) || valQuantity <= 0) { 
+        debugg.push({ message: `La cantidad debe ser mayor a cero (0). Fila: ${i + 2}` }); 
       }
 
       let product = dataProducts.find(item =>
@@ -131,15 +118,9 @@ $(document).ready(function () {
         item.product == arr.producto.toString().toUpperCase().trim()
       );
 
-      if (!product) {
-        // $('.cardLoading').remove();
-        // $('.cardBottons').show(400);
-        // $('#fileProductsMaterials').val('');
+      if (!product) { 
         debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
-        product = { id_product: '' };
-        // toastr.error(`Producto no existe en la base de datos. Fila: ${i + 2}`);
-        // importStatus = false;
-        // break;
+        product = { id_product: '' }; 
       }
 
       productMaterialsToImport.push({
@@ -168,13 +149,8 @@ $(document).ready(function () {
             item.material == arr.material.toString().toUpperCase().trim()
           );
 
-          if (!material) {
-            // $('.cardLoading').remove();
-            // $('.cardBottons').show(400);
-            // $('#fileProductsMaterials').val('');
-            debugg.push({ message: `Materia prima no existe en la base de datos. Fila: ${i + 2}` });
-            // importStatus = false;
-            // break;
+          if (!material) { 
+            debugg.push({ message: `Materia prima no existe en la base de datos. Fila: ${i + 2}` }); 
           } else {
             productMaterialsToImport[i]['idProduct'] = product.id_product;
             productMaterialsToImport[i]['material'] = material.id_material;
@@ -187,22 +163,12 @@ $(document).ready(function () {
             item.product == arr.material.toString().toUpperCase().trim()
           );
 
-          if (!compositeProduct) {
-            // $('.cardLoading').remove();
-            // $('.cardBottons').show(400);
-            // $('#fileProductsMaterials').val('');
-            debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` });
-            // importStatus = false;
-            // break;
+          if (!compositeProduct) { 
+            debugg.push({ message: `Producto no existe en la base de datos. Fila: ${i + 2}` }); 
           } else {
             if (typeof compositeProduct === 'object' && !Array.isArray(compositeProduct) && compositeProduct !== null &&
-              compositeProduct.composite == 0) {
-              // $('.cardLoading').remove();
-              // $('.cardBottons').show(400);
-              // $('#fileProductsMaterials').val('');
-              debugg.push({ message: `Producto no está definido como compuesto. Fila: ${i + 2}` });
-              // importStatus = false;
-              // break;
+              compositeProduct.composite == 0) { 
+              debugg.push({ message: `Producto no está definido como compuesto. Fila: ${i + 2}` }); 
             } else {
               productMaterialsToImport[i]['idProduct'] = product.id_product;
               productMaterialsToImport[i]['compositeProduct'] = compositeProduct.id_product;
@@ -210,13 +176,8 @@ $(document).ready(function () {
           }
           break;
 
-        default:
-          // $('.cardLoading').remove();
-          // $('.cardBottons').show(400);
-          // $('#fileProductsMaterials').val('');
-          debugg.push({ message: `Tipo desconocido en la fila: ${i + 2}` });
-          // importStatus = false;
-        // break;
+        default: 
+          debugg.push({ message: `Tipo desconocido en la fila: ${i + 2}` }); 
       }
     }
 

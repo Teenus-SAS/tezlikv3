@@ -187,18 +187,16 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
             $magnitude = $magnitudesDao->findMagnitude($productMaterials[$i]);
 
             if (!$magnitude) {
-                $i = $i + 2;
-                array_push($debugg, array('message' => "Magnitud no existe en la base de datos. Fila: $i"));
-                // break;
+                $row = $i + 2;
+                array_push($debugg, array('message' => "Magnitud no existe en la base de datos. Fila: $row"));
             } else {
                 $productMaterials[$i]['idMagnitude'] = $magnitude['id_magnitude'];
                 // Consultar unidad
                 $unit = $unitsDao->findUnit($productMaterials[$i]);
 
                 if (!$unit) {
-                    $i = $i + 2;
-                    array_push($debugg, array('message' => "Unidad no existe en la base de datos. Fila: $i"));
-                    // break;
+                    $row = $i + 2;
+                    array_push($debugg, array('message' => "Unidad no existe en la base de datos. Fila: $row"));
                 }
             }
 

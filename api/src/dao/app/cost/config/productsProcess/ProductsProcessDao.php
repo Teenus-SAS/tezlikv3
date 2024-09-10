@@ -41,7 +41,7 @@ class ProductsProcessDao
                                                 pp.route, 
                                                 IF(pp.auto_machine = 0, 'NO','SI') AS auto_machine, 
                                                 COUNT(DISTINCT py.employee) AS count_employee
-                                      FROM  products p 
+                                      FROM products p 
                                         INNER JOIN products_process pp ON pp.id_product = p.id_product
                                         INNER JOIN process pc ON pc.id_process = pp.id_process
                                         LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 

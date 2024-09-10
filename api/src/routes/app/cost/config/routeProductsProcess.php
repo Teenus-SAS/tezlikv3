@@ -178,16 +178,15 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
             if ($productProcess[$i]['autoMachine'] == 'NO' && strtoupper(trim($productProcess[$i]['machine'])) != 'PROCESO MANUAL') {
                 $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
                 if (!$findProcess) {
-                    $i = $i + 2;
-                    array_push($debugg, array('message' => "No existe nomina asociada a este proceso<br>Fila: $i"));
-                    // break;
+                    $row = $i + 2;
+                    array_push($debugg, array('message' => "No existe nomina asociada a este proceso<br>Fila: $row"));
                 } else
                     $productProcess[$i]['idProcess'] = $findProcess['id_process'];
             }
 
             if ($productProcess[$i]['autoMachine'] == 'SI' && strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
-                $i = $i + 2;
-                array_push($debugg, array('message' => "No se permite esa maquina autonoma<br>Fila: $i"));
+                $row = $i + 2;
+                array_push($debugg, array('message' => "No se permite esa maquina autonoma<br>Fila: $row"));
                 break;
             }
 
@@ -199,8 +198,8 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
                     $findEmployee = $generalPayrollDao->findAllPayrollByEmployee($arr, $id_company);
 
                     if (sizeof($findEmployee) == 0) {
-                        $i = $i + 2;
-                        array_push($debugg, array('message' => "No existe nomina con ese empleado.<br>Nombre: $arr<br>Fila: $i"));
+                        $row = $i + 2;
+                        array_push($debugg, array('message' => "No existe nomina con ese empleado.<br>Nombre: $arr<br>Fila: $row"));
                     }
 
                     // Consultar si existe Proceso asociado a el empleado
@@ -210,8 +209,8 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
                     $findPayroll = $generalPayrollDao->findPayroll($data, $id_company);
 
                     if (!$findPayroll) {
-                        $i = $i + 2;
-                        array_push($debugg, array('message' => "No existe proceso asociado con ese empleado.<br>Nombre: $arr<br>Fila: $i"));
+                        $row = $i + 2;
+                        array_push($debugg, array('message' => "No existe proceso asociado con ese empleado.<br>Nombre: $arr<br>Fila: $row"));
                     }
                 }
             }
