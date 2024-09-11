@@ -317,7 +317,6 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     $resolution = null;
 
     if ($dataExpensesDistributions > 1) {
-
         if ($flag == 2) {
             $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily'], $id_company);
 
@@ -388,6 +387,14 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                 $expensesDistribution[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
                 $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
             }
+
+            if (
+                $expensesDistribution[$i]['unitsSold'] > 0 &&
+                $expensesDistribution[$i]['turnover'] > 0
+            ) {
+                $resolution = $generalProductsDao->updateStatusNewProduct($expensesDistribution[$i]['selectNameProduct'], 0);
+            }
+
             if ($resolution != null) break;
 
             // Activar Productos
