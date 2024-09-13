@@ -346,6 +346,13 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                 $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
                 $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
             }
+
+            if (
+                $dataExpensesDistribution['unitsSold'] > 0 &&
+                $dataExpensesDistribution['turnover'] > 0
+            ) {
+                $resolution = $generalProductsDao->updateStatusNewProduct($dataExpensesDistribution['selectNameProduct'], 0);
+            }
         }
 
         if ($resolution == null)
