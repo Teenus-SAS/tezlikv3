@@ -123,7 +123,7 @@ $(document).ready(function () {
         debugg.push({ message: `Columna vacía en la fila: ${i + 2}` }); 
       }
 
-      if (flag_employee == '1') {
+      if (flag_employee == '1' && arr.maquina_autonoma == 'NO') { 
         if (!arr.empleados || !arr.empleados.toString().trim()) {
           debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
         }

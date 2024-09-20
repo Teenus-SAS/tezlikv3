@@ -18,16 +18,6 @@ class GenerateCodeDao
 
     public function GenerateCode()
     {
-        // $string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz!#$%&/()=?¡*][_:;,.><";
-        // $longString = strlen($string);
-        // $code = "";
-        // $longCode = 12;
-
-        // for ($i = 1; $i <= $longCode; $i++) {
-        //     $pos = rand(0, $longString - 1);
-        //     $code .= substr($string, $pos, 1);
-        // }
-        // return $code;
         $string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz!#%&/()=?¡*][_:;,.><';
         $codeLength = 12;
         $code = '';

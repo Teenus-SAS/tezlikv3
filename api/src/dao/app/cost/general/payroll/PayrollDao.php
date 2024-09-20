@@ -20,19 +20,53 @@ class PayrollDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, 
-                                          p.factor_benefit, p.salary_net, p.type_contract, p.minute_value, pp.process, p.id_risk, rk.risk_level, IFNULL(rk.percentage, 0) AS percentage, 
-                                          IF(cl.flag_employee = 1, IFNULL((SELECT GROUP_CONCAT(ppp.id_product_process) AS id_product_process
-                                    FROM payroll cpy 
-                                    INNER JOIN products_process ppp ON ppp.id_process = cpy.id_process AND ppp.employee LIKE CONCAT('%', cpy.id_payroll,'%')
-                                    WHERE cpy.id_payroll = p.id_payroll), 0), 0) AS id_product_process,
-                                                                              IFNULL((SELECT COUNT(id_product_process) FROM products_process WHERE employee LIKE CONCAT('%', p.id_payroll, '%')), 0) AS count_pp
-                                                                        FROM payroll p 
-                                                                          INNER JOIN process pp ON p.id_process = pp.id_process
-                                                                          LEFT JOIN risks rk ON rk.id_risk = p.id_risk
-                                                                          INNER JOIN companies_licenses cl ON cl.id_company = p.id_company 
-                                                                        WHERE p.id_company = :id_company
-                                                                        ORDER BY p.route ASC;");
+    $stmt = $connection->prepare("SELECT
+                                      p.id_payroll,
+                                      p.id_process,
+                                      p.id_company,
+                                      p.employee,
+                                      p.salary,
+                                      p.transport,
+                                      p.extra_time,
+                                      p.bonification,
+                                      p.endowment,
+                                      p.working_days_month,
+                                      p.hours_day,
+                                      p.factor_benefit,
+                                      p.salary_net,
+                                      p.type_contract,
+                                      p.minute_value,
+                                      pp.process,
+                                      p.id_risk,
+                                      rk.risk_level,
+                                      IFNULL(rk.percentage, 0) AS percentage,
+                                      IF(
+                                          cl.flag_employee = 1,
+                                          IFNULL(
+                                              (
+                                                SELECT GROUP_CONCAT(ppp.id_product_process) AS id_product_process
+                                                FROM payroll cpy
+                                                INNER JOIN products_process ppp ON ppp.id_process = cpy.id_process AND ppp.employee LIKE CONCAT('%', cpy.id_payroll, '%')
+                                                WHERE cpy.id_payroll = p.id_payroll
+                                              ), 0
+                                          ), 0
+                                      ) AS id_product_process,
+                                      IFNULL(
+                                          (
+                                          SELECT
+                                              COUNT(id_product_process)
+                                          FROM
+                                              products_process
+                                          WHERE
+                                              employee LIKE CONCAT('%', p.id_payroll, '%')
+                                      ),
+                                      0
+                                      ) AS count_pp
+                                  FROM payroll p
+                                    INNER JOIN process pp ON p.id_process = pp.id_process
+                                    LEFT JOIN risks rk ON rk.id_risk = p.id_risk
+                                    INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
+                                  WHERE p.id_company = :id_company ORDER BY p.route ASC;");
 
     /*$stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, p.factor_benefit, p.salary_net, 
                                          p.type_contract, p.minute_value, pp.process, p.id_risk, rk.risk_level, IFNULL(rk.percentage, 0) AS percentage, IF(cl.flag_employee = 1, IFNULL(ppp.id_product_process, 0), 0) AS id_product_process, IFNULL(ppp.count_pp, 0) AS count_pp
@@ -72,13 +106,20 @@ class PayrollDao
                                     VALUES (:id_company, :id_process, :employee, :salary, :transport, :extra_time, :bonification, :endowment,
                                             :working_days_month, :hours_day, :factor_benefit, :id_risk, :salary_net, :type_contract, :minute_value)");
       $stmt->execute([
-        'id_company' => $id_company,                                      'employee' => strtoupper(trim($dataPayroll['employee'])),
-        'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['basicSalary']),
-        'transport' => trim($dataPayroll['transport']),                   'extra_time' => trim($dataPayroll['extraTime']),
-        'bonification' => trim($dataPayroll['bonification']),             'endowment' => trim($dataPayroll['endowment']),
-        'working_days_month' => trim($dataPayroll['workingDaysMonth']),   'hours_day' => trim($dataPayroll['workingHoursDay']),
-        'factor_benefit' => trim($dataPayroll['factor']),                 'type_contract' => ucfirst(strtolower(trim($dataPayroll['typeFactor']))),
-        'id_risk' => trim($dataPayroll['risk']),                          'minute_value' => trim($dataPayroll['minuteValue']),
+        'id_company' => $id_company,
+        'employee' => strtoupper(trim($dataPayroll['employee'])),
+        'id_process' => trim($dataPayroll['idProcess']),
+        'salary' => trim($dataPayroll['basicSalary']),
+        'transport' => trim($dataPayroll['transport']),
+        'extra_time' => trim($dataPayroll['extraTime']),
+        'bonification' => trim($dataPayroll['bonification']),
+        'endowment' => trim($dataPayroll['endowment']),
+        'working_days_month' => trim($dataPayroll['workingDaysMonth']),
+        'hours_day' => trim($dataPayroll['workingHoursDay']),
+        'factor_benefit' => trim($dataPayroll['factor']),
+        'type_contract' => ucfirst(strtolower(trim($dataPayroll['typeFactor']))),
+        'id_risk' => trim($dataPayroll['risk']),
+        'minute_value' => trim($dataPayroll['minuteValue']),
         'salary_net' => trim($dataPayroll['salaryNet'])
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -101,13 +142,20 @@ class PayrollDao
                                             hours_day=:hours_day, factor_benefit=:factor_benefit, id_risk = :id_risk, salary_net= :salary_net, type_contract=:type_contract, minute_value=:minute_value
                                     WHERE id_payroll = :id_payroll");
       $stmt->execute([
-        'id_payroll' => trim($dataPayroll['idPayroll']),                  'employee' => strtoupper(trim($dataPayroll['employee'])),
-        'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['basicSalary']),
-        'transport' => trim($dataPayroll['transport']),                   'extra_time' => trim($dataPayroll['extraTime']),
-        'bonification' => trim($dataPayroll['bonification']),             'endowment' => trim($dataPayroll['endowment']),
-        'working_days_month' => trim($dataPayroll['workingDaysMonth']),   'hours_day' => trim($dataPayroll['workingHoursDay']),
-        'factor_benefit' => trim($dataPayroll['factor']),                 'type_contract' => ucfirst(strtolower(trim($dataPayroll['typeFactor']))),
-        'id_risk' => trim($dataPayroll['risk']),                          'minute_value' => trim($dataPayroll['minuteValue']),
+        'id_payroll' => trim($dataPayroll['idPayroll']),
+        'employee' => strtoupper(trim($dataPayroll['employee'])),
+        'id_process' => trim($dataPayroll['idProcess']),
+        'salary' => trim($dataPayroll['basicSalary']),
+        'transport' => trim($dataPayroll['transport']),
+        'extra_time' => trim($dataPayroll['extraTime']),
+        'bonification' => trim($dataPayroll['bonification']),
+        'endowment' => trim($dataPayroll['endowment']),
+        'working_days_month' => trim($dataPayroll['workingDaysMonth']),
+        'hours_day' => trim($dataPayroll['workingHoursDay']),
+        'factor_benefit' => trim($dataPayroll['factor']),
+        'type_contract' => ucfirst(strtolower(trim($dataPayroll['typeFactor']))),
+        'id_risk' => trim($dataPayroll['risk']),
+        'minute_value' => trim($dataPayroll['minuteValue']),
         'salary_net' => trim($dataPayroll['salaryNet']),
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
