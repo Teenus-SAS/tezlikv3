@@ -499,7 +499,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
             // Consultar empleados
-            if ($_SESSION['flag_employee'] == '1' && $productProcess[$i]['autoMachine'] == 'SI') {
+            if ($_SESSION['flag_employee'] == '1' && $productProcess[$i]['employees'] != '') {
                 $employees = explode(',', $productProcess[$i]['employees']);
                 $payrolls = [];
 
