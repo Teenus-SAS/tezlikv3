@@ -123,11 +123,11 @@ $(document).ready(function () {
         debugg.push({ message: `Columna vacía en la fila: ${i + 2}` }); 
       }
 
-      if (flag_employee == '1' && arr.maquina_autonoma == 'NO') { 
-        if (!arr.empleados || !arr.empleados.toString().trim()) {
-          debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
-        }
-      } 
+      // if (flag_employee == '1' && arr.maquina_autonoma == 'NO') { 
+      //   if (!arr.empleados || !arr.empleados.toString().trim()) {
+      //     debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
+      //   }
+      // } 
 
       let valOT = parseFloat(operationTime.replace(',', '.')) * 1;
       if (isNaN(valOT) || valOT <= 0) { 

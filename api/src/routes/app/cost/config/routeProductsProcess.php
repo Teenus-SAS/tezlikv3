@@ -190,9 +190,12 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
                 break;
             }
 
-            if ($_SESSION['flag_employee'] == '1') {
+            if (
+                $_SESSION['flag_employee'] == '1' &&
+                $productProcess[$i]['autoMachine'] == "NO" &&
+                trim($productProcess[$i]['employees']) != ""
+            ) {
                 $employees = explode(',', $productProcess[$i]['employees']);
-
                 foreach ($employees as $arr) {
                     // Consultar que exista empleado en nomina
                     $findEmployee = $generalPayrollDao->findAllPayrollByEmployee($arr, $id_company);
@@ -496,7 +499,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
             // Consultar empleados
-            if ($_SESSION['flag_employee'] == '1') {
+            if ($_SESSION['flag_employee'] == '1' && $productProcess[$i]['autoMachine'] == 'SI') {
                 $employees = explode(',', $productProcess[$i]['employees']);
                 $payrolls = [];
 
@@ -510,7 +513,8 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 }
 
                 $productProcess[$i]['employees'] = implode(',', $payrolls);
-            }
+            } else
+                $productProcess[$i]['employees'] = '';
 
             $productProcess[$i]['autoMachine'] == 'SI' ? $productProcess[$i]['autoMachine'] = 1 : $productProcess[$i]['autoMachine'] = 0;
 
