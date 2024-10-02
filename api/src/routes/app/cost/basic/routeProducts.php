@@ -349,7 +349,7 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
                             break;
                         }
 
-                        if ($findProduct && $products[$i]['composite'] == 'NO') {
+                        if ($findProduct && strtoupper(trim($products[$i]['composite'] == 'NO'))) {
                             $product = $generalCompositeProductsDao->findCompositeProductByChild($findProduct['id_product']);
 
                             if (sizeof($product) > 0) {
@@ -462,7 +462,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                 else
                     $product = $generalProductsDao->findProduct($products[$i], $id_company);
 
-                $products[$i]['active'] == 'SI' ? $products[$i]['active'] = 1 : $products[$i]['active'] = 0;
+                strtoupper(trim($products[$i]['active'])) == 'SI' ? $products[$i]['active'] = 1 : $products[$i]['active'] = 0;
 
                 if (!$product) {
                     $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
@@ -505,7 +505,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                 if (isset($resolution['info'])) break;
 
                 if ($_SESSION['flag_composite_product'] == '1') {
-                    $products[$i]['composite'] == 'SI' ? $op = 1 : $op = 0;
+                    strtoupper(trim($products[$i]['composite'])) == 'SI' ? $op = 1 : $op = 0;
 
                     $resolution = $generalProductsDao->changeCompositeProduct($products[$i]['idProduct'], $op);
                 }

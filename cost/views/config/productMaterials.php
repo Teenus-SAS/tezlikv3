@@ -394,9 +394,6 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             </div>
                                         </form>
-                                        <!-- <div class="alert alert-warning" role="alert">
-                                            Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto.
-                                        </div> -->
                                     </div>
                                 </div>
                             </div>
