@@ -147,7 +147,7 @@ $(document).ready(function () {
         break;
       }
 
-      let magnitude = dataMagnitudes.find(item => item.magnitude === arr.magnitud.toString().trim());
+      let magnitude = dataMagnitudes.find(item => item.magnitude === arr.magnitud.toString().toUpperCase().trim());
       if (!magnitude) {
         $('.cardLoading').remove();
         $('.cardBottons').show(400);
@@ -157,7 +157,7 @@ $(document).ready(function () {
         break;
       }
 
-      let unity = dataUnits.find(item => item.id_magnitude === magnitude.id_magnitude && item.unit === arr.unidad.trim());
+      let unity = dataUnits.find(item => item.id_magnitude === magnitude.id_magnitude && item.unit === arr.unidad.toUpperCase().trim());
       if (!unity) {
         $('.cardLoading').remove();
         $('.cardBottons').show(400);
@@ -174,13 +174,13 @@ $(document).ready(function () {
       });
 
       if (arr.categoria) {
-        let category = dataCategory.find(item => item.category === arr.categoria.trim());
+        let category = dataCategory.find(item => item.category === arr.categoria.toUpperCase().trim());
         if (category) {
           materialsToImport[i].idCategory = category.id_category;
         }
       }
 
-      let material = dataMaterials.find(item => item.reference === arr.referencia.trim() && item.material === arr.material.trim());
+      let material = dataMaterials.find(item => item.reference === arr.referencia.trim() && item.material === arr.material.toUpperCase().trim());
       if (material) {
         update += 1;
         materialsToImport[i].idMaterial = material.id_material;
