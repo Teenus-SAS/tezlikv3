@@ -6,7 +6,7 @@ $(document).ready(function () {
   // Tiempo de inactividad
   (function () {
     var minutes = true;
-    var interval = minutes ? 60000 : 1000;
+    var interval = minutes ? 600000 : 1000;
     var IDLE_TIMEOUT = 10;
     var idleCounter = 0;
 

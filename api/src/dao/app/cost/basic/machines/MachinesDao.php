@@ -19,10 +19,44 @@ class MachinesDao
   public function findAllMachinesByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT m.id_machine, m.id_company, m.machine, m.cost, m.years_depreciation, m.residual_value, m.minute_depreciation, m.hours_machine, m.days_machine, m.cicles_machine, m.cavities, m.unity_time, IFNULL(IF((SELECT id_product_process FROM products_process WHERE id_machine = m.id_machine LIMIT 1) = NULL, 
-                                         (SELECT id_manufacturing_load FROM manufacturing_load WHERE id_machine = m.id_machine LIMIT 1), (SELECT id_product_process FROM products_process WHERE id_machine = m.id_machine LIMIT 1)), 0) AS status
+    $stmt = $connection->prepare("SELECT
+                                    -- Columnas
+                                      m.id_machine,
+                                      m.id_company,
+                                      m.machine,
+                                      m.cost,
+                                      m.years_depreciation,
+                                      m.residual_value,
+                                      m.minute_depreciation,
+                                      m.hours_machine,
+                                      m.days_machine,
+                                      m.cicles_machine,
+                                      m.cavities,
+                                      m.unity_time,
+                                      IFNULL(
+                                              IF(
+                                                  (
+                                                    SELECT id_product_process
+                                                    FROM products_process
+                                                    WHERE id_machine = m.id_machine
+                                                    LIMIT 1
+                                                  ) = NULL,
+                                                  (
+                                                    SELECT id_manufacturing_load
+                                                    FROM manufacturing_load
+                                                    WHERE id_machine = m.id_machine
+                                                    LIMIT 1
+                                                  ),
+                                                  (
+                                                    SELECT id_product_process
+                                                    FROM products_process
+                                                    WHERE id_machine = m.id_machine
+                                                    LIMIT 1
+                                                  )
+                                                ), 0
+                                            ) AS status
                                   FROM machines m
-                                  WHERE id_company = :id_company 
+                                  WHERE id_company = :id_company
                                   ORDER BY machine ASC");
     $stmt->execute(['id_company' => $id_company]);
 
@@ -39,9 +73,9 @@ class MachinesDao
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("INSERT INTO machines (id_company ,machine, cost, years_depreciation, 
+      $stmt = $connection->prepare("INSERT INTO machines (id_company, machine, cost, years_depreciation, 
                                                 residual_value, hours_machine, days_machine) 
-                                    VALUES (:id_company ,:machine, :cost, :years_depreciation,
+                                    VALUES (:id_company, :machine, :cost, :years_depreciation,
                                         :residual_value, :hours_machine, :days_machine)");
       $stmt->execute([
         'id_company' => $id_company,
