@@ -212,32 +212,12 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
     $makeEmailDao,
     $sendEmailDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
-
     try {
         $resolution = [];
 
-        $resolution = $userDao->findUser($args['email']);
+        $user = $userDao->findUser($args['email']);
 
-        if ($resolution == false) {
+        if ($user == false) {
             // Creacion compañia
             $resolution = $companyDao->addCompanyDemo();
 
@@ -269,18 +249,17 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
 
                 $resolution = $costAccessUserDao->insertUserAccessByUser($dataUser, -1);
             }
-            // }
-        } else $resolution = 1;
 
-        if ($resolution == 1) {
+            if ($resolution == null) {
+                $resp = array('success' => true, 'message' => 'Usuario creado correctamente', 'pass' => $newPass);
+            } elseif (isset($resolution['info'])) {
+                $resp = array('info' => true, 'message' => $resolution['message']);
+            } else {
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+            }
+            // }
+        } else
             $resp = array('error' => true, 'message' => 'El email ya se encuentra registrado. Intente con uno nuevo');
-        } elseif ($resolution == null) {
-            $resp = array('success' => true, 'message' => 'Usuario creado correctamente', 'pass' => $newPass);
-        } elseif (isset($resolution['info'])) {
-            $resp = array('info' => true, 'message' => $resolution['message']);
-        } else {
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
-        }
     } catch (\Exception $e) {
         $message = $e->getMessage();
         $resp = array('info' => true, 'message' => $message);
