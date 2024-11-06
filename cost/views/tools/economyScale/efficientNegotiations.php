@@ -184,6 +184,27 @@ if (sizeof($_SESSION) == 0)
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td class="font-weight-bold">Porcentaje</td>
+                                                        <td>
+                                                            <!-- <input class="form-control text-center general" type="text" id="percentage-0" value="100" readonly> -->
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control text-center general percentage" type="number" id="percentage-1" min="0" max="100">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control text-center general percentage" type="number" id="percentage-2" min="0" max="100">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control text-center general percentage" type="number" id="percentage-3" min="0" max="100">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control text-center general percentage" type="number" id="percentage-4" min="0" max="100">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control text-center general percentage" type="number" id="percentage-5" min="0" max="100">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td class="font-weight-bold">Precio</td>
                                                         <td>
                                                             <input class="form-control text-center price general" type="text" id="price-0" readonly>
@@ -269,12 +290,12 @@ if (sizeof($_SESSION) == 0)
                                                     </tr>
                                                     <tr>
                                                         <td class="font-weight-bold" style="color: black;">Margen de Utilidad</td>
-                                                        <td class="font-weight-bold text-center general" id="percentage-0" style="color: black;"></td>
-                                                        <td class="font-weight-bold text-center general" id="percentage-1" style="color: black;"></td>
-                                                        <td class="font-weight-bold text-center general" id="percentage-2" style="color: black;"></td>
-                                                        <td class="font-weight-bold text-center general" id="percentage-3" style="color: black;"></td>
-                                                        <td class="font-weight-bold text-center general" id="percentage-4" style="color: black;"></td>
-                                                        <td class="font-weight-bold text-center general" id="percentage-5" style="color: black;"></td>
+                                                        <td class="font-weight-bold text-center general" id="profitMargin-0" style="color: black;"></td>
+                                                        <td class="font-weight-bold text-center general" id="profitMargin-1" style="color: black;"></td>
+                                                        <td class="font-weight-bold text-center general" id="profitMargin-2" style="color: black;"></td>
+                                                        <td class="font-weight-bold text-center general" id="profitMargin-3" style="color: black;"></td>
+                                                        <td class="font-weight-bold text-center general" id="profitMargin-4" style="color: black;"></td>
+                                                        <td class="font-weight-bold text-center general" id="profitMargin-5" style="color: black;"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

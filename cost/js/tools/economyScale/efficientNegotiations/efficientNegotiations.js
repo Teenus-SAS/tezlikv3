@@ -20,21 +20,21 @@ $(document).ready(function () {
 
   loadAllData();
 
+  function syncSelects(changedSelect, targetSelect) {
+    let id = changedSelect.value;
+    $(`${targetSelect} option`).removeAttr('selected');
+    $(`${targetSelect} option[value=${id}]`).prop('selected', true);
+    loadDataProduct(id, 1);
+  }
+
   $('#refProduct').change(function (e) {
     e.preventDefault();
-
-    let id = this.value;
-    $('#selectNameProduct option').removeAttr('selected');
-    $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id, 1);
+    syncSelects(this, '#selectNameProduct');
   });
 
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
-    let id = this.value;
-    $('#refProduct option').removeAttr('selected');
-    $(`#refProduct option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id, 1);
+    syncSelects(this, '#refProduct');
   });
 
   loadDataProduct = async (id, op) => {
@@ -54,9 +54,7 @@ $(document).ready(function () {
     actual_price = Math.ceil(data.sale_price);
     if (typeExpense == '1') {
       real_price = parseFloat(data.turnover) / parseFloat(data.units_sold);
-    } else {
-      // sugered_price = Math.ceil(data.price) / 12;
-      // actual_price = Math.ceil(data.sale_price) / 12;
+    } else { 
       real_price = parseFloat(data.turnover_anual) / parseFloat(data.units_sold_anual);
     }
     
@@ -95,13 +93,7 @@ $(document).ready(function () {
       price = actual_price; 
     } else {
       price = real_price; 
-    } 
-      
-    // if (price == 0 || !price) {
-    //   typePrice.id == 'sugered' ? price = 'sugerido' : typePrice.id == 'actual' ? price = 'actual': price = 'real';
-    //   toastr.error(`Ingrese el precio de venta ${price} para el producto`);
-    //   return false;
-    // } 
+    }  
 
     let typeCurrency = '1';
     
@@ -109,8 +101,7 @@ $(document).ready(function () {
       typeCurrency = sessionStorage.getItem('typeCurrency');
 
     $('.selectTypeExpense').hide();
-
-    // price_usd == '1' &&
+ 
     switch (typeCurrency) {
       case '2': // Dolares
         price = price / parseFloat(coverage_usd);
@@ -139,10 +130,7 @@ $(document).ready(function () {
 
     // Regla de tres rentabilidad
     profitability = (price * data.profitability) / price;
-
-    /* Precios price_usd == '1' && */
-    // typeCurrency == '2' && flag_currency_usd == '1' ? max = 2 : max = 0;
-
+ 
     $('.price').val(price.toFixed(max));
     $('#price-0').val(price.toLocaleString('es-CO', { maximumFractionDigits: max }));
 

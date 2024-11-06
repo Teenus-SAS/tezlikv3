@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  /* Calculo */
+  /* Calculo 
   $(document).on('blur', '.totalRevenue', function () {
     try {
       let idProduct = $('#refProduct').val();
@@ -20,11 +20,9 @@ $(document).ready(function () {
         $(`#unityCost-${row}`).html('');
         $(`#unitUtility-${row}`).html('');
         $(`#netUtility-${row}`).html('');
-        $(`#percentage-${row}`).html('');
+        $(`#profitMargin-${row}`).html('');
 
         toastr.error('Ingrese un valor mayor a cero');
-
-        // loadDataProduct(idProduct);
         return false;
       }
 
@@ -32,17 +30,12 @@ $(document).ready(function () {
         this.value == '' ? (unity = '0') : (unity = this.value);
         unity = parseInt(strReplaceNumber(unity));
 
-        // id != 'unity-0'
-        //   ? (unity = parseInt(strReplaceNumber(unity)))
-        //   : (unity = unitys[0]);
-
-        let percentage = { 1: 1, 2: 1, 3: 0.5, 4: 0.333333333333333, 5: 0.5 };
-        // unitys = [1];
+        let profitMargin = { 1: 1, 2: 1, 3: 0.5, 4: 0.333333333333333, 5: 0.5 }; 
 
         unitys[row] = unity;
 
         for (let i = row; i < 5; i++) {
-          unity = unity * (1 + percentage[i + 1]);
+          unity = unity * (1 + profitMargin[i + 1]);
 
           $(`#unity-${i + 1}`).val(parseInt(unity));
 
@@ -64,7 +57,66 @@ $(document).ready(function () {
     } catch (error) {
       console.log(error);
     }
+  }); */
+  $(document).on('blur', '.totalRevenue', function () {
+    try {
+      let idProduct = $('#refProduct').val();
+
+      if (!idProduct || idProduct == 0) {
+        toastr.error('Seleccione un producto');
+        return;
+      }
+
+      let value = this.value;
+      let id = this.id;
+      let row = parseInt(id.slice(6, 7));
+
+      if (!value || value == 0) {
+        clearFields(row);
+        toastr.error('Ingrese un valor mayor a cero');
+        return;
+      }
+
+      if (id.includes('unity')) {
+        updateUnity(row, value);
+      } else {
+        updatePrice(row, value);
+      }
+
+      if (id !== 'unity-0') generalCalc(1);
+    } catch (error) {
+      console.log(error);
+    }
   });
+
+  function clearFields(row) {
+    let fields = ['totalRevenue', 'variableCosts', 'totalCostsAndExpenses', 'unityCost', 'unitUtility', 'netUtility', 'profitMargin'];
+    fields.forEach(field => $(`#${field}-${row}`).html(''));
+  }
+
+  function updateUnity(row, value) {
+    let unity = parseInt(strReplaceNumber(value || '0'));
+    let profitMargin = { 1: 1, 2: 1, 3: 0.5, 4: 0.333333333333333, 5: 0.5 };
+    
+    unitys[row] = unity;
+
+    for (let i = row; i < 5; i++) {
+      unity *= (1 + profitMargin[i + 1]);
+      $(`#unity-${i + 1}`).val(parseInt(unity));
+      unitys[i + 1] = unity;
+    }
+  }
+
+  function updatePrice(row, value) {
+    let price = parseInt(value);
+    let max = sessionStorage.getItem('typePrice') === '2' ? 2 : 0;
+
+    prices[row] = price;
+    for (let i = row; i < 5; i++) {
+      prices[i + 1] = price;
+      $(`#price-${i + 1}`).val(price.toFixed(max));
+    }
+  }
 
   /* */ generalCalc = async (op) => {
     try {
@@ -138,24 +190,23 @@ $(document).ready(function () {
             })}`
           );
 
-          /* Porcentaje */
-          // percentage = (netUtility / (totalRevenue - commission)) * 100;
-          percentage = (netUtility / totalRevenue) * 100;
+          /* Margen de Utilidad */
+          profitMargin = (netUtility / totalRevenue) * 100;
 
-          $(`#percentage-${i}`).html(
-            `${percentage.toLocaleString('es-CO', {
+          $(`#profitMargin-${i}`).html(
+            `${profitMargin.toLocaleString('es-CO', {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })} %`
           );
 
           // Verificar si el margen de utilidad es mayor o igual a la rentabilidad
-          if (i == 0 && percentage >= profitability) {
+          if (i == 0 && profitMargin >= profitability) {
             return false;
           }
           // Verificar si el margen de utilidad es negativo
-          else if (i == 0 && percentage < profitability) {
-            percentage > 0 ? cant += 2 : cant = 1;
+          else if (i == 0 && profitMargin < profitability) {
+            profitMargin > 0 ? cant += 2 : cant = 1;
 
             let division = Math.ceil((totalCostsAndExpense / price) + cant);
 
@@ -214,4 +265,26 @@ $(document).ready(function () {
     if (real_price)
       $('#real').show(400);
   }
+
+  // Calculo precio por porcentaje
+  $(document).on('keyup', '.percentage', function () {
+    let idProduct = $('#refProduct').val();
+
+    if (!idProduct || idProduct == 0) {
+      toastr.error('Seleccione un producto');
+      return false;
+    }
+
+    let percentage = parseFloat(this.value) / 100;
+    let key = $(this).attr("id").split("-")[1];
+    
+    let unit = parseInt($(`#unity-${key}`).val());
+
+    let price = (unit * (1 - percentage));
+
+    let typePrice = sessionStorage.getItem('typePrice');
+    typePrice == '2' ? max = 2 : max = 0;
+
+    $(`#price-${key}`).val(price.toFixed(max)).blur();
+  });
 });
