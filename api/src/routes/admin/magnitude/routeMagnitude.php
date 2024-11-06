@@ -16,21 +16,20 @@ $app->get('/magnitudes', function (Request $request, Response $response, $args) 
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $magnitudes = $magnitudesDao->findAllMagnitudes();
@@ -45,21 +44,20 @@ $app->post('/addMagnitudes', function (Request $request, Response $response, $ar
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $dataMagnitude = $request->getParsedBody();
@@ -84,21 +82,20 @@ $app->post('/updateMagnitude', function (Request $request, Response $response, $
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $dataMagnitude = $request->getParsedBody();
@@ -123,21 +120,20 @@ $app->get('/deleteMagnitude/{id_magnitude}', function (Request $request, Respons
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $magnitudes = $magnitudesDao->deleteMagnitude($args['id_magnitude']);

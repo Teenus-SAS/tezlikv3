@@ -3,6 +3,10 @@ $(document).ready(function () {
     $.ajax({
       url: '/api/recentNotification',
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
+
         if (resp.length == 0) {
           $('#clear').css('display', 'none');
           $('#showAll').css('display', 'none');
@@ -107,6 +111,10 @@ $(document).ready(function () {
   };
 
   const msgNotification = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     if (data.success == true) {
       loadNotification();
       toastr.success(data.message);

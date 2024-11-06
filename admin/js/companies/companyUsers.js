@@ -17,9 +17,11 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   const message = (data) => {
-    if (data.success == true) {
-      // $('#createCompany').hide(800);
-      // $('#formCreateCompany').trigger('reset')
+    if (data.reload) {
+      location.reload();
+    }
+    
+    if (data.success == true) { 
       updateTable();
       toastr.success(data.message);
       return false;

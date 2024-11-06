@@ -2,6 +2,10 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/allCompanies',
     success: function (r) {
+      if (r.reload) {
+        location.reload();
+      }
+      
       let $select = $(`.company`);
       $select.empty();
       sessionStorage.setItem('op', r[0].id_company_user1);

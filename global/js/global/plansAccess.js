@@ -3,6 +3,10 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/planAccess',
     success: function (resp) {
+      if (resp.reload) {
+        location.reload();
+      }
+      
       let acces = {
         // prices: resp.cost_price,
         analysisMaterials: resp.cost_analysis_material,

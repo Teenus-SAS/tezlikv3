@@ -46,21 +46,20 @@ $app->get('/materials', function (Request $request, Response $response, $args) u
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     // session_start();
@@ -77,21 +76,20 @@ $app->get('/selectMaterials', function (Request $request, Response $response, $a
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     // session_start();
@@ -109,21 +107,20 @@ $app->get('/productsByMaterials/{id_material}', function (Request $request, Resp
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $products = $generalMaterialsDao->findAllProductsByMaterials($args['id_material']);
@@ -149,21 +146,20 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     // session_start();
@@ -454,21 +450,20 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     // session_start();
@@ -685,21 +680,20 @@ $app->post('/saveBillMaterial', function (Request $request, Response $response, 
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     // session_start();
@@ -728,21 +722,20 @@ $app->post('/deleteMaterial', function (Request $request, Response $response, $a
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $dataMaterial = $request->getParsedBody();
@@ -767,21 +760,20 @@ $app->get('/changeIndirect/{id_material}/{op}', function (Request $request, Resp
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     $status = true;

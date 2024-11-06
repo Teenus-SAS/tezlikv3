@@ -180,6 +180,10 @@ $(document).ready(function () {
       type: 'POST',
       url: `/api/changeStatusCompany/${id_company}`,
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
+        
         if (resp.success == true) {
           updateTable();
           toastr.success(resp.message);

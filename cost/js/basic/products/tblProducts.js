@@ -5,6 +5,10 @@ $(document).ready(function () {
       searchData('/api/productsLimit')
     ]);
 
+    if (dataAllProducts.reload || dataLimit.reload) {
+      location.reload();
+    }
+
     let dataProducts = dataAllProducts.filter(item => item.active == 1);
     let dataInactiveProducts = dataAllProducts.filter(item => item.active == 0);
     sessionStorage.setItem('dataInactiveProducts', JSON.stringify(dataInactiveProducts));

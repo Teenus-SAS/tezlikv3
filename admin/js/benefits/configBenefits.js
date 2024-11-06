@@ -2,6 +2,10 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/benefits',
     success: function (r) {
+      if (r.reload) {
+        location.reload();
+      }
+
       sessionStorage.removeItem('dataBenefits');
 
       let dataBenefits = JSON.stringify(r);

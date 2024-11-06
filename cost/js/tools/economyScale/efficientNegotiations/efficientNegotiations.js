@@ -6,6 +6,10 @@ $(document).ready(function () {
     try {
       const data = await searchData('/api/calcEconomyScale');
 
+      if (data.reload) {
+        location.reload();
+      }
+
       if (data.info) {
         toastr.info(data.message);
         return false;

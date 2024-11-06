@@ -1,6 +1,10 @@
 fetch(`/api/dashboardCountsGeneral`)
   .then((response) => response.text())
   .then((data) => {
+    if (data.reload) {
+      location.reload();
+    }
+
     data = JSON.parse(data);
     generalProductsCounts(data.allProducts);
     generalCompaniesCounts(data.allCompanies);

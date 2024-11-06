@@ -2,6 +2,10 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/plans',
     success: function (r) {
+      if (r.reload) {
+        location.reload();
+      }
+      
       let $select = $(`#plan`);
       $select.empty(); 
 

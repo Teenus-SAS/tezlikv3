@@ -125,6 +125,10 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   const message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     if (data.success == true) {
       $('#createCompany').modal('hide');
       $('#formCreateCompany').trigger('reset');
