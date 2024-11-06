@@ -118,7 +118,7 @@ $(document).ready(function () {
     }
   }
 
-  /* */ generalCalc = async (op) => {
+  /* generalCalc = async (op) => {
     try {
       op == 0 ? (count = 0) : (count = 5);
 
@@ -133,7 +133,7 @@ $(document).ready(function () {
         let price = prices[i];
 
         if (unit > 0 && price > 0) {
-          /* Costos Variables */
+          // Costos Variables
 
           let totalVariableCost = variableCost * unit;
           $(`#variableCosts-${i}`).html(
@@ -142,7 +142,7 @@ $(document).ready(function () {
             })}`
           );
 
-          /* Total Costos y Gastos */
+          // Total Costos y Gastos
           let totalCostsAndExpense = fixedCost + totalVariableCost;
 
           $(`#totalCostsAndExpenses-${i}`).html(
@@ -151,7 +151,7 @@ $(document).ready(function () {
             })}`
           );
 
-          /* Calculo Total Ingresos */
+          // Calculo Total Ingresos
           totalRevenue = unit * price;
 
           $(`#totalRevenue-${i}`).html(
@@ -160,7 +160,7 @@ $(document).ready(function () {
             })}`
           );
 
-          /* Calculo Costo x Unidad */
+          // Calculo Costo x Unidad
           unityCost = parseFloat(totalCostsAndExpense) / parseFloat(unit);
 
           $(`#unityCost-${i}`).html(
@@ -169,7 +169,7 @@ $(document).ready(function () {
             })}`
           );
 
-          /* Calculo Utilidad x Unidad */
+          // Calculo Utilidad x Unidad
           let unitUtility = price - unityCost;
           $(`#unitUtility-${i}`).html(
             `$ ${unitUtility.toLocaleString('es-CO', {
@@ -177,7 +177,7 @@ $(document).ready(function () {
             })}`
           );
 
-          /* Calculo Utilidad Neta */
+          // Calculo Utilidad Neta
           let netUtility = unitUtility * unit;
 
           netUtility < 0
@@ -190,7 +190,7 @@ $(document).ready(function () {
             })}`
           );
 
-          /* Margen de Utilidad */
+          // Margen de Utilidad
           profitMargin = (netUtility / totalRevenue) * 100;
 
           $(`#profitMargin-${i}`).html(
@@ -249,11 +249,83 @@ $(document).ready(function () {
       if (op == 0)
         $('#unity-1').blur();
 
-      $('.cardLoading').remove();
-      // $('.cardBottons').show(400); 
+      $('.cardLoading').remove(); 
       checkPrices();
     } catch (error) {
       console.log(error);
+    }
+  }; */
+
+  generalCalc = async (op) => {
+    try {
+      const count = op === 0 ? 0 : 5;
+      const typePrice = sessionStorage.getItem('typePrice');
+      const maxDecimals = typePrice === '2' ? 2 : 0;
+      const startTime = performance.now();
+      const maxTimeLimit = 5; // segundos
+
+      const formatCurrency = (amount, decimals = 0) =>
+        `$ ${amount.toLocaleString('es-CO', { maximumFractionDigits: decimals })}`;
+
+      const handleIteration = async (i) => {
+        const unit = unitys[i];
+        const price = prices[i];
+
+        if (unit > 0 && price > 0) {
+          const totalVariableCost = variableCost * unit;
+          const totalCostsAndExpense = fixedCost + totalVariableCost;
+          const totalRevenue = unit * price;
+          const unityCost = totalCostsAndExpense / unit;
+          const unitUtility = price - unityCost;
+          const netUtility = unitUtility * unit;
+          const profitMargin = (netUtility / totalRevenue) * 100;
+
+          // Actualización de elementos en el DOM
+          $(`#variableCosts-${i}`).html(formatCurrency(totalVariableCost));
+          $(`#totalCostsAndExpenses-${i}`).html(formatCurrency(totalCostsAndExpense));
+          $(`#totalRevenue-${i}`).html(formatCurrency(totalRevenue));
+          $(`#unityCost-${i}`).html(formatCurrency(unityCost, maxDecimals));
+          $(`#unitUtility-${i}`).html(formatCurrency(unitUtility, maxDecimals));
+          $(`#netUtility-${i}`)
+            .html(formatCurrency(netUtility))
+            .css('color', netUtility < 0 ? 'red' : 'black');
+          $(`#profitMargin-${i}`).html(`${profitMargin.toFixed(2)} %`);
+
+          if (i === 0 && profitMargin >= profitability) return false;
+
+          if (i === 0 && profitMargin < profitability) {
+            cant = profitMargin > 0 ? cant + 2 : 1;
+            let division = Math.ceil(totalCostsAndExpense / price + cant);
+
+            if (division > 10_000_000) {
+              toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes');
+              return false;
+            }
+
+            if (typeExpense === '2') division = Math.ceil(division / 12);
+            $(`#unity-${i}`).val(division.toLocaleString('es-CO', { maximumFractionDigits: 0 }));
+            unitys[i] = division;
+
+            const elapsedSeconds = (performance.now() - startTime) / 1000;
+            if (elapsedSeconds > maxTimeLimit) return false;
+
+            await new Promise(resolve => setTimeout(resolve, 0));
+            await $(`#unity-${i}`).blur();
+          }
+        }
+        return true;
+      };
+
+      for (let i = op; i <= count; i++) {
+        if (!(await handleIteration(i))) break;
+        if (op === 0) i -= 1;
+      }
+
+      if (op === 0) $('#unity-1').blur();
+      $('.cardLoading').remove();
+      checkPrices();
+    } catch (error) {
+      console.error(error);
     }
   };
 
