@@ -82,6 +82,10 @@ $(document).ready(function () {
       url: '/api/processDataValidation',
       data: { importProcess: data },
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
+        
         if (resp.error == true) {
           $('#fileProcess').val('');
           $('.cardLoading').remove();

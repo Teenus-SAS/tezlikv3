@@ -94,6 +94,10 @@ $(document).ready(function () {
       url: '/api/machinesDataValidation',
       data: { importMachines: data },
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
+
         if (resp.error == true) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);

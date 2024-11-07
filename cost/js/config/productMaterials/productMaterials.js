@@ -383,10 +383,13 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   messageMaterials = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileProductsMaterials').val('');
-
     
     if (data.success) {
       $('.cardImportProductsMaterials').hide(800);

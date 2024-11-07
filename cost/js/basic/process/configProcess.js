@@ -4,6 +4,10 @@ $(document).ready(function () {
       type: 'GET',
       url: '/api/process',
       success: function (r) {
+        if (r.reload) {
+          location.reload();
+        }
+        
         sessionStorage.setItem('dataProcess', JSON.stringify(r));
       
         let $select = $(`#idProcess`);

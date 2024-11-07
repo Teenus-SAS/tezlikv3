@@ -91,6 +91,10 @@ $(document).ready(function () {
       url: '../../api/generalExternalServiceDataValidation',
       data: { importExternalService: data },
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
+
         if (resp.error == true) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);

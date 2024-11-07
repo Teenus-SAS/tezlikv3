@@ -3,6 +3,10 @@ $(document).ready(function () {
     $.ajax({
       url: '/api/expensesDistributionFamiliesProducts',
       success: function (r) {
+        if (r.reload) {
+          location.reload();
+        }
+        
         let $select = $(`.refProduct`);
         $select.empty();
 

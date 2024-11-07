@@ -28,6 +28,10 @@ $(document).ready(function () {
 
         $.post("/api/changeCompany", data,
             function (data, textStatus, jqXHR) {
+                if (data.reload) {
+                    location.reload();
+                }
+                
                 if (data.success == true) {
                     $('#user').prop('disabled', true);
 

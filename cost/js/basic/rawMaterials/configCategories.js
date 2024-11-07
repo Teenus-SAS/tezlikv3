@@ -4,6 +4,10 @@ $(document).ready(function () {
             type: 'GET',
             url: '/api/categories',
             success: function (r) {
+                if (r.reload) {
+                    location.reload();
+                }
+                
                 let $select = $(`#categories`);
                 $select.empty();
                 sessionStorage.setItem('dataCategories', JSON.stringify(r));

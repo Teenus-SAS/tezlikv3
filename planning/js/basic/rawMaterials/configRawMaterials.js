@@ -10,6 +10,10 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/materials',
     success: function (r) {
+      if (r.reload) {
+        location.reload();
+      }
+      
       dataMaterials = JSON.stringify(r);
       sessionStorage.setItem('dataMaterials', dataMaterials);
 

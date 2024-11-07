@@ -255,6 +255,10 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
   messageExpenseA = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileExpensesAssignation').val('');

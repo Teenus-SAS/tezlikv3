@@ -44,6 +44,10 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+
     if (data.success == true) {
       $('.cardAddRisk').hide(800);
       $('#formAddRisk').trigger('reset');
@@ -53,9 +57,7 @@ $(document).ready(function () {
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-
+ 
   function updateTable() {
     $('#tblRisks').DataTable().clear();
     $('#tblRisks').DataTable().ajax.reload();

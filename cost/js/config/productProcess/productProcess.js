@@ -413,6 +413,10 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
   messageProcess = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     $('#fileProductsProcess').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);

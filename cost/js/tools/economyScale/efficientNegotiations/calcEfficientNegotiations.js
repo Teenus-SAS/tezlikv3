@@ -350,13 +350,14 @@ $(document).ready(function () {
     let percentage = parseFloat(this.value) / 100;
     let key = $(this).attr("id").split("-")[1];
     
-    let unit = parseInt($(`#unity-${key}`).val());
+    // let unit = parseInt($(`#unity-${key}`).val());
+    let price = parseInt($(`#price-${key}`).val());
 
-    let price = (unit * (1 - percentage));
+    let value = (price * (1 - percentage));
 
     let typePrice = sessionStorage.getItem('typePrice');
     typePrice == '2' ? max = 2 : max = 0;
 
-    $(`#price-${key}`).val(price.toFixed(max)).blur();
+    // $(`#price-${key}`).val(price.toFixed(max)).blur();
   });
 });

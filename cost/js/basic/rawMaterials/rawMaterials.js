@@ -282,6 +282,10 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
   messageMaterials = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     $('#fileMaterials').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);

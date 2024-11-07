@@ -332,6 +332,10 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     $('#filePayroll').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);

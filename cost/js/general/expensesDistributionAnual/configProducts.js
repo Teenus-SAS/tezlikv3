@@ -3,10 +3,10 @@ $(document).ready(function () {
     $.ajax({
       url: '/api/expensesDistributionAnualProducts',
       success: function (r) {
-        // Si el acceso de producto compuesto esta activo filtrar y no mostrar los productos compuestos
-        // if (flag_composite_product === '1')
-        //   r = r.filter(item => parseInt(item.composite) == 0);
-
+        if (r.reload) {
+          location.reload();
+        }
+        
         // distribuir gastos que no esten asignados
         let data = r.filter(item => parseInt(item.status) == 0);
         

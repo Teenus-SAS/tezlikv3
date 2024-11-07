@@ -11,11 +11,8 @@ $(document).ready(function () {
       ]);
 
       sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
-      sessionStorage.setItem('dataCompositeProduct', JSON.stringify(dataCompositeProduct));
-      // allProductMaterials = dataProductMaterials;
-      // allComposites = dataCompositeProduct;
-
-      // if (op != 1)
+      sessionStorage.setItem('dataCompositeProduct', JSON.stringify(dataCompositeProduct)); 
+ 
       let op = 1;
       if (flag_currency_usd == '1') {
         let selectPriceUSD = $('#selectPriceUSD1').val();

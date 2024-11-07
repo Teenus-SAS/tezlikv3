@@ -89,6 +89,10 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   const message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     if (data.success == true) {
       $('.createPUC').toggle(800);
       $('#formCreatePuc').trigger('reset');

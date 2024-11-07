@@ -218,11 +218,7 @@ $(document).ready(function () {
             },
           },
           callback: function (result) {
-            if (result == true) {
-              // option == 1
-              //   ? (url = "/api/addExpensesDistributionAnual")
-              //   : (url = "/api/addExpenseRecover"); 
-
+            if (result == true) { 
               saveExpensesA(data, '/api/addExpensesDistributionAnual');
             } else {
               $(".cardLoading").remove();

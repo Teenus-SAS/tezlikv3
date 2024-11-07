@@ -21,16 +21,15 @@ $(document).ready(function () {
     await $.ajax({
       url: url,
       success: function (r) {
+        if (r.reload) {
+          location.reload();
+        }
+        
         r = r.filter(item => item.active == 1);
         sessionStorage.setItem('dataProducts', JSON.stringify(r));
     
         populateSelect('.refProduct', r, 'reference');
         populateSelect('.selectNameProduct', r, 'product');
-
-        // if (flag_composite_product == '1') {
-        //   economyScaleOtions('.refESProduct', r, 'reference');
-        //   economyScaleOtions('.selectESNameProduct', r, 'product');
-        // }
 
         let compositeProduct = r.filter(item => item.composite == 1);
         populateOptions('#refCompositeProduct', compositeProduct, 'reference');

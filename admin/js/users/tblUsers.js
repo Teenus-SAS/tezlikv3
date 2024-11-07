@@ -20,11 +20,7 @@ $(document).ready(function () {
     } else {
       tblUsers = $('#tblUsers').dataTable({
         pageLength: 50,
-        data: data,
-        // ajax: {
-        //   url: '/api/usersCompany',
-        //   dataSrc: '',
-        // },
+        data: data, 
         language: {
           url: '/assets/plugins/i18n/Spanish.json',
         },

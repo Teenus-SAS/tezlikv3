@@ -111,10 +111,10 @@ $(document).ready(function () {
 
     /* Mensaje de exito */
     messagePCenter = (data) => {
-        // $('.cardLoading').remove();
-        // $('.cardBottons').show(400);
-        // $('#fileProcess').val('');
-    
+        if (data.reload) {
+            location.reload();
+        }
+
         if (data.success == true) {
             // $('.cardImportProcess').hide(800);
             // $('#formImportProcess').trigger('reset');

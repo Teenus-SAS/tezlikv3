@@ -23,6 +23,10 @@ $(document).ready(function () {
   });
 
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     $('#title').attr('class', 'col-sm-5 col-xl-6');
 
     $('.cardLoading').remove();

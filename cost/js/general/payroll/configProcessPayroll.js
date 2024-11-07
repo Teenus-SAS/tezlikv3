@@ -2,6 +2,10 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/processPayroll',
     success: function (r) { 
+      if (r.reload) {
+        location.reload();
+      }
+
       let $select = $(`#idProcess`);
       $select.empty();
 

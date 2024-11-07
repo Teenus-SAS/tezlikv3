@@ -2,10 +2,10 @@ $(document).ready(function () {
   loadExpensesRProducts = () => {
     $.ajax({
       url: '/api/expenseRecoverProducts',
-      success: function (r) {
-        // Si el acceso de producto compuesto esta activo filtrar y no mostrar los productos compuestos
-        // if (flag_composite_product === '1')
-        //   r = r.filter(item => parseInt(item.composite) == 0);
+      success: function (r) { 
+        if (r.reload) {
+          location.reload();
+        }
 
         let $select = $(`.refProduct`);
         $select.empty();

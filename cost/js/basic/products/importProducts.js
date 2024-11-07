@@ -120,6 +120,10 @@ $(document).ready(function () {
       url: '/api/productsDataValidation',
       data: { importProducts: data },
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
+        
         if (resp.error == true) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);

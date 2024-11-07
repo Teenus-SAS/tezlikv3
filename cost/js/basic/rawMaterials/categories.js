@@ -112,6 +112,10 @@ $(document).ready(function () {
 
     /* Mensaje de exito */
     messageCategories = async (data, op) => {
+        if (data.reload) {
+            location.reload();
+        }
+        
         $('#fileCategories').val('');
         $('.cardLoading').remove();
         $('.cardBottons').show(400);

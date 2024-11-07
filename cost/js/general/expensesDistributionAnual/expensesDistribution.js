@@ -222,6 +222,10 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   messageDistributionA = async (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     $('#fileExpenses').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);

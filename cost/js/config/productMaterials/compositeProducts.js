@@ -81,8 +81,7 @@ $(document).ready(function () {
         $('#quantityCP').val(data.quantity);
         $('#wasteCP').val(data.waste);
 
-        $('#wasteCP').click();
-        // data = await searchData('/api/units');
+        $('#wasteCP').click(); 
         data = JSON.parse(sessionStorage.getItem('dataUnits'));
 
         let filterData = data.filter(item => item.unit == 'UNIDAD');

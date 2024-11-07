@@ -4,6 +4,10 @@ $(document).ready(function () {
       type: 'GET',
       url: url,
       success: function (r) {
+        if (r.reload) {
+          location.reload();
+        }
+        
         let dataMachines = JSON.stringify(r);
         sessionStorage.setItem('dataMachines', dataMachines);
 

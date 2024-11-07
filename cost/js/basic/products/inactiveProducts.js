@@ -30,6 +30,10 @@ $(document).ready(function () {
     $.ajax({
       url: `/api/changeActiveProduct/${id}/${op}`,
       success: function (data) {
+        if (data.reload) {
+          location.reload();
+        }
+        
         if (data.success == true) {
           toastr.success(data.message);
           loadAllData();

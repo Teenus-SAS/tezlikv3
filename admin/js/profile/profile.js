@@ -4,6 +4,10 @@ $(document).ready(function () {
   fetch(`/api/userAdmin`)
     .then((response) => response.text())
     .then((data) => {
+      if (data.reload) {
+        location.reload();
+      }
+      
       data = JSON.parse(data);
       loadProfile(data);
     });

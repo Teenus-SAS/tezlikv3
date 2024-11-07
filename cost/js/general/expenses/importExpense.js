@@ -100,6 +100,10 @@ $(document).ready(function () {
       url: '/api/expenseDataValidation',
       data: { importExpense: data },
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
+        
         if (resp.error == true) {
           toastr.error(resp.message);
           $('.cardLoading').remove();

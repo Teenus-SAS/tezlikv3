@@ -117,6 +117,10 @@ $(document).ready(function () {
   };
 
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     if (data.success == true) {
       $('.cardCreateUnit').hide(800);
       $('#formCreateUnit').trigger('reset');

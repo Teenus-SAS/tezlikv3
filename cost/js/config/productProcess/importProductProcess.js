@@ -192,6 +192,10 @@ $(document).ready(function () {
         debugg: debugg
       },
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
+        
         let arr = resp.import;
 
         if (arr.length > 0 && arr.error == true) {

@@ -104,6 +104,10 @@ $(document).ready(function () {
     $.ajax({
       url: '/api/expensesDistributionProducts',
       success: function (r) {
+        if (r.reload) {
+          location.reload();
+        }
+
         // Filtrar gastos no asignados
         let unassignedData = r.filter(item => parseInt(item.status) === 0);
 

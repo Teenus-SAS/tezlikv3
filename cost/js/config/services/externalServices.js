@@ -192,6 +192,10 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   messageServices = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileExternalServices').val('');

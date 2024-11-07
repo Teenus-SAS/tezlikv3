@@ -45,66 +45,6 @@ $app->get('/categories', function (Request $request, Response $response, $args) 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-// $app->post('/categoriesDataValidation', function (Request $request, Response $response, $args) use (
-//     $webTokenDao,
-//     $generalCategoryDao
-// ) {
-//     $info = $webTokenDao->getToken();
-
-//     if (!is_object($info) && ($info == 1)) {
-//         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-//         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-//     }
-
-//     if (is_array($info)) {
-//         $response->getBody()->write(json_encode(['error' => $info['info']]));
-//         // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-//         return $response->withHeader('Location', '/')->withStatus(302);
-//     }
-
-//     $validate = $webTokenDao->validationToken($info);
-
-//     if (!$validate) {
-//         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-//         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-//     }
-
-//     $dataCategory = $request->getParsedBody();
-
-//     if (isset($dataCategory)) {
-//         // session_start();
-//         $id_company = $_SESSION['id_company'];
-
-//         $insert = 0;
-//         $update = 0;
-
-//         $category = $dataCategory['importCategories'];
-
-//         for ($i = 0; $i < sizeof($category); $i++) {
-//             if (empty($category[$i]['category'])) {
-//                 $i = $i + 2;
-//                 $dataImportCategory = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
-//                 break;
-//             }
-//             if (empty(trim($category[$i]['category']))) {
-//                 $i = $i + 2;
-//                 $dataImportCategory = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
-//                 break;
-//             } else {
-//                 $findCategory = $generalCategoryDao->findCategory($category[$i], $id_company);
-//                 if (!$findCategory) $insert = $insert + 1;
-//                 else $update = $update + 1;
-//                 $dataImportCategory['insert'] = $insert;
-//                 $dataImportCategory['update'] = $update;
-//             }
-//         }
-//     } else
-//         $dataImportCategory = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
-
-//     $response->getBody()->write(json_encode($dataImportCategory, JSON_NUMERIC_CHECK));
-//     return $response->withHeader('Content-Type', 'application/json');
-// });
-
 $app->post('/addCategory', function (Request $request, Response $response, $args) use (
     $webTokenDao,
     $categoryDao,
