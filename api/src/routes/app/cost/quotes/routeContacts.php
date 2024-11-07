@@ -69,7 +69,6 @@ $app->get('/contactsByCompany/{id_company}', function (Request $request, Respons
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-
 $app->post('/addContact', function (Request $request, Response $response, $args) use (
     $contactsDao,
     $webTokenDao

@@ -25,6 +25,10 @@ $(document).ready(function () {
                             $.get(
                                 `/api/changeDateContract/1`,
                                 function (data, textStatus, jqXHR) {
+                                    if (data.reload) {
+                                        location.reload();
+                                    }
+                                    
                                     if (data.success == true) {
                                         toastr.success(data.message);
                                         return false;

@@ -49,6 +49,10 @@ $(document).ready(function () {
       url: '../../api/multiproductsDataValidation',
       data: { importMultiproducts: data },
       success: function (resp) {
+        if (data.reload) {
+          location.reload();
+        }
+        
         if (resp.error == true) {
           toastr.error(resp.message);
           $('#fileMultiproducts').val('');

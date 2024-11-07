@@ -49,6 +49,9 @@ $(document).ready(function () {
   // Función para verificar la sesión del usuario
   async function checkSession() {
     const data = await getApi('/api/checkSessionUser'); 
+    if (data.reload) {
+      location.reload();
+    }
     // debugger
     if (data === 0) {
       location.href = '/';
@@ -62,7 +65,11 @@ $(document).ready(function () {
     if (window.location.pathname === lastVisitedRoute) {
       // Solo ejecuta el logout si sigue en la misma ruta
       const resp = await getApi('/api/logoutInactiveUser');
- 
+      
+      if (resp.reload) {
+        location.reload();
+      };
+      
       if (resp && resp.inactive) {
         location.href = '/';
         toastr.error(resp.message);

@@ -109,6 +109,10 @@ $(document).ready(function () {
     sessionStorage.setItem('id_user', idUser);
 
     $.get(`/api/generalUserAccess/${idUser}`, function (data) {
+      if (data.reload) {
+        location.reload();
+      }
+      
       getUserAccess(data);
       $('#createUserAccess').modal('show');
       $('#btnCreateUserAndAccess').html('Actualizar Accesos');

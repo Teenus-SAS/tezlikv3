@@ -205,6 +205,10 @@ $(document).ready(function () {
   });
 
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
 

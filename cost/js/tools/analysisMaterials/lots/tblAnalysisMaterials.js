@@ -12,6 +12,10 @@ $(document).ready(function () {
       console.error(error);
     }
 
+    if (data.reload) {
+      location.reload();
+    }
+
     await loadtableMaterials(data['allRawMaterials']);
     await loadTblAnalysisMaterials(data['80RawMaterials']);
   };

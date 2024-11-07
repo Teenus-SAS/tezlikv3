@@ -229,6 +229,10 @@ $(document).ready(function () {
             url: "/api/savePriceObjectives",
             data: { products: data },
             success: function (resp) {
+                if (resp.reload) {
+                    location.reload();
+                }
+
                 dataPO = [];
 
                 let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));

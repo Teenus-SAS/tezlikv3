@@ -2,6 +2,10 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/paymentMethods',
     success: function (r) {
+      if (r.reload) {
+        location.reload();
+      }
+
       let $select = $(`#idPayment`);
       $select.empty();
 

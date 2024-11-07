@@ -5,6 +5,10 @@ $(document).ready(function () {
     .then((response) => response.text())
     .then((data) => {
       data = JSON.parse(data);
+      if (data.reload) {
+        location.reload();
+      }
+      
       loadProfile(data);
     });
 

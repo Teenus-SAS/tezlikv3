@@ -66,6 +66,10 @@ $(document).ready(function () {
       url: '/api/userAutentication',
       data: data,
       success: function (data, textStatus, xhr) {
+        if (data.reload) {
+          location.reload();
+        }
+        
         if (data.error) {
           toastr.error(data.message);
           return false;
@@ -87,6 +91,10 @@ $(document).ready(function () {
       url: '/api/checkCode',
       data: codeUser,
       success: function (data) {
+        if (data.reload) {
+          location.reload();
+        }
+        
         if (data.error) {
           toastr.error(data.message);
           return false;

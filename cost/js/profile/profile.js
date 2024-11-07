@@ -158,6 +158,10 @@ $(document).ready(function () {
 
   /* Cargar notificación */
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     if (data.success == true) {
       $('.general').css('border', '');
       toastr.success(data.message);

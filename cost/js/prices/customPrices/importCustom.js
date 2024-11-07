@@ -132,6 +132,10 @@ $(document).ready(function () {
         type: type,
       },
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
+
         if (resp.error == true) {
           $('#fileCustom').val('');
           $('.cardLoading').remove();

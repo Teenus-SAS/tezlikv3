@@ -146,6 +146,10 @@ $(document).ready(function () {
     const saveHistorical = (data) => {
         $.post('/api/saveHistorical', data,
             function (data, textStatus, jqXHR) {
+                if (data.reload) {
+                    location.reload();
+                }
+                
                 if (data.success == true) {
                     toastr.success(data.message);
                     $('#modalHistorical').modal('hide');

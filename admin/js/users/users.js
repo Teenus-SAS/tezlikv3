@@ -237,6 +237,10 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     if (data.success == true) {
       $('.cardCreateUser').hide(800);
       $('#formCreateUser').trigger('reset');

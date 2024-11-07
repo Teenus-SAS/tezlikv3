@@ -117,6 +117,10 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     if (data.success == true) {
       $('.cardCreateMethod').hide(800);
       $('#formCreateMethod').trigger('reset');

@@ -205,6 +205,10 @@ $(document).ready(function () {
             url: "/api/saveSaleObjectives",
             data: { products: data },
             success: function (resp) {
+                if (data.reload) {
+                    location.reload();
+                }
+                
                 dataSO = [];
                 $('.cardLoading').remove();
                 $('.cardBottons').show(400);

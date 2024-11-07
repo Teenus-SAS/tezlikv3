@@ -2,6 +2,10 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/puc',
     success: function (r) {
+      if (r.reload) {
+      location.reload();
+    }
+
       let $select1 = $(`.idPuc`);
       $select1.empty();
 

@@ -20,6 +20,10 @@ $(document).ready(function () {
                     
                     $.get(`/api/changeFlagPrice/${flag_type_price}`,
                         function (data, textStatus, jqXHR) {
+                            if (data.reload) {
+                                location.reload();
+                            }
+                            
                             if (data.success == true) {
                                 toastr.success(data.message);
                                 if (op == 1) {

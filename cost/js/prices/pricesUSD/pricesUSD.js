@@ -182,6 +182,10 @@ $(document).ready(function () {
       data["id"] = id;
 
       $.post("/api/simPriceUSD", data, function (resp, textStatus, jqXHR) {
+        if (resp.reload) {
+          location.reload();
+        }
+
         if (resp.success) {
           $("#simExchangeCoverageUSD").val(
             `$ ${resp.exchangeCoverage.toLocaleString("es-CO", {

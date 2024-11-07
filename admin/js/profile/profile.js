@@ -64,6 +64,10 @@ $(document).ready(function () {
 
   /* Cargar notificación */
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+
     if (data.success == true) {
       firstname = sessionStorage.getItem('name');
       lastname = sessionStorage.getItem('lastname');

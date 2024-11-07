@@ -6,6 +6,9 @@ $(document).ready(function () {
       url: '/api/addMultiproduct',
       data: { data: data },
       success: function (resp) {
+        if (resp.reload) {
+          location.reload();
+        }
         // console.log(resp);
       },
     });

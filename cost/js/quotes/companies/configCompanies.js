@@ -2,6 +2,10 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/quotesCompanies',
     success: function (r) {
+      if (r.reload) {
+        location.reload();
+      }
+
       let $select = $(`#company`);
       $select.empty();
 

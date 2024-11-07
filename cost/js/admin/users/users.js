@@ -536,6 +536,10 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
   const message = async (data, id_user) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     if (data.success == true) {
       $('#createUserAccess').modal('hide');
       $('.cardTypePayroll').hide();

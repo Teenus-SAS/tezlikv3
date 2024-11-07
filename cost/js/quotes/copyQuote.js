@@ -29,6 +29,10 @@ $(document).ready(function () {
           $.get(
             `/api/copyQuote/${idQuote}`,
             function (data, textStatus, jqXHR) {
+              if (data.reload) {
+                location.reload();
+              }
+              
               if (data.success == true) {
                 toastr.success(data.message);
                 if (tblQuotes == null || !tblQuotes) return false;

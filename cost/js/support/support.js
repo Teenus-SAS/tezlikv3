@@ -26,6 +26,10 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
+    if (data.reload) {
+      location.reload();
+    }
+    
     if (data.success == true) {
       $('#formSendSupport').trigger('reset');
       toastr.success(data.message);
