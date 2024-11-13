@@ -76,14 +76,19 @@ $(document).ready(function () {
         toastr.error('Ingrese un valor mayor a cero');
         return;
       }
+      let percentage = $(`#percentage-${row}`).val();
 
       if (id.includes('unity')) {
         updateUnity(row, value);
-      } else {
+      } else if (!percentage) {
         updatePrice(row, value);
-      }
+      }      
 
-      if (id !== 'unity-0') generalCalc(1);
+      if (percentage) {
+        generalCalc(row, row);
+      } else if (id !== 'unity-0') {
+        generalCalc(1, 5);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -256,9 +261,9 @@ $(document).ready(function () {
     }
   }; */
 
-  generalCalc = async (op) => {
+  generalCalc = async (op, count) => {
     try {
-      const count = op === 0 ? 0 : 5;
+      // const count = op == 0 ? 0 : op == 1 ? 5 : op;
       const typePrice = sessionStorage.getItem('typePrice');
       const maxDecimals = typePrice === '2' ? 2 : 0;
       const startTime = performance.now();
@@ -349,8 +354,7 @@ $(document).ready(function () {
 
     let percentage = parseFloat(this.value) / 100;
     let key = $(this).attr("id").split("-")[1];
-    
-    // let unit = parseInt($(`#unity-${key}`).val());
+     
     let price = parseInt($(`#price-${key}`).val());
 
     let value = (price * (1 - percentage));
@@ -358,6 +362,7 @@ $(document).ready(function () {
     let typePrice = sessionStorage.getItem('typePrice');
     typePrice == '2' ? max = 2 : max = 0;
 
-    // $(`#price-${key}`).val(price.toFixed(max)).blur();
+    prices[key] = value;
+    $(`#price-${key}`).val(value.toFixed(max)).blur();
   });
 });

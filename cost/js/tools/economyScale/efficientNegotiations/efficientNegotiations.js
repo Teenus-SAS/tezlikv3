@@ -165,7 +165,7 @@ $(document).ready(function () {
     );
     cant = 1;
 
-    generalCalc(0);
+    generalCalc(0, 0);
   };
 
   // Seleccionar moneda

@@ -183,27 +183,86 @@ if (sizeof($_SESSION) == 0)
                                                             <input class="form-control text-center totalRevenue general" type="number" id="unity-5">
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <!-- <tr>
                                                         <td class="font-weight-bold">Porcentaje</td>
                                                         <td>
-                                                            <!-- <input class="form-control text-center general" type="text" id="percentage-0" value="100" readonly> -->
+                                                        </td>
+                                                        <td class="form-row">
+                                                            <div class="col-xs-10">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-1" min="0" max="100">
+                                                            </div>
+                                                            <div class="col-xs-2" style="margin-left: 3px;margin-top: 12px;">
+                                                                %
+                                                            </div>
+                                                        </td>
+                                                        <td class="form-row">
+                                                            <div class="col-xs-10">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-2" min="0" max="100">
+                                                            </div>
+                                                            <div class="col-xs-2" style="margin-left: 3px;margin-top: 12px;">
+                                                                %
+                                                            </div>
+                                                        </td>
+                                                        <td class="form-row">
+                                                            <div class="col-xs-10">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-3" min="0" max="100">
+                                                            </div>
+                                                            <div class="col-xs-2" style="margin-left: 3px;margin-top: 12px;">
+                                                                %
+                                                            </div>
+                                                        </td>
+                                                        <td class="form-row">
+                                                            <div class="col-xs-10">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-4" min="0" max="100">
+                                                            </div>
+                                                            <div class="col-xs-2" style="margin-left: 3px;margin-top: 12px;">
+                                                                %
+                                                            </div>
+                                                        </td>
+                                                        <td class="form-row">
+                                                            <div class="col-xs-10">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-5" min="0" max="100">
+                                                            </div>
+                                                            <div class="col-xs-2" style="margin-left: 3px;margin-top: 12px;">
+                                                                %
+                                                            </div>
+                                                        </td>
+                                                    </tr> -->
+                                                    <tr>
+                                                        <td class="font-weight-bold">Porcentaje</td>
+                                                        <td></td>
+                                                        <td>
+                                                            <div style="display: flex; align-items: center;">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-1" min="0" max="100" style="width: 80%;">
+                                                                <span style="margin-left: 5px;">%</span>
+                                                            </div>
                                                         </td>
                                                         <td>
-                                                            <input class="form-control text-center general percentage" type="number" id="percentage-1" min="0" max="100">
+                                                            <div style="display: flex; align-items: center;">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-2" min="0" max="100" style="width: 80%;">
+                                                                <span style="margin-left: 5px;">%</span>
+                                                            </div>
                                                         </td>
                                                         <td>
-                                                            <input class="form-control text-center general percentage" type="number" id="percentage-2" min="0" max="100">
+                                                            <div style="display: flex; align-items: center;">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-3" min="0" max="100" style="width: 80%;">
+                                                                <span style="margin-left: 5px;">%</span>
+                                                            </div>
                                                         </td>
                                                         <td>
-                                                            <input class="form-control text-center general percentage" type="number" id="percentage-3" min="0" max="100">
+                                                            <div style="display: flex; align-items: center;">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-4" min="0" max="100" style="width: 80%;">
+                                                                <span style="margin-left: 5px;">%</span>
+                                                            </div>
                                                         </td>
                                                         <td>
-                                                            <input class="form-control text-center general percentage" type="number" id="percentage-4" min="0" max="100">
-                                                        </td>
-                                                        <td>
-                                                            <input class="form-control text-center general percentage" type="number" id="percentage-5" min="0" max="100">
+                                                            <div style="display: flex; align-items: center;">
+                                                                <input class="form-control text-center general percentage" type="number" id="percentage-5" min="0" max="100" style="width: 80%;">
+                                                                <span style="margin-left: 5px;">%</span>
+                                                            </div>
                                                         </td>
                                                     </tr>
+
                                                     <tr>
                                                         <td class="font-weight-bold">Precio</td>
                                                         <td>
