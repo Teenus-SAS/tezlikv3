@@ -135,9 +135,6 @@
                                                             <?php } ?>
                                                             <i class="bi bi-clock-history mr-1"></i> Historico
                                                             </a>
-                                                            <a class="dropdown-item aPortfolio" href="/cost/portfolio">
-                                                                <span><i class="bi bi-currency-dollar mr-1"></i>Portafolio Rentabilidades</span>
-                                                            </a>
                             </ul>
                             </li>
                             <?php if ($_SESSION['general_cost_report'] == 0) { ?>
