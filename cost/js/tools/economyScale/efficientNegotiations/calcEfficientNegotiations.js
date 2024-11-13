@@ -116,9 +116,11 @@ $(document).ready(function () {
     let price = parseInt(value);
     let max = sessionStorage.getItem('typePrice') === '2' ? 2 : 0;
 
-    prices[row] = price;
+    prices[row].original_price = price;
+    prices[row].partial_price = price;
     for (let i = row; i < 5; i++) {
-      prices[i + 1] = price;
+      prices[i + 1].original_price = price;
+      prices[i + 1].partial_price = price;
       $(`#price-${i + 1}`).val(price.toFixed(max));
     }
   }
@@ -274,7 +276,7 @@ $(document).ready(function () {
 
       const handleIteration = async (i) => {
         const unit = unitys[i];
-        const price = prices[i];
+        const price = prices[i].partial_price;
 
         if (unit > 0 && price > 0) {
           const totalVariableCost = variableCost * unit;
@@ -356,14 +358,14 @@ $(document).ready(function () {
       let percentage = parseFloat(this.value) / 100;
       let key = $(this).attr("id").split("-")[1];
      
-      let price = parseInt($(`#price-${key}`).val());
+      let price = prices[key].original_price;
 
       let value = (price * (1 - percentage));
 
       let typePrice = sessionStorage.getItem('typePrice');
       typePrice == '2' ? max = 2 : max = 0;
 
-      prices[key] = value;
+      prices[key].partial_price = value;
       $(`#price-${key}`).val(value.toFixed(max)).blur();
     }
   });

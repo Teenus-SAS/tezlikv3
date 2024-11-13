@@ -139,12 +139,12 @@ $(document).ready(function () {
     $('#price-0').val(price.toLocaleString('es-CO', { maximumFractionDigits: max }));
 
     prices = [
-      price,
-      price,
-      price,
-      price,
-      price,
-      price,
+      { original_price: price, partial_price: price },
+      { original_price: price, partial_price: price },
+      { original_price: price, partial_price: price },
+      { original_price: price, partial_price: price },
+      { original_price: price, partial_price: price },
+      { original_price: price, partial_price: price },
     ];
 
     /* Costos Fijos */
