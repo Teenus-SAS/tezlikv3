@@ -3,19 +3,7 @@ $(document).ready(function () {
 
   currentDollar = 0;
   allPrices = [];
-  parents = [];
-
-  // $("#btnComposite").click(function (e) {
-  //   e.preventDefault();
-
-  //   if (op1 == 1) {
-  //     op1 = 2;
-  //     loadTblPrices(composites, 1);
-  //   } else {
-  //     op1 = 1;
-  //     loadTblPrices(parents, 1);
-  //   }
-  // });
+  parents = []; 
 
   loadAllData = async () => {
     try {
@@ -66,11 +54,7 @@ $(document).ready(function () {
     }
 
     acumulated == 0 ? (visible = false) : (visible = true);
-
-    /* if (id_company == '10')
-      title = 'Margen';
-    else
-      title = 'Margen';  */
+ 
     title = "Margen";
 
     tblPrices = $("#tblPrices").DataTable({

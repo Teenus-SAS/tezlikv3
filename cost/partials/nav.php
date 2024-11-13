@@ -31,16 +31,6 @@
                                     <?php } ?>
                                     <span><i class="bi bi-currency-dollar mr-1"></i>Lista de Precios </span>
                                     </a>
-                                    <?php //if ($_SESSION['price_usd'] == 1 && $_SESSION['flag_currency_usd'] == 1) { 
-                                    ?>
-                                    <!-- <a class="dropdown-item aPricesUSD" href="/cost/prices-usd"> -->
-                                    <?php //} else { 
-                                    ?>
-                                    <!-- <a class="dropdown-item aPricesUSD" href="/cost/prices-usd" style="display: none;"> -->
-                                    <?php //} 
-                                    ?>
-                                    <!-- <span><i class="bi bi-currency-dollar mr-1"></i>Lista de Precios (USD)</span>
-                                            </a> -->
                                     <?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
                                         <a class="dropdown-item aCustomPrices" href="/cost/custom-prices">
                                         <?php } else { ?>
@@ -144,6 +134,9 @@
                                                             <a class="dropdown-item aHistorical" href="/cost/historical" style="display: none;">
                                                             <?php } ?>
                                                             <i class="bi bi-clock-history mr-1"></i> Historico
+                                                            </a>
+                                                            <a class="dropdown-item aPortfolio" href="/cost/portfolio">
+                                                                <span><i class="bi bi-currency-dollar mr-1"></i>Portafolio Rentabilidades</span>
                                                             </a>
                             </ul>
                             </li>
