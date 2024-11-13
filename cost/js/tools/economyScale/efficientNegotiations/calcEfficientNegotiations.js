@@ -82,7 +82,7 @@ $(document).ready(function () {
         updateUnity(row, value);
       } else if (!percentage) {
         updatePrice(row, value);
-      }      
+      }
 
       if (percentage) {
         generalCalc(row, row);
@@ -345,24 +345,26 @@ $(document).ready(function () {
 
   // Calculo precio por porcentaje
   $(document).on('keyup', '.percentage', function () {
-    let idProduct = $('#refProduct').val();
+    if (this.value) {
+      let idProduct = $('#refProduct').val();
 
-    if (!idProduct || idProduct == 0) {
-      toastr.error('Seleccione un producto');
-      return false;
-    }
+      if (!idProduct || idProduct == 0) {
+        toastr.error('Seleccione un producto');
+        return false;
+      }
 
-    let percentage = parseFloat(this.value) / 100;
-    let key = $(this).attr("id").split("-")[1];
+      let percentage = parseFloat(this.value) / 100;
+      let key = $(this).attr("id").split("-")[1];
      
-    let price = parseInt($(`#price-${key}`).val());
+      let price = parseInt($(`#price-${key}`).val());
 
-    let value = (price * (1 - percentage));
+      let value = (price * (1 - percentage));
 
-    let typePrice = sessionStorage.getItem('typePrice');
-    typePrice == '2' ? max = 2 : max = 0;
+      let typePrice = sessionStorage.getItem('typePrice');
+      typePrice == '2' ? max = 2 : max = 0;
 
-    prices[key] = value;
-    $(`#price-${key}`).val(value.toFixed(max)).blur();
+      prices[key] = value;
+      $(`#price-${key}`).val(value.toFixed(max)).blur();
+    }
   });
 });
