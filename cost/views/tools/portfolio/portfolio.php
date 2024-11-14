@@ -143,6 +143,8 @@ if (sizeof($_SESSION) == 0)
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
+                                                            <td></td>
+                                                            <td></td>
                                                             <td id="totalProfit8020"></td>
                                                         </tr>
                                                     </tfoot>
