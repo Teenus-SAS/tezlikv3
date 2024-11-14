@@ -1,54 +1,4 @@
 $(document).ready(function () {
-    // const loadAllPortfolio = async () => {
-    //     const data = await searchData('/api/calcEconomyScale');
-
-    //     if (data.reload) {
-    //         location.reload();
-    //     }
-
-    //     if (data.info) {
-    //         toastr.info(data.message);
-    //         return false;
-    //     }
- 
-    //     let totalNetUtility = 0;
-
-    //     for (let i = 0; i < data.length; i++) {
-    //         let price = data[i].turnover / data[i].units_sold;
-    //         let totalVariableCost = data[i].variableCost * data[i].units_sold;
-    //         let totalCostsAndExpense = data[i].costFixed + totalVariableCost;
-    //         let totalRevenue = data[i].units_sold * price;
-    //         let unityCost = totalCostsAndExpense / data[i].units_sold;
-    //         let unitUtility = price - unityCost;
-    //         let netUtility = unitUtility * data[i].units_sold;
-    //         let profitMargin = (netUtility / totalRevenue) * 100;
-
-    //         profitMargin < 0 ? profitMargin = 0 : profitMargin; 
-
-    //         if (netUtility > 0) {
-    //             totalNetUtility += netUtility;
-    //             data[i]['net_utility'] = netUtility;
-    //         }
-            
-    //         data[i]['profit_margin'] = profitMargin;
-    //     }
-
-    //     let totalProfit8020 = 0;
-    //     let data8020 = [];
-
-    //     for (let i = 0; i < data.length; i++) {
-    //         if (data[i].net_utility && totalProfit8020 < 80) {
-    //             let profit = (data[i].net_utility / totalNetUtility) * 100;
-    //             data[i]['profit8020'] = profit;
-    //             totalProfit8020 += profit;
-    //             data8020.push(data[i]);
-    //         }
-    //     }
-
-    //     loadTblPortfolio(data);
-    //     loadTblPortfolio8020(data8020);
-    // };
-
     // Portafolio de Rentabilidades
     
     const loadAllPortfolio = async () => {
@@ -71,7 +21,9 @@ $(document).ready(function () {
             const totalRevenue = units_sold * price;
 
             let profitMargin = netUtility > 0 ? (netUtility / totalRevenue) * 100 : 0;
+            let profitMargin1 = (netUtility / totalRevenue) * 100;
             item.profit_margin = Math.max(profitMargin, 0);
+            item.profit_margin1 = profitMargin1;
         
             if (netUtility > 0) {
                 totalNetUtility += netUtility;
@@ -130,7 +82,7 @@ $(document).ready(function () {
     //             },
     //             {
     //                 title: 'Margen',
-    //                 data: 'profit_margin',
+    //                 data: 'profit_margin1',
     //                 className: "classCenter",
     //                 render: function (data) {                         
     //                     return `${data.toLocaleString(
@@ -142,21 +94,7 @@ $(document).ready(function () {
     //                     )} %`;
     //                 },
     //             },
-    //         ],
-    //         // footerCallback: function (row, data, start, end, display) {
-    //         //     let profit_margin = 0;
-
-    //         //     for (i = 0; i < data.length; i++) {
-    //         //         profit_margin += parseFloat(data[i].profit_margin);
-    //         //     }
-
-    //         //     $('#totalProfit').html(
-    //         //         `${profit_margin.toLocaleString('es-CO', {
-    //         //             minimumFractionDigits: 0,
-    //         //             maximumFractionDigits: 0,
-    //         //         })} %`
-    //         //     );
-    //         // },
+    //         ], 
     //     });
     // };
 
@@ -165,7 +103,7 @@ $(document).ready(function () {
     //     tblPortfolio8020 = $("#tblPortfolio8020").DataTable({
     //         destroy: true,
     //         pageLength: 50,
-    //         order: [3, 'desc'],
+    //         order: [5, 'desc'],
     //         data: data,
     //         dom: '<"datatable-error-console">frtip',
     //         language: {
@@ -196,7 +134,35 @@ $(document).ready(function () {
     //                 className: "classCenter",
     //             },
     //             {
+    //                 title: 'Rentabilidad',
+    //                 data: 'net_utility',
+    //                 className: "classCenter",
+    //                 render: function (data) {                         
+    //                     return `$ ${data.toLocaleString(
+    //                         "es-CO",
+    //                         {
+    //                             minimumFractionDigits: 0,
+    //                             maximumFractionDigits: 0
+    //                         }
+    //                     )}`;
+    //                 },
+    //             },
+    //             {
     //                 title: 'Margen',
+    //                 data: 'profit_margin',
+    //                 className: "classCenter",
+    //                 render: function (data) {                         
+    //                     return `${data.toLocaleString(
+    //                         "es-CO",
+    //                         {
+    //                             minimumFractionDigits: 2,
+    //                             maximumFractionDigits: 2
+    //                         }
+    //                     )} %`;
+    //                 },
+    //             },
+    //             {
+    //                 title: 'Participacion',
     //                 data: 'profit8020',
     //                 className: "classCenter",
     //                 render: function (data) {
@@ -226,12 +192,12 @@ $(document).ready(function () {
     //         },
     //     });
     // };
-
-    const loadTable = async (selector, data, profitField, totalSelector = null) => {
+    
+    const loadTable = async ({ selector, data, columns, order, footerSelector = null, footerDataField = null }) => {
         $(selector).DataTable({
             destroy: true,
             pageLength: 50,
-            order: [3, 'desc'],
+            order: [order.column, order.direction],
             data: data,
             dom: '<"datatable-error-console">frtip',
             language: {
@@ -242,36 +208,12 @@ $(document).ready(function () {
                     console.error(oSettings.json.error);
                 }
             },
-            columns: [
-                {
-                    title: "No.",
-                    data: null,
-                    className: "uniqueClassName",
-                    render: (data, type, full, meta) => meta.row + 1,
-                },
-                {
-                    title: "Referencia",
-                    data: "reference",
-                    className: "uniqueClassName",
-                },
-                {
-                    title: "Producto",
-                    data: "product",
-                    className: "classCenter",
-                },
-                {
-                    title: 'Margen',
-                    data: profitField,
-                    className: "classCenter",
-                    render: (data) =>
-                        `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`,
-                },
-            ],
+            columns: columns,
             footerCallback: function (row, data, start, end, display) {
-                if (totalSelector) {
-                    let totalProfit = data.reduce((acc, item) => acc + parseFloat(item[profitField] || 0), 0);
-                    $(totalSelector).html(
-                        `${totalProfit.toLocaleString('es-CO', {
+                if (footerSelector && footerDataField) {
+                    let total = data.reduce((acc, item) => acc + parseFloat(item[footerDataField] || 0), 0);
+                    $(footerSelector).html(
+                        `${total.toLocaleString('es-CO', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0,
                         })} %`
@@ -281,13 +223,63 @@ $(document).ready(function () {
         });
     };
 
-    // Usar la función genérica para cada tabla
+    // Configuración de columnas para tblPortfolio
+    const columnsTblPortfolio = [
+        { title: "No.", data: null, className: "uniqueClassName", render: (data, type, full, meta) => meta.row + 1 },
+        { title: "Referencia", data: "reference", className: "uniqueClassName" },
+        { title: "Producto", data: "product", className: "classCenter" },
+        {
+            title: 'Margen',
+            data: 'profit_margin1',
+            className: "classCenter",
+            render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`,
+        },
+    ];
+
+    // Configuración de columnas para tblPortfolio8020
+    const columnsTblPortfolio8020 = [
+        { title: "No.", data: null, className: "uniqueClassName", render: (data, type, full, meta) => meta.row + 1 },
+        { title: "Referencia", data: "reference", className: "uniqueClassName" },
+        { title: "Producto", data: "product", className: "classCenter" },
+        {
+            title: 'Rentabilidad',
+            data: 'net_utility',
+            className: "classCenter",
+            render: (data) => `$ ${data.toLocaleString("es-CO", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`,
+        },
+        {
+            title: 'Margen',
+            data: 'profit_margin',
+            className: "classCenter",
+            render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`,
+        },
+        {
+            title: 'Participacion',
+            data: 'profit8020',
+            className: "classCenter",
+            render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`,
+        },
+    ];
+
+    // Inicializar las tablas con configuraciones específicas
     const loadTblPortfolio = async (data) => {
-        await loadTable("#tblPortfolio", data, "profit_margin");
+        await loadTable({
+            selector: "#tblPortfolio",
+            data: data,
+            columns: columnsTblPortfolio,
+            order: { column: 3, direction: 'desc' },
+        });
     };
 
     const loadTblPortfolio8020 = async (data) => {
-        await loadTable("#tblPortfolio8020", data, "profit8020", '#totalProfit8020');
+        await loadTable({
+            selector: "#tblPortfolio8020",
+            data: data,
+            columns: columnsTblPortfolio8020,
+            order: { column: 5, direction: 'desc' },
+            footerSelector: '#totalProfit8020',
+            footerDataField: 'profit8020'
+        });
     };
     
     loadAllPortfolio();
