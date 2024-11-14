@@ -42,7 +42,7 @@ $(document).ready(function () {
     syncSelects(this, '#refProduct');
   });
  
-  const loadDataProduct = async (id, op) => {
+  loadDataProduct = async (id, op) => {
     let costFixed = 0, variableCost1 = 0, max = 1, typeCurrency = '1';
     
     $('#sugered, #actual, #real').show();

@@ -3,6 +3,7 @@ $(document).ready(function () {
         tblPortfolio = $("#tblPortfolio").DataTable({
             destroy: true,
             pageLength: 50,
+            order: [3, 'desc'],
             data: data,
             dom: '<"datatable-error-console">frtip',
             language: {
