@@ -41,7 +41,7 @@ $(document).ready(function () {
   });
  
   loadDataProduct = async (id, op) => {
-    let costFixed = 0, variableCost1 = 0, max = 1, typeCurrency = '1';
+    let costFixed = 0, variableCost1 = 0, max = 0, typeCurrency = '1';
     
     $('#sugered, #actual, #real').show();
     $('.general').val('').html('');
