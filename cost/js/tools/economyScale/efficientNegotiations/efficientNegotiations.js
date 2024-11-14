@@ -15,9 +15,7 @@ $(document).ready(function () {
         return false;
       }
 
-      economyScale = data;
-
-      loadTblPortfolio(data); 
+      economyScale = data; 
     } catch (error) {
       console.error('Error loading data:', error);
     }

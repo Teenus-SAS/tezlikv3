@@ -5,13 +5,13 @@ $(document).ready(function () {
         let option = this.id;
 
         const sections = {
-            "link-ENegotiation": ".cardEfficientNegotiations",
             "link-portfolio": ".cardPortfolio",
+            "link-portfolio8020": ".cardPortfolio8020",
         };
 
         // Ocultar todas las secciones
         $(
-            ".cardEfficientNegotiations, .cardPortfolio"
+            ".cardPortfolio8020, .cardPortfolio"
         ).hide();
 
         // Mostrar la sección correspondiente según la opción seleccionada

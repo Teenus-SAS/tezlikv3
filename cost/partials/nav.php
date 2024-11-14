@@ -112,6 +112,9 @@
                                                                             <?php } ?>
                                                                             <i class="fas fa-donate mr-1"></i> Precios Objetivo (Escalas)
                                                                             </a>
+                                                                            <a class="dropdown-item aPortfolio" href="/cost/portfolio">
+                                                                                <i class="fas fa-donate mr-1"></i> Portafolio
+                                                                            </a>
                                                 </ul>
                                     </li>
                                     <?php if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { ?>

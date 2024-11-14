@@ -102,7 +102,14 @@ $(document).ready(function () {
             .css('color', netUtility < 0 ? 'red' : 'black');
           $(`#profitMargin-${i}`).html(`${profitMargin.toFixed(2)} %`);
 
-          if (i === 0 && profitMargin >= profitability) return false;
+          if (i === 0 && profitMargin >= profitability) {
+            let division = Math.ceil(totalCostsAndExpense / price + cant);
+
+            if (division == 1) {
+              $('#unity-1').val(2);
+            }
+            return false;
+          }
 
           if (i === 0 && profitMargin < profitability) {
             cant = profitMargin > 0 ? cant + 2 : 1;

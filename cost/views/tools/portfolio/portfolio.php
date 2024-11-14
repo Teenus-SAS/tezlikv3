@@ -69,11 +69,23 @@ if (sizeof($_SESSION) == 0)
                 <!-- Page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
-                        <div class="tab-pane cardCurrencyCOP">
+                        <div class="tab-pane cardPortfolio">
                             <div class="row align-items-center">
                                 <div class="col-sm-5 col-xl-6">
                                     <div class="page-title">
-                                        <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-cash mr-1"></i>Portafolio</h3>
+                                        <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-graph-up mr-1"></i>Portafolio de Rentabilidades</h3>
+                                        <ol class="breadcrumb mb-3 mb-md-0">
+                                            <li class="breadcrumb-item active">Lista de Productos</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane cardPortfolio8020" style="display: none;">
+                            <div class="row align-items-center">
+                                <div class="col-sm-5 col-xl-6">
+                                    <div class="page-title">
+                                        <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-graph-up mr-1"></i>Portafolio 80/20</h3>
                                         <ol class="breadcrumb mb-3 mb-md-0">
                                             <li class="breadcrumb-item active">Lista de Productos</li>
                                         </ol>
@@ -87,15 +99,55 @@ if (sizeof($_SESSION) == 0)
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
-                        <!-- Row 5 -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="card disable-select">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped" id="tblPortfolio">
-
-                                            </table>
+                                <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active selectNavigation" id="link-portfolio" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                            <i class="fas fa-flask mr-1"></i>Portafolio
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link selectNavigation" id="link-portfolio8020" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-projects" aria-selected="false">
+                                            <i class="bi bi-arrow-repeat mr-1"></i> 80/20
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="tab-pane cardPortfolio">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped" id="tblPortfolio">
+                                                    <!-- <tfoot>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td id="totalProfit"></td>
+                                                        </tr>
+                                                    </tfoot> -->
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane cardPortfolio8020" style="display: none;">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped" id="tblPortfolio8020">
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td id="totalProfit8020"></td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -108,21 +160,13 @@ if (sizeof($_SESSION) == 0)
         <!-- Main content end -->
 
         <!-- Footer -->
-        <?php include_once  dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
+        <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
     </div>
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
-    <script>
-        flag_expense = "<?= $_SESSION['flag_expense'] ?>";
-        flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
-        flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
-        viewPrices = 1;
-    </script>
-    <script src="/global/js/global/orderData.js"></script>
-
-    <script src="/cost/js/dashboard/calcDataCost.js"></script>
-
+    <script src="/cost/js/tools/portfolio/portfolio.js"></script>
+    <script src="/cost/js/tools/portfolio/tblPortfolio.js"></script>
 </body>
 
 </html>
