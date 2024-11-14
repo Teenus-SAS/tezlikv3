@@ -81,7 +81,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane cardPortfolio8020" style="display: none;">
+                        <!-- <div class="tab-pane cardPortfolio8020" style="display: none;">
                             <div class="row align-items-center">
                                 <div class="col-sm-5 col-xl-6">
                                     <div class="page-title">
@@ -92,14 +92,14 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12">
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                     <li class="nav-item">
@@ -114,27 +114,20 @@ if (sizeof($_SESSION) == 0)
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="tab-pane cardPortfolio">
+                                    <!-- <div class="tab-pane cardPortfolio">
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="tblPortfolio">
-                                                    <!-- <tfoot>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td id="totalProfit"></td>
-                                                        </tr>
-                                                    </tfoot> -->
+                                                     
                                                 </table>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane cardPortfolio8020" style="display: none;">
+                                    </div> -->
+                                    <div class="tab-pane cardPortfolio8020">
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="tblPortfolio8020">
@@ -167,7 +160,7 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
-    <script src="/cost/js/tools/portfolio/portfolio.js"></script>
+    <!-- <script src="/cost/js/tools/portfolio/portfolio.js"></script> -->
     <script src="/cost/js/tools/portfolio/tblPortfolio.js"></script>
 </body>
 

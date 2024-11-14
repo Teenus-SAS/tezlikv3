@@ -24,25 +24,34 @@ $(document).ready(function () {
             let profitMargin1 = (netUtility / totalRevenue) * 100;
             item.profit_margin = Math.max(profitMargin, 0);
             item.profit_margin1 = profitMargin1;
+            item.net_utility = netUtility < 0 ? 0 : netUtility;
+            item.net_utility1 = netUtility;
         
             if (netUtility > 0) {
                 totalNetUtility += netUtility;
-                item.net_utility = netUtility;
             }
         }
 
+        data.sort((a, b) => b.net_utility1 - a.net_utility1);
+
         let totalProfit8020 = 0;
         const data8020 = data.filter((item) => {
-            if (item.net_utility && totalProfit8020 < 80) {
-                const profit = (item.net_utility / totalNetUtility) * 100;
-                item.profit8020 = profit;
+            const profit = (item.net_utility / totalNetUtility) * 100;
+            item.profit8020 = profit;
+            item.flag_80 = 0;
+
+            if (item.net_utility > 0) {
                 totalProfit8020 += profit;
-                return true;
+
+                if (totalProfit8020 < 80) {
+                    item.flag_80 = 1;
+                    return true;
+                }
             }
-            return false;
+            return true;
         });
 
-        loadTblPortfolio(data);
+        // loadTblPortfolio(data);
         loadTblPortfolio8020(data8020);
     };
 
@@ -224,17 +233,17 @@ $(document).ready(function () {
     };
 
     // Configuración de columnas para tblPortfolio
-    const columnsTblPortfolio = [
-        { title: "No.", data: null, className: "uniqueClassName", render: (data, type, full, meta) => meta.row + 1 },
-        { title: "Referencia", data: "reference", className: "uniqueClassName" },
-        { title: "Producto", data: "product", className: "classCenter" },
-        {
-            title: 'Margen',
-            data: 'profit_margin1',
-            className: "classCenter",
-            render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`,
-        },
-    ];
+    // const columnsTblPortfolio = [
+    //     { title: "No.", data: null, className: "uniqueClassName", render: (data, type, full, meta) => meta.row + 1 },
+    //     { title: "Referencia", data: "reference", className: "uniqueClassName" },
+    //     { title: "Producto", data: "product", className: "classCenter" },
+    //     {
+    //         title: 'Margen',
+    //         data: 'profit_margin1',
+    //         className: "classCenter",
+    //         render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`,
+    //     },
+    // ];
 
     // Configuración de columnas para tblPortfolio8020
     const columnsTblPortfolio8020 = [
@@ -243,13 +252,22 @@ $(document).ready(function () {
         { title: "Producto", data: "product", className: "classCenter" },
         {
             title: 'Rentabilidad',
-            data: 'net_utility',
+            data: 'net_utility1',
             className: "classCenter",
-            render: (data) => `$ ${data.toLocaleString("es-CO", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`,
+            // render: (data) => `$ ${data.toLocaleString("es-CO", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`,
+            render: function (data) {
+                let netUtilityText = `$ ${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                let badgeClass;
+
+                data < 0 ? badgeClass = 'badge badge-danger' : badgeClass = 'badge';
+
+
+                return `<span class="${badgeClass}" style="font-size: small;" >${netUtilityText}</span>`; 
+            },
         },
         {
             title: 'Margen',
-            data: 'profit_margin',
+            data: 'profit_margin1',
             className: "classCenter",
             render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`,
         },
@@ -257,19 +275,31 @@ $(document).ready(function () {
             title: 'Participacion',
             data: 'profit8020',
             className: "classCenter",
-            render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`,
+            render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`, 
         },
+        {
+            title: '',
+            data: null,
+            className: 'classCenter',
+            render: function (data) {
+                if (data.flag_80 == 1) {
+                    return `<i class="bi bi-check-square-fill" style="font-size: large; color: green;"></i>`
+                } else {
+                    return `<i class="bi bi-x-square-fill" style="font-size: large; color: red;"></i>`;
+                }
+            }
+        }
     ];
 
     // Inicializar las tablas con configuraciones específicas
-    const loadTblPortfolio = async (data) => {
-        await loadTable({
-            selector: "#tblPortfolio",
-            data: data,
-            columns: columnsTblPortfolio,
-            order: { column: 3, direction: 'desc' },
-        });
-    };
+    // const loadTblPortfolio = async (data) => {
+    //     await loadTable({
+    //         selector: "#tblPortfolio",
+    //         data: data,
+    //         columns: columnsTblPortfolio,
+    //         order: { column: 3, direction: 'desc' },
+    //     });
+    // };
 
     const loadTblPortfolio8020 = async (data) => {
         await loadTable({
