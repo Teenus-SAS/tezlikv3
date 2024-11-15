@@ -61,6 +61,7 @@ $(document).ready(function () {
 
     prices[row].original_price = price;
     prices[row].partial_price = price;
+
     for (let i = row; i < 5; i++) {
       prices[i + 1].original_price = price;
       prices[i + 1].partial_price = price;
@@ -177,7 +178,8 @@ $(document).ready(function () {
     let typePrice = sessionStorage.getItem('typePrice');
     typePrice == '2' ? max = 2 : max = 0;
 
-    prices[key].partial_price = value;
+    // prices[key].partial_price = value;
+    prices[key] = { ...prices[key], partial_price: value };
     $(`#price-${key}`).val(value.toFixed(max)).blur();
   });
 });
