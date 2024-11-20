@@ -99,7 +99,7 @@ $(document).ready(function () {
             data: 'net_utility1',
             className: "classCenter",
             render: function (data) {
-                let netUtilityText = `$ ${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                let netUtilityText = `$ ${data.toLocaleString("es-CO", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
                 let badgeClass;
 
                 data < 0 ? badgeClass = 'badge badge-danger' : badgeClass = 'badge';
