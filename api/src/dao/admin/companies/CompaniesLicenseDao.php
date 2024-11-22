@@ -64,13 +64,15 @@ class CompaniesLicenseDao
     }
 
     //Agregar Licencia
-    public function addLicense($dataLicense, $id_company)
+    public function addLicense($dataLicense, $id_company, $op)
     {
         $connection = Connection::getInstance()->getConnection();
         try {
             if (empty($dataLicense['license_start'])) {
                 $licenseStart = date('Y-m-d');
                 $licenseEnd = date("Y-m-d", strtotime($licenseStart . "+ 30 day"));
+
+                $op == 4 ? $quanity_user = $dataLicense['quantity_user'] : $quanity_user = 1;
 
                 $stmt = $connection->prepare("INSERT INTO companies_licenses 
                                                 (
@@ -125,7 +127,7 @@ class CompaniesLicenseDao
                     'id_company' => $id_company,
                     'license_start' => $licenseStart,
                     'license_end' => $licenseEnd,
-                    'quantity_user' => 1,
+                    'quantity_user' => $quanity_user,
                     'license_status' => 1,
                     'plan' => 1,
                     'flag_currency_usd' => 1,

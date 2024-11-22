@@ -198,7 +198,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 });
 
 // Nuevo Usuario y Compañia Demo a traves de Web Teenus
-$app->get('/newUserAndCompany/{email}', function (Request $request, Response $response, $args) use (
+$app->post('/newUserAndCompany', function (Request $request, Response $response, $args) use (
     $userDao,
     $webTokenDao,
     $generateCodeDao,
@@ -210,9 +210,10 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
     $sendEmailDao
 ) {
     try {
+        $dataUser = $request->getParsedBody();
         $resolution = [];
 
-        $user = $userDao->findUser($args['email']);
+        $user = $userDao->findUser($dataUser['emailUser']);
 
         if ($user == false) {
             // Creacion compañia
@@ -222,15 +223,15 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
                 $lastId = $lastDataDao->findLastCompany();
             if ($resolution == null) {
                 /* Agregar datos a companies licenses */
-                $dataCompany['license_start'] = '';
-                $resolution = $companiesLicenseDao->addLicense($dataCompany, $lastId['idCompany']);
+                $dataUser['license_start'] = '';
+                $resolution = $companiesLicenseDao->addLicense($dataUser, $lastId['idCompany'], 4);
             }
 
             // Creacion de usuario
             $newPass = $generateCodeDao->GenerateCode();
 
             // Se envia email con usuario(email) y contraseña
-            $dataEmail = $makeEmailDao->SendEmailPassword($args['email'], $newPass);
+            $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
 
             $resolution = $sendEmailDao->sendEmail($dataEmail, 'soporteTezlik@tezliksoftware.com.co', 'SoporteTezlik');
 
@@ -238,10 +239,11 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
             $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
             /* Almacena el usuario */
-            $resolution = $userDao->saveUserOnlyEmail($args['email'], $pass, $lastId['idCompany']);
+            $resolution = $userDao->saveUser($dataUser, $pass, $lastId['idCompany']);
+            // $resolution = $userDao->saveUserOnlyEmail($args['email'], $pass, $lastId['idCompany']);
 
             if ($resolution == null) {
-                $user = $userDao->findUser($args['email']);
+                $user = $userDao->findUser($dataUser['emailUser']);
                 $dataUser = $costAccessUserDao->setDataUserAccessDemo($user['id_user']);
 
                 $resolution = $costAccessUserDao->insertUserAccessByUser($dataUser, -1);

@@ -108,7 +108,7 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
         $FilesDao->logoCompany($lastId['idCompany']);
     }
     /* Agregar datos a companies licenses */
-    $company = $companiesLicDao->addLicense($dataCompany, $lastId['idCompany']);
+    $company = $companiesLicDao->addLicense($dataCompany, $lastId['idCompany'], 2);
 
     if ($company == null)
         $resp = array('success' => true, 'message' => 'Datos de Empresa agregados correctamente');

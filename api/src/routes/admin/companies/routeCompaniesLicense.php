@@ -67,7 +67,7 @@ $app->post('/addLicense', function (Request $request, Response $response, $args)
     $dataLicense = $request->getParsedBody();
     empty($dataLicense['plan']) ? $dataLicense['plan'] = 4 : $dataLicense['plan'];
 
-    $license = $companiesLicenseDao->addLicense($dataLicense, $dataLicense['company']);
+    $license = $companiesLicenseDao->addLicense($dataLicense, $dataLicense['company'], 1);
 
     if ($license == null)
         $resp = array('success' => true, 'message' => 'Licencia ingresada correctamente');
