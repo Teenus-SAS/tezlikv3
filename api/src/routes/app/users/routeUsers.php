@@ -235,18 +235,18 @@ $app->post('/newUserAndCompany', function (Request $request, Response $response,
 
             $resolution = $sendEmailDao->sendEmail($dataEmail, 'soporteTezlik@tezliksoftware.com.co', 'SoporteTezlik');
 
-            // if (!$resolution['info']) {
-            $pass = password_hash($newPass, PASSWORD_DEFAULT);
-
-            /* Almacena el usuario */
-            $resolution = $userDao->saveUserDemo($dataUser, $pass, $lastId['idCompany']);
-            // $resolution = $userDao->saveUserOnlyEmail($args['email'], $pass, $lastId['idCompany']);
-
             if ($resolution == null) {
-                $user = $userDao->findUser($dataUser['emailUser']);
-                $dataUser = $costAccessUserDao->setDataUserAccessDemo($user['id_user']);
+                $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
-                $resolution = $costAccessUserDao->insertUserAccessByUser($dataUser, -1);
+                /* Almacena el usuario */
+                $resolution = $userDao->saveUserDemo($dataUser, $pass, $lastId['idCompany']);
+
+                if ($resolution == null) {
+                    $user = $userDao->findUser($dataUser['emailUser']);
+                    $dataUser = $costAccessUserDao->setDataUserAccessDemo($user['id_user']);
+
+                    $resolution = $costAccessUserDao->insertUserAccessByUser($dataUser, -1);
+                }
             }
 
             if ($resolution == null) {
@@ -256,7 +256,6 @@ $app->post('/newUserAndCompany', function (Request $request, Response $response,
             } else {
                 $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
             }
-            // }
         } else
             $resp = array('error' => true, 'message' => 'El email ya se encuentra registrado. Intente con uno nuevo');
     } catch (\Exception $e) {
