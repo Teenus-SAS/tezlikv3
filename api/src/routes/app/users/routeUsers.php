@@ -217,7 +217,7 @@ $app->post('/newUserAndCompany', function (Request $request, Response $response,
 
         if ($user == false) {
             // Creacion compañia
-            $resolution = $companyDao->addCompanyDemo();
+            $resolution = $companyDao->addCompanyDemo($dataUser);
 
             if ($resolution == null)
                 $lastId = $lastDataDao->findLastCompany();
@@ -239,7 +239,7 @@ $app->post('/newUserAndCompany', function (Request $request, Response $response,
             $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
             /* Almacena el usuario */
-            $resolution = $userDao->saveUser($dataUser, $pass, $lastId['idCompany']);
+            $resolution = $userDao->saveUserDemo($dataUser, $pass, $lastId['idCompany']);
             // $resolution = $userDao->saveUserOnlyEmail($args['email'], $pass, $lastId['idCompany']);
 
             if ($resolution == null) {

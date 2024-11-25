@@ -89,14 +89,17 @@ class UsersDao
   }
 
   // Insertar nuevo usuario solo con email 
-  public function saveUserOnlyEmail($email, $pass, $id_company)
+  public function saveUserDemo($dataUser, $pass, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
     try {
-      $stmt = $connection->prepare("INSERT INTO users (email, password, id_company, id_rols, active) 
-                                    VALUES(:email, :pass, :id_company, :id_rols, :active)");
+      $stmt = $connection->prepare("INSERT INTO users (firstname, lastname, telephone, email, password, id_company, id_rols, active) 
+                                    VALUES(:firstname, :lastname, :telephone, :email, :pass, :id_company, :id_rols, :active)");
       $stmt->execute([
-        'email' => strtolower(trim($email)),
+        'firstname' => ucwords(strtolower(trim($dataUser['nameUser']))),
+        'lastname' => ucwords(strtolower(trim($dataUser['lastnameUser']))),
+        'telephone' => trim($dataUser['phone']),
+        'email' => strtolower(trim($dataUser['emailUser'])),
         'pass' => $pass,
         'id_company' => $id_company,
         'id_rols' => 2,

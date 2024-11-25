@@ -57,9 +57,12 @@ class CompaniesDao
             $stmt = $connection->prepare("INSERT INTO companies (company, state, city, country, address, telephone, nit)
                                           VALUES (:company, :state, :city, :country, :address, :telephone, :nit)");
             $stmt->execute([
-                'company' => $dataCompany['company'],              'state' => $dataCompany['companyState'],
-                'city' => $dataCompany['companyCity'],             'country' => $dataCompany['companyCountry'],
-                'address' => $dataCompany['companyAddress'],       'telephone' => $dataCompany['companyTel'],
+                'company' => $dataCompany['company'],
+                'state' => $dataCompany['companyState'],
+                'city' => $dataCompany['companyCity'],
+                'country' => $dataCompany['companyCountry'],
+                'address' => $dataCompany['companyAddress'],
+                'telephone' => $dataCompany['companyTel'],
                 'nit' => $dataCompany['companyNIT']
             ]);
 
@@ -72,12 +75,14 @@ class CompaniesDao
     }
 
     // Agregar Empresa Demo
-    public function addCompanyDemo()
+    public function addCompanyDemo($dataCompany)
     {
         $connection = Connection::getInstance()->getConnection();
         try {
             $stmt = $connection->prepare("INSERT INTO companies (company) VALUES (:company)");
-            $stmt->execute(['company' => 'Demo']);
+            $stmt->execute([
+                'company' => trim($dataCompany['company'])
+            ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -97,10 +102,14 @@ class CompaniesDao
                                           country = :country, address = :address, telephone = :telephone, nit = :nit
                                           WHERE id_company = :id_company");
             $stmt->execute([
-                'company' => $dataCompany['company'],              'state' => $dataCompany['companyState'],
-                'city' => $dataCompany['companyCity'],             'country' => $dataCompany['companyCountry'],
-                'address' => $dataCompany['companyAddress'],       'telephone' => $dataCompany['companyTel'],
-                'nit' => $dataCompany['companyNIT'],               'id_company' => $dataCompany['idCompany']
+                'company' => $dataCompany['company'],
+                'state' => $dataCompany['companyState'],
+                'city' => $dataCompany['companyCity'],
+                'country' => $dataCompany['companyCountry'],
+                'address' => $dataCompany['companyAddress'],
+                'telephone' => $dataCompany['companyTel'],
+                'nit' => $dataCompany['companyNIT'],
+                'id_company' => $dataCompany['idCompany']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
