@@ -1,5 +1,5 @@
 $(document).ready(function () {     
-    let id_historic = sessionStorage.getItem('idHistoric');
+    let id_historic = localStorage.getItem('idHistoric');
 
     loadIndicatorsProducts = async (id_historic) => {  
         let data = await searchData(`/api/historical/${id_historic}`);

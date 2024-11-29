@@ -2,9 +2,9 @@ $(document).ready(function () {
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     
     $(document).on('click', '.seeDetail', function (e) {
-        sessionStorage.removeItem('idHistoric');
+        localStorage.removeItem('idHistoric');
         let id_historic = this.id;
-        sessionStorage.setItem('idHistoric', id_historic);
+        localStorage.setItem('idHistoric', id_historic);
         location.href = '/cost/details-historical';
     });
     /* Cargue tabla de Precios */
