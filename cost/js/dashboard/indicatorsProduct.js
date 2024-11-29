@@ -373,7 +373,6 @@ $(document).ready(function () {
     }
 
     if (data[0].turnover > 0 && data[0].units_sold > 0 ) {
-      // let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
       $('.cardRecomendedPrice').empty();
       content = '';
  

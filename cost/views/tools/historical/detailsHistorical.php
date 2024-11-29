@@ -175,13 +175,17 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
-                                                <div class="media-body align-items-center">
+                                                <div class="media-body align-items-center cardDistribution">
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Real)</span>
+                                                    <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large"></h2>
+                                                </div>
+                                                <div class="media-body align-items-center cardSalePrice">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Lista)</span>
                                                     <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: x-large"></h2>
                                                 </div>
                                                 <div class="media-body align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Sugerido)</span>
-                                                    <h3 class="mb-0 mt-1 text-warning suggestedPrice" style="font-size: x-large"></h3>
+                                                    <h3 class="mb-0 mt-1 text-info suggestedPrice" style="font-size: x-large"></h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -189,24 +193,11 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
 
-                            <div class="col-xl-3 cardTrafficLight">
-                                <!-- <div class="card radius-10 border-start border-0 border-3 border-success">
-                                    <div class="card-body">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                                                <h2 class="mb-0 mt-1 costProduct text-success" id="actualProfitability"></h2>
-                                            </div>
-                                            <div class="text-center"> 
-                                                <span class="text-success font-weight-bold" style="font-size:large">
-                                                    <i class="" style="font-style: initial;"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
+                            <div class="col-xl-2 cardRecomendedPrice cardDistribution">
                             </div>
-                            <div class="col-xl-3">
+                            <div class="col-xl-2 cardTrafficLight cardSalePrice">
+                            </div>
+                            <div class="col-xl-2">
                                 <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -324,7 +315,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <div class="media">
                                                                     <div class="media-body">
                                                                         <p class="text-muted mb-2">Precio de Venta Recomendado</p>
-                                                                        <h4 class="mb-0" id="recomendedPrice">$</h4>
+                                                                        <h4 class="mb-0 recomendedPrice" id="recomendedPrice">$</h4>
                                                                     </div>
                                                                     <div class="avatar avatar-md bg-success mr-0 align-self-center">
                                                                         <i class="bx bx-chart fs-lg"></i>
@@ -363,6 +354,7 @@ if (sizeof($_SESSION) == 0)
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         sessionStorage.removeItem('typePrice');
+        id_company = "<?= $_SESSION['id_company'] ?>";
     </script>
 </body>
 
