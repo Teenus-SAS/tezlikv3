@@ -5,6 +5,7 @@ $(document).ready(function () {
         sessionStorage.removeItem('idHistoric');
         let id_historic = this.id;
         sessionStorage.setItem('idHistoric', id_historic);
+        location.href = '/cost/details-historical';
     });
     /* Cargue tabla de Precios */
 
@@ -168,7 +169,7 @@ $(document).ready(function () {
                     data: 'id_historic',
                     className: 'uniqueClassName',
                     render: function (data) {
-                        return `<a href="/cost/details-historical" <i id="${data}" class="bi bi-zoom-in seeDetail" data-toggle='tooltip' title='Ficha Técnica de Costos' style="font-size: 30px;"></i></a>`;
+                        return `<a href="javascript:;" <i id="${data}" class="bi bi-zoom-in seeDetail" data-toggle='tooltip' title='Ficha Técnica de Costos' style="font-size: 30px;"></i></a>`;
                     },
                 },
             ],
