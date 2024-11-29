@@ -145,12 +145,20 @@ $(document).ready(function () {
       let titlePriceList = op == 1 ? "precio_lista" : op == 3 ? "precio_lista(EUR)" : "precio_lista(USD)";
 
       let arr = getDataCost(row);
-      let recomendedPrice = arr.recomendedPrice;  
+      let suggestedPrice = (op == 1 ? parseFloat(row.price) : (op == 3 ? parseFloat(row.price_eur) : parseFloat(row.price_usd)));  
+      let recomendedPrice = parseFloat(arr.recomendedPrice);  
+      let priceList = (op == 1 ? parseFloat(row.sale_price) : (op == 3 ? parseFloat(row.sale_price_eur) : parseFloat(row.sale_price_usd)));  
 
       return {
         referencia: row.reference,
         producto: row.product,
-        [titlePrice]: (op == 1 ? row.price : (op == 3 ? row.price_eur : row.price_usd)),
+        [titlePrice]: suggestedPrice.toLocaleString(
+          "es-CO",
+          {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+          }
+        ),
         margen_sugerido: `${row.profitability.toLocaleString(
           "es-CO",
           {
@@ -158,7 +166,13 @@ $(document).ready(function () {
             maximumFractionDigits: 2
           }
         )} %`,
-        precio_real: recomendedPrice,
+        precio_real: recomendedPrice.toLocaleString(
+          "es-CO",
+          {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+          }
+        ),
         margen_real: `${arr.actualProfitability2.toLocaleString(
           "es-CO",
           {
@@ -166,7 +180,13 @@ $(document).ready(function () {
             maximumFractionDigits: 2
           }
         )} %`,
-        [titlePriceList]: (op == 1 ? row.sale_price : (op == 3 ? row.sale_price_eur : row.sale_price_usd)),
+        [titlePriceList]: priceList.toLocaleString(
+          "es-CO",
+          {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+          }
+        ),
         margen_lista: `${arr.actualProfitability3.toLocaleString(
           "es-CO",
           {
