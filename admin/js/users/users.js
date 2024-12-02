@@ -197,6 +197,7 @@ $(document).ready(function () {
     dataUser['typeCustomPrices'].push(-1);
     dataUser['typePayroll'] = 1;
     dataUser['typeExpenses'] = 1;
+    dataUser['priceObjectives'] = 1;
 
     return dataUser;
   };
