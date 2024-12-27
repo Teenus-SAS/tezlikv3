@@ -174,7 +174,7 @@ $(document).ready(function () {
 
       switch (type) {
         case "MATERIAL":
-          if (!dataMaterials) {
+          /* if (!dataMaterials) {
             await loadDataMaterial(1, "/api/selectMaterials");
             dataMaterials = JSON.parse(sessionStorage.getItem("dataMaterials"));
           }
@@ -194,6 +194,56 @@ $(document).ready(function () {
           } else {
             productMaterialsToImport[i]["idProduct"] = product.id_product;
             productMaterialsToImport[i]["material"] = material.id_material;
+          } */
+          try {
+            // Verifica si `dataMaterials` ya está cargado
+            if (!dataMaterials) {
+              await loadDataMaterial(1, "/api/selectMaterials");
+              dataMaterials = JSON.parse(
+                sessionStorage.getItem("dataMaterials")
+              );
+            }
+
+            // Valida que `dataMaterials` se haya cargado correctamente
+            if (!dataMaterials || !Array.isArray(dataMaterials)) {
+              debugg.push({
+                message:
+                  "Error al cargar los materiales desde la base de datos.",
+              });
+              break;
+            }
+
+            // Normaliza las propiedades para comparar
+            const referencia = arr.referencia_material?.toString().trim();
+            const materialName = arr.material?.toString().toUpperCase().trim();
+
+            // Busca el material en la lista cargada
+            const material = dataMaterials.find(
+              (item) =>
+                item.reference === referencia && item.material === materialName
+            );
+
+            // Valida si se encontró el material
+            if (!material) {
+              debugg.push({
+                message: `Materia prima no existe en la base de datos. Fila: ${
+                  i + 2
+                }`,
+              });
+            } else {
+              // Valida que `productMaterialsToImport[i]` existe
+              if (!productMaterialsToImport[i]) {
+                productMaterialsToImport[i] = {};
+              }
+
+              productMaterialsToImport[i]["idProduct"] =
+                product?.id_product || null;
+              productMaterialsToImport[i]["material"] = material.id_material;
+            }
+          } catch (error) {
+            debugg.push({
+              message: `Error procesando la fila ${i + 2}: ${error.message}`,
+            });
           }
           break;
 
