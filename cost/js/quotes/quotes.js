@@ -186,7 +186,7 @@ $(document).ready(function () {
 
     let idQuote = data.id_quote;
 
-    sessionStorage.setItem('idQuote', idQuote);
+    localStorage.setItem('idQuote', idQuote);
   };
 
   /* Mensaje de exito */

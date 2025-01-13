@@ -1,7 +1,7 @@
 $(document).ready(function () {
   tblQuotes = null;
 
-  let idQuote = sessionStorage.getItem('idQuote');
+  let idQuote = localStorage.getItem('idQuote');
 
   fetchindataQuote = async () => {
     let data = await searchData(`/api/quote/${idQuote}`);
