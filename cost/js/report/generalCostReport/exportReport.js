@@ -40,7 +40,7 @@ $(document).ready(function () {
       const transformedData = [];
 
       // Crear el encabezado con los procesos
-      const header = ["reference", "product", ...uniqueProcesses];
+      const header = ["REFERENCIA", "PRODUCTO", ...uniqueProcesses];
       transformedData.push(header);
 
       // Agrupar los datos por producto
@@ -78,7 +78,7 @@ $(document).ready(function () {
       execute = true;
 
       // Paso 4: Exportar el archivo Excel
-      XLSX.writeFile(workbook, "reporte_costos_procesos.xlsx");
+      XLSX.writeFile(workbook, "Reporte_Costos_por_Procesos.xlsx");
     } catch (error) {
       console.log(error);
     }
