@@ -19,15 +19,21 @@ class ProcessDao
     public function findAllProcessByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_process, p.process, p.id_company, IFNULL((SELECT COUNT(id_payroll) FROM payroll WHERE id_process = p.id_process), 0) AS count_payroll, p.route
-                                      FROM process p WHERE p.id_company = :id_company ORDER BY p.route ASC");
+        /* $stmt = $connection->prepare("SELECT p.id_process, p.process, p.id_company, IFNULL((SELECT COUNT(id_payroll) FROM payroll WHERE id_process = p.id_process), 0) AS count_payroll, p.route
+                                      FROM process p WHERE p.id_company = :id_company ORDER BY p.route ASC");*/
+        $sql = "SELECT p.reference, p.product, pr.process, pp.workforce_cost 
+                FROM products_process pp 
+                INNER JOIN products p ON p.id_product = pp.id_product 
+                INNER JOIN process pr ON pr.id_process = pp.id_process 
+                WHERE pp.id_company = :id_company AND p.active = 1;";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
-        $process = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("process", array('process' => $process));
-        return $process;
+        $processes = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("process", array('process' => $processes));
+        return $processes;
     }
 
     public function insertProcessByCompany($dataProcess, $id_company)

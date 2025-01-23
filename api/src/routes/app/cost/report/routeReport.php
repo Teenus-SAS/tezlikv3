@@ -39,13 +39,14 @@ $app->get('/processCostReport', function (Request $request, Response $response, 
 
     $id_company = $_SESSION['id_company'];
 
-    $costWorkforce = $reportCostDao->findAllCostWorkforceByCompany($id_company);
+    //$costWorkforce = $reportCostDao->findAllCostWorkforceByCompany($id_company);
+    $data = $reportCostDao->findAllCostWorkforceByCompany($id_company);
 
-    $process = $processDao->findAllProcessByCompany($id_company);
+    //$process = $processDao->findAllProcessByCompany($id_company);
 
-    $data = [];
-    $data['costWorkforce'] = $costWorkforce;
-    $data['process'] = $process;
+    //$data = [];
+    //$data['costWorkforce'] = $costWorkforce;
+    //$data['process'] = $process;
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
