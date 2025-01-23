@@ -8,7 +8,7 @@ $(document).ready(function () {
       let wb = XLSX.utils.book_new();
       let data = [];
 
-      let dataPrices = await searchData("/api/prices");
+      let dataPrices = await searchData("/api/generalCostReport");
       if (dataPrices.length > 0) {
         data = [];
 

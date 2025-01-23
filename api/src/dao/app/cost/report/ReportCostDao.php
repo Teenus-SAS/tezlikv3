@@ -16,6 +16,26 @@ class ReportCostDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findAllCostByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $sql = "SELECT p.reference, p.product, pc.cost_materials, pc.cost_workforce, pc.cost_indirect_cost, exp.assignable_expense
+                FROM products_costs pc
+                INNER JOIN products p ON p.id_product = pc.id_product
+                INNER JOIN expenses_distribution exp ON exp.id_product = pc.id_product
+                WHERE pc.id_company = :id_company AND p.active = 1;";
+
+        $stmt = $connection->prepare($sql);
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $generalCost = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("generalCost", array('generalCost' => $generalCost));
+        return $generalCost;
+    }
+
     public function findAllCostWorkforceByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -32,7 +52,7 @@ class ReportCostDao
                 INNER JOIN products p ON p.id_product = pp.id_product 
                 INNER JOIN process pr ON pr.id_process = pp.id_process 
                 WHERE pp.id_company = :id_company AND p.active = 1;";
-                                              
+
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
