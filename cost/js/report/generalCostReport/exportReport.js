@@ -8,7 +8,7 @@ $(document).ready(function () {
       let wb = XLSX.utils.book_new();
       let data = [];
 
-      let dataPrices = await searchData("/api/generalCostReport");
+      let dataCost = await searchData("/api/generalCostReport");
       /* if (dataPrices.length > 0) {
         data = [];
 
@@ -29,7 +29,7 @@ $(document).ready(function () {
       } */
 
       // Crear la hoja de cálculo
-      const worksheet = XLSX.utils.json_to_sheet(data);
+      const worksheet = XLSX.utils.json_to_sheet(dataCost);
 
       // Crear el libro de trabajo
       const workbook = XLSX.utils.book_new();
