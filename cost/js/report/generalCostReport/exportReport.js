@@ -9,7 +9,7 @@ $(document).ready(function () {
       let data = [];
 
       let dataPrices = await searchData("/api/generalCostReport");
-      if (dataPrices.length > 0) {
+      /* if (dataPrices.length > 0) {
         data = [];
 
         for (i = 0; i < dataPrices.length; i++) {
@@ -26,13 +26,23 @@ $(document).ready(function () {
 
         ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, "Costos");
-      }
+      } */
+
+      // Crear la hoja de cálculo
+      const worksheet = XLSX.utils.json_to_sheet(data);
+
+      // Crear el libro de trabajo
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Datos");
 
       $(".loading").hide(800);
       document.body.style.overflow = "";
       execute = true;
 
-      XLSX.writeFile(wb, "reporte_general_costos.xlsx");
+      //XLSX.writeFile(wb, "reporte_general_costos.xlsx");
+      
+      // Exportar el archivo
+      XLSX.writeFile(workbook, "Reporte_General_de_Costos.xlsx");
     } catch (error) {
       console.log(error);
     }

@@ -20,7 +20,7 @@ class ReportCostDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $sql = "SELECT p.reference, p.product, pc.cost_materials, pc.cost_workforce, pc.cost_indirect_cost, exp.assignable_expense
+        $sql = "SELECT p.reference, p.product, pc.cost_materials AS Materia_Prima, pc.cost_workforce AS Mano_de_Obra, pc.cost_indirect_cost AS Costos_Indirectos, exp.assignable_expense AS Gasto_CostoFijo
                 FROM products_costs pc
                 INNER JOIN products p ON p.id_product = pc.id_product
                 INNER JOIN expenses_distribution exp ON exp.id_product = pc.id_product
