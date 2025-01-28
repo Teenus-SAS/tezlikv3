@@ -157,7 +157,7 @@ $(document).ready(function () {
     } else if (actualProfitability2 < 0) {
       badgeClass = "badge badge-danger"; // Si la rentabilidad actual es negativa
     } else if (actualProfitability2 < profitability) {
-      badgeClass = "badge badge-yellow"; // Si la rentabilidad actual es menor a la esperada
+      badgeClass = "badge badge-warning"; // Si la rentabilidad actual es menor a la esperada
     } else if (actualProfitability2 => profitability) {
       badgeClass = "badge badge-success"; // Si la rentabilidad actual es mayor a la esperada
     } else if (
