@@ -146,7 +146,8 @@ $(document).ready(function () {
   };
 
   const renderProfitability = (data) => {
-    const { actualProfitability2 = 0, profitability, sale_price } = data;
+    const { profitability, sale_price } = data;
+    const { actualProfitability2 = 0 } = getDataCost(data);
 
     let badgeClass = "badge badge-primary"; // Valor por defecto
     let text = `${actualProfitability2.toFixed(2)} %`; // Por defecto, muestra el porcentaje actual
