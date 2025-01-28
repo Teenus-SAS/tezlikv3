@@ -151,13 +151,24 @@ $(document).ready(function () {
       profitability,
       sale_price,
     } = getDataCost(data);
-    const text = `${actualProfitability2.toFixed(2)} %`;
-    const badgeClass =
-      actualProfitability2 < data.profitability && data.sale_price > 0
-        ? "badge badge-warning"
-        : sale_price > 0
-        ? "badge badge-success"
-        : "badge badge-primary";
+
+    let badgeClass = "badge badge-primary"; // Valor por defecto
+    let text = `${actualProfitability2.toFixed(2)} %`; // Por defecto, muestra el porcentaje actual
+
+    if (sale_price === 0) {
+      text = `${profitability.toFixed(2)} %`; // Si el precio de venta es 0, muestra el profitability
+    } else if (actualProfitability2 < 0) {
+      badgeClass = "badge badge-danger"; // Si la rentabilidad actual es negativa
+    } else if (actualProfitability2 < profitability) {
+      badgeClass = "badge badge-danger"; // Si la rentabilidad actual es menor a la esperada
+    } else if (actualProfitability2 > profitability) {
+      badgeClass = "badge badge-success"; // Si la rentabilidad actual es mayor a la esperada
+    } else if (
+      actualProfitability2 >= 0 &&
+      actualProfitability2 <= profitability
+    ) {
+      badgeClass = "badge badge-warning"; // Si la rentabilidad actual está entre 0 y profitability
+    }
 
     return `<span class="${badgeClass}" style="font-size: medium;">${text}</span>`;
   };
