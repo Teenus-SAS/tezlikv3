@@ -153,7 +153,7 @@ $(document).ready(function () {
     } = getDataCost(data);
     const text = `${actualProfitability2.toFixed(2)} %`;
     const badgeClass =
-      actualProfitability2 < profitability && sale_price > 0
+      actualProfitability2 < data.profitability && data.sale_price > 0
         ? "badge badge-warning"
         : sale_price > 0
         ? "badge badge-success"

@@ -48,7 +48,10 @@ class GeneralCompositeProductsDao
     public function findCompositeProduct($dataProduct)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM composite_products WHERE id_product = :id_product AND id_child_product = :id_child_product");
+        $sql = "SELECT * 
+                FROM composite_products 
+                WHERE id_product = :id_product AND id_child_product = :id_child_product";
+        $stmt = $connection->prepare();
         $stmt->execute([
             'id_product' => $dataProduct['idProduct'],
             'id_child_product' => $dataProduct['compositeProduct']

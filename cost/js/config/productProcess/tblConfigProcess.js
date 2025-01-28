@@ -5,37 +5,37 @@ $(document).ready(function () {
   let visible;
 
   let isMinutes = true; // Variable para rastrear el estado actual (minutos o segundos)
-  const headerSelector =
-    '#tblConfigProcess thead th:contains("Tiempo Operación (min)")';
-  const bodySelector = "#tblConfigProcessBody tr";
+  //const headerSelector =
+  //  '#tblConfigProcess thead th:contains("Tiempo Operación (min)")';
+  //const bodySelector = "#tblConfigProcessBody tr";
 
   // Función para convertir minutos a segundos
-  const convertToSeconds = (value) => (value * 60).toFixed(2);
+  //const convertToSeconds = (value) => (value * 60).toFixed(2);
 
   // Función para convertir segundos a minutos
-  const convertToMinutes = (value) => (value / 60).toFixed(2);
+  //const convertToMinutes = (value) => (value / 60).toFixed(2);
 
   // Evento al hacer clic en el encabezado
-  $(document).on("click", headerSelector, function () {
+  //$(document).on("click", headerSelector, function () {
     // Cambiar el texto del encabezado
-    const newText = isMinutes
-      ? "Tiempo Operación (seg)"
-      : "Tiempo Operación (min)";
-    $(this).text(newText);
+  //  const newText = isMinutes
+  //    ? "Tiempo Operación (seg)"
+  //    : "Tiempo Operación (min)";
+  //  $(this).text(newText);
 
     // Cambiar los datos en las filas de la tabla
-    $(bodySelector).each(function () {
-      const cell = $(this).find("td").eq(5); // Índice de la columna "Tiempo Operación"
-      const currentValue = parseFloat(cell.text().replace(/,/g, "")); // Convertir a número
-      const newValue = isMinutes
-        ? convertToSeconds(currentValue)
-        : convertToMinutes(currentValue);
-      cell.text(newValue.toLocaleString("es-CO", { maximumFractionDigits: 2 }));
-    });
+  //  $(bodySelector).each(function () {
+  //    const cell = $(this).find("td").eq(5); // Índice de la columna "Tiempo Operación"
+  //    const currentValue = parseFloat(cell.text().replace(/,/g, "")); // Convertir a número
+  //    const newValue = isMinutes
+  //      ? convertToSeconds(currentValue)
+  //      : convertToMinutes(currentValue);
+  //    cell.text(newValue.toLocaleString("es-CO", { maximumFractionDigits: 2 }));
+  //  });
 
     // Cambiar el estado de minutos a segundos y viceversa
-    isMinutes = !isMinutes;
-  });
+ //   isMinutes = !isMinutes;
+ // });
 
   /* Seleccion producto */
   $("#refProduct").change(function (e) {
