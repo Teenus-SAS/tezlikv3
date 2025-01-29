@@ -4,38 +4,76 @@ $(document).ready(function () {
   let title4 = `${inyection == 1 ? "% Eficiencia" : "Tiempo Operación (min)"}`;
   let visible;
 
-  let isMinutes = true; // Variable para rastrear el estado actual (minutos o segundos)
-  //const headerSelector =
-  //  '#tblConfigProcess thead th:contains("Tiempo Operación (min)")';
-  //const bodySelector = "#tblConfigProcessBody tr";
+  // Variable para rastrear si los tiempos están en minutos o segundos
+  let isMinutes = true;
 
-  // Función para convertir minutos a segundos
-  //const convertToSeconds = (value) => (value * 60).toFixed(2);
+  // Función para convertir minutos a segundos y viceversa
+  const convertTime = (time, toSeconds) => {
+    return toSeconds ? time * 60 : time / 60;
+  };
 
-  // Función para convertir segundos a minutos
-  //const convertToMinutes = (value) => (value / 60).toFixed(2);
+  // Función para actualizar los tiempos en la tabla
+  const updateTableTimes = (toSeconds) => {
+    $("#tblConfigProcessBody tr").each(function () {
+      const cells = $(this).find("td");
+      const alistmentCell = cells.eq(4); // Columna de Tiempo Alistamiento
+      const operationCell = cells.eq(5); // Columna de Tiempo Operación
 
-  // Evento al hacer clic en el encabezado
-  //$(document).on("click", headerSelector, function () {
-    // Cambiar el texto del encabezado
-  //  const newText = isMinutes
-  //    ? "Tiempo Operación (seg)"
-  //    : "Tiempo Operación (min)";
-  //  $(this).text(newText);
+      const alistmentTime = parseFloat(alistmentCell.text().replace(",", ""));
+      const operationTime = parseFloat(operationCell.text().replace(",", ""));
 
-    // Cambiar los datos en las filas de la tabla
-  //  $(bodySelector).each(function () {
-  //    const cell = $(this).find("td").eq(5); // Índice de la columna "Tiempo Operación"
-  //    const currentValue = parseFloat(cell.text().replace(/,/g, "")); // Convertir a número
-  //    const newValue = isMinutes
-  //      ? convertToSeconds(currentValue)
-  //      : convertToMinutes(currentValue);
-  //    cell.text(newValue.toLocaleString("es-CO", { maximumFractionDigits: 2 }));
-  //  });
+      alistmentCell.text(
+        convertTime(alistmentTime, toSeconds).toLocaleString("es-CO", {
+          maximumFractionDigits: 2,
+        })
+      );
+      operationCell.text(
+        convertTime(operationTime, toSeconds).toLocaleString("es-CO", {
+          maximumFractionDigits: 2,
+        })
+      );
+    });
 
-    // Cambiar el estado de minutos a segundos y viceversa
- //   isMinutes = !isMinutes;
- // });
+    // Actualizar los totales
+    const totalAlistment = parseFloat(
+      $("#totalAlistment").text().replace(",", "")
+    );
+    const totalOperation = parseFloat(
+      $("#totalOperation").text().replace(",", "")
+    );
+
+    $("#totalAlistment").text(
+      convertTime(totalAlistment, toSeconds).toLocaleString("es-CO", {
+        maximumFractionDigits: 2,
+      })
+    );
+    $("#totalOperation").text(
+      convertTime(totalOperation, toSeconds).toLocaleString("es-CO", {
+        maximumFractionDigits: 2,
+      })
+    );
+  };
+
+  // Evento de clic en los encabezados
+  $("#tblConfigProcess th").on("click", function () {
+    const headerText = $(this).text();
+
+    if (
+      headerText.includes("Tiempo Alistamiento") ||
+      headerText.includes("Tiempo Operación")
+    ) {
+      isMinutes = !isMinutes; // Cambiar el estado
+      updateTableTimes(!isMinutes); // Convertir los tiempos
+
+      // Actualizar el texto del encabezado
+      $(this).text(
+        headerText.replace(
+          isMinutes ? "(seg)" : "(min)",
+          isMinutes ? "(min)" : "(seg)"
+        )
+      );
+    }
+  });
 
   /* Seleccion producto */
   $("#refProduct").change(function (e) {
