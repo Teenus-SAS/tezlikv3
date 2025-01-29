@@ -54,6 +54,27 @@ $(document).ready(function () {
     );
   };
 
+  // Delegación de eventos para los encabezados de la tabla
+  $("#tblConfigProcess").on("click", "th", function () {
+    const headerText = $(this).text();
+
+    if (
+      headerText.includes("Tiempo Alistamiento") ||
+      headerText.includes("Tiempo Operación")
+    ) {
+      isMinutes = !isMinutes; // Cambiar el estado
+      updateTableTimes(!isMinutes); // Convertir los tiempos
+
+      // Actualizar el texto del encabezado
+      $(this).text(
+        headerText.replace(
+          isMinutes ? "(seg)" : "(min)",
+          isMinutes ? "(min)" : "(seg)"
+        )
+      );
+    }
+  });
+
   // Evento de clic en los encabezados
   $("#tblConfigProcess th").on("click", function () {
     const headerText = $(this).text();
