@@ -19,16 +19,20 @@ $(document).ready(function () {
       const alistmentCell = cells.eq(4); // Columna de Tiempo Alistamiento
       const operationCell = cells.eq(5); // Columna de Tiempo Operación
 
-      const alistmentTime = parseFloat(alistmentCell.text().replace(",", ""));
-      const operationTime = parseFloat(operationCell.text().replace(",", ""));
+      // Convertir el texto a número, manejando correctamente el separador decimal
+      const alistmentTime = parseFloat(alistmentCell.text().replace(",", "."));
+      const operationTime = parseFloat(operationCell.text().replace(",", "."));
 
+      // Convertir el tiempo y formatearlo correctamente
       alistmentCell.text(
         convertTime(alistmentTime, toSeconds).toLocaleString("es-CO", {
+          minimumFractionDigits: 1,
           maximumFractionDigits: 2,
         })
       );
       operationCell.text(
         convertTime(operationTime, toSeconds).toLocaleString("es-CO", {
+          minimumFractionDigits: 1,
           maximumFractionDigits: 2,
         })
       );
@@ -36,19 +40,21 @@ $(document).ready(function () {
 
     // Actualizar los totales
     const totalAlistment = parseFloat(
-      $("#totalAlistment").text().replace(",", "")
+      $("#totalAlistment").text().replace(",", ".")
     );
     const totalOperation = parseFloat(
-      $("#totalOperation").text().replace(",", "")
+      $("#totalOperation").text().replace(",", ".")
     );
 
     $("#totalAlistment").text(
       convertTime(totalAlistment, toSeconds).toLocaleString("es-CO", {
+        minimumFractionDigits: 1,
         maximumFractionDigits: 2,
       })
     );
     $("#totalOperation").text(
       convertTime(totalOperation, toSeconds).toLocaleString("es-CO", {
+        minimumFractionDigits: 1,
         maximumFractionDigits: 2,
       })
     );
