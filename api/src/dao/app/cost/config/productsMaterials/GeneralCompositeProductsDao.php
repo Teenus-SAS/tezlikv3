@@ -51,7 +51,7 @@ class GeneralCompositeProductsDao
         $sql = "SELECT * 
                 FROM composite_products 
                 WHERE id_product = :id_product AND id_child_product = :id_child_product";
-        $stmt = $connection->prepare();
+        $stmt = $connection->prepare($sql);
         $stmt->execute([
             'id_product' => $dataProduct['idProduct'],
             'id_child_product' => $dataProduct['compositeProduct']
