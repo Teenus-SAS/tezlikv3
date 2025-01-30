@@ -1,46 +1,11 @@
 $(document).ready(function () {
-  //let title3 = `${inyection == 1 ? "Tiempo/Und" : "Tiempo Alistamiento (min)"}`;
-  unit = "min";
-  let title3 = `${
-    inyection == 1
-      ? "Tiempo/Und"
-      : `Tiempo Alistamiento (<a href="javascript:timeConvertion();" class="conversion_weight">${unit}</a>)`
-  }`;
+  let title3 = `${inyection == 1 ? "Tiempo/Und" : "Tiempo Alistamiento (min)"}`;
   let value3 = `${inyection == 1 ? "unity_time" : "enlistment_time"}`;
-  //let title4 = `${inyection == 1 ? "% Eficiencia" : "Tiempo Operación (min)"}`;
-  let title4 = `${
-    inyection == 1
-      ? "% Eficiencia"
-      : `Tiempo Operación (<a href="javascript:timeConvertion();" class="conversion_weight">${unit}</a>)`
-  }`;
+  let title4 = `${inyection == 1 ? "% Eficiencia" : "Tiempo Operación (min)"}`;
   let visible;
+
+  // Variable para rastrear si los tiempos están en minutos o segundos
   let isMinutes = true;
-
-  // Función para cambiar entre minutos y segundos
-  timeConvertion = () => {
-    isMinutes = !isMinutes; // Cambiar el estado
-    updateHeaders(); // Actualizar los encabezados
-    updateTableTimes(!isMinutes); // Convertir los tiempos en la tabla
-  };
-
-  // Función para actualizar los encabezados
-  updateHeaders = () => {
-    const unit = isMinutes ? "min" : "seg";
-    title3 = `${
-      inyection == 1
-        ? "Tiempo/Und"
-        : `Tiempo Alistamiento (<a href="javascript:timeConvertion();" class="conversion_weight">${unit}</a>)`
-    }`;
-    title4 = `${
-      inyection == 1
-        ? "% Eficiencia"
-        : `Tiempo Operación (<a href="javascript:timeConvertion();" class="conversion_weight">${unit}</a>)`
-    }`;
-
-    // Actualizar los encabezados de la tabla
-    $("#tblConfigProcess th").eq(4).html(title3);
-    $("#tblConfigProcess th").eq(5).html(title4);
-  };
 
   // Función para convertir minutos a segundos y viceversa
   const convertTime = (time, toSeconds) => {
@@ -94,6 +59,48 @@ $(document).ready(function () {
       })
     );
   };
+
+  // Delegación de eventos para los encabezados de la tabla
+  $("#tblConfigProcess").on("click", "th", function () {
+    const headerText = $(this).text();
+
+    if (
+      headerText.includes("Tiempo Alistamiento") ||
+      headerText.includes("Tiempo Operación")
+    ) {
+      isMinutes = !isMinutes; // Cambiar el estado
+      updateTableTimes(!isMinutes); // Convertir los tiempos
+
+      // Actualizar el texto del encabezado
+      $(this).text(
+        headerText.replace(
+          isMinutes ? "(seg)" : "(min)",
+          isMinutes ? "(min)" : "(seg)"
+        )
+      );
+    }
+  });
+
+  // Evento de clic en los encabezados
+  $("#tblConfigProcess th").on("click", function () {
+    const headerText = $(this).text();
+
+    if (
+      headerText.includes("Tiempo Alistamiento") ||
+      headerText.includes("Tiempo Operación")
+    ) {
+      isMinutes = !isMinutes; // Cambiar el estado
+      updateTableTimes(!isMinutes); // Convertir los tiempos
+
+      // Actualizar el texto del encabezado
+      $(this).text(
+        headerText.replace(
+          isMinutes ? "(seg)" : "(min)",
+          isMinutes ? "(min)" : "(seg)"
+        )
+      );
+    }
+  });
 
   /* Seleccion producto */
   $("#refProduct").change(function (e) {
