@@ -3,37 +3,37 @@ $(document).ready(function () {
   let title3 = `${
     inyection == 1
       ? "Tiempo/Und"
-      : `Tiempo Alistamiento (<a href="javascript:cambioConversion();" class="conversion_weight">${unit}</a>)`
+      : `Tiempo Alistamiento (<a href="javascript:timeConvertion();" class="conversion_weight">${unit}</a>)`
   }`;
   let value3 = `${inyection == 1 ? "unity_time" : "enlistment_time"}`;
   //let title4 = `${inyection == 1 ? "% Eficiencia" : "Tiempo Operación (min)"}`;
   let title4 = `${
     inyection == 1
       ? "% Eficiencia"
-      : `Tiempo Operación (<a href="javascript:cambioConversion();" class="conversion_weight">${unit}</a>)`
+      : `Tiempo Operación (<a href="javascript:timeConvertion();" class="conversion_weight">${unit}</a>)`
   }`;
   let visible;
   let isMinutes = true;
 
   // Función para cambiar entre minutos y segundos
-  const cambioConversion = () => {
+  timeConvertion = () => {
     isMinutes = !isMinutes; // Cambiar el estado
     updateHeaders(); // Actualizar los encabezados
     updateTableTimes(!isMinutes); // Convertir los tiempos en la tabla
   };
 
   // Función para actualizar los encabezados
-  const updateHeaders = () => {
+  updateHeaders = () => {
     const unit = isMinutes ? "min" : "seg";
     title3 = `${
       inyection == 1
         ? "Tiempo/Und"
-        : `Tiempo Alistamiento (<a href="javascript:cambioConversion();" class="conversion_weight">${unit}</a>)`
+        : `Tiempo Alistamiento (<a href="javascript:timeConvertion();" class="conversion_weight">${unit}</a>)`
     }`;
     title4 = `${
       inyection == 1
         ? "% Eficiencia"
-        : `Tiempo Operación (<a href="javascript:cambioConversion();" class="conversion_weight">${unit}</a>)`
+        : `Tiempo Operación (<a href="javascript:timeConvertion();" class="conversion_weight">${unit}</a>)`
     }`;
 
     // Actualizar los encabezados de la tabla
