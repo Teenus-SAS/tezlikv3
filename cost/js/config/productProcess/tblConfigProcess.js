@@ -1,5 +1,6 @@
 $(document).ready(function () {
   //let title3 = `${inyection == 1 ? "Tiempo/Und" : "Tiempo Alistamiento (min)"}`;
+  unit = min;
   let title3 = `${
     inyection == 1
       ? "Tiempo/Und"
