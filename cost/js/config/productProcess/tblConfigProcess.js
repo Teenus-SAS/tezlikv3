@@ -4,24 +4,23 @@ $(document).ready(function () {
   let title4 = `${inyection == 1 ? "% Eficiencia" : "Tiempo Operación (min)"}`;
   let visible;
 
-  // Variable para rastrear si los tiempos están en minutos o segundos
-  let isMinutes = true;
+  // Variables para rastrear si los tiempos están en minutos o segundos
+  let isAlistmentMinutes = true;
+  let isOperationMinutes = true;
 
   // Función para convertir minutos a segundos y viceversa
   const convertTime = (time, toSeconds) => {
     return toSeconds ? time * 60 : time / 60;
   };
 
-  // Función para actualizar los tiempos en la tabla
-  const updateTableTimes = (toSeconds) => {
+  // Función para actualizar los tiempos en la columna de Tiempo Alistamiento
+  updateAlistmentTimes = (toSeconds) => {
     $("#tblConfigProcessBody tr").each(function () {
       const cells = $(this).find("td");
       const alistmentCell = cells.eq(4); // Columna de Tiempo Alistamiento
-      const operationCell = cells.eq(5); // Columna de Tiempo Operación
 
       // Convertir el texto a número, manejando correctamente el separador decimal
       const alistmentTime = parseFloat(alistmentCell.text().replace(",", "."));
-      const operationTime = parseFloat(operationCell.text().replace(",", "."));
 
       // Convertir el tiempo y formatearlo correctamente
       alistmentCell.text(
@@ -30,6 +29,30 @@ $(document).ready(function () {
           maximumFractionDigits: 2,
         })
       );
+    });
+
+    // Actualizar el total de Tiempo Alistamiento
+    const totalAlistment = parseFloat(
+      $("#totalAlistment").text().replace(",", ".")
+    );
+    $("#totalAlistment").text(
+      convertTime(totalAlistment, toSeconds).toLocaleString("es-CO", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 2,
+      })
+    );
+  };
+
+  // Función para actualizar los tiempos en la columna de Tiempo Operación
+  updateOperationTimes = (toSeconds) => {
+    $("#tblConfigProcessBody tr").each(function () {
+      const cells = $(this).find("td");
+      const operationCell = cells.eq(5); // Columna de Tiempo Operación
+
+      // Convertir el texto a número, manejando correctamente el separador decimal
+      const operationTime = parseFloat(operationCell.text().replace(",", "."));
+
+      // Convertir el tiempo y formatearlo correctamente
       operationCell.text(
         convertTime(operationTime, toSeconds).toLocaleString("es-CO", {
           minimumFractionDigits: 1,
@@ -38,19 +61,9 @@ $(document).ready(function () {
       );
     });
 
-    // Actualizar los totales
-    const totalAlistment = parseFloat(
-      $("#totalAlistment").text().replace(",", ".")
-    );
+    // Actualizar el total de Tiempo Operación
     const totalOperation = parseFloat(
       $("#totalOperation").text().replace(",", ".")
-    );
-
-    $("#totalAlistment").text(
-      convertTime(totalAlistment, toSeconds).toLocaleString("es-CO", {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 2,
-      })
     );
     $("#totalOperation").text(
       convertTime(totalOperation, toSeconds).toLocaleString("es-CO", {
@@ -60,24 +73,28 @@ $(document).ready(function () {
     );
   };
 
-  // Delegación de eventos para los encabezados de la tabla
+  // Delegación de eventos para detectar clics en los encabezados
   $("#tblConfigProcess").on("click", "th", function () {
     const headerText = $(this).text();
 
-    if (
-      headerText.includes("Tiempo Alistamiento") ||
-      headerText.includes("Tiempo Operación")
-    ) {
-      isMinutes = !isMinutes; // Cambiar el estado
-      updateTableTimes(!isMinutes); // Convertir los tiempos
+    // Verificar si el clic fue en "Tiempo Alistamiento (min)" o "Tiempo Alistamiento (seg)"
+    if (headerText.includes("Tiempo Alistamiento")) {
+      isAlistmentMinutes = !isAlistmentMinutes; // Cambiar el estado
+      updateAlistmentTimes(!isAlistmentMinutes); // Convertir los tiempos de la columna correspondiente
 
       // Actualizar el texto del encabezado
       $(this).text(
-        headerText.replace(
-          isMinutes ? "(seg)" : "(min)",
-          isMinutes ? "(min)" : "(seg)"
-        )
+        `Tiempo Alistamiento (${isAlistmentMinutes ? "min" : "seg"})`
       );
+    }
+
+    // Verificar si el clic fue en "Tiempo Operación (min)" o "Tiempo Operación (seg)"
+    if (headerText.includes("Tiempo Operación")) {
+      isOperationMinutes = !isOperationMinutes; // Cambiar el estado
+      updateOperationTimes(!isOperationMinutes); // Convertir los tiempos de la columna correspondiente
+
+      // Actualizar el texto del encabezado
+      $(this).text(`Tiempo Operación (${isOperationMinutes ? "min" : "seg"})`);
     }
   });
 
