@@ -83,8 +83,10 @@ class ExpensesDistributionDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE expenses_distribution SET id_product = :id_product, id_production_center = :id_production_center, units_sold = :units_sold, turnover = :turnover
-                                          WHERE id_expenses_distribution = :id_expenses_distribution");
+            $sql = "UPDATE expenses_distribution 
+                    SET id_product = :id_product, id_production_center = :id_production_center, units_sold = :units_sold, turnover = :turnover
+                    WHERE id_expenses_distribution = :id_expenses_distribution";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_expenses_distribution' => trim($dataExpensesDistribution['idExpensesDistribution']),
                 'id_product' => trim($dataExpensesDistribution['selectNameProduct']),

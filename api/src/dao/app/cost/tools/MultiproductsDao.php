@@ -76,8 +76,8 @@ class MultiproductsDao
     public function findMultiproduct($id_product)
     {
         $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT * FROM multiproducts WHERE id_product = :id_product");
+        $sql = "SELECT * FROM multiproducts WHERE id_product = :id_product";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_product' => $id_product]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -113,8 +113,10 @@ class MultiproductsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE multiproducts SET units_sold = :units_sold, participation = :participation, expense = :expense 
-                                          WHERE id_product = :id_product");
+            $sql = "UPDATE multiproducts 
+                    SET units_sold = :units_sold, participation = :participation, expense = :expense 
+                    WHERE id_product = :id_product";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_product' => $dataProduct['id_product'],
                 'units_sold' => $dataProduct['soldUnit'],

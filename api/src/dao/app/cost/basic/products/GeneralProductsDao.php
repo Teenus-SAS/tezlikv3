@@ -223,7 +223,8 @@ class GeneralProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("UPDATE products_costs SET price = :price WHERE id_product = :id_product");
+        $sql = "UPDATE products_costs SET price = :price WHERE id_product = :id_product";
+        $stmt = $connection->prepare($sql);
         $stmt->execute([
             'price' => $totalPrice,
             'id_product' => $idProduct
@@ -273,7 +274,10 @@ class GeneralProductsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE products_costs SET new_product = :new_product WHERE id_product = :id_product");
+            $sql = "UPDATE products_costs 
+                    SET new_product = :new_product 
+                    WHERE id_product = :id_product";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_product' => $id_product,
                 'new_product' => $status

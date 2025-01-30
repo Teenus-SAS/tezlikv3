@@ -533,6 +533,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     $costMaterialsDao,
     $multiproductsDao
 ) {
+    //validacion de webtoken seguridad
     $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
