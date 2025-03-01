@@ -117,7 +117,7 @@ $(document).ready(function () {
       }
     }
     num = num.replace(',', '.');
-    return num;
+    return num.replace('.', '');
   };
 
   /* Validar si es entero o decimal */
