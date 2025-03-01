@@ -19,7 +19,7 @@ $(document).ready(function () {
         }
       }
 
-      number = decimalNumber(number);
+      number = decimalNumber(number.replace(',', ''));
     }
 
     $(`#${this.id}`).val(number);
@@ -181,7 +181,7 @@ $(document).ready(function () {
       decimalIndex = cadena.indexOf(',');
     else
       decimalIndex = cadena.indexOf('.');
-    
+
     if (decimalIndex === -1) {
       return 0;
     }
