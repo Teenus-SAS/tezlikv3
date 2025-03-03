@@ -41,7 +41,7 @@ $(document).ready(function () {
       .then(async (data) => {
         let arr = data.rowObject;
 
-         if (arr.length == 0) {
+        if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileMaterials').val('');
@@ -50,11 +50,11 @@ $(document).ready(function () {
         }
 
         const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'costo_importacion', 'costo_nacionalizacion', 'tipo_moneda'];
-        
+
         // price_usd == '0' ||
-        if (export_import == '0' || flag_export_import == '0'){
+        if (export_import == '0' || flag_export_import == '0') {
           expectedHeaders.splice(expectedHeaders.length - 2, 1);
-          expectedHeaders.splice(expectedHeaders.length - 2, 1); 
+          expectedHeaders.splice(expectedHeaders.length - 2, 1);
         }
 
         if (flag_currency_usd == '0') { // COP
@@ -72,24 +72,31 @@ $(document).ready(function () {
 
           toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
           return false;
-        } 
+        }
 
         let resp = await validateDataRM(arr);
-        
-        if(resp.importStatus == true)
+
+        if (resp.importStatus == true)
           checkProduct(resp.materialsToImport, resp.insert, resp.update);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
       });
-  }); 
+  });
 
   // Función para obtener y parsear datos de sessionStorage
   const getSessionData = (key) => JSON.parse(sessionStorage.getItem(key));
 
   // Función para validar campos
   const validateFields = (fields, rowIndex) => {
-    if (fields.some(field => !field || !field.trim())) {
+    if (fields.some(field => {
+      // Si el campo es un número, solo verifica si es null o undefined
+      if (typeof field === 'number') {
+        return field === null || field === undefined;
+      }
+      // Si el campo es una cadena, verifica si está vacío o contiene solo espacios
+      return !field || !field.toString().trim();
+    })) {
       $('.cardLoading').remove();
       $('.cardBottons').show(400);
       $('#fileMaterials').val('');
@@ -112,7 +119,7 @@ $(document).ready(function () {
       return false;
     }
     return true;
-  }; 
+  };
 
   /* Validar Data */
   const validateDataRM = (data) => {
@@ -120,13 +127,13 @@ $(document).ready(function () {
     let importStatus = true;
     let insert = 0;
     let update = 0;
-    
+
     // Cargar datos desde sessionStorage una vez
     const dataMagnitudes = getSessionData('dataMagnitudes');
     const dataUnits = getSessionData('dataUnits');
     const dataCategory = getSessionData('dataCategory');
     const dataMaterials = getSessionData('dataMaterials');
-    
+
     for (let i = 0; i < data.length; i++) {
       let arr = data[i];
       let cost = arr.costo > 0 ? arr.costo.toString() : '';
@@ -241,7 +248,7 @@ $(document).ready(function () {
 
   /* Descargar formato */
   $('#btnDownloadImportsMaterials').click(function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
 
     let url = 'assets/formatsXlsx/Materia_prima(COP).xlsx';
 
