@@ -134,6 +134,12 @@ $(document).ready(function () {
     const dataCategory = getSessionData('dataCategory');
     const dataMaterials = getSessionData('dataMaterials');
 
+    // Convertir dataMaterials en un Map para búsquedas rápidas
+    const dataMaterialsMap = new Map(dataMaterials.map(item => [
+      `${item.reference}-${item.material}`.toUpperCase(),
+      item
+    ]));
+
     for (let i = 0; i < data.length; i++) {
       let arr = data[i];
       let cost = arr.costo > 0 ? arr.costo.toString() : '';
@@ -187,7 +193,7 @@ $(document).ready(function () {
         }
       }
 
-      let material = dataMaterials.find(item => item.reference === arr.referencia.trim() && item.material === arr.material.toString().trim().toUpperCase());
+      let material = dataMaterialsMap.get(`${arr.referencia.trim()}-${arr.material.toString().trim().toUpperCase()}`);
       if (material) {
         update += 1;
         materialsToImport[i].idMaterial = material.id_material;
@@ -199,7 +205,7 @@ $(document).ready(function () {
       materialsToImport[i].refRawMaterial = arr.referencia;
       materialsToImport[i].nameRawMaterial = arr.material;
       materialsToImport[i].category = arr.categoria;
-      materialsToImport[i].costRawMaterial = arr.costo
+      materialsToImport[i].costRawMaterial = arr.costo;
       materialsToImport[i].costImport = arr.costo_importacion;
       materialsToImport[i].costExport = arr.costo_nacionalizacion;
       materialsToImport[i].typeCost = arr.tipo_moneda;
