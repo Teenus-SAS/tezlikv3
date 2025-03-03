@@ -193,7 +193,7 @@ $(document).ready(function () {
         }
       }
 
-      let material = dataMaterialsMap.get(`${arr.referencia.trim()}-${arr.material.toString().trim().toUpperCase()}`);
+      let material = dataMaterialsMap.get(`${arr.referencia ? arr.referencia.toString().trim() : ''}-${arr.material.toString().trim().toUpperCase()}`);
       if (material) {
         update += 1;
         materialsToImport[i].idMaterial = material.id_material;
