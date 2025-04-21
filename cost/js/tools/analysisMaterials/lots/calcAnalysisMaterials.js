@@ -59,7 +59,7 @@ $(document).ready(function () {
         `${percentage.toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
-        })} %`
+        })}`
       );
 
     if (percentage < 0) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
 
     // Eliminar miles
     totalQuantity = strReplaceNumber(totalQuantity);
-    
+
     // Eliminar miles
     aPrice = strReplaceNumber(aPrice);
     aPrice = aPrice.replace('$', '');

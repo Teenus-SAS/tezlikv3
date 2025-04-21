@@ -187,5 +187,33 @@ $(document).ready(function () {
     }
     return cadena.length - decimalIndex - 1;
   };
+
+
+  /**
+   * Convierte una cadena con formato "0,28 KG" a número
+   * @param {string} str - Cadena a convertir (ej. "0,28 KG")
+   * @returns {number} - Valor numérico (ej. 0.28)
+   */
+  window.convertirStringANumero = (str) => {
+    if (!str || typeof str !== 'string') {
+      console.error('El parámetro debe ser una cadena no vacía');
+      return 0;
+    }
+
+    // Extraer la parte numérica (reemplaza comas por puntos y elimina caracteres no numéricos)
+    const numeroStr = str.replace(/\./g, '').replace(',', '.').replace(/[^\d.-]/g, '');
+
+    // Convertir a número
+    const numero = parseFloat(numeroStr);
+
+    // Validar el resultado
+    if (isNaN(numero)) {
+      console.error('No se pudo convertir a número:', str);
+      return 0;
+    }
+
+    return numero;
+  }
+
 });
 

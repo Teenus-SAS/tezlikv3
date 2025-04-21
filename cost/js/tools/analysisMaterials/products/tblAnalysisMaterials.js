@@ -22,34 +22,21 @@ $(document).ready(function () {
         //<th id="reference-${i + 1}">${r[i].reference}</th>
         $('.colMaterials').append(
           `<tr class="col${i + 1} text-center" id="col${i + 1}">
-                          <th scope="row">${i + 1}</th>
-                          <th scope="row">${data[i].participation.toFixed(
-                            1
-                          )}%</th>
-                          <th id="rawMaterial-${i + 1}">${data[i].material}</th>
-                          <th id="quantity-${i + 1}">${data[i].quantity}</th>
-                          <th id="currentPrice-${i + 1}">$ ${
-            data[i].abbreviation_material !=
+            <th scope="row">${i + 1}</th>
+            <th scope="row">${data[i].participation.toFixed(1)}%</th>
+            <th id="rawMaterial-${i + 1}">${data[i].material}</th>
+            <th id="quantity-${i + 1}">${data[i].quantity}</th>
+            <th id="currentPrice-${i + 1}">$ ${data[i].abbreviation_material !=
             data[i].abbreviation_product_material
-              ? data[i].cost_product_material.toLocaleString('es-CO', {
-                  maximumFractionDigits: 0,
-                })
-              : data[i].cost.toLocaleString('es-CO', {
-                  maximumFractionDigits: 0,
-                })
-          }</th>
-                          <th><input class="form-control number negotiatePrice text-center" type="text" id="${
-                            i + 1
-                          }"></th>
-                          <th id="percentage-${i + 1}"></th>
-                          <th id="unityCost-${i + 1}">$ ${data[
-            i
-          ].unityCost.toLocaleString('es-CO', {
-            maximumFractionDigits: 0,
-          })}</th>
-                          <th id="totalCost-${i + 1}"></th>
-                          <th id="projectedCost-${i + 1}"></th>
-                        </tr>`
+            ? data[i].cost_product_material.toLocaleString('es-CO', { maximumFractionDigits: 0 })
+            : data[i].cost.toLocaleString('es-CO', { maximumFractionDigits: 0, })}</th>
+            <th id="unityCost-${i + 1}">$ ${data[i].unityCost.toLocaleString('es-CO', { maximumFractionDigits: 0, })}</th>
+            <th id="totalCost-${i + 1}"></th>
+            <th><input class="form-control number negotiatePrice text-center" type="text" id="${i + 1}"></th>
+            <th id="percentage-${i + 1}"></th>
+            <th id="newCost-${i + 1}"></th>
+            <th id="projectedCost-${i + 1}"></th>
+          </tr>`
         );
       }
     }

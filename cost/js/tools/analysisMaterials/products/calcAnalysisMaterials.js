@@ -47,7 +47,7 @@ $(document).ready(function () {
         `${percentage.toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
-        })} %`
+        })}`
       );
 
     if (percentage < 0) {
@@ -129,29 +129,34 @@ $(document).ready(function () {
     let status = false;
 
     for (i = 1; i < count + 1; i++) {
+
+      //cantidad usada
       quantity = $(`#quantity-${i}`).html();
-
-      quantity = strReplaceNumber(quantity);
-
+      quantity = convertirStringANumero(quantity);
       quantity = parseFloat(quantity);
 
+      //Precio a Negociar
       let negotiatePrice = $(`#${i}`).val();
-
       negotiatePrice == '' ? (negotiatePrice = '0') : negotiatePrice;
 
       // Eliminar miles
       negotiatePrice = strReplaceNumber(negotiatePrice);
       negotiatePrice = parseFloat(negotiatePrice);
 
+      //Nuevo costo unitario y totales
       projectedCost = quantity * negotiatePrice * unitsmanufacturated;
+      projectedNewUnitCost = quantity * negotiatePrice;
 
-      if (isNaN(projectedCost)) $(`#projectedCost-${i}`).html();
-      else
-        $(`#projectedCost-${i}`).html(
-          `$ ${parseInt(projectedCost.toFixed()).toLocaleString('es-CO')}`
-        );
-
-      if (negotiatePrice != '') status = true;
+      if (isNaN(projectedCost)) {
+        $(`#newCost-${i}`).html();
+        $(`#projectedCost-${i}`).html();
+      }
+      else {
+        $(`#newCost-${i}`).html(`$ ${parseInt(projectedNewUnitCost.toFixed()).toLocaleString('es-CO')}`);
+        $(`#projectedCost-${i}`).html(`$ ${parseInt(projectedCost.toFixed()).toLocaleString('es-CO')}`);
+      }
+      if (negotiatePrice != '')
+        status = true;
     }
 
     $('#monthlySavings').val('');

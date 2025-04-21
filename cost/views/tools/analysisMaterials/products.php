@@ -150,10 +150,11 @@ if (sizeof($_SESSION) == 0)
                                                         <th scope="col">Materia Prima</th>
                                                         <th scope="col">Cantidad</th>
                                                         <th scope="col">Precio Actual</th>
-                                                        <th scope="col">Precio a Negociar</th>
-                                                        <th scope="col">Porcentaje</th>
                                                         <th scope="col">Costo Unidad</th>
                                                         <th scope="col">Costo Total</th>
+                                                        <th scope="col">Precio a Negociar</th>
+                                                        <th scope="col">%</th>
+                                                        <th scope="col">Nuevo Costo Unidad</th>
                                                         <th scope="col">Costo Proyectado</th>
                                                     </tr>
                                                 </thead>

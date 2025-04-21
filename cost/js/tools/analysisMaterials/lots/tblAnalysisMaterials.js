@@ -68,7 +68,7 @@ $(document).ready(function () {
           //       quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
           //     } else
           //       quantity = quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
           //     return `${quantity} ${data.abbreviation_material}`;
           //   },
           // },
@@ -82,7 +82,7 @@ $(document).ready(function () {
                 total_quantity = total_quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 total_quantity = total_quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return `${total_quantity} ${data.abbreviation_material}`;
             },
           },
@@ -96,7 +96,7 @@ $(document).ready(function () {
               data.abbreviation_material != data.abbreviation_product_material
                 ? (cost = data.cost_product_material)
                 : (cost = data.cost);
-            
+
               cost = parseFloat(cost);
               if (Math.abs(cost) < 0.001) {
                 cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
@@ -136,7 +136,7 @@ $(document).ready(function () {
             data[i].abbreviation_material != data[i].abbreviation_product_material
               ? (cost = data[i].cost_product_material)
               : (cost = data[i].cost);
-          
+
             costs += parseFloat(cost);
 
             cost_product_material += parseFloat(data[i].cost_product_material);
@@ -224,7 +224,7 @@ $(document).ready(function () {
           //       quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
           //     } else
           //       quantity = quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
           //     return `<p id="quantity-${meta.row}">${quantity} ${data.abbreviation_material}</p>`;
           //   },
           // },
@@ -238,7 +238,7 @@ $(document).ready(function () {
                 total_quantity = total_quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 total_quantity = total_quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return `<p id="totalQuantity-${meta.row}">${total_quantity} ${data.abbreviation_material}</p>`;
             },
           },
