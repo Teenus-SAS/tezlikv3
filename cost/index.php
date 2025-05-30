@@ -1,12 +1,7 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-    if (sizeof($_SESSION) == 0)
-        header('location: /');
-}
-if (sizeof($_SESSION) == 0)
-    header('location: /');
+require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
 ?>
+
 <?php require_once __DIR__ . '/modals/modalGeneralDashboard.php'; ?>
 <?php require_once __DIR__ . '/modals/autoHistorical.php'; ?>
 <?php require_once __DIR__ . '/modals/FirstLogin.php'; ?>
@@ -21,7 +16,7 @@ if (sizeof($_SESSION) == 0)
     <meta name="description" content="TezlikSoftware">
     <meta name="keywords" content="">
     <meta name="author" content="">
-    <title>Tezlik | Dashboard</title>
+    <title>TezlikSoftware | Dashboard</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(__DIR__) . '/global/partials/scriptsCSS.php'; ?>
@@ -546,15 +541,11 @@ if (sizeof($_SESSION) == 0)
                                                     $('#selectCurrency').val('1');
                                                     break;
                                                 case '2': // Dólares  
-                                                    // document.getElementById('btnPdf').className = 'col-xs-2 mr-2';
-                                                    // document.getElementById('btnPdf').style.marginTop = '40px';
                                                     $('#selectCurrency').val('2');
-
                                                     $('.cardUSD').show(800);
                                                     break;
                                                 case '3': // Euros
                                                     $('#selectCurrency').val('3');
-
                                                     $('.cardEUR').show(800);
                                                     break;
                                             }
@@ -580,13 +571,6 @@ if (sizeof($_SESSION) == 0)
                                                         $('.cardEUR').show(800);
                                                         break;
                                                 }
-                                                // } else { // Pesos
-                                                //     $(`#selectCurrency option[value=1]`).prop("selected", true);
-                                                //     // element.style.marginTop = '';
-                                                //     // document.getElementById('btnPdf').style.marginTop = '';
-
-                                                //     $('.cardUSD').hide(800);
-                                                // }
 
                                                 // Recargar Datos
                                                 let id_product = $('#refProduct').val();

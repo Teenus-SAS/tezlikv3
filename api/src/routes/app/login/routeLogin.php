@@ -12,11 +12,12 @@ use tezlikv3\dao\HistoricalProductsDao;
 use tezlikv3\dao\HistoricalUsersDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\LastLoginDao;
-use tezlikv3\dao\WebTokenDao;
+
+use App\Auth\JWTManagerDao;
 
 $licenseDao = new LicenseCompanyDao();
 $autenticationDao = new AutenticationUserDao();
-$webTokenDao = new WebTokenDao();
+
 $statusActiveUserDao = new StatusActiveUserDao();
 $generateCodeDao = new GenerateCodeDao();
 $sendEmailDao = new SendEmailDao();
@@ -26,11 +27,17 @@ $historicalUsersDao = new HistoricalUsersDao();
 $firstLoginDao = new FirstLoginDao();
 $contractsDao = new ContractDao();
 $historicalProductsDao = new HistoricalProductsDao();
+$jwtSecret = $_ENV['jwt_key'] ?? '';
+$jwt = new JWTManagerDao($jwtSecret);
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 
 /* Autenticación */
 
@@ -42,94 +49,101 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     $userAccessDao,
     $historicalUsersDao,
     $contractsDao,
-    $historicalProductsDao
+    $historicalProductsDao,
+    $jwt
 ) {
     $parsedBody = $request->getParsedBody();
 
-    $user = $parsedBody["validation-email"];
+    // Validar campos requeridos
+    if (empty($parsedBody["validation-email"]) || empty($parsedBody["validation-password"]))
+        return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Email y contraseña son requeridos'], 400);
+
+    $email = filter_var($parsedBody["validation-email"], FILTER_SANITIZE_EMAIL);
     $password = $parsedBody["validation-password"];
-    $user = $autenticationDao->findByEmail($user);
+    $user = $autenticationDao->findByEmail($email);
 
-    $resp = array();
+    // Respuesta genérica para evitar enumeración de usuarios
+    $genericError = ['error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente'];
 
-    /* Usuario sn datos */
-    if ($user == null) {
-        $resp = array('error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente');
-        $response->getBody()->write(json_encode($resp));
-        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-    }
+    /* Usuario sin datos */
+    if ($user == null)
+        return ResponseHelper::withJson($response, $genericError, 200);
 
     /* Valida el password del usuario */
-    if (!password_verify($password, $user['password'])) {
-        $resp = array('error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente');
-        $response->getBody()->write(json_encode($resp));
-        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-    }
+    if (!password_verify($password, $user['password']))
+        return ResponseHelper::withJson($response, $genericError, 200);
+
+    // Configuración robusta de la sesión
+    $sessionConfig = [
+        'cookie_lifetime' => 86400, // 1 día
+        'cookie_secure' => isset($_SERVER['HTTPS']), // Solo en HTTPS
+        'cookie_httponly' => true,
+        'cookie_samesite' => 'Lax',
+        'use_strict_mode' => true,
+        'use_only_cookies' => true
+    ];
+
+    // Aplicar configuración de sesión
+    foreach ($sessionConfig as $key => $value)
+        ini_set('session.' . $key, $value);
+
+    // Iniciar y asegurar la sesión
+    if (session_status() === PHP_SESSION_NONE)
+        session_start();
+
+    // Regenerar ID de sesión para prevenir fixation
+    session_regenerate_id(true);
+
+    // Limpiar datos de sesión previos
+    $_SESSION = [];
 
     if (empty($user['rol'])) {
-        /* valide licenciamiento empresa */
+        /* Validar licenciamiento empresa */
         $dataCompany = $licenseDao->findLicenseCompany($user['id_company']);
 
         $today = date('Y-m-d');
         $licenseDay = $dataCompany['license_end'];
         $today < $licenseDay ? $license = 1 : $license = 0;
 
-        if ($license == 0) {
-            $resp = array('error' => true, 'message' => 'Su licencia ha caducado, lo invitamos a comunicarse');
-            $response->getBody()->write(json_encode($resp));
-            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-        }
+        if ($license == 0)
+            return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Su licencia ha caducado, lo invitamos a comunicarse'], 200);
 
         /* Validar que el usuario es activo */
-
-        if ($user['active'] != 1) {
-            $resp = array('error' => true, 'message' => 'Usuario Inactivo, valide con el administrador');
-            $response->getBody()->write(json_encode($resp));
-            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-        }
+        if ($user['active'] != 1)
+            return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Usuario Inactivo, valide con el administrador'], 200);
 
         /* Valida la session del usuario */
-
-        if ($user['session_active'] != 0) {
-            $resp = array('error' => true, 'message' => 'Usuario logeado, cierre la sesión para abrir una nueva');
-            $response->getBody()->write(json_encode($resp));
-            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-        }
+        if ($user['session_active'] != 0)
+            return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Usuario logeado, cierre la sesión para abrir una nueva'], 200);
 
         $contract = $contractsDao->findContract();
 
-        /* Nueva session user */
-        session_start();
+        /* Configurar datos de sesión */
+        $_SESSION = [
+            'active' => true,
+            'idUser' => $user['id_user'],
+            'case' => 1,
+            'name' => $user['firstname'],
+            'lastname' => $user['lastname'],
+            'email' => $user['email'],
+            'rol' => $user["id_rols"],
+            'id_company' => $user['id_company'],
+            'avatar' => $user['avatar'],
+            'position' => $user['position'],
+            'logoCompany' => $dataCompany['logo'],
+            "time" => microtime(true),
+            'plan' => $dataCompany['plan'],
+            'license_days' => $dataCompany['license_days'],
+            'status_historical' => 1,
+            'coverage_usd' => $dataCompany['coverage_usd'],
+            'coverage_eur' => $dataCompany['coverage_eur'],
+            'deviation' => $dataCompany['deviation'],
+            'demo' => 1,
+            'd_contract' => $contract ? 1 : 0,
+            'content' => $contract ? $contract['content'] : 0
+        ];
 
-        $_SESSION['d_contract'] = 0;
-        $_SESSION['content'] = 0;
-
-        if ($contract) {
-            $_SESSION['content'] = $contract['content'];
-            $_SESSION['d_contract'] = 1;
-        }
-
-        $_SESSION['active'] = true;
-        $_SESSION['idUser'] = $user['id_user'];
-        $_SESSION['case'] = 1;
-        $_SESSION['name'] = $user['firstname'];
-        $_SESSION['lastname'] = $user['lastname'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['rol'] = $user["id_rols"];
-        $_SESSION['id_company'] = $user['id_company'];
-        $_SESSION['avatar'] = $user['avatar'];
-        $_SESSION['position'] = $user['position'];
-        $_SESSION['logoCompany'] = $dataCompany['logo'];
-        $_SESSION["time"] = microtime(true);
-        $_SESSION['plan'] = $dataCompany['plan'];
-        $_SESSION['license_days'] = $dataCompany['license_days'];
-        $_SESSION['status_historical'] = 1;
-        $_SESSION['coverage_usd'] = $dataCompany['coverage_usd'];
-        $_SESSION['coverage_eur'] = $dataCompany['coverage_eur'];
-        $_SESSION['deviation'] = $dataCompany['deviation'];
-        $_SESSION['demo'] = 1;
-
-        // Guardar accesos de usario 
+        // Guardar accesos de usuario 
         $userAccessDao->setGeneralAccess($user['id_user']);
 
         if ($_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) {
@@ -144,120 +158,70 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         }
 
         // Guardar sesion
-        if ($user['id_user'] != 1)
+        if ($user['id_user'] != 1) {
             $historicalUsersDao->insertHistoricalUser($user['id_user']);
+        }
         $location = '../../cost/';
     } else {
-        /* Nueva session admin*/
-        session_start();
-        $_SESSION['active'] = true;
-        $_SESSION['idUser'] = $user['id_admin'];
-        $_SESSION['case'] = 2;
-        $_SESSION['name'] = $user['firstname'];
-        $_SESSION['lastname'] = $user['lastname'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['avatar'] = $user['avatar'];
-        $_SESSION["time"] = microtime(true);
+        /* Configurar sesión admin */
+        $_SESSION = [
+            'active' => true,
+            'idUser' => $user['id_admin'],
+            'case' => 2,
+            'name' => $user['firstname'],
+            'lastname' => $user['lastname'],
+            'email' => $user['email'],
+            'avatar' => $user['avatar'],
+            "time" => microtime(true)
+        ];
 
         $location = '../../admin/';
     }
 
-    // $exp = strtotime('+1 minutes');
-    $exp = strtotime('+30 minutes');
-    $key = $_ENV['jwt_key'];
+    // Generar token para el usuario
+    $token = $jwt->generateToken($_SESSION['idUser']);
 
-    $payload = [
-        'exp' => $exp,
-        'data' => $_SESSION['idUser']
-    ];
+    // Establecer cookie
+    $jwt->setAuthCookie($token);
 
-    $jwt = JWT::encode($payload, $key, 'HS256');
-    $_SESSION['token'] = $jwt;
+    // Guardar en sesión
+    $_SESSION['token'] = $token;
 
-    /* Actualizar metodo ultimo logueo */
+    /* Actualizar último logueo */
     $lastLoginDao->findLastLogin();
 
-    /* Modificar el estado de la sesion del usuario en BD */
+    /* Modificar el estado de la sesión del usuario en BD */
     $statusActiveUserDao->changeStatusUserLogin();
 
-    $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    // Forzar escritura y cierre de sesión
+    session_write_close();
+
+    return ResponseHelper::withJson($response, ['success' => true, 'location' => $location, 'token' => $token], 200);
 });
 
-$app->post('/saveFirstLogin', function (Request $request, Response $response, $args) use (
-    $firstLoginDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+$app->post('/saveFirstLogin', function (Request $request, Response $response, $args) use ($firstLoginDao) {
+    try {
+        //Obtener data
+        $id_user = $_SESSION['idUser'];
+        $dataUser = $request->getParsedBody();
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Location', '/')->withStatus(302);
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
-
-    // session_start();
-    $id_user = $_SESSION['idUser'];
-    $dataUser = $request->getParsedBody();
-
-    $resolution = $firstLoginDao->saveDataUser($dataUser, $id_user);
-
-    if ($resolution == null) {
-        $resp = array('success' => true, 'message' => 'Usuario modificado correctamente');
+        //Almacenar data
+        $firstLoginDao->saveDataUser($dataUser, $id_user);
 
         $_SESSION['name'] = $dataUser['firstname'];
         $_SESSION['lastname'] = $dataUser['lastname'];
-    } else if (isset($resolution['info']))
-        $resp = array('info' => true, 'message' => $resolution['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error guardando la información. Intente nuevamente');
 
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+        return ResponseHelper::withJson($response, ['success' => true, 'message' => 'Usuario actualizado correctamente'], 200);
+    } catch (Exception $e) {
+        error_log("Error en saveFirstLogin: " . $e->getMessage());
+        return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Error interno del servidor'], 500);
+    }
+})->add(new SessionMiddleware());
 
 /* Logout */
-$app->get('/logout', function (Request $request, Response $response, $args) use (
-    $statusActiveUserDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
-    }
-
-    // session_start();
+$app->get('/logout', function (Request $request, Response $response, $args) use ($statusActiveUserDao,) {
     $statusActiveUserDao->changeStatusUserLogin();
     session_destroy();
     $response->getBody()->write(json_encode("1", JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

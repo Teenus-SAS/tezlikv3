@@ -2,38 +2,17 @@
 
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\MultiproductsDao;
-use tezlikv3\dao\WebTokenDao;
 
 $multiproductsDao = new MultiproductsDao();
-$webTokenDao = new WebTokenDao();
 $productsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/multiproducts', function (Request $request, Response $response, $args) use (
-    $multiproductsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/multiproducts', function (Request $request, Response $response, $args) use ($multiproductsDao,) {
     // session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -46,31 +25,9 @@ $app->get('/multiproducts', function (Request $request, Response $response, $arg
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/multiproductsDataValidation', function (Request $request, Response $response, $args) use (
-    $productsDao,
-    $webTokenDao,
-    $multiproductsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/multiproductsDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $multiproductsDao) {
 
     $dataMultiproducts = $request->getParsedBody();
 
@@ -118,31 +75,9 @@ $app->post('/multiproductsDataValidation', function (Request $request, Response 
 
     $response->getBody()->write(json_encode($dataImportMultiproducts, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/addMultiproduct', function (Request $request, Response $response, $args) use (
-    $multiproductsDao,
-    $webTokenDao,
-    $productsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/addMultiproduct', function (Request $request, Response $response, $args) use ($multiproductsDao, $productsDao) {
 
     // session_start();
     $id_company = $_SESSION['id_company'];
@@ -192,4 +127,4 @@ $app->post('/addMultiproduct', function (Request $request, Response $response, $
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

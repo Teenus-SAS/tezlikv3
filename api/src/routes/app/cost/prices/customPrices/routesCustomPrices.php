@@ -6,11 +6,9 @@ use tezlikv3\dao\GeneralPricesListDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\Dao\PriceCustomDao;
-use tezlikv3\dao\WebTokenDao;
 
 $customPricesDao = new CustomPricesDao();
 $generalCustomPricesDao = new GeneralCustomPricesDao();
-$webTokenDao = new WebTokenDao();
 $priceCustomDao = new PriceCustomDao();
 $lastDataDao = new LastDataDao();
 $generalProductsDao = new GeneralProductsDao();
@@ -19,62 +17,22 @@ $generalPricesListDao = new GeneralPricesListDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/customPrices', function (Request $request, Response $response, $args) use (
-    $customPricesDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/customPrices', function (Request $request, Response $response, $args) use ($customPricesDao) {
     $id_company = $_SESSION['id_company'];
 
     $customPrices = $customPricesDao->findAllCustomPricesByCompany($id_company);
     $response->getBody()->write(json_encode($customPrices, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/customDataValidation', function (Request $request, Response $response, $args) use (
     $generalProductsDao,
-    $webTokenDao,
     $generalPricesListDao,
     $generalCustomPricesDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     $dataCustom = $request->getParsedBody();
 
     if (isset($dataCustom)) {
@@ -156,36 +114,15 @@ $app->post('/customDataValidation', function (Request $request, Response $respon
 
     $response->getBody()->write(json_encode($dataImportCustom, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addCustomPrice', function (Request $request, Response $response, $args) use (
     $customPricesDao,
-    $webTokenDao,
     $generalCustomPricesDao,
     $generalPricesListDao,
     $generalProductsDao,
     $priceCustomDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $dataCustom = $request->getParsedBody();
@@ -279,33 +216,9 @@ $app->post('/addCustomPrice', function (Request $request, Response $response, $a
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/updateCustomPrice', function (Request $request, Response $response, $args) use (
-    $customPricesDao,
-    $webTokenDao,
-    $generalCustomPricesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->post('/updateCustomPrice', function (Request $request, Response $response, $args) use ($customPricesDao, $generalCustomPricesDao) {
     $id_company = $_SESSION['id_company'];
     $dataCustomPrice = $request->getParsedBody();
     $data = [];
@@ -329,31 +242,9 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/deleteCustomPrice/{id_custom_price}', function (Request $request, Response $response, $args) use (
-    $customPricesDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/deleteCustomPrice/{id_custom_price}', function (Request $request, Response $response, $args) use ($customPricesDao,) {
     $customPrices = $customPricesDao->deleteCustomPrice($args['id_custom_price']);
 
     if ($customPrices == null)
@@ -365,4 +256,4 @@ $app->get('/deleteCustomPrice/{id_custom_price}', function (Request $request, Re
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

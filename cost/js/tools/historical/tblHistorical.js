@@ -1,76 +1,9 @@
 $(document).ready(function () {
-    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    
-    $(document).on('click', '.seeDetail', function (e) {
-        sessionStorage.removeItem('idHistoric');
-        let id_historic = this.id;
-        sessionStorage.setItem('idHistoric', id_historic);
-        location.href = '/cost/details-historical';
-    });
-    /* Cargue tabla de Precios */
+    let historical = [];
+    let maxProfitability = 0;
+    let minProfitability = 0;
 
-    loadAllData = async () => {
-        try {
-            historical = await searchData('/api/historical');
-            const mesesInvertidos = {};
-            const yearsInvertidos = {};
-
-            historical.forEach(item => {
-                mesesInvertidos[item.month] = months[item.month - 1];
-            });
-
-            historical.forEach(item => {
-                yearsInvertidos[item.year] = item.year;
-            });
-
-            historicalIndicatiors(historical);
-
-            let $select = $(`#month`);
-            $select.empty();
-            $select.append(`<option disabled selected>Seleccionar</option>`);
-            $select.append('<option value="0">Todo</option>');
-            $.each(mesesInvertidos, function (i, value) {
-                $select.append(
-                    `<option value="${i}">${value}</option>`
-                );
-            });
-
-            let $select1 = $('#year');
-            $select1.empty();
-            $select1.append('<option disabled selected>Seleccionar</option>');
-            $select1.append('<option value="0">Todo</option>');
-
-            $.each(yearsInvertidos, function (i, value) {
-                $select1.append(
-                    `<option value="${i}">${value}</option>`
-                );
-            });
-
-            loadTblPrices(historical);
-        } catch (error) {
-            console.error('Error loading data:', error);
-        }
-    }
-
-    historicalIndicatiors = (data) => {
-        maxProfitability = 0;
-        minProfitability = 0;
-        let totalProfitability = 0;
-        let averageProfitability = 0;
-
-        if (data.length > 0) {
-            maxProfitability = Math.max(...data.map(obj => obj.min_profitability));
-            minProfitability = Math.min(...data.map(obj => obj.min_profitability));
-            totalProfitability = data.reduce((acc, obj) => acc + obj.min_profitability, 0);
-            averageProfitability = totalProfitability / data.length;
-        }
-
-        $('#lblMaxProfitability').html(` Rentab +Alta: ${maxProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
-        $('#lblMinProfitability').html(` Rentab +Baja: ${minProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
-        $('#lblAverageProfitability').html(` Rentab Prom: ${averageProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
-    }
-  
-    loadTblPrices = async (data) => { 
+    loadTblPrices = async (data) => {
         if ($.fn.dataTable.isDataTable("#tblHistorical")) {
             $("#tblHistorical").DataTable().clear();
             $("#tblHistorical").DataTable().rows.add(data).draw();
@@ -85,109 +18,88 @@ $(document).ready(function () {
             language: {
                 url: '/assets/plugins/i18n/Spanish.json',
             },
-            fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-                if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
-                    console.error(oSettings.json.error);
-                }
-            },
             columns: [
                 {
                     title: 'No.',
                     data: null,
-                    className: 'uniqueClassName',
                     render: function (data, type, full, meta) {
                         return meta.row + 1;
                     },
                 },
                 {
-                    title: 'Año / Mes',
-                    data: null,
-                    className: 'uniqueClassName',
-                    render: function (data) {
-                        return `${data.year} / ${months1[data.month]}`;
-                    }
+                    title: historicalConfig.companyConfig === 1 ? 'Año / Mes' : 'Periodo',
+                    data: 'formattedPeriod'
                 },
                 {
                     title: 'Referencia',
-                    data: 'reference',
-                    className: 'uniqueClassName',
+                    data: 'reference'
                 },
                 {
                     title: 'Producto',
-                    data: 'product',
-                    className: 'classCenter',
+                    data: 'product'
                 },
                 {
                     title: 'Precio (Sugerido)',
                     data: 'price',
-                    className: 'classCenter',
                     render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
                 },
                 {
                     title: 'Precio (Lista)',
                     data: 'sale_price',
-                    className: 'classCenter',
-                    // visible: visible,
                     render: function (data) {
-                        if (data > 0)
-                            return `$ ${data.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
-                        else return '';
+                        return data > 0 ? `$ ${data.toLocaleString('es-CO', { maximumFractionDigits: 0 })}` : '';
                     },
                 },
                 {
                     title: 'Rentabilidad',
                     data: null,
-                    className: 'classCenter',
                     render: function (data) {
-                        let profitabilityText = `${data.min_profitability.toLocaleString(
-                            "es-CO",
-                            { maximumFractionDigits: 2 }
-                        )} %`;
-                        let badgeClass = "";
+                        const profitabilityText = `${data.min_profitability.toLocaleString("es-CO", { maximumFractionDigits: 2 })} %`;
+                        let badgeClass = "badge badge-success";
 
-                        if (
-                            data.min_profitability < data.profitability &&
-                            data.min_profitability > 0 &&
-                            data.sale_price > 0
-                        ) {
-                            badgeClass = "badge badge-warning"; // Use "badge badge-warning" for orange
-                        } else if (
-                            data.min_profitability < data.profitability &&
-                            data.sale_price > 0
-                        ) {
-                            badgeClass = "badge badge-danger"; // Use "badge badge-danger" for red
-                        } else badgeClass = "badge badge-success"; // Use "badge badge-danger" for red
-                        if (badgeClass) {
-                            return `<span class="${badgeClass}" style="font-size: medium;" >${profitabilityText}</span>`;
-                        } else {
-                            return profitabilityText;
+                        if (data.min_profitability < data.profitability) {
+                            badgeClass = data.min_profitability > 0 ? "badge badge-warning" : "badge badge-danger";
                         }
+
+                        return `<span class="${badgeClass}" style="font-size: medium;">${profitabilityText}</span>`;
                     }
                 },
                 {
                     title: 'Acciones',
                     data: 'id_historic',
-                    className: 'uniqueClassName',
+                    className: 'text-center',
+                    orderable: false,
                     render: function (data) {
-                        return `<a href="javascript:;" <i id="${data}" class="bi bi-zoom-in seeDetail" data-toggle='tooltip' title='Ficha Técnica de Costos' style="font-size: 30px;"></i></a>`;
+                        return `<a href="javascript:;" class="seeDetail">
+                                    <i id="${data}" class="bi bi-zoom-in" data-toggle='tooltip' title='Ficha Técnica de Costos' style="font-size: 30px;"></i>
+                                </a>`;
                     },
                 },
             ],
         });
     }
 
-    loadAllData();
+    // Filtros
+    $('#period, #year').change(function () {
+        const period = $('#period').val();
+        const year = $('#year').val();
 
-    $('.btnsProfit').click(function (e) {
-        e.preventDefault();
+        let filteredData = historical;
 
-        let data = [];
+        if (year !== '0') {
+            filteredData = filteredData.filter(item => item.year == year);
+        }
 
-        if (this.id == 'max')
-            data = historical.filter(item => item.min_profitability == maxProfitability);
-        else
-            data = historical.filter(item => item.min_profitability == minProfitability);
-            
-        loadTblPrices(data);
+        if (period !== '0') {
+            if (companyConfig === 1) {
+                filteredData = filteredData.filter(item => item.month == period);
+            } else {
+                filteredData = filteredData.filter(item => getWeekNumber(item.date) == period);
+            }
+        }
+
+        loadTblPrices(filteredData);
     });
+
+    loadAllData();
 });

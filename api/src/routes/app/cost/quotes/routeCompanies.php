@@ -4,10 +4,8 @@ use tezlikv3\dao\GeneralQuotesDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\QCompaniesDao;
-use tezlikv3\dao\WebTokenDao;
 
 $companiesDao = new QCompaniesDao();
-$webTokenDao = new WebTokenDao();
 $lastDataDao = new LastDataDao();
 $generalQuotesDao = new GeneralQuotesDao();
 $FilesDao = new FilesDao();
@@ -15,62 +13,22 @@ $FilesDao = new FilesDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/quotesCompanies', function (Request $request, Response $response, $args) use (
-    $companiesDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/quotesCompanies', function (Request $request, Response $response, $args) use ($companiesDao) {
     $id_company = $_SESSION['id_company'];
 
     $companies = $companiesDao->findAllCompanies($id_company);
     $response->getBody()->write(json_encode($companies, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addQCompany', function (Request $request, Response $response, $args) use (
     $companiesDao,
-    $webTokenDao,
     $lastDataDao,
     $FilesDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -100,33 +58,10 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/updateQCompany', function (Request $request, Response $response, $args) use (
-    $companiesDao,
-    $webTokenDao,
-    $FilesDao
-) {
-    $info = $webTokenDao->getToken();
+$app->post('/updateQCompany', function (Request $request, Response $response, $args) use ($companiesDao, $FilesDao) {
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataCompany = $request->getParsedBody();
 
@@ -150,31 +85,9 @@ $app->post('/updateQCompany', function (Request $request, Response $response, $a
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/deleteQCompany/{id_company}', function (Request $request, Response $response, $args) use (
-    $companiesDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/deleteQCompany/{id_company}', function (Request $request, Response $response, $args) use ($companiesDao) {
     $companies = $companiesDao->deleteCompany($args['id_company']);
 
     if ($companies == null)
@@ -185,4 +98,4 @@ $app->get('/deleteQCompany/{id_company}', function (Request $request, Response $
         $resp = array('error' => true, 'message' => 'No se pudo eliminar la información');
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

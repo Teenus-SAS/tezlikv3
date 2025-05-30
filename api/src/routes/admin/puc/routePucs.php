@@ -1,69 +1,24 @@
 <?php
 
 use tezlikv3\dao\PucsDao;
-use tezlikv3\dao\WebTokenDao;
 
 $pucsDao = new PucsDao();
-$webTokenDao = new WebTokenDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
 //Obtener Cuentas generales
-$app->get('/findPUC', function (Request $request, Response $response, $args) use (
-    $pucsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/findPUC', function (Request $request, Response $response, $args) use ($pucsDao) {
     $resp = $pucsDao->findAllCounts();
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
+})->add(new SessionMiddleware());
 
 //Agregar Cuenta
-$app->post('/createPUC', function (Request $request, Response $response, $args) use (
-    $pucsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/createPUC', function (Request $request, Response $response, $args) use ($pucsDao) {
     $dataPuc = $request->getParsedBody();
     $respPuc = $pucsDao->insertCountsPUC($dataPuc);
 
@@ -76,33 +31,10 @@ $app->post('/createPUC', function (Request $request, Response $response, $args) 
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
+})->add(new SessionMiddleware());
 
 //Actualizar Cuenta
-$app->post('/updatePUC', function (Request $request, Response $response, $args) use (
-    $pucsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/updatePUC', function (Request $request, Response $response, $args) use ($pucsDao) {
     $dataPuc = $request->getParsedBody();
     $respPuc = $pucsDao->updateCountsPUC($dataPuc);
 
@@ -114,4 +46,4 @@ $app->post('/updatePUC', function (Request $request, Response $response, $args) 
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

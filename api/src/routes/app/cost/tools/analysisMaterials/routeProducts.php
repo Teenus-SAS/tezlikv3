@@ -1,38 +1,16 @@
 <?php
 
 use tezlikv3\dao\AMProductsDao;
-use tezlikv3\dao\WebTokenDao;
 
 $AMProductsDao = new AMProductsDao();
-$webTokenDao = new WebTokenDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/rawMaterials/{idProduct}', function (Request $request, Response $response, $args) use (
-    $AMProductsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/rawMaterials/{idProduct}', function (Request $request, Response $response, $args) use ($AMProductsDao) {
     $id_company = $_SESSION['id_company'];
 
     $productsRawmaterials = $AMProductsDao->findAllProductsRawMaterials($args['idProduct'], $id_company);
@@ -66,4 +44,4 @@ $app->get('/rawMaterials/{idProduct}', function (Request $request, Response $res
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

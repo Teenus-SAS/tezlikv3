@@ -8,7 +8,7 @@
  * @author    Andy Prevost
  * @copyright 2012 - 2020 Marcus Bointon
  * @copyright 2004 - 2009 Andy Prevost
- * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @license   https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html GNU Lesser General Public License
  */
 
 namespace PHPMailer\Test\PHPMailer;
@@ -102,7 +102,7 @@ final class ParseAddressesTest extends TestCase
     public function testAddressSplittingNativeNoMbstring($addrstr, $expected, $charset = null)
     {
         if (extension_loaded('mbstring')) {
-            $this->markTestSkipped('Test requires MbString *not* to be available');
+            self::markTestSkipped('Test requires MbString *not* to be available');
         }
 
         if (isset($charset)) {
@@ -136,7 +136,7 @@ final class ParseAddressesTest extends TestCase
     public function testAddressSplittingImapNoMbstring($addrstr, $expected, $charset = null)
     {
         if (extension_loaded('mbstring')) {
-            $this->markTestSkipped('Test requires MbString *not* to be available');
+            self::markTestSkipped('Test requires MbString *not* to be available');
         }
 
         if (isset($charset)) {

@@ -1,11 +1,5 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-    if (sizeof($_SESSION) == 0)
-        header('location: /');
-}
-if (sizeof($_SESSION) == 0)
-    header('location: /');
+require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.php';
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +10,9 @@ if (sizeof($_SESSION) == 0)
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Teenus SAS">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Cost | Expenses</title>
+    <title>TezlikSoftware Cost | Expenses</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
@@ -290,7 +284,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="card">
-                                            <div class="card-body">
+                                            <div class="card-body" style="display: none;">
                                                 <form id="formCreateExpenses">
                                                     <div class="form-row">
                                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
@@ -323,7 +317,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
 
-                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardImportExpensesAssignation">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardImportExpensesAssignation" style="display: none;">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -477,7 +471,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
 
-                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpensesDistribution">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpensesDistribution" style="display: none;">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -499,7 +493,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
 
                         <!-- Distribuir Gastos -->
-                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpensesDistribution">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpensesDistribution" style="display: none;">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -546,7 +540,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
 
                         <!-- Nuevos Productos -->
-                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardNewProduct">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardNewProduct" style="display: none;">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -588,7 +582,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
 
                         <!-- Recuperar Gastos -->
-                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpenseRecover">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpenseRecover" style="display: none;">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -620,7 +614,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
 
-                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardImportExpenses">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardImportExpenses" style="display: none;">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">

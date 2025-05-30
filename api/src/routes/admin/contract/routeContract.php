@@ -1,65 +1,23 @@
 <?php
 
 use tezlikv3\dao\ContractDao;
-use tezlikv3\dao\WebTokenDao;
 
 $contractDao = new ContractDao();
-$webTokenDao = new WebTokenDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/contracts', function (Request $request, Response $response, $args) use (
-    $contractDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/contracts', function (Request $request, Response $response, $args) use ($contractDao) {
     $resp = $contractDao->findContract();
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/saveContract', function (Request $request, Response $response, $args) use (
-    $contractDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/saveContract', function (Request $request, Response $response, $args) use ($contractDao) {
     $dataContract = $request->getParsedBody();
 
     $contract = $contractDao->findContract();
@@ -75,4 +33,4 @@ $app->post('/saveContract', function (Request $request, Response $response, $arg
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

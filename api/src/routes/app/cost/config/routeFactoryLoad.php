@@ -12,10 +12,10 @@ use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\Dao\PriceUSDDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $factoryloadDao = new FactoryLoadDao();
-$webTokenDao = new WebTokenDao();
+
 $generalFactoryLoadDao = new GeneralFactoryLoadDao();
 $lastDataDao = new LastDataDao();
 $machinesDao = new GeneralMachinesDao();
@@ -31,62 +31,21 @@ $costCompositeProductsDao = new CostCompositeProductsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
-$app->get('/factoryLoad', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $factoryloadDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/factoryLoad', function (Request $request, Response $response, $args) use ($factoryloadDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $machines = $factoryloadDao->findAllFactoryLoadByCompany($id_company);
     $response->getBody()->write(json_encode($machines, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Consultar carga fabril*/
-$app->post('/factoryLoadDataValidation', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $machinesDao,
-    $generalFactoryLoadDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/factoryLoadDataValidation', function (Request $request, Response $response, $args) use ($machinesDao, $generalFactoryLoadDao) {
 
     $dataFactoryLoad = $request->getParsedBody();
 
@@ -132,10 +91,9 @@ $app->post('/factoryLoadDataValidation', function (Request $request, Response $r
 
     $response->getBody()->write(json_encode($dataImportFactoryLoad, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addFactoryLoad', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $factoryloadDao,
     $generalFactoryLoadDao,
     $lastDataDao,
@@ -149,25 +107,6 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -465,10 +404,9 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/updateFactoryLoad', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $factoryloadDao,
     $generalFactoryLoadDao,
     $costMinuteDao,
@@ -480,25 +418,6 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -638,10 +557,9 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
         $resp = array('error' => true, 'message' => 'Carga fabril existente. Ingrese nueva carga');
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/deleteFactoryLoad', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $factoryloadDao,
     $indirectCostDao,
     $priceProductDao,
@@ -651,25 +569,6 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -823,4 +722,4 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
         $resp = array('error' => true, 'message' => 'No se pudo eliminar la carga fabril, existe información asociada a ella');
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

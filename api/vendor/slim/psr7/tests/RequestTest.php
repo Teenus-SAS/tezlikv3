@@ -26,7 +26,7 @@ use function sprintf;
 
 class RequestTest extends TestCase
 {
-    public function requestFactory($envData = [])
+    public function requestFactory($envData = []): Request
     {
         $env = Environment::mock($envData);
 
@@ -84,8 +84,6 @@ class RequestTest extends TestCase
         $this->assertEquals("!#$%&'*+.^_`|~09AZ-", $request->getMethod());
     }
 
-    /**
-     */
     public function testWithMethodInvalid()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -93,8 +91,6 @@ class RequestTest extends TestCase
         $this->requestFactory()->withMethod('B@R');
     }
 
-    /**
-     */
     public function testCreateRequestWithInvalidMethodString()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -108,8 +104,6 @@ class RequestTest extends TestCase
         new Request('B@R', $uri, $headers, $cookies, $serverParams, $body);
     }
 
-    /**
-     */
     public function testCreateRequestWithInvalidMethodOther()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -155,8 +149,6 @@ class RequestTest extends TestCase
         $this->assertEquals('/test?user=1', $clone->getRequestTarget());
     }
 
-    /**
-     */
     public function testWithRequestTargetThatHasSpaces()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -198,7 +190,7 @@ class RequestTest extends TestCase
         // When `$preserveHost` is set to `true`, this method interacts with
         // the Host header in the following ways:
 
-        // - If the the Host header is missing or empty, and the new URI contains
+        // - If the Host header is missing or empty, and the new URI contains
         //   a host component, this method MUST update the Host header in the returned
         //   request.
         $uri1 = (new UriFactory())->createUri('');
@@ -450,8 +442,6 @@ class RequestTest extends TestCase
         $this->assertNull($request->getParsedBody());
     }
 
-    /**
-     */
     public function testWithParsedBodyInvalid()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -459,8 +449,6 @@ class RequestTest extends TestCase
         $this->requestFactory()->withParsedBody(2);
     }
 
-    /**
-     */
     public function testWithParsedBodyInvalidFalseValue()
     {
         $this->expectException(InvalidArgumentException::class);

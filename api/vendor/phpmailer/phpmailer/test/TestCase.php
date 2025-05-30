@@ -8,7 +8,7 @@
  * @author    Andy Prevost
  * @copyright 2012 - 2020 Marcus Bointon
  * @copyright 2004 - 2009 Andy Prevost
- * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @license   https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html GNU Lesser General Public License
  */
 
 namespace PHPMailer\Test;
@@ -210,15 +210,20 @@ abstract class TestCase extends PolyfillTestCase
     public static function updateStaticProperty($className, $propertyName, $value)
     {
         $reflProp = new ReflectionProperty($className, $propertyName);
-        $isPublic = $reflProp->isPublic();
-        if ($isPublic !== true) {
-            $reflProp->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            //setAccessible is only needed in PHP < 8.1
+            $isPublic = $reflProp->isPublic();
+            if ($isPublic !== true) {
+                $reflProp->setAccessible(true);
+            }
         }
 
-        $reflProp->setValue($value);
+        $reflProp->setValue(null, $value);
 
-        if ($isPublic !== true) {
-            $reflProp->setAccessible(false);
+        if (PHP_VERSION_ID < 80100) {
+            if ($isPublic !== true) {
+                $reflProp->setAccessible(false);
+            }
         }
     }
 

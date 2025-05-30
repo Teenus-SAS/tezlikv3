@@ -1,11 +1,5 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-    if (sizeof($_SESSION) == 0)
-        header('location: /');
-}
-if (sizeof($_SESSION) == 0)
-    header('location: /');
+require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,9 +9,9 @@ if (sizeof($_SESSION) == 0)
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Teenus SAS">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Cost | Process</title>
+    <title>TezlikSoftware Cost | Process</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
@@ -90,7 +84,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardCreateProcess">
+                <div class="page-content-wrapper mt--45 mb-5 cardCreateProcess" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -114,7 +108,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardImportProcess">
+                <div class="page-content-wrapper mt--45 mb-5 cardImportProcess" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <form class="col-12" id="formImportProcess" enctype="multipart/form-data">

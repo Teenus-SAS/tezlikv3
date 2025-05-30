@@ -12,7 +12,6 @@ namespace Slim\Tests\Psr7;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Runner\Version;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -47,9 +46,9 @@ class UploadedFileTest extends TestCase
 {
     use ProphecyTrait;
 
-    private static $filename = './phpUxcOty';
+    private static string $filename = './phpUxcOty';
 
-    private static $tmpFiles = ['./phpUxcOty'];
+    private static array $tmpFiles = ['./phpUxcOty'];
 
     public static function setUpBeforeClass(): void
     {
@@ -80,10 +79,7 @@ class UploadedFileTest extends TestCase
         }
     }
 
-    /**
-     * @return UploadedFile
-     */
-    protected function generateNewTmpFile()
+    protected function generateNewTmpFile(): UploadedFile
     {
         $filename = './php' . microtime();
 
@@ -132,10 +128,7 @@ class UploadedFileTest extends TestCase
         $this->assertEquals([], $uploadedFile);
     }
 
-    /**
-     * @return UploadedFile
-     */
-    public function testConstructor()
+    public function testConstructor(): UploadedFile
     {
         $attr = [
             'tmp_name' => self::$filename,
@@ -163,10 +156,7 @@ class UploadedFileTest extends TestCase
         return $uploadedFile;
     }
 
-    /**
-     * @return UploadedFile
-     */
-    public function testConstructorSapi()
+    public function testConstructorSapi(): UploadedFile
     {
         $attr = [
             'tmp_name' => self::$filename,
@@ -201,7 +191,7 @@ class UploadedFileTest extends TestCase
      *
      * @return UploadedFile
      */
-    public function testGetStream(UploadedFile $uploadedFile)
+    public function testGetStream(UploadedFile $uploadedFile): UploadedFile
     {
         $stream = $uploadedFile->getStream();
         $this->assertEquals(true, $uploadedFile->getStream() instanceof Stream);
@@ -232,7 +222,7 @@ class UploadedFileTest extends TestCase
      *
      * @return UploadedFile
      */
-    public function testMoveTo(UploadedFile $uploadedFile)
+    public function testMoveTo(UploadedFile $uploadedFile): UploadedFile
     {
         $tempName = uniqid('file-');
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $tempName;
@@ -245,8 +235,6 @@ class UploadedFileTest extends TestCase
         return $uploadedFile;
     }
 
-    /**
-     */
     public function testMoveToRenameFailure()
     {
         $this->expectException(RuntimeException::class);
@@ -360,15 +348,9 @@ class UploadedFileTest extends TestCase
         $movedFileContents = ob_get_clean();
 
         $this->assertEquals($contents, $movedFileContents);
-        if (version_compare(Version::series(), '9.1', '>=')) {
-            $this->assertFileDoesNotExist($fileName);
-        } else {
-            $this->assertFileNotExists($fileName);
-        }
+        $this->assertFileDoesNotExist($fileName);
     }
 
-    /**
-     */
     public function testMoveToStreamCopyFailure()
     {
         $this->expectException(RuntimeException::class);
@@ -423,8 +405,6 @@ class UploadedFileTest extends TestCase
         $this->assertSame($stream->getMetadata('uri'), $file->getFilePath());
     }
 
-    /**
-     */
     public function testCreateUploadedFileWithInvalidArguments()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -432,8 +412,6 @@ class UploadedFileTest extends TestCase
         new UploadedFile(42); // a random value that is neither a string nor an instance of StreamInterface
     }
 
-    /**
-     */
     public function testCreateUploadedFileWithInvalidUri()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -452,7 +430,7 @@ class UploadedFileTest extends TestCase
         new UploadedFile($stream);
     }
 
-    public function providerCreateFromGlobals()
+    public static function providerCreateFromGlobals(): array
     {
         return [
             // no nest: <input name="avatar" type="file">

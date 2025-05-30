@@ -17,12 +17,10 @@ use tezlikv3\dao\LastDataDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\Dao\RisksDao;
 use tezlikv3\dao\ValueMinuteDao;
-use tezlikv3\dao\WebTokenDao;
 
 $payrollDao = new PayrollDao();
 $generalPayrollDao = new GeneralPayrollDao();
 $generalProductsProcessDao = new GeneralProductsProcessDao();
-$webTokenDao = new WebTokenDao();
 $valueMinuteDao = new ValueMinuteDao();
 $convertDataDao = new ConvertDataDao();
 $processDao = new GeneralProcessDao();
@@ -42,215 +40,45 @@ $lastDataDao = new LastDataDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
-$app->get('/payroll', function (Request $request, Response $response, $args) use (
-    $payrollDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/payroll', function (Request $request, Response $response, $args) use ($payrollDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $payroll = $payrollDao->findAllPayrollByCompany($id_company);
     $response->getBody()->write(json_encode($payroll, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/basicPayroll', function (Request $request, Response $response, $args) use (
-    $generalPayrollDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/basicPayroll', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $payroll = $generalPayrollDao->findDataBasicPayrollByCompany($id_company);
     $response->getBody()->write(json_encode($payroll, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/salarynet', function (Request $request, Response $response, $args) use (
-    $generalPayrollDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/salarynet', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $payroll = $generalPayrollDao->findSalarynetByPayroll($id_company);
     $response->getBody()->write(json_encode($payroll, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/process/{employee}', function (Request $request, Response $response, $args) use (
-    $generalPayrollDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/process/{employee}', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $process = $generalPayrollDao->findAllProcessByEmployeeNotIn($args['employee'], $id_company);
     $response->getBody()->write(json_encode($process, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
-
-// $app->post('/payrollDataValidation', function (Request $request, Response $response, $args) use (
-//     $webTokenDao,
-//     $generalPayrollDao,
-//     $processDao
-// ) {
-//     $info = $webTokenDao->getToken();
-
-//     if (!is_object($info) && ($info == 1)) {
-//         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-//         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-//     }
-
-//     if (is_array($info)) {
-//         $response->getBody()->write(json_encode(['error' => $info['info']]));
-//         // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-//         return $response->withHeader('Location', '/')->withStatus(302);
-//     }
-
-//     $validate = $webTokenDao->validationToken($info);
-
-//     if (!$validate) {
-//         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-//         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-//     }
-
-//     $dataPayroll = $request->getParsedBody();
-
-//     if (isset($dataPayroll)) {
-//         // session_start();
-//         $id_company = $_SESSION['id_company'];
-
-//         $insert = 0;
-//         $update = 0;
-
-//         $payroll = $dataPayroll['importPayroll'];
-
-//         for ($i = 0; $i < sizeof($payroll); $i++) {
-//             if (
-//                 empty($payroll[$i]['process']) || empty($payroll[$i]['employee']) || empty($payroll[$i]['basicSalary']) || empty($payroll[$i]['workingDaysMonth']) ||
-//                 empty($payroll[$i]['workingHoursDay']) || empty($payroll[$i]['typeFactor']) || empty($payroll[$i]['benefit']) || empty($payroll[$i]['riskLevel'])
-//             ) {
-//                 $i = $i + 2;
-//                 $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-//                 break;
-//             }
-
-//             if (
-//                 empty(trim($payroll[$i]['process'])) || empty(trim($payroll[$i]['employee'])) || empty(trim($payroll[$i]['basicSalary'])) || empty(trim($payroll[$i]['workingDaysMonth'])) ||
-//                 empty(trim($payroll[$i]['workingHoursDay'])) || empty(trim($payroll[$i]['typeFactor'])) || empty(trim($payroll[$i]['benefit'])) || empty(trim($payroll[$i]['riskLevel']))
-//             ) {
-//                 $i = $i + 2;
-//                 $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-//                 break;
-//             }
-
-//             if ($payroll[$i]['workingDaysMonth'] > 31 || $payroll[$i]['workingHoursDay'] > 24) {
-//                 $i = $i + 2;
-//                 $dataImportPayroll = array('error' => true, 'message' => "El campo dias trabajo x mes debe ser menor a 31 <br>y horas trabajo x dia menor a 24, fila: {$i}");
-//                 break;
-//             }
-
-//             // Obtener id proceso
-//             $findProcess = $processDao->findProcess($payroll[$i], $id_company);
-
-//             if (!$findProcess) {
-//                 $i = $i + 2;
-//                 $dataImportPayroll = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila {$i}");
-//                 break;
-//             } else
-//                 $payroll[$i]['idProcess'] = $findProcess['id_process'];
-
-//             $findPayroll = $generalPayrollDao->findPayroll($payroll[$i], $id_company);
-
-//             !$findPayroll ? $insert = $insert + 1 : $update = $update + 1;
-//             $dataImportPayroll['insert'] = $insert;
-//             $dataImportPayroll['update'] = $update;
-//         }
-//     } else
-//         $dataImportPayroll = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
-
-//     $response->getBody()->write(json_encode($dataImportPayroll, JSON_NUMERIC_CHECK));
-//     return $response->withHeader('Content-Type', 'application/json');
-// });
+})->add(new SessionMiddleware());
 
 $app->post('/addPayroll', function (Request $request, Response $response) use (
     $payrollDao,
-    $webTokenDao,
     $generalPayrollDao,
     $lastDataDao,
     $convertDataDao,
@@ -267,25 +95,6 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -541,11 +350,10 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/updatePayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
-    $webTokenDao,
     $generalPayrollDao,
     $convertDataDao,
     $valueMinuteDao,
@@ -559,25 +367,6 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -781,11 +570,10 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/copyPayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
-    $webTokenDao,
     $lastDataDao,
     $generalPayrollDao,
     $costWorkforceDao,
@@ -796,25 +584,6 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -1002,32 +771,9 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/saveRoutePayroll', function (Request $request, Response $response, $args) use (
-    $generalPayrollDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->post('/saveRoutePayroll', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
     $dataPayroll = $request->getParsedBody();
 
     $payroll = $dataPayroll['data'];
@@ -1048,11 +794,10 @@ $app->post('/saveRoutePayroll', function (Request $request, Response $response, 
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/deletePayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
-    $webTokenDao,
     $generalPayrollDao,
     $generalProductsProcessDao,
     $costWorkforceDao,
@@ -1064,26 +809,6 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     $costCompositeProductsDao,
     $generalProductProcessDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
     $dataPayroll = $request->getParsedBody();
@@ -1276,35 +1001,13 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     //     $resp = array('error' => true, 'message' => 'No es posible eliminar la nomina, ultimo empleado de nomina');
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/checkEmployee/{employee}', function (Request $request, Response $response, $args) use (
-    $generalPayrollDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/checkEmployee/{employee}', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
 
     $payroll = $generalPayrollDao->findAllPayrollByEmployee($args['employee'], $id_company);
     $response->getBody()->write(json_encode($payroll));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

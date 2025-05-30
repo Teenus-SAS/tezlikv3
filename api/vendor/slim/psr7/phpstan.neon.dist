@@ -1,5 +1,10 @@
 parameters:
-  level: max
-  checkMissingIterableValueType: false
+  level: 9
+  ignoreErrors:
+    - identifier: missingType.iterableValue
+    - identifier: notIdentical.alwaysTrue
+    - identifier: function.alreadyNarrowedType
+    - identifier: ternary.alwaysTrue
+    - identifier: instanceof.alwaysTrue
   paths:
     - src

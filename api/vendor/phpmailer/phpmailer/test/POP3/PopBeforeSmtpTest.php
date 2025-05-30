@@ -8,7 +8,7 @@
  * @author    Andy Prevost
  * @copyright 2012 - 2020 Marcus Bointon
  * @copyright 2004 - 2009 Andy Prevost
- * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @license   https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html GNU Lesser General Public License
  */
 
 namespace PHPMailer\Test\POP3;
@@ -52,7 +52,7 @@ final class PopBeforeSmtpTest extends TestCase
     protected function set_up()
     {
         if (DIRECTORY_SEPARATOR === '\\') {
-            $this->markTestSkipped('This test needs a non-Windows OS to run');
+            self::markTestSkipped('This test needs a non-Windows OS to run');
         }
 
         // Chdir to test directory as runfakepopserver.sh runs fakepopserver.sh

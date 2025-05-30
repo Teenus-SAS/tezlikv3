@@ -4,10 +4,8 @@ use tezlikv3\dao\DashboardGeneralDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\MultiproductsDao;
 use tezlikv3\dao\PricesDao;
-use tezlikv3\dao\WebTokenDao;
 
 $dashboardGeneralDao = new DashboardGeneralDao();
-$webTokenDao = new WebTokenDao();
 $pricesDao = new PricesDao();
 $LicenseCompanyDao = new LicenseCompanyDao();
 $multiproductsDao = new MultiproductsDao();
@@ -15,34 +13,17 @@ $multiproductsDao = new MultiproductsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
 $app->get('/dashboardExpensesGenerals', function (Request $request, Response $response, $args) use (
     $dashboardGeneralDao,
     $pricesDao,
-    $webTokenDao,
     $LicenseCompanyDao,
     $multiproductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -97,4 +78,4 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
 
     $response->getBody()->write(json_encode($generalExpenses, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

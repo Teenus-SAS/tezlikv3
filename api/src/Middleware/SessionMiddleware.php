@@ -1,0 +1,114 @@
+<?php
+// api/src/Middleware/SessionMiddleware.php
+
+namespace App\Middleware;
+
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use App\Helpers\ResponseHelper;
+use DateTimeImmutable;
+
+class SessionMiddleware implements MiddlewareInterface
+{
+    public function process(Request $request, RequestHandler $handler): Response
+    {
+        // Configuración de sesión
+        $this->configureSession();
+
+        // Verificar sesión activa
+        if (empty($_SESSION['active']) || empty($_SESSION['idUser'])) {
+            return $this->unauthorizedResponse('Debes iniciar sesión primero');
+        }
+
+        // Verificar token JWT
+        $token = $_SESSION['token'] ?? null;
+        if (!$token) {
+            return $this->unauthorizedResponse('Token no encontrado');
+        }
+
+        try {
+            // DECODIFICACIÓN Y VALIDACIÓN DEL TOKEN
+            $key = $_ENV['jwt_key'];
+            $decoded = JWT::decode($token, new Key($key, 'HS256'));
+
+            // 1. Verificar coincidencia con usuario en sesión
+            $tokenUserId = is_object($decoded->data) ? $decoded->data->userId : $decoded->data;
+            if ($tokenUserId != $_SESSION['idUser']) {
+                throw new \Exception('Token no coincide con el usuario');
+            }
+
+            // 2. Verificar tiempo de expiración (nueva verificación)
+            $now = new DateTimeImmutable();
+            if ($decoded->exp < $now->getTimestamp()) {
+                throw new \Exception('Token expirado');
+            }
+
+            // 3. Renovar token si está cerca de expirar (15 minutos antes)
+            if (($decoded->exp - $now->getTimestamp()) < 900) {
+                $this->refreshToken($decoded->data);
+            }
+
+            return $handler->handle($request);
+        } catch (\Exception $e) {
+            return $this->unauthorizedResponse('Token inválido: ' . $e->getMessage());
+        }
+    }
+
+    private function configureSession(): void
+    {
+        session_set_cookie_params([
+            'lifetime' => 86400, // 1 día
+            'path' => '/',
+            'domain' => $_SERVER['HTTP_HOST'],
+            'secure' => isset($_SERVER['HTTPS']),
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
+    private function refreshToken(int $userId): void
+    {
+        $key = $_ENV['jwt_key'];
+        $expiration = strtotime('+30 minutes');
+
+        $payload = [
+            'exp' => $expiration,
+            'data' => $userId,
+            'iat' => time()
+        ];
+
+        $newToken = JWT::encode($payload, $key, 'HS256');
+        $_SESSION['token'] = $newToken;
+
+        setcookie(
+            'auth_token',
+            $newToken,
+            [
+                'expires' => $expiration,
+                'path' => '/',
+                'domain' => $_SERVER['HTTP_HOST'],
+                'secure' => isset($_SERVER['HTTPS']),
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]
+        );
+    }
+
+    private function unauthorizedResponse(string $message): Response
+    {
+        $response = new \Slim\Psr7\Response();
+        return ResponseHelper::withJson($response, [
+            'error' => true,
+            'message' => $message,
+            'reload' => true
+        ], 401);
+    }
+}

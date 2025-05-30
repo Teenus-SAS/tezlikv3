@@ -4,10 +4,8 @@ use tezlikv3\dao\GeneralCustomPricesDao;
 use tezlikv3\dao\GeneralPricesListDao;
 use tezlikv3\dao\PricesDao;
 use tezlikv3\dao\PricesListDao;
-use tezlikv3\dao\WebTokenDao;
 
 $priceListDao = new PricesListDao();
-$webTokenDao = new WebTokenDao();
 $generalPriceListDao = new GeneralPricesListDao();
 $customPriceDao = new GeneralCustomPricesDao();
 $priceDao = new PricesDao();
@@ -15,90 +13,25 @@ $priceDao = new PricesDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/priceList', function (Request $request, Response $response, $args) use (
-    $priceListDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/priceList', function (Request $request, Response $response, $args) use ($priceListDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
 
     $priceList = $priceListDao->findAllPricesListByCompany($id_company);
     $response->getBody()->write(json_encode($priceList, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/priceListByProduct/{id_product}', function (Request $request, Response $response, $args) use (
-    $priceListDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/priceListByProduct/{id_product}', function (Request $request, Response $response, $args) use ($priceListDao) {
     $priceList = $priceListDao->findAllPricesListByProduct($args['id_product']);
     $response->getBody()->write(json_encode($priceList, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/addPriceList', function (Request $request, Response $response, $args) use (
-    $priceListDao,
-    $webTokenDao,
-    $generalPriceListDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->post('/addPriceList', function (Request $request, Response $response, $args) use ($priceListDao, $generalPriceListDao) {
     $id_company = $_SESSION['id_company'];
 
     $dataPriceList = $request->getParsedBody();
@@ -119,33 +52,9 @@ $app->post('/addPriceList', function (Request $request, Response $response, $arg
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/updatePriceList', function (Request $request, Response $response, $args) use (
-    $priceListDao,
-    $webTokenDao,
-    $generalPriceListDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->post('/updatePriceList', function (Request $request, Response $response, $args) use ($priceListDao, $generalPriceListDao) {
     $id_company = $_SESSION['id_company'];
     $dataPriceList = $request->getParsedBody();
 
@@ -169,32 +78,9 @@ $app->post('/updatePriceList', function (Request $request, Response $response, $
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/deletePriceList/{id_price_list}', function (Request $request, Response $response, $args) use (
-    $priceListDao,
-    $webTokenDao,
-    $customPriceDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/deletePriceList/{id_price_list}', function (Request $request, Response $response, $args) use ($priceListDao, $customPriceDao) {
     $customPrice = $customPriceDao->deleteCustomPriceByPriceList($args['id_price_list']);
 
     if ($customPrice == null)
@@ -210,4 +96,4 @@ $app->get('/deletePriceList/{id_price_list}', function (Request $request, Respon
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

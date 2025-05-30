@@ -1,12 +1,12 @@
-$(document).ready(function () {     
+$(document).ready(function () {
     let id_historic = sessionStorage.getItem('idHistoric');
 
-    loadIndicatorsProducts = async (id_historic) => {  
+    loadIndicatorsProducts = async (id_historic) => {
         let data = await searchData(`/api/historical/${id_historic}`);
         await generalIndicators(data);
         await UnitsVolSold(data);
         await totalCostData(data);
-        await graphicCostExpenses(data); 
+        await graphicCostExpenses(data);
     };
     /* Colors */
 
@@ -197,79 +197,16 @@ $(document).ready(function () {
         $('#minProfit').html(`${data.profitability.toLocaleString('es-CO', {
             maximumFractionDigits: 2,
         })}%`);
-    
+
 
         $('#actualProfitability').html(``);
-
-        // $('.cardTrafficLight').empty();
-        // let content = '';
-        // $('#actualSalePrice').removeClass('text-warning');
-        // $('#actualSalePrice').removeClass('text-success');
-        // $('#actualSalePrice').removeClass('text-danger');
-    
-        // if (dataCost.actualProfitability == data.profitability) {
-        //     content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
-        //             <div class="card-body">
-        //               <div class="media align-items-center">
-        //                 <div class="media-body">
-        //                   <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Lista)</span>
-        //                   <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
-        //                 </div>
-        //                 <div class="text-center">
-        //                   <span class="text-warning font-weight-bold" style="font-size:large">
-        //                     <i style="font-style: initial;"><i class="bx bxs-no-entry" style="font-size: xxx-large;color:orange"></i></i>
-        //                   </span>
-        //                 </div>
-        //               </div>
-        //             </div>
-        //           </div>`;
-        //     $('#actualSalePrice').addClass('text-warning');
-        // }
-        // else if (dataCost.actualProfitability > data.profitability) {
-        //     content = `<div class="card radius-10 border-start border-0 border-3 border-success">
-        //             <div class="card-body">
-        //               <div class="media align-items-center">
-        //                 <div class="media-body">
-        //                   <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Lista)</span>
-        //                   <h2 class="mb-0 mt-1 costProduct text-success">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
-        //                 </div>
-        //                 <div class="text-center">
-        //                   <span class="text-success font-weight-bold" style="font-size:large">
-        //                     <i style="font-style: initial;"><i class="bx bxs-check-circle" style="font-size: xxx-large;color:green"></i></i>
-        //                   </span>
-        //                 </div>
-        //               </div>
-        //             </div>
-        //           </div>`;
-        //     $('#actualSalePrice').addClass('text-success');
-        // }
-        // else {
-        //     content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
-        //             <div class="card-body">
-        //               <div class="media align-items-center">
-        //                 <div class="media-body">
-        //                   <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Lista)</span>
-        //                   <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
-        //                 </div>
-        //                 <div class="text-center">
-        //                   <span class="text-danger font-weight-bold" style="font-size:large">
-        //                     <i style="font-style: initial;"><i class="bx bxs-x-circle" style="font-size: xxx-large;color:red"></i></i>
-        //                   </span>
-        //                 </div>
-        //               </div>
-        //             </div>
-        //           </div>`;
-        //     $('#actualSalePrice').addClass('text-danger');
-        // }
-    
-        // $('.cardTrafficLight').append(content);
 
         if (data.sale_price > 0) {
             $('.cardTrafficLight').empty();
             let content = '';
             document.getElementById('recomendedPrice').className = 'mb-0 recomendedPrice mt-1';
             document.getElementById('actualSalePrice').className = 'mb-0 mt-1';
- 
+
             if (!isFinite(dataCost.actualProfitability2))
                 dataCost.actualProfitability2 = 0;
 
@@ -320,7 +257,7 @@ $(document).ready(function () {
         if (data.turnover > 0 && data.units_sold > 0) {
             $('.cardRecomendedPrice').empty();
             content = '';
- 
+
             if (dataCost.actualProfitability2 <= 0) {
                 content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
@@ -333,7 +270,7 @@ $(document).ready(function () {
                     </div>
                   </div>`;
                 $('#recomendedPrice').addClass('text-danger');
-      
+
             } else if (dataCost.actualProfitability2 < data.profitability) {
                 content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">

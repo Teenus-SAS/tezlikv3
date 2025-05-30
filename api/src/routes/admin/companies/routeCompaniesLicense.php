@@ -2,68 +2,26 @@
 
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\CompaniesLicenseStatusDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $companiesLicenseDao = new CompaniesLicenseDao();
-$webTokenDao = new WebTokenDao();
+
 $companiesLicenseStatusDao = new CompaniesLicenseStatusDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
 //Nombre de empresa y datos de licencia
-$app->get('/licenses', function (Request $request, Response $response, $args) use (
-    $companiesLicenseDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/licenses', function (Request $request, Response $response, $args) use ($companiesLicenseDao) {
     $resp = $companiesLicenseDao->findCompanyLicenseActive();
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/addLicense', function (Request $request, Response $response, $args) use (
-    $companiesLicenseDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/addLicense', function (Request $request, Response $response, $args) use ($companiesLicenseDao) {
     $dataLicense = $request->getParsedBody();
     empty($dataLicense['plan']) ? $dataLicense['plan'] = 4 : $dataLicense['plan'];
 
@@ -79,32 +37,10 @@ $app->post('/addLicense', function (Request $request, Response $response, $args)
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 //Actualizar fechas de licencia y cantidad de usuarios
-$app->post('/updateLicense', function (Request $request, Response $response, $args) use (
-    $companiesLicenseDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/updateLicense', function (Request $request, Response $response, $args) use ($companiesLicenseDao) {
     $dataLicense = $request->getParsedBody();
     $license = $companiesLicenseDao->updateLicense($dataLicense);
 
@@ -116,32 +52,10 @@ $app->post('/updateLicense', function (Request $request, Response $response, $ar
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 //Cambiar estado licencia
-$app->post('/changeStatusCompany/{id_company}', function (Request $request, Response $response, $args) use (
-    $companiesLicenseStatusDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/changeStatusCompany/{id_company}', function (Request $request, Response $response, $args) use ($companiesLicenseStatusDao) {
     $sts = $companiesLicenseStatusDao->status($args['id_company']);
     $status = $sts['license_status'];
 
@@ -167,4 +81,4 @@ $app->post('/changeStatusCompany/{id_company}', function (Request $request, Resp
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

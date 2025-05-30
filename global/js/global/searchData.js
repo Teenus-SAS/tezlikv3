@@ -1,4 +1,4 @@
-$(document).ready(function () { 
+$(document).ready(function () {
   const fetchData = async (url, options = {}) => {
     try {
       const result = await $.ajax({ url, ...options });
@@ -10,6 +10,8 @@ $(document).ready(function () {
       return result;
     } catch (error) {
       console.error(`Error fetching data from ${url}:`, error);
+      if (error.statusText === "Unauthorized")
+        window.location.href = '../';
     }
   };
 
@@ -24,6 +26,6 @@ $(document).ready(function () {
       processData: false,
     });
 
-    if(typeof resp === 'object') return resp;
+    if (typeof resp === 'object') return resp;
   };
 });

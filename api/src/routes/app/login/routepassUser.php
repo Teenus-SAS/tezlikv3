@@ -3,43 +3,22 @@
 use tezlikv3\dao\passUserDao;
 use tezlikv3\dao\SendMakeEmailDao;
 use tezlikv3\dao\SendEmailDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $passUserDao = new passUserDao();
-$webTokenDao = new WebTokenDao();
+
 $sendMakeEmailDao = new SendMakeEmailDao();
 $sendEmailDao = new SendEmailDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Change Password */
 
-$app->post('/changePassword', function (Request $request, Response $response, $args) use (
-    $passUserDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
-
+$app->post('/changePassword', function (Request $request, Response $response, $args) use ($passUserDao) {
     if (isset($_SESSION['idUser'])) {
         $id = $_SESSION['idUser'];
 
@@ -55,35 +34,15 @@ $app->post('/changePassword', function (Request $request, Response $response, $a
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Forgot Password */
 
 $app->post('/forgotPassword', function (Request $request, Response $response, $args) use (
     $passUserDao,
-    $webTokenDao,
     $sendEmailDao,
     $sendMakeEmailDao
 ) {
-    // $info = $webTokenDao->getToken();
-
-    // if (!is_object($info) && ($info == 1)) {
-    //     $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-    //     return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    // }
-
-    // if (is_array($info)) {
-    //     $response->getBody()->write(json_encode(['error' => $info['info']]));
-    //     return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    // }
-
-    // $validate = $webTokenDao->validationToken($info);
-
-    // if (!$validate) {
-    //     $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-    //     return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    // }
-
     $parsedBody = $request->getParsedBody();
     $email = trim($parsedBody["data"]);
 

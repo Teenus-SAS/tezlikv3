@@ -6,11 +6,11 @@ use tezlikv3\dao\MaterialsDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\Dao\TrmDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $trmDao = new TrmDao();
 $pricesUSDDao = new PriceUSDDao();
-$webTokenDao = new WebTokenDao();
+
 $productsDao = new ProductsDao();
 $materialsDao = new MaterialsDao();
 $generalMaterialsDao = new GeneralMaterialsDao();
@@ -19,31 +19,12 @@ $licenceCompanyDao = new LicenseCompanyDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consultar dolar actual */
 
-$app->get('/currentDollar', function (Request $request, Response $response, $args) use (
-    $trmDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/currentDollar', function (Request $request, Response $response, $args) use ($trmDao) {
     $price = $trmDao->getLastTrm();
     if ($price == 1) {
         $resp = ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
@@ -54,35 +35,14 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
 
     $response->getBody()->write(json_encode($price, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Calcular valor de cobertura simulacion */
 $app->post('/simPriceUSD', function (Request $request, Response $response, $args) use (
     $pricesUSDDao,
-    $webTokenDao,
     $productsDao,
     $trmDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataTrm = $request->getParsedBody();
 
@@ -121,36 +81,15 @@ $app->post('/simPriceUSD', function (Request $request, Response $response, $args
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->get('/priceUSD/{coverage_usd}', function (Request $request, Response $response, $args) use (
     $licenceCompanyDao,
-    $webTokenDao,
     $pricesUSDDao,
     $productsDao,
     $generalMaterialsDao,
     $trmDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $company = $licenceCompanyDao->findLicenseCompany($id_company);
@@ -230,4 +169,4 @@ $app->get('/priceUSD/{coverage_usd}', function (Request $request, Response $resp
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

@@ -32,10 +32,7 @@ use function substr;
 class BodyTest extends TestCase
 {
     // @codingStandardsIgnoreStart
-    /**
-     * @var string
-     */
-    protected $text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    protected string $text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -55,7 +52,7 @@ class BodyTest extends TestCase
      *
      * @return resource
      */
-    public function resourceFactory($mode = 'r+')
+    public function resourceFactory(string $mode = 'r+')
     {
         $stream = fopen('php://temp', $mode);
         fwrite($stream, $this->text);
@@ -74,8 +71,6 @@ class BodyTest extends TestCase
         $this->assertSame($this->stream, $bodyStream->getValue($body));
     }
 
-    /**
-     */
     public function testConstructorInvalidStream()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -207,8 +202,6 @@ class BodyTest extends TestCase
         $this->assertEquals(10, $body->tell());
     }
 
-    /**
-     */
     public function testTellDetachedThrowsRuntimeException()
     {
         $this->expectException(RuntimeException::class);
@@ -333,8 +326,6 @@ class BodyTest extends TestCase
         $this->assertEquals(10, ftell($this->stream));
     }
 
-    /**
-     */
     public function testSeekDetachedThrowsRuntimeException()
     {
         $this->expectException(RuntimeException::class);
@@ -356,8 +347,6 @@ class BodyTest extends TestCase
         $this->assertEquals(0, ftell($this->stream));
     }
 
-    /**
-     */
     public function testRewindDetachedThrowsRuntimeException()
     {
         $this->expectException(RuntimeException::class);
@@ -377,8 +366,6 @@ class BodyTest extends TestCase
         $this->assertEquals(substr($this->text, 0, 10), $body->read(10));
     }
 
-    /**
-     */
     public function testReadDetachedThrowsRuntimeException()
     {
         $this->expectException(RuntimeException::class);
@@ -402,8 +389,6 @@ class BodyTest extends TestCase
         $this->assertEquals($this->text . 'foo', (string) $body);
     }
 
-    /**
-     */
     public function testWriteDetachedThrowsRuntimeException()
     {
         $this->expectException(RuntimeException::class);
@@ -424,8 +409,6 @@ class BodyTest extends TestCase
         $this->assertEquals(substr($this->text, 10), $body->getContents());
     }
 
-    /**
-     */
     public function testGetContentsDetachedThrowsRuntimeException()
     {
         $this->expectException(RuntimeException::class);

@@ -4,10 +4,8 @@ use tezlikv3\dao\CompaniesDao;
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\LastDataDao;
-use tezlikv3\dao\WebTokenDao;
 
 $companiesDao = new CompaniesDao();
-$webTokenDao = new WebTokenDao();
 $FilesDao = new FilesDao();
 $lastDataDao = new LastDataDao();
 $companiesLicDao = new CompaniesLicenseDao();
@@ -15,90 +13,29 @@ $companiesLicDao = new CompaniesLicenseDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/allCompanies', function (Request $request, Response $response, $args) use (
-    $companiesDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/allCompanies', function (Request $request, Response $response, $args) use ($companiesDao) {
     $resp = $companiesDao->findAllCompanies();
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 //Datos de empresas activas
-$app->get('/companies/{stat}', function (Request $request, Response $response, $args) use (
-    $companiesDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/companies/{stat}', function (Request $request, Response $response, $args) use ($companiesDao) {
     $resp = $companiesDao->findAllCompaniesLicenses($args['stat']);
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 //Nueva Empresa
 $app->post('/addNewCompany', function (Request $request, Response $response, $args) use (
     $companiesDao,
     $lastDataDao,
     $FilesDao,
-    $webTokenDao,
     $companiesLicDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     $dataCompany = $request->getParsedBody();
     /* Agregar datos a companies */
     $company = $companiesDao->addCompany($dataCompany);
@@ -117,34 +54,10 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
+})->add(new SessionMiddleware());
 
 //Actualizar Empresa
-$app->post('/updateDataCompany', function (Request $request, Response $response, $args) use (
-    $companiesDao,
-    $FilesDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/updateDataCompany', function (Request $request, Response $response, $args) use ($companiesDao, $FilesDao,) {
     $dataCompany = $request->getParsedBody();
     $company = $companiesDao->updateCompany($dataCompany);
 
@@ -159,4 +72,4 @@ $app->post('/updateDataCompany', function (Request $request, Response $response,
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

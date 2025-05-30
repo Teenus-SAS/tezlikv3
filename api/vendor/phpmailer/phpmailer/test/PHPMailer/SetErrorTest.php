@@ -8,7 +8,7 @@
  * @author    Andy Prevost
  * @copyright 2012 - 2020 Marcus Bointon
  * @copyright 2004 - 2009 Andy Prevost
- * @license   http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @license   https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html GNU Lesser General Public License
  */
 
 namespace PHPMailer\Test\PHPMailer;
@@ -111,7 +111,7 @@ final class SetErrorTest extends TestCase
                     'smtp_code'    => '',
                     'smtp_code_ex' => '',
                 ],
-                'expected' => 'Cannot set or reset variable: nonexistentpropertySMTP server error: Fake error',
+                'expected' => 'Cannot set or reset variable: nonexistentproperty SMTP server error: Fake error',
             ],
             'SMTP error, full details' => [
                 'mockReturn' => [
@@ -120,7 +120,7 @@ final class SetErrorTest extends TestCase
                     'smtp_code'    => 'Fake code',
                     'smtp_code_ex' => 'Fake code ex',
                 ],
-                'expected' => 'Cannot set or reset variable: nonexistentpropertySMTP server error: '
+                'expected' => 'Cannot set or reset variable: nonexistentproperty SMTP server error: '
                     . 'Fake error Detail: Fake detail SMTP code: Fake code Additional SMTP info: Fake code ex',
             ],
         ];

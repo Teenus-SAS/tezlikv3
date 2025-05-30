@@ -1,67 +1,24 @@
 <?php
 
 use tezlikv3\dao\CompanyUsers;
-use tezlikv3\dao\WebTokenDao;
 
 $companyUsers = new CompanyUsers();
-$webTokenDao = new WebTokenDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 //Obtener usuarios * empresa
-$app->get('/companyUsers/{idCompany}', function (Request $request, Response $response, $args) use (
-    $companyUsers,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/companyUsers/{idCompany}', function (Request $request, Response $response, $args) use ($companyUsers) {
     $resp = $companyUsers->findCompanyUsers($args['idCompany']);
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 //Actualizar estado de usuarios * empresa
-$app->post('/updateCompanyUsersStatus/{id_user}', function (Request $request, Response $response, $args) use (
-    $companyUsers,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/updateCompanyUsersStatus/{id_user}', function (Request $request, Response $response, $args) use ($companyUsers) {
     $sts = $companyUsers->userStatus($args['id_user']);
     $status = $sts['active'];
 
@@ -87,4 +44,4 @@ $app->post('/updateCompanyUsersStatus/{id_user}', function (Request $request, Re
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

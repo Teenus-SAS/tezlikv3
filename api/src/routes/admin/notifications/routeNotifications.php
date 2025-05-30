@@ -4,69 +4,25 @@ use tezlikv3\dao\NotificationsDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\SendMakeEmailDao;
 use tezlikv3\dao\UsersDao;
-use tezlikv3\dao\WebTokenDao;
 
 $notificationsDao = new NotificationsDao();
 $sendMakeEmailDao = new SendMakeEmailDao();
-$webTokenDao = new WebTokenDao();
 $sendEmailDao = new SendEmailDao();
 $usersDao = new UsersDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/notifications', function (Request $request, Response $response, $args) use (
-    $notificationsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/notifications', function (Request $request, Response $response, $args) use ($notificationsDao) {
     $notifications = $notificationsDao->findAllNotifications();
     $response->getBody()->write(json_encode($notifications));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/recentNotification', function (Request $request, Response $response, $args) use (
-    $notificationsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/recentNotification', function (Request $request, Response $response, $args) use ($notificationsDao) {
     $id_company = $_SESSION['id_company'];
 
     !$id_company ? $id_company = '' : $id_company;
@@ -74,34 +30,14 @@ $app->get('/recentNotification', function (Request $request, Response $response,
     $notifications = $notificationsDao->findRecentNotification($id_company);
     $response->getBody()->write(json_encode($notifications));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addNotification', function (Request $request, Response $response, $args) use (
     $notificationsDao,
-    $webTokenDao,
     $usersDao,
     $sendMakeEmailDao,
     $sendEmailDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     $dataNotifications = $request->getParsedBody();
 
     $resolution = $notificationsDao->insertNotification($dataNotifications);
@@ -126,34 +62,14 @@ $app->post('/addNotification', function (Request $request, Response $response, $
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/updateNotification', function (Request $request, Response $response, $args) use (
     $notificationsDao,
-    $webTokenDao,
     $usersDao,
     $sendMakeEmailDao,
     $sendEmailDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     $dataNotifications = $request->getParsedBody();
 
     if (empty($dataNotifications['description']) || empty($dataNotifications['company']))
@@ -180,32 +96,10 @@ $app->post('/updateNotification', function (Request $request, Response $response
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/updateCheckNotification', function (Request $request, Response $response, $args) use (
-    $notificationsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+$app->get('/updateCheckNotification', function (Request $request, Response $response, $args) use ($notificationsDao) {
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $notifications = $notificationsDao->updateCheckNotification($id_company);
@@ -218,31 +112,9 @@ $app->get('/updateCheckNotification', function (Request $request, Response $resp
         $resp = array('success' => true, 'message' => 'No se pudo limpiar las notificaciones. Intente nuevamente');
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/deleteNotification/{id_notification}', function (Request $request, Response $response, $args) use (
-    $notificationsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/deleteNotification/{id_notification}', function (Request $request, Response $response, $args) use ($notificationsDao) {
     $notifications = $notificationsDao->deleteNotification($args['id_notification']);
 
     if ($notifications == null)
@@ -252,4 +124,4 @@ $app->get('/deleteNotification/{id_notification}', function (Request $request, R
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

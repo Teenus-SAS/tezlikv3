@@ -17,7 +17,7 @@ use stdClass;
 
 class UriTest extends TestCase
 {
-    public function uriFactory()
+    public function uriFactory(): Uri
     {
         $scheme = 'https';
         $host = 'example.com';
@@ -69,8 +69,6 @@ class UriTest extends TestCase
         $this->assertEquals('', $uri->getScheme());
     }
 
-    /**
-     */
     public function testWithSchemeInvalid()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -79,8 +77,6 @@ class UriTest extends TestCase
         $this->uriFactory()->withScheme('ftp');
     }
 
-    /**
-     */
     public function testWithSchemeInvalidType()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -137,17 +133,12 @@ class UriTest extends TestCase
 
     public function testWithHostValidObject()
     {
-        $mock = $this->getMockBuilder('UriTestHost')->setMethods(['__toString'])->getMock();
-        $mock->expects($this->once())
-            ->method('__toString')
-            ->will($this->returnValue('host.test'));
+        $mock = new StringableTestObject('host.test');
 
         $uri = $this->uriFactory()->withHost($mock);
         $this->assertEquals('host.test', $uri->getHost());
     }
 
-    /**
-     */
     public function testWithHostInvalidObject()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -207,8 +198,6 @@ class UriTest extends TestCase
         $this->assertEquals(null, $uri->getPort());
     }
 
-    /**
-     */
     public function testWithPortInvalidInt()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -216,13 +205,18 @@ class UriTest extends TestCase
         $this->uriFactory()->withPort(70000);
     }
 
-    /**
-     */
     public function testWithPortInvalidString()
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->uriFactory()->withPort('Foo');
+    }
+
+    public function testWithPortIntegerAsString()
+    {
+        $uri = $this->uriFactory()->withPort("199");
+
+        $this->assertEquals(199, $uri->getPort());
     }
 
     public function testGetPath()
@@ -265,8 +259,6 @@ class UriTest extends TestCase
         $this->assertEquals('/include%25s/new', $uri->getPath());
     }
 
-    /**
-     */
     public function testWithPathInvalidType()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -303,10 +295,7 @@ class UriTest extends TestCase
 
     public function testWithQueryValidObject()
     {
-        $mock = $this->getMockBuilder('UriTestQuery')->setMethods(['__toString'])->getMock();
-        $mock->expects($this->once())
-            ->method('__toString')
-            ->will($this->returnValue('xyz=123'));
+        $mock = new StringableTestObject('xyz=123');
 
         $uri = $this->uriFactory()->withQuery($mock);
         $this->assertEquals('xyz=123', $uri->getQuery());
@@ -319,8 +308,6 @@ class UriTest extends TestCase
         $this->assertEquals('foobar=%25match', $uri->getQuery());
     }
 
-    /**
-     */
     public function testWithQueryInvalidType()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -357,10 +344,7 @@ class UriTest extends TestCase
 
     public function testWithFragmentValidObject()
     {
-        $mock = $this->getMockBuilder('UriTestFragment')->setMethods(['__toString'])->getMock();
-        $mock->expects($this->once())
-            ->method('__toString')
-            ->will($this->returnValue('other-fragment'));
+        $mock = new StringableTestObject('other-fragment');
 
         $uri = $this->uriFactory()->withFragment($mock);
         $this->assertEquals('other-fragment', $uri->getFragment());
@@ -373,8 +357,6 @@ class UriTest extends TestCase
         $this->assertEquals('%5Ea', $uri->getFragment());
     }
 
-    /**
-     */
     public function testWithFragmentInvalidType()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -394,5 +376,8 @@ class UriTest extends TestCase
 
         $uri = $uri->withPath('/bar');
         $this->assertEquals('https://josh:sekrit@example.com/bar?abc=123#section3', (string) $uri);
+
+        $uri = $uri->withScheme('')->withHost('')->withPort(null)->withUserInfo('')->withPath('//bar');
+        $this->assertEquals('/bar?abc=123#section3', (string) $uri);
     }
 }

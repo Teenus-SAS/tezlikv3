@@ -2,69 +2,26 @@
 
 use tezlikv3\dao\GeneralPCenterDao;
 use tezlikv3\dao\ProductionCenterDao;
-use tezlikv3\dao\WebTokenDao;
 
 $productionCenterDao = new ProductionCenterDao();
-$webTokenDao = new WebTokenDao();
 $generalPCenterDao = new GeneralPCenterDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
-$app->get('/productionCenter', function (Request $request, Response $response, $args) use (
-    $productionCenterDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/productionCenter', function (Request $request, Response $response, $args) use ($productionCenterDao) {
     $id_company = $_SESSION['id_company'];
     $productions = $productionCenterDao->findAllPCenterByCompany($id_company);
     $response->getBody()->write(json_encode($productions, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/productionDataValidation', function (Request $request, Response $response, $args) use (
-    $generalPCenterDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/productionDataValidation', function (Request $request, Response $response, $args) use ($generalPCenterDao) {
 
     $dataPCenter = $request->getParsedBody();
 
@@ -100,33 +57,9 @@ $app->post('/productionDataValidation', function (Request $request, Response $re
 
     $response->getBody()->write(json_encode($dataimportProduction, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/addPCenter', function (Request $request, Response $response, $args) use (
-    $productionCenterDao,
-    $webTokenDao,
-    $generalPCenterDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->post('/addPCenter', function (Request $request, Response $response, $args) use ($productionCenterDao, $generalPCenterDao) {
     $dataPCenter = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
@@ -169,33 +102,9 @@ $app->post('/addPCenter', function (Request $request, Response $response, $args)
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/updatePCenter', function (Request $request, Response $response, $args) use (
-    $productionCenterDao,
-    $webTokenDao,
-    $generalPCenterDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->post('/updatePCenter', function (Request $request, Response $response, $args) use ($productionCenterDao, $generalPCenterDao) {
     $dataPCenter = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
@@ -219,31 +128,9 @@ $app->post('/updatePCenter', function (Request $request, Response $response, $ar
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/deletePCenter/{id_production_center}', function (Request $request, Response $response, $args) use (
-    $productionCenterDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/deletePCenter/{id_production_center}', function (Request $request, Response $response, $args) use ($productionCenterDao) {
     $production = $productionCenterDao->deletePCenter($args['id_production_center']);
 
     if ($production == null)
@@ -254,4 +141,4 @@ $app->get('/deletePCenter/{id_production_center}', function (Request $request, R
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

@@ -15,10 +15,10 @@ use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\TpInyectionDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $machinesDao = new MachinesDao();
-$webTokenDao = new WebTokenDao();
+
 $generalMachinesDao = new GeneralMachinesDao();
 $tpInyectionDao = new TpInyectionDao();
 $costWorkforceDao = new CostWorkforceDao();
@@ -37,93 +37,30 @@ $costCompositeProductsDao = new CostCompositeProductsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
-$app->get('/machines', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $machinesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->get('/machines', function (Request $request, Response $response, $args) use ($machinesDao) {
 
     // session_start();
     $id_company = $_SESSION['id_company'];
     $machines = $machinesDao->findAllMachinesByCompany($id_company);
     $response->getBody()->write(json_encode($machines, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/selectMachines', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalMachinesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/selectMachines', function (Request $request, Response $response, $args) use ($generalMachinesDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $machines = $generalMachinesDao->findDataBasicMachinesByCompany($id_company);
     $response->getBody()->write(json_encode($machines, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Consultar Maquinas importadas */
-$app->post('/machinesDataValidation', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalMachinesDao,
-    $convertDataDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/machinesDataValidation', function (Request $request, Response $response, $args) use ($generalMachinesDao, $convertDataDao) {
     $dataMachine = $request->getParsedBody();
 
     if (isset($dataMachine)) {
@@ -176,11 +113,10 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
 
     $response->getBody()->write(json_encode($dataImportMachine, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Agregar Maquinas */
 $app->post('/addMachines', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $machinesDao,
     $generalMachinesDao,
     $tpInyectionDao,
@@ -196,25 +132,6 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -438,12 +355,11 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 
 /* Actualizar Maquina */
 $app->post('/updateMachines', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $machinesDao,
     $generalMachinesDao,
     $tpInyectionDao,
@@ -458,25 +374,6 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -664,11 +561,10 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Eliminar Maquina */
 $app->post('/deleteMachine', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $machinesDao,
     $generalProductProcessDao,
     $indirectCostDao,
@@ -679,25 +575,6 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -855,4 +732,4 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

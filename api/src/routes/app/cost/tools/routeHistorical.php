@@ -7,10 +7,8 @@ use tezlikv3\dao\HistoricalExpenseDistributionDao;
 use tezlikv3\dao\HistoricalExpensesDao;
 use tezlikv3\dao\HistoricalProductsDao;
 use tezlikv3\dao\PricesDao;
-use tezlikv3\dao\WebTokenDao;
 
 $historicalProductsDao = new HistoricalProductsDao();
-$webTokenDao = new WebTokenDao();
 $historicalExpensesDao = new HistoricalExpensesDao();
 $expensesDao = new ExpensesDao();
 $historicalEDDao = new HistoricalExpenseDistributionDao();
@@ -21,101 +19,57 @@ $dataCostDao = new DataCostDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/historical', function (Request $request, Response $response, $args) use (
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
+/* $app->get('/historical', function (Request $request, Response $response, $args) use (
     $historicalProductsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+    
+) {// session_start();
     $id_company = $_SESSION['id_company'];
 
     $data = $historicalProductsDao->findAllHistoricalByCompany($id_company);
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware()); */
 
-$app->get('/historical/{id_historic}', function (Request $request, Response $response, $args) use (
-    $historicalProductsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+$app->get('/historical', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
+    // Obtener datos históricos
+    try {
+        $id_company = $_SESSION['id_company'];
+        $data = $historicalProductsDao->findAllHistoricalByCompany($id_company);
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
+        // 3. Retornar respuesta exitosa
+        return ResponseHelper::withJson($response, $data);
+    } catch (\Exception $e) {
+        // 4. Manejo de errores
+        error_log('Historical data error' . $e->getMessage() . "\n" . $e->getTraceAsString());
+
+        return ResponseHelper::withJson($response, [
+            'error' => 'Error al obtener datos históricos',
+            'details' => $e->getMessage()
+        ], 500);
     }
+})->add(new SessionMiddleware());
 
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/historical/{id_historic}', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
     $data = $historicalProductsDao->findHistorical($args['id_historic']);
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/lastHistorical', function (Request $request, Response $response, $args) use (
-    $historicalProductsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/lastHistorical', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
     $id_company = $_SESSION['id_company'];
 
     $data = $historicalProductsDao->findLastHistorical($id_company);
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/saveHistorical', function (Request $request, Response $response, $args) use (
     $pricesDao,
-    $webTokenDao,
     $dataCostDao,
     $historicalProductsDao,
     $historicalExpensesDao,
@@ -123,26 +77,6 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
     $assignableExpenseDao,
     $expensesDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $flag_expense = $_SESSION['flag_expense'];
     $dataHistorical = $request->getParsedBody();
@@ -287,4 +221,11 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
+
+$app->get('/historical_config', function (Request $request, Response $response, $args) {
+    $historical_config = $_SESSION['historical_config'];
+
+    $response->getBody()->write(json_encode($historical_config, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+})->add(new SessionMiddleware());

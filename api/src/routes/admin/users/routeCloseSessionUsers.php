@@ -1,37 +1,26 @@
 <?php
 
 use tezlikv3\dao\CloseSessionUsersDao;
-use tezlikv3\dao\WebTokenDao;
 
 $closeSessionUser = new CloseSessionUsersDao();
-$webTokenDao = new WebTokenDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 //Cerra Sesión usuarios
-$app->post('/closeSessionUser/{id}', function (Request $request, Response $response, $args) use (
-    $closeSessionUser,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+$app->post('/closeSessionUser/{id}', function (Request $request, Response $response, $args) use ($closeSessionUser) {
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
 
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
 
-    $validate = $webTokenDao->validationToken($info);
 
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+
+
+
+
+
     // $dataUser = $request->getParsedBody();
     $session = $closeSessionUser->closeSessionUsers($args);
 
@@ -43,4 +32,4 @@ $app->post('/closeSessionUser/{id}', function (Request $request, Response $respo
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

@@ -2,70 +2,26 @@
 
 use tezlikv3\dao\GeneralQuotesDao;
 use tezlikv3\dao\PaymentMethodsDao;
-use tezlikv3\dao\WebTokenDao;
 
 $paymentMethodsDao = new PaymentMethodsDao();
-$webTokenDao = new WebTokenDao();
 $generalQuotesDao = new GeneralQuotesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/paymentMethods', function (Request $request, Response $response, $args) use (
-    $paymentMethodsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->get('/paymentMethods', function (Request $request, Response $response, $args) use ($paymentMethodsDao) {
 
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $paymentMethods = $paymentMethodsDao->findAllPaymentMethods($id_company);
 
     $response->getBody()->write(json_encode($paymentMethods, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/addPaymentMethod', function (Request $request, Response $response, $arsg) use (
-    $paymentMethodsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->post('/addPaymentMethod', function (Request $request, Response $response, $arsg) use ($paymentMethodsDao) {
     $id_company = $_SESSION['id_company'];
 
     $dataMethod = $request->getParsedBody();
@@ -84,31 +40,9 @@ $app->post('/addPaymentMethod', function (Request $request, Response $response, 
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/updatePaymentMethod', function (Request $request, Response $response, $arsg) use (
-    $paymentMethodsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/updatePaymentMethod', function (Request $request, Response $response, $arsg) use ($paymentMethodsDao) {
     $dataMethod = $request->getParsedBody();
 
     if (empty($dataMethod['idMethod']) || empty($dataMethod['method']))
@@ -125,32 +59,9 @@ $app->post('/updatePaymentMethod', function (Request $request, Response $respons
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/deletePaymentMethod/{id_method}', function (Request $request, Response $response, $args) use (
-    $paymentMethodsDao,
-    $webTokenDao,
-    $generalQuotesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/deletePaymentMethod/{id_method}', function (Request $request, Response $response, $args) use ($paymentMethodsDao, $generalQuotesDao) {
     $quotes = $generalQuotesDao->findPaymentMethod($args['id_method']);
 
     if (sizeof($quotes) > 0)
@@ -166,4 +77,4 @@ $app->get('/deletePaymentMethod/{id_method}', function (Request $request, Respon
         $resp = array('error' => true, 'message' => 'No se pudo eliminar la información');
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

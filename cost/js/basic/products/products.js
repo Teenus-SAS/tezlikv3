@@ -37,7 +37,7 @@ $(document).ready(function () {
 
     let idProduct = this.id;
     sessionStorage.setItem('id_product', idProduct);
-    
+
     let row = $(this).parent().parent()[0];
     let data = tblProducts.fnGetData(row);
 
@@ -55,7 +55,7 @@ $(document).ready(function () {
     let ref = $('#referenceProduct').val();
     let prod = $('#product').val();
     let prof = parseFloat($('#profitability').val());
-    let comission = parseFloat($('#commisionSale').val()); 
+    let comission = parseFloat($('#commisionSale').val());
 
     if (ref.trim() == '' || !ref.trim() || prod.trim() == '' || !prod.trim()) {
       toastr.error('Ingrese todos los campos');
@@ -181,7 +181,7 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblProducts.fnGetData(row);
 
-    bootbox.confirm({ 
+    bootbox.confirm({
       title: 'Producto Compuesto',
       message:
         `Está seguro de que este producto ${data.composite == '0' ? 'se <b>convierta en un subproducto</b> para ser agregado a un producto compuesto' : 'se <b>Elimine</b> como subproducto'}?`,
@@ -213,11 +213,11 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('#fileProducts').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
-    
+
     if (data.success == true) {
       $('.cardImportProducts').hide(800);
       $('#formImportProduct').trigger('reset');
@@ -225,9 +225,38 @@ $(document).ready(function () {
       $('.cardCreateProduct').hide(800);
       $('#formCreateProduct').trigger('reset');
       toastr.success(data.message);
-      loadAllData(); 
+      loadAllData();
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
+
+
+  /* // Interceptor para manejar tokens en las solicitudes
+  axios.interceptors.request.use(config => {
+    const token = localStorage.getItem('auth_token') || getCookie('auth_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
+
+  // Interceptor para manejar respuestas 401
+  axios.interceptors.response.use(
+    response => response,
+    error => {
+      if (error.response.status === 401) {
+        localStorage.removeItem('auth_token');
+        window.location.reload(); // Forzar recarga para limpiar estado
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  // Función auxiliar para obtener cookies
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  } */
 });

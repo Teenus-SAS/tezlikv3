@@ -3,69 +3,30 @@
 use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\PlanningUserAccessDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $costAccessUserDao = new CostUserAccessDao();
-$webTokenDao = new WebTokenDao();
+
 $planningAccessUserDao = new PlanningUserAccessDao();
 $userAccessDao = new GeneralUserAccessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/generalUserAccess/{id_user}', function (Request $request, Response $response, $args) use (
-    $userAccessDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/generalUserAccess/{id_user}', function (Request $request, Response $response, $args) use ($userAccessDao) {
     $usersAcces = $userAccessDao->findUserAccessByUser($args['id_user']);
     $response->getBody()->write(json_encode($usersAcces, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/updateUserAccess', function (Request $request, Response $response, $args) use (
     $costAccessUserDao,
-    $webTokenDao,
     $planningAccessUserDao,
     $generalUAccessDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     $dataUserAccess = $request->getParsedBody();
 
     /* Almacena los accesos */
@@ -88,4 +49,4 @@ $app->post('/updateUserAccess', function (Request $request, Response $response, 
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

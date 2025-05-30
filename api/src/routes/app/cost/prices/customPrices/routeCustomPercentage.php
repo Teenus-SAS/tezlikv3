@@ -5,10 +5,8 @@ use tezlikv3\dao\GeneralCustomPricesDao;
 use tezlikv3\dao\GeneralPricesListDao;
 use tezlikv3\Dao\PriceCustomDao;
 use tezlikv3\dao\ProductsDao;
-use tezlikv3\dao\WebTokenDao;
 
 $customPricesDao = new CustomPricesDao();
-$webTokenDao = new WebTokenDao();
 $priceCustomDao = new PriceCustomDao();
 $productsDao = new ProductsDao();
 $generalPricesListDao = new GeneralPricesListDao();
@@ -17,34 +15,16 @@ $generalCustomPricesDao = new GeneralCustomPricesDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 $app->post('/addCustomPercentage', function (Request $request, Response $response, $args) use (
     $customPricesDao,
-    $webTokenDao,
     $generalCustomPricesDao,
     $productsDao,
     $priceCustomDao,
     $generalPricesListDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataNotData = [];
 
@@ -108,4 +88,4 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

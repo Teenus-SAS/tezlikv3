@@ -6,7 +6,9 @@ require __DIR__ . '/vendor/autoload.php';
 include_once __DIR__ . '/AutoloaderSourceCode.php';
 
 $app = AppFactory::create();
+//$app->add(new App\Middleware\SessionMiddleware());
 $app->setBasePath('/api');
+
 
 /* Admin */
 

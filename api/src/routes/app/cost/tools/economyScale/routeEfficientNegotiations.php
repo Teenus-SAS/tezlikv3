@@ -4,72 +4,27 @@ use tezlikv3\dao\EfficientNegotiationsDao;
 use tezlikv3\dao\GeneralCompanyLicenseDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PricesDao;
-use tezlikv3\dao\WebTokenDao;
 
 $generalProductsDao = new GeneralProductsDao();
 $economyScaleDao = new EfficientNegotiationsDao();
-$webTokenDao = new WebTokenDao();
+
 $priceDao = new PricesDao();
 $generalCompanyLicenseDao = new GeneralCompanyLicenseDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/ENegotiationsProducts', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalProductsDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/ENegotiationsProducts', function (Request $request, Response $response, $args) use ($generalProductsDao) {
     $id_company = $_SESSION['id_company'];
     $products = $generalProductsDao->findAllEDAndERProducts($id_company);
     $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/calcEconomyScale', function (Request $request, Response $response, $args) use (
-    $priceDao,
-    $economyScaleDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/calcEconomyScale', function (Request $request, Response $response, $args) use ($priceDao, $economyScaleDao) {
     $id_company = $_SESSION['id_company'];
 
     $price = $priceDao->findAllPricesByCompany($id_company);
@@ -94,31 +49,9 @@ $app->get('/calcEconomyScale', function (Request $request, Response $response, $
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/changeFlagPrice/{type_price}', function (Request $request, Response $response, $args) use (
-    $generalCompanyLicenseDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/changeFlagPrice/{type_price}', function (Request $request, Response $response, $args) use ($generalCompanyLicenseDao) {
     $id_company = $_SESSION['id_company'];
 
     $flag = $generalCompanyLicenseDao->updateFlagPrice($args['type_price'], $id_company);
@@ -133,4 +66,4 @@ $app->get('/changeFlagPrice/{type_price}', function (Request $request, Response 
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

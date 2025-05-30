@@ -17,6 +17,7 @@ use Slim\Psr7\Environment;
 use Slim\Psr7\Headers;
 use Slim\Psr7\Response;
 use Slim\Psr7\Stream;
+use stdClass;
 
 use function fopen;
 use function property_exists;
@@ -96,8 +97,6 @@ class ResponseTest extends TestCase
         $this->assertEquals(302, $clone->getStatusCode());
     }
 
-    /**
-     */
     public function testWithStatusInvalidStatusCodeThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -106,8 +105,6 @@ class ResponseTest extends TestCase
         $response->withStatus(800);
     }
 
-    /**
-     */
     public function testWithStatusInvalidReasonPhraseThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -124,7 +121,7 @@ class ResponseTest extends TestCase
         $this->assertEquals('', $responseWithNoMessage->getReasonPhrase());
     }
 
-    public function testResonPhraseContainsCarriageReturn()
+    public function testReasonPhraseContainsCarriageReturn()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Reason phrase contains one of the following prohibited characters: \r \n');
@@ -133,7 +130,7 @@ class ResponseTest extends TestCase
         $response = $response->withStatus(404, "Not Found\r");
     }
 
-    public function testResonPhraseContainsLineFeed()
+    public function testReasonPhraseContainsLineFeed()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Reason phrase contains one of the following prohibited characters: \r \n');
@@ -144,13 +141,8 @@ class ResponseTest extends TestCase
 
     public function testWithStatusValidReasonPhraseObject()
     {
-        $mock = $this->getMockBuilder('ResponseTestReasonPhrase')->setMethods(['__toString'])->getMock();
-        $mock->expects($this->once())
-            ->method('__toString')
-            ->will($this->returnValue('Slim OK'));
-
         $response = new Response();
-        $response = $response->withStatus(200, $mock);
+        $response = $response->withStatus(200, new StringableTestObject('Slim OK'));
         $this->assertEquals('Slim OK', $response->getReasonPhrase());
     }
 

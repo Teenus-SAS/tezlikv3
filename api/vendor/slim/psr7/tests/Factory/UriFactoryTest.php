@@ -16,10 +16,7 @@ use Slim\Psr7\Factory\UriFactory;
 
 class UriFactoryTest extends UriFactoryTestCase
 {
-    /**
-     * @return UriFactory
-     */
-    protected function createUriFactory()
+    protected function createUriFactory(): UriFactory
     {
         return new UriFactory();
     }
@@ -56,7 +53,7 @@ class UriFactoryTest extends UriFactoryTestCase
     {
         $uri = $this
             ->createUriFactory()
-            ->createUri('https://bob%40example.com:pass%3Aword@example.com:443/foo/bar?abc=123#section3');
+            ->createUri('https://bob@example.com:pass:word@example.com:443/foo/bar?abc=123#section3');
 
         $this->assertEquals('bob%40example.com:pass%3Aword', $uri->getUserInfo());
     }

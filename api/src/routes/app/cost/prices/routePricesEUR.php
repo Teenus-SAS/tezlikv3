@@ -6,11 +6,9 @@ use tezlikv3\dao\MaterialsDao;
 use tezlikv3\Dao\PriceEURDao;
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\Dao\TrmDao;
-use tezlikv3\dao\WebTokenDao;
 
 $trmDao = new TrmDao();
 $priceEURDao = new PriceEURDao();
-$webTokenDao = new WebTokenDao();
 $productsDao = new ProductsDao();
 $materialsDao = new MaterialsDao();
 $generalMaterialsDao = new GeneralMaterialsDao();
@@ -19,13 +17,16 @@ $licenceCompanyDao = new LicenseCompanyDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consultar Euro actual 
 
 $app->get('/currentDollar', function (Request $request, Response $response, $args) use (
     $trmDao,
     $webTokenDao
 ) {
-    $info = $webTokenDao->getToken();
+    
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -37,7 +38,7 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $webTokenDao->validationToken($info);
+    
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -53,11 +54,11 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
 
 $app->post('/simPriceEUR', function (Request $request, Response $response, $args) use (
     $pricesUSDDao,
-    $webTokenDao,
+    
     $productsDao,
     $trmDao
 ) {
-    $info = $webTokenDao->getToken();
+    
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -69,7 +70,7 @@ $app->post('/simPriceEUR', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $webTokenDao->validationToken($info);
+    
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -112,32 +113,11 @@ $app->post('/simPriceEUR', function (Request $request, Response $response, $args
 
 $app->get('/priceEUR/{coverage_eur}', function (Request $request, Response $response, $args) use (
     $licenceCompanyDao,
-    $webTokenDao,
     $priceEURDao,
     $productsDao,
     $generalMaterialsDao,
     $trmDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $company = $licenceCompanyDao->findLicenseCompany($id_company);
@@ -197,4 +177,4 @@ $app->get('/priceEUR/{coverage_eur}', function (Request $request, Response $resp
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

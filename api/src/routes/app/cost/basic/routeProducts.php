@@ -27,10 +27,10 @@ use tezlikv3\dao\ProductsCostDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\ProductsQuantityDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $productsDao = new ProductsDao();
-$webTokenDao = new WebTokenDao();
+
 $generalProductsDao = new GeneralProductsDao();
 $lastDataDao = new LastDataDao();
 $FilesDao = new FilesDao();
@@ -62,215 +62,95 @@ $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
-$app->get('/products', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $productsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/products', function (Request $request, Response $response, $args) use ($productsDao) {
     $id_company = $_SESSION['id_company'];
-    $products = $productsDao->findAllProductsByCompany($id_company);
-    $response->getBody()->write(json_encode($products));
-    return $response->withHeader('Content-Type', 'application/json');
-});
 
-$app->get('/selectProducts', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalProductsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
+    try {
+        $products = $productsDao->findAllProductsByCompany($id_company);
+        return ResponseHelper::withJson($response, $products, 200);
+    } catch (Exception $e) {
+        error_log("Error al obtener productos: " . $e->getMessage());
+        return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Error al obtener los productos'], 500);
     }
+})->add(new SessionMiddleware());
 
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->get('/selectProducts', function (Request $request, Response $response, $args) use ($generalProductsDao) {
 
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
-    $products = $generalProductsDao->findDataBasicProductsByCompany($id_company);
-    $response->getBody()->write(json_encode($products));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+    try {
+        $products = $generalProductsDao->findDataBasicProductsByCompany($id_company);
+        $response->getBody()->write(json_encode($products));
+        return $response->withHeader('Content-Type', 'application/json');
+    } catch (Exception $e) {
+        error_log("Error al obtener productos: " . $e->getMessage());
+        return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Error al obtener los productos'], 500);
+    }
+})->add(new SessionMiddleware());
 
 /* Consultar productos CRM */
-$app->get('/productsCRM', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalProductsDao
-) {
-    $info = $webTokenDao->getToken();
+$app->get('/productsCRM', function (Request $request, Response $response, $args) use ($generalProductsDao) {
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+    try {
+        $products = $generalProductsDao->findAllProductsByCRM(1);
+        $response->getBody()->write(json_encode($products));
         return $response->withHeader('Content-Type', 'application/json');
+    } catch (Exception $e) {
+        error_log("Error al obtener productos: " . $e->getMessage());
+        return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Error al obtener los productos'], 500);
     }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $products = $generalProductsDao->findAllProductsByCRM(1);
-    $response->getBody()->write(json_encode($products));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Consultar Productos creados */
-$app->get('/productsLimit', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $productsQuantityDao
-) {
-    $info = $webTokenDao->getToken();
+$app->get('/productsLimit', function (Request $request, Response $response, $args) use ($productsQuantityDao) {
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $id_plan = $_SESSION['plan'];
 
-    $product = $productsQuantityDao->totalProductsByCompany($id_company, $id_plan);
+    try {
+        $product = $productsQuantityDao->totalProductsByCompany($id_company, $id_plan);
 
-    $response->getBody()->write(json_encode($product, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-});
-
-$app->get('/inactivesProducts', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalProductsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+        $response->getBody()->write(json_encode($product, JSON_NUMERIC_CHECK));
         return $response->withHeader('Content-Type', 'application/json');
+    } catch (Exception $e) {
+        error_log("Error al obtener productos: " . $e->getMessage());
+        return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Error al obtener los productos'], 500);
     }
+})->add(new SessionMiddleware());
 
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->get('/inactivesProducts', function (Request $request, Response $response, $args) use ($generalProductsDao) {
 
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
-    $products = $generalProductsDao->findAllInactivesProducts($id_company);
-    $response->getBody()->write(json_encode($products));
-    return $response->withHeader('Content-Type', 'application/json');
-});
-
-$app->get('/productCost/{id_product}', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalProductsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
+    try {
+        $products = $generalProductsDao->findAllInactivesProducts($id_company);
+        $response->getBody()->write(json_encode($products));
         return $response->withHeader('Content-Type', 'application/json');
+    } catch (Exception $e) {
+        error_log("Error al obtener productos: " . $e->getMessage());
+        return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Error al obtener los productos'], 500);
     }
+})->add(new SessionMiddleware());
 
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
 
-    $validate = $webTokenDao->validationToken($info);
+$app->get('/productCost/{id_product}', function (Request $request, Response $response, $args) use ($generalProductsDao) {
 
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
-    $products = $generalProductsDao->findProductCost($args['id_product'], $id_company);
-    $response->getBody()->write(json_encode($products));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+    try {
+        $products = $generalProductsDao->findProductCost($args['id_product'], $id_company);
+        $response->getBody()->write(json_encode($products));
+        return $response->withHeader('Content-Type', 'application/json');
+    } catch (Exception $e) {
+        error_log("Error al obtener productos: " . $e->getMessage());
+        return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Error al obtener los productos'], 500);
+    }
+})->add(new SessionMiddleware());
 
 /* Consultar productos importados */
-$app->post('/productsDataValidation', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalProductsDao,
-    $generalCompositeProductsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/productsDataValidation', function (Request $request, Response $response, $args) use ($generalProductsDao, $generalCompositeProductsDao) {
 
     $dataProduct = $request->getParsedBody();
 
@@ -364,10 +244,9 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
 
     $response->getBody()->write(json_encode($dataImportProduct, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addProducts', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $productsDao,
     $generalProductsDao,
     $priceProductDao,
@@ -377,26 +256,6 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
     $productsCostDao,
     $productsQuantityDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $id_plan = $_SESSION['plan'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -515,10 +374,9 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/updateProducts', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $productsDao,
     $FilesDao,
     $productsCostDao,
@@ -528,26 +386,6 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
 
@@ -681,10 +519,9 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
         $resp = array('info' => true, 'message' => 'El producto ya existe en la base de datos. Ingrese uno nuevo');
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/copyProduct', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $productsDao,
     $lastDataDao,
     $productsCostDao,
@@ -712,26 +549,6 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $pricesUSDDao,
     $generalCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $id_plan = $_SESSION['plan'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -1033,10 +850,9 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/deleteProduct', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $generalPMaterialsDao,
     $generalPProcessDao,
     $generalServicesDao,
@@ -1050,26 +866,6 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $pricesUSDDao,
     $generalProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
     $dataProduct = $request->getParsedBody();
@@ -1174,35 +970,14 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Activar o Inactivar Producto */
 $app->get('/changeActiveProduct/{id_product}/{op}', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $generalProductsDao,
     $assignableExpenseDao,
     $familiesDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $flag = $_SESSION['flag_expense_distribution'];
 
@@ -1272,35 +1047,14 @@ $app->get('/changeActiveProduct/{id_product}/{op}', function (Request $request, 
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Activar Productos */
 $app->post('/activeProducts', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $generalProductsDao,
     $assignableExpenseDao,
     $familiesDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $flag = $_SESSION['flag_expense_distribution'];
     $dataProducts = $request->getParsedBody();
@@ -1373,32 +1127,12 @@ $app->post('/activeProducts', function (Request $request, Response $response, $a
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->get('/changeComposite/{id_product}/{op}', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $generalProductsDao,
     $generalCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     $status = true;
 
     if ($args['op'] == 0) {
@@ -1421,4 +1155,4 @@ $app->get('/changeComposite/{id_product}/{op}', function (Request $request, Resp
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

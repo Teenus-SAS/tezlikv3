@@ -202,19 +202,24 @@ class AbstractErrorRendererTest extends TestCase
 
     public function testPlainTextErrorRendererFormatFragmentMethod()
     {
-        $exception = new Exception('Oops..', 500);
+        $message = 'Oops.. <br>';
+        $exception = new Exception($message, 500);
         $renderer = new PlainTextErrorRenderer();
         $reflectionRenderer = new ReflectionClass(PlainTextErrorRenderer::class);
 
         $method = $reflectionRenderer->getMethod('formatExceptionFragment');
         $method->setAccessible(true);
         $output = $method->invoke($renderer, $exception);
+        $this->assertIsString($output);
 
         $this->assertMatchesRegularExpression('/.*Type:*/', $output);
         $this->assertMatchesRegularExpression('/.*Code:*/', $output);
         $this->assertMatchesRegularExpression('/.*Message*/', $output);
         $this->assertMatchesRegularExpression('/.*File*/', $output);
         $this->assertMatchesRegularExpression('/.*Line*/', $output);
+
+        // ensure the renderer doesn't reformat the message
+        $this->assertMatchesRegularExpression("/.*$message/", $output);
     }
 
     public function testPlainTextErrorRendererDisplaysErrorDetails()

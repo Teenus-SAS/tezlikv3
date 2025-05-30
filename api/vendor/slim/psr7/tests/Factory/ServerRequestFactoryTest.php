@@ -25,19 +25,12 @@ use function time;
 
 class ServerRequestFactoryTest extends ServerRequestFactoryTestCase
 {
-    /**
-     * @return ServerRequestFactory
-     */
-    protected function createServerRequestFactory()
+    protected function createServerRequestFactory(): ServerRequestFactory
     {
         return new ServerRequestFactory();
     }
 
-    /**
-     * @param string $uri
-     * @return UriInterface
-     */
-    protected function createUri($uri)
+    protected function createUri($uri): UriInterface
     {
         return (new UriFactory())->createUri($uri);
     }
@@ -197,8 +190,6 @@ class ServerRequestFactoryTest extends ServerRequestFactoryTestCase
         $this->assertEquals($_POST, $request->getParsedBody());
     }
 
-    /**
-     */
     public function testCreateServerRequestWithNullAsUri()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -207,8 +198,6 @@ class ServerRequestFactoryTest extends ServerRequestFactoryTestCase
         $this->createServerRequestFactory()->createServerRequest('GET', null, $env);
     }
 
-    /**
-     */
     public function testCreateServerRequestWithInvalidUriObject()
     {
         $this->expectException(InvalidArgumentException::class);

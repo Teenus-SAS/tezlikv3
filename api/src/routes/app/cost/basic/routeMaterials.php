@@ -15,10 +15,10 @@ use tezlikv3\dao\PriceProductDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\Dao\TrmDao;
 use tezlikv3\dao\UnitsDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $materialsDao = new MaterialsDao();
-$webTokenDao = new WebTokenDao();
+
 $generalMaterialsDao = new GeneralMaterialsDao();
 $generalCategoriesDao = new GeneralCategoriesDao();
 $productMaterialsDao = new ProductsMaterialsDao();
@@ -37,99 +37,35 @@ $trmDao = new TrmDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
-$app->get('/materials', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalMaterialsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/materials', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $materials = $generalMaterialsDao->findAllMaterialsByCompany($id_company);
     $response->getBody()->write(json_encode($materials));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/selectMaterials', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalMaterialsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/selectMaterials', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $materials = $generalMaterialsDao->findDataBasicMaterialsByCompany($id_company);
     $response->getBody()->write(json_encode($materials));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Consultar productos relacionados con la materia prima */
-$app->get('/productsByMaterials/{id_material}', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalMaterialsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/productsByMaterials/{id_material}', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
     $products = $generalMaterialsDao->findAllProductsByMaterials($args['id_material']);
     $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addMaterials', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $materialsDao,
     $generalMaterialsDao,
     $lastDataDao,
@@ -143,25 +79,6 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
     $generalProductsDao,
     $generalCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $dataMaterial = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -432,10 +349,9 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/updateMaterials', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $materialsDao,
     $generalMaterialsDao,
     $trmDao,
@@ -447,25 +363,6 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $generalProductsDao,
     $generalCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
@@ -670,33 +567,9 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/saveBillMaterial', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalMaterialsDao,
-    $filesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->post('/saveBillMaterial', function (Request $request, Response $response, $args) use ($generalMaterialsDao, $filesDao) {
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
 
@@ -713,30 +586,9 @@ $app->post('/saveBillMaterial', function (Request $request, Response $response, 
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/deleteMaterial', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalMaterialsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/deleteMaterial', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
 
     $dataMaterial = $request->getParsedBody();
 
@@ -751,30 +603,9 @@ $app->post('/deleteMaterial', function (Request $request, Response $response, $a
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/changeIndirect/{id_material}/{op}', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalMaterialsDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->get('/changeIndirect/{id_material}/{op}', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
 
     $status = true;
 
@@ -792,4 +623,4 @@ $app->get('/changeIndirect/{id_material}/{op}', function (Request $request, Resp
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

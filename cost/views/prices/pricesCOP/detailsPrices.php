@@ -1,11 +1,5 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-    if (sizeof($_SESSION) == 0)
-        header('location: /');
-}
-if (sizeof($_SESSION) == 0)
-    header('location: /');
+require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.php';
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +12,7 @@ if (sizeof($_SESSION) == 0)
     <meta name="keywords" content="cotizar, costos, precio, competitividad, ventajas, beneficios, diferenciacion">
     <meta name="author" content="Teenus">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Cost | Details Prices</title>
+    <title>TezlikSoftware Cost | Details Prices</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>

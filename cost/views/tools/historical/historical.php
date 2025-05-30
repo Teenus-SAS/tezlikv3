@@ -1,11 +1,5 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-    if (sizeof($_SESSION) == 0)
-        header('location: /');
-}
-if (sizeof($_SESSION) == 0)
-    header('location: /');
+require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMiddleware.php';
 ?>
 <?php require_once dirname(dirname(dirname(__DIR__))) . '/modals/manualHistorical.php'; ?>
 
@@ -17,9 +11,9 @@ if (sizeof($_SESSION) == 0)
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Teenus SAS">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Cost | Historical</title>
+    <title>TezlikSoftware Cost | Historical</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
@@ -87,7 +81,11 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <a href="javascript:;" class="btnsProfit" style="color:white;" id="max" <span class="font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-up mr-1" id="lblMaxProfitability"></i></span></a>
+                                                        <a href="javascript:void(0);" class="btnsProfit text-white" id="max" title="Maximize profitability" aria-label="Maximize profitability">
+                                                            <span class="font-size-12 font-weight-bold">
+                                                                <i class="fas fa-arrow-circle-up mr-1" id="lblMaxProfitability"></i>Maximize
+                                                            </span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -98,7 +96,11 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <a href="javascript:;" class="btnsProfit" style="color:white;" id="min" <span class="font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-down mr-1" id="lblMinProfitability"></i></span></a>
+                                                        <a href="javascript:void(0);" class="btnsProfit text-white" id="min" title="Minimize profitability" aria-label="Minimize profitability" role="button">
+                                                            <span class="font-size-12 font-weight-bold">
+                                                                <i class="fas fa-arrow-circle-down mr-1" id="lblMinProfitability"></i>
+                                                            </span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -220,9 +222,13 @@ if (sizeof($_SESSION) == 0)
         type = 'manual';
         sessionStorage.removeItem('typePrice');
     </script>
+    <script src="/cost/js/tools/historical/historicalConfig.js"></script>
     <script src="/global/js/global/saveHistorical.js"></script>
-    <script src="/cost/js/tools/historical/tblHistorical.js"></script>
+    <script src="/cost/js/tools/historical/historicalUtils.js"></script>
     <script src="/cost/js/tools/historical/historical.js"></script>
+    <script src="/cost/js/tools/historical/historicalUI.js"></script>
+    <script src="/cost/js/tools/historical/historicalEvents.js"></script>
+    <script src="/cost/js/tools/historical/tblHistorical.js"></script>
 </body>
 
 </html>

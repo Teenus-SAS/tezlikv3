@@ -15,9 +15,9 @@ $userinactivetimeDao->findSession(); */
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="description" content="">
 	<meta name="keywords" content="">
-	<meta name="author" content="">
+	<meta name="author" content="Teenus SAS">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Tezlik - Selector </title>
+	<title>TezlikSoftware Selector </title>
 	<link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
 	<?php include_once dirname(__DIR__) . '../../global/partials/scriptsCSS.php'; ?>

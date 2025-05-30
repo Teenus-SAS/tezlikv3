@@ -3,70 +3,25 @@
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\CompanyDao;
 use tezlikv3\dao\GeneralCompanyLicenseDao;
-use tezlikv3\dao\WebTokenDao;
 
 $companyDao = new CompanyDao();
-$webTokenDao = new WebTokenDao();
 $companiesLicenseDao = new CompaniesLicenseDao();
 $generalCompanyLicenseDao = new GeneralCompanyLicenseDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/company', function (Request $request, Response $response, $args) use (
-    $companyDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/company', function (Request $request, Response $response, $args) use ($companyDao) {
     $id_company = $_SESSION['id_company'];
     $company = $companyDao->findDataCompanyByCompany($id_company);
     $response->getBody()->write(json_encode($company, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/changeDateContract/{op}', function (Request $request, Response $response, $args) use (
-    $companiesLicenseDao,
-    $generalCompanyLicenseDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/changeDateContract/{op}', function (Request $request, Response $response, $args) use ($companiesLicenseDao, $generalCompanyLicenseDao) {
     $company = [];
     if ($args['op'] == '1') {
         // session_start();
@@ -99,4 +54,4 @@ $app->get('/changeDateContract/{op}', function (Request $request, Response $resp
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

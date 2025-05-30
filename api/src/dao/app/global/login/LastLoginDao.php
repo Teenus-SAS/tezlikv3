@@ -19,7 +19,7 @@ class LastLoginDao
     public function findLastLogin()
     {
         $connection = Connection::getInstance()->getConnection();
-        @session_start();
+
         $id_user = $_SESSION['idUser'];
         $case = $_SESSION['case'];
 

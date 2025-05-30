@@ -8,11 +8,9 @@ use tezlikv3\dao\QuoteProductsDao;
 use tezlikv3\dao\QuotesDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\SendMakeEmailDao;
-use tezlikv3\dao\WebTokenDao;
 
 $quotesDao = new QuotesDao();
 $quoteProductsDao = new QuoteProductsDao();
-$webTokenDao = new WebTokenDao();
 $lastDataDao = new LastDataDao();
 $generalQuotesDao = new GeneralQuotesDao();
 $convertDataDao = new ConvertDataDao();
@@ -23,68 +21,27 @@ $sendMakeEmailDao = new SendMakeEmailDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consultar Todos */
 
-$app->get('/quotes', function (Request $request, Response $response, $args) use (
-    $quotesDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
+$app->get('/quotes', function (Request $request, Response $response, $args) use ($quotesDao) {
     $id_company = $_SESSION['id_company'];
 
     $quotes = $quotesDao->findAllQuotes($id_company);
     $response->getBody()->write(json_encode($quotes, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Clonar cotización */
 $app->get('/copyQuote/{id_quote}', function (Request $request, Response $response, $args) use (
     $quotesDao,
-    $webTokenDao,
     $quoteProductsDao,
     $lastDataDao,
     $convertDataDao,
     $generalQuotesDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     // $flag_indirect = $_SESSION['flag_indirect'];
     $quote = $quotesDao->findQuote($args['id_quote']);
@@ -119,33 +76,10 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 /* Consultar detalle de cotizacion */
-$app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use (
-    $quotesDao,
-    $webTokenDao,
-    $generalQuotesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $generalQuotesDao) {
     $quote = $quotesDao->findQuote($args['id_quote']);
     $quotesProducts = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
 
@@ -154,64 +88,21 @@ $app->get('/quote/{id_quote}', function (Request $request, Response $response, $
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/quotesProducts/{id_quote}', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalQuotesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/quotesProducts/{id_quote}', function (Request $request, Response $response, $args) use ($generalQuotesDao) {
     $quotesProducts = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
 
     $response->getBody()->write(json_encode($quotesProducts, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addQuote', function (Request $request, Response $response, $arsg) use (
     $quotesDao,
-    $webTokenDao,
     $quoteProductsDao,
     $lastDataDao,
     $convertDataDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataQuote = $request->getParsedBody();
 
@@ -253,33 +144,13 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/updateQuote', function (Request $request, Response $response, $args) use (
     $quotesDao,
-    $webTokenDao,
     $quoteProductsDao,
     $convertDataDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     $dataQuote = $request->getParsedBody();
 
     $resolution = $quotesDao->updateQuote($dataQuote);
@@ -321,31 +192,9 @@ $app->post('/updateQuote', function (Request $request, Response $response, $args
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/deleteQuote/{id_quote}', function (Request $request, Response $response, $args) use (
-    $quotesDao,
-    $quoteProductsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->get('/deleteQuote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao) {
 
     /* Elimina todos los productos de la cotizacion */
     $quotesProducts = $quoteProductsDao->deleteQuotesProducts($args['id_quote']);
@@ -362,35 +211,14 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/sendQuote', function (Request $request, Response $response, $args) use (
     $generalQuotesDao,
-    $webTokenDao,
     $sendMakeEmailDao,
     $FilesDao,
     $sendEmailDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $email = $_SESSION['email'];
     $name = $_SESSION['name'];
     $id_company = $_SESSION['id_company'];
@@ -415,4 +243,4 @@ $app->post('/sendQuote', function (Request $request, Response $response, $args) 
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

@@ -56,4 +56,19 @@ class StatusActiveUserDao
       $stmt->execute(['session_active' => $session, 'id_admin' => $id_user]);
     }
   }
+
+  public function deactivateSession(int $id_company, int $id_user): bool
+  {
+    $connection = Connection::getInstance()->getConnection();
+    $sql = "UPDATE users SET session_active = 0 WHERE id_user = :id_user AND id_company = :id_company";
+
+    try {
+      $stmt = $connection->prepare($sql);
+      $stmt->execute(['id_user' => $id_user, 'id_company' => $id_company]);
+      return $stmt->rowCount() > 0;
+    } catch (\PDOException $e) {
+      error_log("Error al desactivar sesión: " . $e->getMessage());
+      throw $e;
+    }
+  }
 }

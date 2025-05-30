@@ -7,15 +7,9 @@ $(document).ready(function () {
     autoplay: true,
     autoplayTimeout: 4000,
     responsive: {
-      0: {
-        items: 1,
-      },
-      600: {
-        items: 1,
-      },
-      1000: {
-        items: 1,
-      },
+      0: { items: 1, },
+      600: { items: 1, },
+      1000: { items: 1, },
     },
   });
 
@@ -23,13 +17,8 @@ $(document).ready(function () {
   $('#loginForm').validate({
     focusInvalid: false,
     rules: {
-      'validation-email': {
-        required: true,
-        email: true,
-      },
-      'validation-password': {
-        required: true,
-      },
+      'validation-email': { required: true, email: true, },
+      'validation-password': { required: true, },
     },
     errorPlacement: function errorPlacement(error, element) {
       $(element).siblings('.validation-error').removeClass('d-none');
@@ -52,8 +41,7 @@ $(document).ready(function () {
       $(formdata).each(function (index, obj) {
         data[obj.name] = obj.value;
       });
-      /* alert("Data has been submitted. Please see console log");
-                                    console.log("form data ===>", data); */
+
       login(data);
       $(form).trigger('reset');
       $('.floating-label').removeClass('enable-floating-label');
@@ -65,44 +53,22 @@ $(document).ready(function () {
       type: 'POST',
       url: '/api/userAutentication',
       data: data,
-      success: function (data, textStatus, xhr) {
-        if (data.reload) {
-          location.reload();
-        }
-        
-        if (data.error) {
-          toastr.error(data.message);
+      success: function (response, textStatus, xhr) {
+        if (response.error) {
+          toastr.error(response.message);
           return false;
-        } else if (data.success) {
-          sessionStorage.clear();
-          location.href = data.location;
+        }
+
+        if (response.success) {
+          localStorage.setItem('authToken', response.token);
+          window.location.href = response.location;
         }
       },
+      error: function (xhr, textStatus, errorThrown) {
+        const errorMessage = xhr.responseJSON?.message || 'Error during authentication';
+        toastr.error(errorMessage);
+      }
     });
   };
 
-  // const validationCode = () => {
-  $('#btnCheckCode').click(function (e) {
-    e.preventDefault();
-
-    codeUser = $('#factor').val();
-    $.ajax({
-      type: 'POST',
-      url: '/api/checkCode',
-      data: codeUser,
-      success: function (data) {
-        if (data.reload) {
-          location.reload();
-        }
-        
-        if (data.error) {
-          toastr.error(data.message);
-          return false;
-        } else if (data.success) {
-          location.href = '../../app/';
-        }
-      },
-    });
-  });
-  // };
 });

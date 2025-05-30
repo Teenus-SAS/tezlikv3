@@ -1,13 +1,6 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-    if (sizeof($_SESSION) == 0)
-        header('location: /');
-}
-if (sizeof($_SESSION) == 0)
-    header('location: /');
-?>
-<?php require_once dirname(dirname(__DIR__)) . '/modals/productsByMaterial.php'; ?>
+require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.php';
+require_once dirname(dirname(__DIR__)) . '/modals/productsByMaterial.php'; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -18,8 +11,8 @@ if (sizeof($_SESSION) == 0)
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <meta name="author" content="">
-    <title>Tezlik - Cost | Materials</title>
+    <meta name="author" content="Teenus SAS">
+    <title>TezlikSoftware Cost | Materials</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
@@ -125,7 +118,7 @@ if (sizeof($_SESSION) == 0)
                 </div>
 
                 <!-- Materiales -->
-                <div class="page-content-wrapper mt--45 mb-5 cardRawMaterials">
+                <div class="page-content-wrapper mt--45 mb-5 cardRawMaterials" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -193,7 +186,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardImportMaterials">
+                <div class="page-content-wrapper mt--45 mb-5 cardImportMaterials" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <form class="col-12" id="formImportMaterials" enctype="multipart/form-data">
@@ -219,7 +212,7 @@ if (sizeof($_SESSION) == 0)
                 </div>
 
                 <!-- Categorias -->
-                <div class="page-content-wrapper mt--45 mb-5 cardAddCategories">
+                <div class="page-content-wrapper mt--45 mb-5 cardAddCategories" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -243,7 +236,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardImportCategories">
+                <div class="page-content-wrapper mt--45 mb-5 cardImportCategories" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <form class="col-12" id="formImportCategory" enctype="multipart/form-data">

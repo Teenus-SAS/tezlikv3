@@ -18,7 +18,8 @@ $ composer require slim/psr7
 ```
 
 This will install the `slim/psr7` component and all required dependencies.
-PHP 7.3 or newer is required.
+
+PHP 8.0 or newer is required.
 
 ## Tests
 

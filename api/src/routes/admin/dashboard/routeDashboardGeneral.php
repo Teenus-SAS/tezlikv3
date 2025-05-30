@@ -1,39 +1,18 @@
 <?php
 
 use tezlikv3\dao\DashboardGeneralsDao;
-use tezlikv3\dao\WebTokenDao;
 
 $dashboardGeneralsDao = new DashboardGeneralsDao();
-$webTokenDao = new WebTokenDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
-$app->get('/dashboardCountsGeneral', function (Request $request, Response $response, $args) use (
-    $dashboardGeneralsDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/dashboardCountsGeneral', function (Request $request, Response $response, $args) use ($dashboardGeneralsDao) {
     // Obtener Cantidad de Productos
     $products = $dashboardGeneralsDao->findAllProducts();
 
@@ -66,4 +45,4 @@ $app->get('/dashboardCountsGeneral', function (Request $request, Response $respo
 
     $response->getBody()->write(json_encode($generalDashboardCounts, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

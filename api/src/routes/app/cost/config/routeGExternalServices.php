@@ -1,66 +1,26 @@
 <?php
 
 use tezlikv3\dao\GeneralExternalServicesDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $externalServicesDao = new GeneralExternalServicesDao();
-$webTokenDao = new WebTokenDao();
+
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/generalExternalservices', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $externalServicesDao
-) {
-    $info = $webTokenDao->getToken();
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/generalExternalservices', function (Request $request, Response $response, $args) use ($externalServicesDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $externalServices = $externalServicesDao->findAllExternalServices($id_company);
     $response->getBody()->write(json_encode($externalServices));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/generalExternalServiceDataValidation', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $externalServicesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/generalExternalServiceDataValidation', function (Request $request, Response $response, $args) use ($externalServicesDao) {
 
     $dataExternalService = $request->getParsedBody();
 
@@ -96,30 +56,9 @@ $app->post('/generalExternalServiceDataValidation', function (Request $request, 
 
     $response->getBody()->write(json_encode($dataImportExternalService, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/addGExternalService', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $externalServicesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/addGExternalService', function (Request $request, Response $response, $args) use ($externalServicesDao) {
 
     // session_start();
     $id_company = $_SESSION['id_company'];
@@ -165,31 +104,9 @@ $app->post('/addGExternalService', function (Request $request, Response $respons
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/updateGExternalService', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $externalServicesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->post('/updateGExternalService', function (Request $request, Response $response, $args) use ($externalServicesDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -214,30 +131,9 @@ $app->post('/updateGExternalService', function (Request $request, Response $resp
         $resp = array('info' => true, 'message' => 'Servicio duplicado. Ingrese una nuevo servicio');
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/deleteGExternalService', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $externalServicesDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/deleteGExternalService', function (Request $request, Response $response, $args) use ($externalServicesDao) {
 
     $dataExternalService = $request->getParsedBody();
 
@@ -249,4 +145,4 @@ $app->post('/deleteGExternalService', function (Request $request, Response $resp
         $resp = array('error' => true, 'message' => 'No es posible eliminar el servicio externo, existe información asociada a él');
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

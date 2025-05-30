@@ -1,13 +1,8 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-    if (sizeof($_SESSION) == 0)
-        header('location: /');
-}
-if (sizeof($_SESSION) == 0)
-    header('location: /');
+require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.php';
+require_once dirname(dirname(__DIR__)) . '/modals/inactiveProducts.php';
 ?>
-<?php require_once dirname(dirname(__DIR__)) . '/modals/inactiveProducts.php'; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -18,8 +13,8 @@ if (sizeof($_SESSION) == 0)
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <meta name="author" content="">
-    <title>Tezlik - Cost | Products</title>
+    <meta name="author" content="Teenus SAS">
+    <title>TezlikSoftware Cost | Products</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
@@ -96,7 +91,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardCreateProduct">
+                <div class="page-content-wrapper mt--45 mb-5 cardCreateProduct" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <form class="col-12" id="formCreateProduct">
@@ -147,7 +142,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardImportProducts">
+                <div class="page-content-wrapper mt--45 mb-5 cardImportProducts" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <form class="col-12" id="formImportProduct" enctype="multipart/form-data">
@@ -204,6 +199,7 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -212,6 +208,10 @@ if (sizeof($_SESSION) == 0)
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
+
+    <script src="/global/js/global/sessionValidation.js"></script>
+    <script src="/global/js/global/sessionInactivity.js"></script>
+
     <script src="/cost/js/basic/products/tblProducts.js"></script>
     <script src="/cost/js/basic/products/inactiveProducts.js"></script>
     <script src="/cost/js/basic/products/products.js"></script>

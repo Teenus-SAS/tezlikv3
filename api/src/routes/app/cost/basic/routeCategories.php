@@ -3,73 +3,34 @@
 use tezlikv3\dao\CategoriesDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\GeneralCategoriesDao;
-use tezlikv3\dao\WebTokenDao;
+
 
 $categoryDao = new CategoriesDao();
-$webTokenDao = new WebTokenDao();
+
 $generalCategoryDao = new GeneralCategoriesDao();
 $lastDataDao = new LastDataDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
-$app->get('/categories', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $categoryDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/categories', function (Request $request, Response $response, $args) use ($categoryDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $categories = $categoryDao->findAllCategoryByCompany($id_company);
     $response->getBody()->write(json_encode($categories, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addCategory', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
     $categoryDao,
     $generalCategoryDao,
     $lastDataDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
     // session_start();
     $dataCategory = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -113,31 +74,9 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->post('/updateCategory', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $categoryDao,
-    $generalCategoryDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+$app->post('/updateCategory', function (Request $request, Response $response, $args) use ($categoryDao, $generalCategoryDao) {
 
     // session_start();
     $dataCategory = $request->getParsedBody();
@@ -163,31 +102,9 @@ $app->post('/updateCategory', function (Request $request, Response $response, $a
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/deleteCategory/{id_category}', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $categoryDao
-) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
+$app->get('/deleteCategory/{id_category}', function (Request $request, Response $response, $args) use ($categoryDao) {
     $category = $categoryDao->deleteCategory($args['id_category']);
 
     if ($category == null)
@@ -198,4 +115,4 @@ $app->get('/deleteCategory/{id_category}', function (Request $request, Response 
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

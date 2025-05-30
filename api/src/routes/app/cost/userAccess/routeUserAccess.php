@@ -5,10 +5,8 @@ use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\UsersDao;
-use tezlikv3\dao\WebTokenDao;
 
 $usersDao = new UsersDao();
-$webTokenDao = new WebTokenDao();
 $lastDataDao = new LastDataDao();
 $userAccessDao = new CostUserAccessDao();
 $generalUAccessDao = new GeneralUserAccessDao();
@@ -17,98 +15,36 @@ $companiesLicenseDao = new CompaniesLicenseDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta para acceso de todos los usuarios */
 
-$app->get('/costUsersAccess', function (Request $request, Response $response, $args) use (
-    $userAccessDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+$app->get('/costUsersAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $company = isset($_SESSION['id_company']) ? $_SESSION['id_company'] : 0;
     $usersAccess = $userAccessDao->findAllUsersAccess($company);
     $response->getBody()->write(json_encode($usersAccess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
-$app->get('/costUserAccess', function (Request $request, Response $response, $args) use (
-    $userAccessDao,
-    $webTokenDao
-) {
-    $info = $webTokenDao->getToken();
+$app->get('/costUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $company = isset($_SESSION['id_company']) ? $_SESSION['id_company'] : 0;
     $id_user = $_SESSION['idUser'];
     $userAccess = $userAccessDao->findUserAccess($company, $id_user);
     // $userAccess = $userAccess[0];
     $response->getBody()->write(json_encode($userAccess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addCostUserAccess', function (Request $request, Response $response, $args) use (
     $userAccessDao,
-    $webTokenDao,
     $lastDataDao,
     $generalUAccessDao,
     $usersDao,
     $companiesLicenseDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $dataUserAccess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
@@ -139,34 +75,13 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/updateCostUserAccess', function (Request $request, Response $response, $args) use (
     $userAccessDao,
-    $webTokenDao,
     $generalUAccessDao,
     $companiesLicenseDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $idUser = $_SESSION['idUser'];
 
@@ -203,4 +118,4 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

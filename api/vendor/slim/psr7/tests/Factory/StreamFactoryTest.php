@@ -24,16 +24,11 @@ class StreamFactoryTest extends StreamFactoryTestCase
         }
     }
 
-    /**
-     * @return StreamFactory
-     */
-    protected function createStreamFactory()
+    protected function createStreamFactory(): StreamFactory
     {
         return new StreamFactory();
     }
 
-    /**
-     */
     public function testCreateStreamThrowsRuntimeException()
     {
         $this->expectException(RuntimeException::class);
@@ -46,8 +41,6 @@ class StreamFactoryTest extends StreamFactoryTestCase
         $factory->createStream();
     }
 
-    /**
-     */
     public function testCreateStreamFromFileThrowsRuntimeException()
     {
         $this->expectException(RuntimeException::class);
@@ -61,8 +54,6 @@ class StreamFactoryTest extends StreamFactoryTestCase
         $factory->createStreamFromFile('non-readable');
     }
 
-    /**
-     */
     public function testCreateStreamFromResourceThrowsRuntimeException()
     {
         $this->expectException(InvalidArgumentException::class);

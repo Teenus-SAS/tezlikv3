@@ -5,46 +5,26 @@ use tezlikv3\dao\CompaniesDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\ProfileDao;
-use tezlikv3\dao\WebTokenDao;
 
 $profileDao = new ProfileDao();
 $FilesDao = new FilesDao();
 $usersDao = new AutenticationUserDao();
-$webTokenDao = new WebTokenDao();
 $companyDao = new CompaniesDao();
 $licenseDao = new LicenseCompanyDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 $app->post('/updateProfile', function (Request $request, Response $response, $args) use (
     $profileDao,
     $FilesDao,
     $usersDao,
-    $webTokenDao,
     $licenseDao,
     $companyDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $dataUser = $request->getParsedBody();
 
     if ($dataUser['admin'] == 1) {
@@ -90,4 +70,4 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());

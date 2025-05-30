@@ -27,13 +27,11 @@ use tezlikv3\dao\ProductsCostDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\SimulatorDao;
-use tezlikv3\dao\WebTokenDao;
 
 $dashboardProductsDao = new DashboardProductsDao();
 $simulatorDao = new SimulatorDao();
 $externalServicesDao = new ExternalServicesDao();
 $generalServicesDao = new GeneralServicesDao();
-$webTokenDao = new WebTokenDao();
 $expensesDistributionDao = new ExpensesDistributionDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 $familiesDao = new FamiliesDao();
@@ -60,6 +58,9 @@ $costCompositeProductsDao = new CostCompositeProductsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
 /* Consulta todos */
 
 $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, Response $response, $args) use (
@@ -67,31 +68,10 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     $generalExpenseRecoverDao,
     $expensesDistributionDao,
     $familiesDao,
-    $webTokenDao,
     $assignableExpenseDao,
     $generalServicesDao,
     $simulatorDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
 
     // Consultar analisis de costos por producto
@@ -130,11 +110,10 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
 
 $app->post('/addSimulator', function (Request $request, Response $response, $args) use (
     $productsCostDao,
-    $webTokenDao,
     $materialsDao,
     $machinesDao,
     $minuteDepreciationDao,
@@ -157,26 +136,6 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     $pricesUSDDao,
     $costCompositeProductsDao
 ) {
-    $info = $webTokenDao->getToken();
-
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    $validate = $webTokenDao->validationToken($info);
-
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['reload' => true, 'error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-
-    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
     $data = $request->getParsedBody();
@@ -546,4 +505,4 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+})->add(new SessionMiddleware());
