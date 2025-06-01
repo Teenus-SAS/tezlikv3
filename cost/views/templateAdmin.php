@@ -73,9 +73,9 @@
 		tipo = "<?= $_SESSION['rol'] ?>"
 	</script>
 
-	<!-- <script src="/global/js/global/sessionUser.js"></script> -->
+	<!-- <script src="/public/js/components/sessionUser.js"></script> -->
 	<script src="js/global/validation.js"></script>
-	<script src="/app/global/js/users/users.js"></script>
+	<script src="/app/public/js/users/users.js"></script>
 	<!-- <script src="../app/js/users/rols.js"></script> -->
 	<script src="/app/js/global/logout.js"></script>
 	<script src="/app/js/global/profile.js"></script>

@@ -14,7 +14,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <title>TezlikSoftware Cost | Analysis Materials - Products</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -193,11 +193,11 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
         <!-- Main content end -->
 
         <!-- Footer -->
-        <?php include_once  dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
+        <?php include_once  dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/footer.php'; ?>
     </div>
     <!-- Page End -->
 
-    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsJS.php'; ?>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -207,7 +207,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
-    <script src="/global/js/global/orderData.js"></script>
+    <script src="/public/js/components/orderData.js"></script>
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
     <script>
         $(document).ready(function() {

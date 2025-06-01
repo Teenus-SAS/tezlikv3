@@ -1,1 +1,1 @@
-<script src="/app/global/js/users/usersAccess.js"></script>
+<script src="/app/public/js/users/usersAccess.js"></script>

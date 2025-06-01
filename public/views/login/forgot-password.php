@@ -11,7 +11,7 @@
     <title>TezlikSoftware Forgot-Pasword </title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsCSS.php'; ?>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet">
 </head>
 
@@ -68,7 +68,7 @@
 
     <!--BEGIN PAGE JS-->
     <script src="assets/js/app.js"></script>
-    <script src="/global/js/login/forgot-password.js"></script>
+    <script src="/public/js/login/forgot-password.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
     <script>

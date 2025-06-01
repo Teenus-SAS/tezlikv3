@@ -24,7 +24,7 @@ if (sizeof($_SESSION) == 0)
 	<link href="/assets/css/icons.css" rel="stylesheet">
 
 
-	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+	<?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsCSS.php'; ?>
 	<style>
 		@media print {
 			.invoice table th {
@@ -208,11 +208,11 @@ if (sizeof($_SESSION) == 0)
 		<!-- Main content end -->
 
 		<!-- Footer -->
-		<?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
+		<?php include_once  dirname(dirname(dirname(__DIR__))) . '/public/partials/footer.php'; ?>
 	</div>
 	<!-- Page End -->
 
-	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+	<?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsJS.php'; ?>
 	<script>
 		flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -221,7 +221,7 @@ if (sizeof($_SESSION) == 0)
 		flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
 		flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
 	</script>
-	<script src="/global/js/global/companyData.js"></script>
+	<script src="/public/js/components/companyData.js"></script>
 	<script src="/cost/js/quotes/copyQuote.js"></script>
 	<script src="/cost/js/quotes/detailsQuote/dataQuote.js"></script>
 	<script src="/cost/js/quotes/detailsQuote/generalQuote.js"></script>

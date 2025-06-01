@@ -15,7 +15,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <title>TezlikSoftware Cost | Custom Prices</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -212,11 +212,11 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
         <!-- Main content end -->
 
         <!-- Footer -->
-        <?php include_once  dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
+        <?php include_once  dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/footer.php'; ?>
     </div>
     <!-- Page End -->
 
-    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsJS.php'; ?>
 
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
@@ -229,7 +229,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
-    <script src="/global/js/global/orderData.js"></script>
+    <script src="/public/js/components/orderData.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/general/priceList/configPriceList.js"></script>
     <script>
@@ -242,9 +242,9 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <script src="/cost/js/prices/customPrices/tblCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPrices.js"></script>
     <script src="/cost/js/prices/customPrices/exportCustomPrices.js"></script>
-    <script src="/global/js/import/import.js"></script>
+    <script src="/public/js/import/import.js"></script>
     <script src="/cost/js/prices/customPrices/importCustom.js"></script>
-    <script src="/global/js/import/file.js"></script>
+    <script src="/public/js/import/file.js"></script>
     <script src="/cost/js/prices/customPrices/customPercentages.js"></script>
     <script src="/cost/js/prices/customPrices/addProducts.js"></script>
 </body>

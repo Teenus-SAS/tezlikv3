@@ -20,7 +20,7 @@
 
 <!-- page JS -->
 <script src="/assets/js/app.js"></script>
-<script src="/global/js/global/sessionInactivity.js"></script>
+<script src="/public/js/components/sessionInactivity.js"></script>
 
 <!-- Datatables -->
 <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
@@ -59,14 +59,14 @@
 <script src="/assets/libs/ckeditor/js/ckeditor.min.js"></script>
 <script src="/assets/js/pages/compose-mail.init.js"></script>
 
-<script src="/global/js/global/logout.js"></script>
+<script src="/public/js/components/logout.js"></script>
 
-<script src="/global/js/global/searchData.js"></script>
-<script src="/global/js/global/number.js"></script>
-<script src="/global/js/global/loadingModal.js"></script>
+<script src="/public/js/components/searchData.js"></script>
+<script src="/public/js/components/number.js"></script>
+<script src="/public/js/components/loadingModal.js"></script>
 
 <?php if ($_SESSION['case'] == '1') { ?>
-    <script src="/global/js/global/loadNotifications.js"></script>
+    <script src="/public/js/components/loadNotifications.js"></script>
     <script>
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
@@ -99,4 +99,4 @@
     <script src="/cost/js/report/generalCostReport/exportReport.js"></script>
 <?php } ?>
 
-<script src="/global/js/global/lastText.js"></script>
+<script src="/public/js/components/lastText.js"></script>

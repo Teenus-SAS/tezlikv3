@@ -123,7 +123,7 @@
   <script src="assets/libs/jquery-validation/js/additional-methods.min.js"></script>
 
   <!-- ================== BEGIN PAGE JS ================== -->
-  <script src="/global/js/global/inactiveUsers.js"></script>
+  <script src="/public/js/components/inactiveUsers.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="global/js/login/autentication.js"></script>
   <script>

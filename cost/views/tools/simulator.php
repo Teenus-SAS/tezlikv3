@@ -16,7 +16,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
     <title>TezlikSoftware Cost | Simulator</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsCSS.php'; ?>
     <!-- Modal Rigth side -->
     <style type="text/css">
         @media (min-width: 1281px) {
@@ -346,12 +346,12 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                 <!-- Main content end -->
 
                 <!-- Footer -->
-                <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
+                <?php include_once  dirname(dirname(dirname(__DIR__))) . '/public/partials/footer.php'; ?>
             </div>
         </div>
     </div>
     <!-- Page End -->
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsJS.php'; ?>
 
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
@@ -362,7 +362,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         sessionStorage.removeItem('typePrice');
     </script>
-    <script src="/global/js/global/orderData.js"></script>
+    <script src="/public/js/components/orderData.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script>
@@ -376,10 +376,10 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
     <script src="/cost/js/tools/simulator/generalSimulator.js"></script>
     <script src="/cost/js/tools/simulator/tblSimulator.js"></script>
     <script src="/cost/js/tools/simulator/saveSimulator.js"></script>
-    <script src="/global/js/general/calcPayroll.js"></script>
+    <script src="/public/js/general/calcPayroll.js"></script>
     <script src="/admin/js/risks/configRisks.js"></script>
     <script src="/admin/js/benefits/configBenefits.js"></script>
-    <script src="/global/js/global/convertUnits.js"></script>
+    <script src="/public/js/components/convertUnits.js"></script>
 </body>
 
 </html>

@@ -14,7 +14,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
     <title>TezlikSoftware Planning | Dashboard</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(__DIR__) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(__DIR__) . '/public/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -319,7 +319,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
         </div>
         <!-- main content End -->
         <!-- footer -->
-        <?php include_once dirname(__DIR__) . '/global/partials/footer.php'; ?>
+        <?php include_once dirname(__DIR__) . '/public/partials/footer.php'; ?>
         <!-- <div class="setting-sidebar">
 			<div class="card mb-0">
 				<div class="card-header">
@@ -352,11 +352,11 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
 		</div> -->
     </div>
     <!-- Page End -->
-    <?php include_once dirname(__DIR__) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(__DIR__) . '/public/partials/scriptsJS.php'; ?>
 
     <!-- <script src="/planning/js/users/usersAccess.js"></script> -->
 
-    <!-- <script src="/global/js/global/loadContent.js"></script> -->
+    <!-- <script src="/public/js/components/loadContent.js"></script> -->
 </body>
 
 </html>

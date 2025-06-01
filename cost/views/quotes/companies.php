@@ -15,7 +15,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
     <title>TezlikSoftware Cost | Companies</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -110,11 +110,11 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
         <!-- Main content end -->
 
         <!-- Footer -->
-        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
+        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/public/partials/footer.php'; ?>
     </div>
     <!-- Page End -->
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsJS.php'; ?>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -122,7 +122,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
     </script>
-    <script src="/global/js/global/loadImg.js"></script>
+    <script src="/public/js/components/loadImg.js"></script>
     <script src="/cost/js/quotes/companies/tblCompanies.js"></script>
     <script src="/cost/js/quotes/companies/companies.js"></script>
 </body>

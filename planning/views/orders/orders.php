@@ -15,7 +15,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
     <title>TezlikSoftware Planning | Orders</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -106,20 +106,20 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
         </div>
         <!-- main content End -->
         <!-- footer -->
-        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
+        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/public/partials/footer.php'; ?>
     </div>
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsJS.php'; ?>
     <script src="/planning/js/users/usersAccess.js"></script>
 
     <script src="/planning/js/basic/products/configProducts.js"></script>
     <script src="/planning/js/admin/clients/configClients.js"></script>
     <script src="/planning/js/admin/orderTypes/configOrderTypes.js"></script>
     <script src="../planning/js/orders/tblOrder.js"></script>
-    <script src="../global/js/import/import.js"></script>
+    <script src="../public/js/import/import.js"></script>
     <script src="../planning/js/orders/orders.js"></script>
     <script src="../planning/js/orders/importOrder.js"></script>
-    <script src="../global/js/import/file.js"></script>
+    <script src="../public/js/import/file.js"></script>
 </body>
 
 </html>

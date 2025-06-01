@@ -19,7 +19,7 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
     <title>TezlikSoftware | Dashboard</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(__DIR__) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(__DIR__) . '/public/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -502,11 +502,11 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
                                     <!-- main content End -->
 
                                     <!-- footer -->
-                                    <?php include_once  dirname(__DIR__) . '/global/partials/footer.php'; ?>
+                                    <?php include_once  dirname(__DIR__) . '/public/partials/footer.php'; ?>
                                 </div>
                                 <!-- Page End -->
 
-                                <?php include_once dirname(__DIR__) . '/global/partials/scriptsJS.php'; ?>
+                                <?php include_once dirname(__DIR__) . '/public/partials/scriptsJS.php'; ?>
 
                                 <script>
                                     flag_expense = "<?= $_SESSION['flag_expense'] ?>";
@@ -587,13 +587,13 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
                                 <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
                                 <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
                                 <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
-                                <script src="/global/js/global/printPdf.js"></script>
+                                <script src="/public/js/components/printPdf.js"></script>
                                 <?php if ($_SESSION['status_historical'] == 1 && $_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) { ?>
                                     <script>
                                         d_historical = "<?= $_SESSION['d_historical'] ?>";
                                         date_product = "<?= $_SESSION['date_product'] ?>";
                                     </script>
-                                    <script src="/global/js/global/saveHistorical.js"></script>
+                                    <script src="/public/js/components/saveHistorical.js"></script>
                                 <?php $_SESSION['status_historical'] = 2;
                                 }  ?>
                                 <?php
@@ -609,7 +609,7 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
                                     $_SESSION['name'] == '' && $_SESSION['lastname'] == ''
                                 ) {
                                 ?>
-                                    <script src="/global/js/global/firstLogin.js"></script>
+                                    <script src="/public/js/components/firstLogin.js"></script>
                                 <?php $_SESSION['demo'] = 2;
                                 }
                                 ?>

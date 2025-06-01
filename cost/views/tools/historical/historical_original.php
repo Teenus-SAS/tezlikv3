@@ -15,7 +15,7 @@
     <title>TezlikSoftware Cost | Historical</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -193,13 +193,13 @@
         <!-- Main content end -->
 
         <!-- Footer -->
-        <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
+        <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/footer.php'; ?>
     </div>
     <!-- Page End -->
 
-    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsJS.php'; ?>
 
-    <script src="/global/js/global/orderData.js"></script>
+    <script src="/public/js/components/orderData.js"></script>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -210,7 +210,7 @@
         sessionStorage.removeItem('typePrice');
     </script>
     <script src="/cost/js/tools/historical/historicalConfig.js"></script>
-    <script src="/global/js/global/saveHistorical.js"></script>
+    <script src="/public/js/components/saveHistorical.js"></script>
     <script src="/cost/js/tools/historical/historicalUtils.js"></script>
     <script src="/cost/js/tools/historical/historical.js"></script>
     <script src="/cost/js/tools/historical/historicalUI.js"></script>

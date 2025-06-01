@@ -15,7 +15,7 @@ require_once dirname(dirname(__DIR__)) . '/modals/productsByMaterial.php'; ?>
     <title>TezlikSoftware Cost | Materials</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -311,27 +311,27 @@ require_once dirname(dirname(__DIR__)) . '/modals/productsByMaterial.php'; ?>
         <!-- Main content end -->
 
         <!-- Footer -->
-        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
+        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/public/partials/footer.php'; ?>
     </div>
     <!-- Page End -->
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsJS.php'; ?>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
     </script>
-    <script src="/global/js/global/configMagnitudes.js"></script>
-    <script src="/global/js/global/configUnits.js"></script>
+    <script src="/public/js/components/configMagnitudes.js"></script>
+    <script src="/public/js/components/configUnits.js"></script>
     <script src="/cost/js/basic/rawMaterials/tblRawMaterials.js"></script>
     <script src="/cost/js/basic/rawMaterials/tblCategories.js"></script>
     <script src="/cost/js/basic/rawMaterials/rawMaterials.js"></script>
     <script src="/cost/js/basic/rawMaterials/categories.js"></script>
-    <script src="../global/js/import/import.js"></script>
+    <script src="../public/js/import/import.js"></script>
     <script src="/cost/js/basic/rawMaterials/importRawMaterials.js"></script>
     <script src="/cost/js/basic/rawMaterials/importCategories.js"></script>
-    <script src="../global/js/import/file.js"></script>
-    <script src="../global/js/global/validateExt.js"></script>
+    <script src="../public/js/import/file.js"></script>
+    <script src="../public/js/components/validateExt.js"></script>
 </body>
 
 </html>
