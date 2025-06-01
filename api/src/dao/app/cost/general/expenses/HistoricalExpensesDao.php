@@ -20,7 +20,7 @@ class HistoricalExpensesDao
     {
         $connection = Connection::getInstance()->getConnection1();
         try {
-            $sql = "SELECT * FROM tezlikso_histproduccion.historical_expenses 
+            $sql = "SELECT * FROM tezlikso_HistProduccion.historical_expenses 
                     WHERE year = :year AND month = :month AND id_puc = :id_puc AND id_company = :id_company";
             $stmt = $connection->prepare($sql);
             $stmt->execute([
@@ -46,7 +46,7 @@ class HistoricalExpensesDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "INSERT INTO tezlikso_histproduccion.historical_expenses (id_company, year, month, id_puc, expense_value, participation) 
+            $sql = "INSERT INTO tezlikso_HistProduccion.historical_expenses (id_company, year, month, id_puc, expense_value, participation) 
                     VALUES (:id_company, :year, :month, :id_puc, :expense_value, :participation)";
             $stmt = $connection->prepare($sql);
             $stmt->execute([
@@ -86,7 +86,7 @@ class HistoricalExpensesDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "UPDATE tezlikso_histproduccion.historical_expenses SET expense_value = :expense_value, participation = :participation
+            $sql = "UPDATE tezlikso_HistProduccion.historical_expenses SET expense_value = :expense_value, participation = :participation
                     WHERE id_historical_expense = :id_historical_expense";
             $stmt = $connection->prepare($sql);
             $stmt->execute([
@@ -123,7 +123,7 @@ class HistoricalExpensesDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "UPDATE tezlikso_histproduccion.historical_expenses SET deleted_at = :deleted_at, deleted_by = :deleted_by 
+            $sql = "UPDATE tezlikso_HistProduccion.historical_expenses SET deleted_at = :deleted_at, deleted_by = :deleted_by 
                     WHERE id_company = :id_company AND year = :year AND month = :month AND deleted_at IS NULL";
             $stmt = $connection->prepare($sql);
             $stmt->execute([

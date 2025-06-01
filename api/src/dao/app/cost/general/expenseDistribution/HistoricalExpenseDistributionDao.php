@@ -20,7 +20,7 @@ class HistoricalExpenseDistributionDao
     {
         $connection = Connection::getInstance()->getConnection1();
         try {
-            $sql = "SELECT * FROM tezlikso_histproduccion.historical_expense_distribution 
+            $sql = "SELECT * FROM tezlikso_HistProduccion.historical_expense_distribution 
                     WHERE year = :year AND month = :month AND id_product = :id_product AND id_company = :id_company";
             $stmt = $connection->prepare($sql);
             $stmt->execute([
@@ -46,7 +46,7 @@ class HistoricalExpenseDistributionDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "INSERT INTO tezlikso_histproduccion.historical_expense_distribution (id_company, year, month, id_product, units_sold, turnover, assignable_expense) 
+            $sql = "INSERT INTO tezlikso_HistProduccion.historical_expense_distribution (id_company, year, month, id_product, units_sold, turnover, assignable_expense) 
                     VALUES (:id_company, :year, :month, :id_product, :units_sold, :turnover, :assignable_expense)";
             $stmt = $connection->prepare($sql);
             $stmt->execute([
@@ -87,7 +87,7 @@ class HistoricalExpenseDistributionDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "UPDATE tezlikso_histproduccion.historical_expense_distribution SET units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense
+            $sql = "UPDATE tezlikso_HistProduccion.historical_expense_distribution SET units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense
                     WHERE id_historical_distribution = :id_historical_distribution";
             $stmt = $connection->prepare($sql);
             $stmt->execute([
@@ -125,7 +125,7 @@ class HistoricalExpenseDistributionDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "UPDATE tezlikso_histproduccion.historical_expenses_distribution SET deleted_at = :deleted_at, deleted_by = :deleted_by 
+            $sql = "UPDATE tezlikso_HistProduccion.historical_expenses_distribution SET deleted_at = :deleted_at, deleted_by = :deleted_by 
                     WHERE id_company = :id_company AND year = :year AND month = :month AND deleted_at IS NULL";
             $stmt = $connection->prepare($sql);
             $stmt->execute([

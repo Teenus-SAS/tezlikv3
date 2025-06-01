@@ -21,7 +21,7 @@ class HistoricalProductsDao
         $connection = Connection::getInstance()->getConnection();
 
         $sql = "SELECT month, year, COUNT(*) AS total_productos, MAX(date_register) AS ultima_fecha_registro
-                FROM tezlikso_histproduccion.historical_products
+                FROM tezlikso_HistProduccion.historical_products
                 WHERE id_company = :id_company AND deleted_at IS NULL
                 GROUP BY month, year
                 ORDER BY year DESC, month DESC;";
@@ -105,7 +105,7 @@ class HistoricalProductsDao
 
             $sql = "SELECT hp.date_product
                     FROM products p
-                    JOIN tezlikso_histproduccion.historical_products hp ON hp.id_product = p.id_product 
+                    JOIN tezlikso_HistProduccion.historical_products hp ON hp.id_product = p.id_product 
                     WHERE p.id_company = :id_company ORDER BY hp.date_product ASC LIMIT 1";
             $stmt = $connection->prepare($sql);
             $stmt->execute(['id_company' => $id_company]);
@@ -126,7 +126,7 @@ class HistoricalProductsDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "UPDATE tezlikso_histproduccion.historical_products SET deleted_at = :deleted_at, deleted_by = :deleted_by 
+            $sql = "UPDATE tezlikso_HistProduccion.historical_products SET deleted_at = :deleted_at, deleted_by = :deleted_by 
                     WHERE id_company = :id_company AND year = :year AND month = :month AND deleted_at IS NULL";
             $stmt = $connection->prepare($sql);
             $stmt->execute([
@@ -165,7 +165,7 @@ class HistoricalProductsDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "INSERT INTO tezlikso_histproduccion.historical_products 
+            $sql = "INSERT INTO tezlikso_HistProduccion.historical_products 
                         (month, year, id_company, id_product, price, sale_price, profitability, min_profitability, commision_sale, 
                         cost_material, cost_workforce, cost_indirect, external_services, units_sold, turnover, assignable_expense, 
                         expense_recover)
@@ -222,7 +222,7 @@ class HistoricalProductsDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "UPDATE tezlikso_histproduccion.historical_products 
+            $sql = "UPDATE tezlikso_HistProduccion.historical_products 
                     SET price = :price, sale_price = :sale_price, profitability = :profitability, min_profitability = :min_profitability, commision_sale = :commision_sale, cost_material = :cost_material, cost_workforce = :cost_workforce, 
                         cost_indirect = :cost_indirect, external_services = :external_services, units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense, expense_recover = :expense_recover
                     WHERE id_product = :id_product AND month = :month AND year = :year";
