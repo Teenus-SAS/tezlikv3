@@ -49,7 +49,8 @@ class SessionMiddleware implements MiddlewareInterface
 
             // 3. Renovar token si está cerca de expirar (15 minutos antes)
             if (($decoded->exp - $now->getTimestamp()) < 900) {
-                $this->refreshToken($decoded->data);
+                $userId = is_object($decoded->data) ? $decoded->data->userId : $decoded->data;
+                $this->refreshToken((int)$userId); // Aseguramos tipo int
             }
 
             return $handler->handle($request);

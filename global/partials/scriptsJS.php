@@ -63,6 +63,7 @@
 
 <script src="/global/js/global/searchData.js"></script>
 <script src="/global/js/global/number.js"></script>
+<script src="/global/js/global/loadingModal.js"></script>
 
 <?php if ($_SESSION['case'] == '1') { ?>
     <script src="/global/js/global/loadNotifications.js"></script>

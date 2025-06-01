@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let id_historic = sessionStorage.getItem('idHistoric');
+    id_historic = localStorage.getItem('idHistoric');
 
     loadIndicatorsProducts = async (id_historic) => {
         let data = await searchData(`/api/historical/${id_historic}`);
@@ -78,7 +78,6 @@ $(document).ready(function () {
     };
 
     /* Ventas */
-
     UnitsVolSold = (data) => {
         $('#unitsSold').html(data.units_sold.toLocaleString('es-CO'));
         $('#turnover').html(`$ ${data.turnover.toLocaleString('es-CO')}`);
@@ -86,13 +85,7 @@ $(document).ready(function () {
         let price = parseFloat(data.turnover) / parseFloat(data.units_sold);
         isNaN(price) ? price = 0 : price;
 
-        $('.recomendedPrice').html(`$ ${price.toLocaleString('es-CO', { maximumFractionDigits: max })}`);
-        // $('#recomendedPrice').html(
-        //     `$ ${data.price.toLocaleString('es-CO', {
-        //         minimumFractionDigits: 0,
-        //         maximumFractionDigits: 0,
-        //     })}`
-        // );
+        $('.recomendedPrice').html(`$ ${price.toLocaleString('es-CO', { maximumFractionDigits: 2 })}`);
     };
 
     /* Costeo Total */

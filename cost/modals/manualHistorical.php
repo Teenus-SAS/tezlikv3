@@ -1,37 +1,29 @@
-<div class="modal fade" id="modalHistorical" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xs">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Historico</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="modal fade" id="modalHistorical" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content compact-modal">
+            <!-- Encabezado minimalista -->
+            <div class="modal-header compact-header">
+                <h6 class="modal-title">
+                    <i class="bi bi-calendar3 me-2"></i> Guardar Histórico
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div class="page-content-wrapper">
-                    <div class="container-fluid">
-                        <div class="vertical-app-tabs" id="rootwizard">
-                            <div class="col-md-12 col-lg-12 InputGroup">
-                                <div class="row mt-5">
-                                    <div class="col-12 col-lg-12">
-                                        <label><b>Ingrese Mes y Año</b></label>
-                                    </div>
-                                    <div class="col-12 col-lg-6">
-                                        <div class="form-group floating-label enable-floating-label show-label">
-                                            <input type="month" name="datepicker" id="datepicker" class="form-control">
-                                            <label for="datepicker"><span class="text-danger">*</span></label>
-                                            <div class="validation-error d-none font-size-13">Requerido</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+            <!-- Cuerpo compacto -->
+            <div class="modal-body p-3">
+                <form id="compactHistoricalForm">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted mb-1">Seleccione mes y año</label>
+                        <input type="month" class="form-control form-control-sm" id="compactDate" required>
+                        <div class="invalid-feedback small">Selección requerida</div>
                     </div>
-                </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCloseHistorical">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnSaveManualHistorical">Guardar</button>
+
+            <!-- Pie compacto -->
+            <div class="modal-footer compact-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnCompactSave">Guardar</button>
             </div>
         </div>
     </div>

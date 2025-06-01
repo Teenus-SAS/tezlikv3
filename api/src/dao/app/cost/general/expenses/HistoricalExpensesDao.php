@@ -20,8 +20,9 @@ class HistoricalExpensesDao
     {
         $connection = Connection::getInstance()->getConnection1();
         try {
-            $stmt = $connection->prepare("SELECT * FROM historical_expenses 
-                                      WHERE year = :year AND month = :month AND id_puc = :id_puc AND id_company = :id_company");
+            $sql = "SELECT * FROM tezlikso_histproduccion.historical_expenses 
+                    WHERE year = :year AND month = :month AND id_puc = :id_puc AND id_company = :id_company";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'year' => $dataExpense['year'],
                 'month' => $dataExpense['month'],
@@ -37,12 +38,17 @@ class HistoricalExpensesDao
         }
     }
 
-    public function insertHistoricalExpense($dataExpense, $id_company)
+    public function insertHistoricalExpense($dataExpense, $id_company, $connection = null)
     {
-        $connection = Connection::getInstance()->getConnection1();
+        $useExternalConnection = $connection !== null;
+
+        if (!$useExternalConnection)
+            $connection = Connection::getInstance()->getConnection();
+
         try {
-            $stmt = $connection->prepare("INSERT INTO historical_expenses (id_company, year, month, id_puc, expense_value, participation) 
-                                      VALUES (:id_company, :year, :month, :id_puc, :expense_value, :participation)");
+            $sql = "INSERT INTO tezlikso_histproduccion.historical_expenses (id_company, year, month, id_puc, expense_value, participation) 
+                    VALUES (:id_company, :year, :month, :id_puc, :expense_value, :participation)";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_company' => $id_company,
                 'year' => $dataExpense['year'],
@@ -51,25 +57,100 @@ class HistoricalExpensesDao
                 'expense_value' => $dataExpense['expense_value'],
                 'participation' => $dataExpense['participation']
             ]);
+        } catch (\PDOException $e) {
+            $this->logger->critical(__FUNCTION__ . ': Error de base de datos', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ['error' => true, 'message' => 'Error al insertar los datos históricos'];
+            if (!$useExternalConnection && isset($connection)) {
+                $connection->rollBack();
+            }
         } catch (\Exception $e) {
-            return array('info' => true, 'message' => $e->getMessage());
+            $this->logger->error(__FUNCTION__ . ': Error general', [
+                'error' => $e->getMessage()
+            ]);
+            return ['error' => true, 'message' => $e->getMessage()];
+        } finally {
+            if (!$useExternalConnection && isset($connection)) {
+                $connection = null;
+            }
         }
     }
 
-    public function updateHistoricalExpense($dataExpense)
+    public function updateHistoricalExpense($dataExpense, $connection = null)
     {
-        $connection = Connection::getInstance()->getConnection1();
+        $useExternalConnection = $connection !== null;
+
+        if (!$useExternalConnection)
+            $connection = Connection::getInstance()->getConnection();
+
         try {
-            // id_puc = :id_puc
-            $stmt = $connection->prepare("UPDATE historical_expenses SET expense_value = :expense_value, participation = :participation
-                                          WHERE id_historical_expense = :id_historical_expense");
+            $sql = "UPDATE tezlikso_histproduccion.historical_expenses SET expense_value = :expense_value, participation = :participation
+                    WHERE id_historical_expense = :id_historical_expense";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_historical_expense' => $dataExpense['id_historical_expense'],
                 'expense_value' => $dataExpense['expense_value'],
                 'participation' => $dataExpense['participation']
             ]);
+        } catch (\PDOException $e) {
+            $this->logger->critical(__FUNCTION__ . ': Error de base de datos', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ['error' => true, 'message' => 'Error al actualizar los datos históricos'];
+            if (!$useExternalConnection && isset($connection)) {
+                $connection->rollBack();
+            }
         } catch (\Exception $e) {
-            return array('info' => true, 'message' => $e->getMessage());
+            $this->logger->error(__FUNCTION__ . ': Error general', [
+                'error' => $e->getMessage()
+            ]);
+            return ['error' => true, 'message' => $e->getMessage()];
+        } finally {
+            if (!$useExternalConnection && isset($connection)) {
+                $connection = null;
+            }
+        }
+    }
+
+    public function deleteSoftHistoricalExpense(int $id_company, int $id_user, array $data, $connection = null)
+    {
+        $useExternalConnection = $connection !== null;
+
+        if (!$useExternalConnection)
+            $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $sql = "UPDATE tezlikso_histproduccion.historical_expenses SET deleted_at = :deleted_at, deleted_by = :deleted_by 
+                    WHERE id_company = :id_company AND year = :year AND month = :month AND deleted_at IS NULL";
+            $stmt = $connection->prepare($sql);
+            $stmt->execute([
+                'id_company' => $id_company,
+                'year' => $data['year'],
+                'month' => $data['month'],
+                'deleted_at' => date('Y-m-d H:i:s'),
+                'deleted_by' => $id_user,
+            ]);
+        } catch (\PDOException $e) {
+            $this->logger->critical(__FUNCTION__ . ': Error de base de datos', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ['error' => true, 'message' => 'Error al actualizar los datos históricos'];
+            if (!$useExternalConnection && isset($connection)) {
+                $connection->rollBack();
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(__FUNCTION__ . ': Error general', [
+                'error' => $e->getMessage()
+            ]);
+            return ['error' => true, 'message' => $e->getMessage()];
+        } finally {
+            if (!$useExternalConnection && isset($connection)) {
+                $connection = null;
+            }
         }
     }
 }

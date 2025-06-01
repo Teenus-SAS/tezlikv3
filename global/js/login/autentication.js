@@ -60,6 +60,7 @@ $(document).ready(function () {
         }
 
         if (response.success) {
+          localStorage.setItem('companyConfigHistory', response.companyConfigHistory);
           localStorage.setItem('authToken', response.token);
           window.location.href = response.location;
         }

@@ -143,6 +143,10 @@ $app->post('/userAutentication', function (Request $request, Response $response,
             'content' => $contract ? $contract['content'] : 0
         ];
 
+        //valide si tiene activa la opcion de historico y almacene el tipo de periodo Semana o Año
+        if ($dataCompany['cost_historical'] === 1)
+            $_SESSION['historical_period'] = $dataCompany['historical_period'];
+
         // Guardar accesos de usuario 
         $userAccessDao->setGeneralAccess($user['id_user']);
 
@@ -196,7 +200,12 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     // Forzar escritura y cierre de sesión
     session_write_close();
 
-    return ResponseHelper::withJson($response, ['success' => true, 'location' => $location, 'token' => $token], 200);
+    return ResponseHelper::withJson($response, [
+        'success' => true,
+        'location' => $location,
+        'token' => $token,
+        'companyConfigHistory' => $dataCompany['cost_historical']
+    ], 200);
 });
 
 $app->post('/saveFirstLogin', function (Request $request, Response $response, $args) use ($firstLoginDao) {

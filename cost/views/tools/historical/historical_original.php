@@ -14,8 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TezlikSoftware Cost | Historical</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
-    <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" /> -->
+
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
 </head>
 
@@ -153,7 +152,7 @@
 
 
                 <!-- page content -->
-                <div class="page-content-wrapper mt--45 cardHistoricalResume">
+                <div class="page-content-wrapper mt--45 cardTblPrices">
                     <div class="container-fluid">
                         <!-- Row 5 -->
                         <div class="row">
@@ -161,26 +160,7 @@
                                 <div class="card disable-select">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblHistoricalResume">
-
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="page-content-wrapper mt--45 cardHistoricalProducts" style="display: none;">
-                    <div class="container-fluid">
-                        <!-- Row 5 -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card disable-select">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped" id="tblHistoricalProducts">
+                                            <table class="table table-striped" id="tblHistorical">
 
                                             </table>
                                         </div>
@@ -218,8 +198,6 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
-    <!-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script> -->
 
     <script src="/global/js/global/orderData.js"></script>
     <script>
@@ -232,12 +210,11 @@
         sessionStorage.removeItem('typePrice');
     </script>
     <script src="/cost/js/tools/historical/historicalConfig.js"></script>
-    <script src="/cost/js/tools/historical/saveHistorical.js"></script>
+    <script src="/global/js/global/saveHistorical.js"></script>
     <script src="/cost/js/tools/historical/historicalUtils.js"></script>
     <script src="/cost/js/tools/historical/historical.js"></script>
     <script src="/cost/js/tools/historical/historicalUI.js"></script>
     <script src="/cost/js/tools/historical/historicalEvents.js"></script>
-    <script src="/cost/js/tools/historical/tblHistoricalResume.js"></script>
     <script src="/cost/js/tools/historical/tblHistorical.js"></script>
 
     <!-- Script optimizado mes-->
@@ -288,21 +265,21 @@
             return ISOweekStart;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('weeklyForm');
-            const btnSave = document.getElementById('btnSaveHistorical');
+        /*  document.addEventListener('DOMContentLoaded', function() {
+             const form = document.getElementById('weeklyForm');
+             const btnSave = document.getElementById('btnSaveHistorical');
 
-            btnSave.addEventListener('click', function() {
-                if (form.checkValidity()) {
-                    const weekValue = document.getElementById('btnSaveHistorical').value;
-                    const [year, week] = weekValue.split('-W');
-                    console.log(`Semana seleccionada: Año ${year}, Semana ${week}`);
-                    // Aquí tu lógica para guardar/procesar
-                } else {
-                    form.classList.add('was-validated');
-                }
-            });
-        });
+             btnSave.addEventListener('click', function() {
+                 if (form.checkValidity()) {
+                     const weekValue = document.getElementById('btnSaveHistorical').value;
+                     const [year, week] = weekValue.split('-W');
+                     console.log(`Semana seleccionada: Año ${year}, Semana ${week}`);
+                     // Aquí tu lógica para guardar/procesar
+                 } else {
+                     form.classList.add('was-validated');
+                 }
+             });
+         }); */
     </script>
 </body>
 

@@ -1,0 +1,107 @@
+.centered-loading-modal {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 100px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+}
+
+.centered-loading-modal .modal-dialog {
+    margin: 0;
+    width: auto;
+    max-width: 100%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.centered-loading-modal .modal-content {
+    padding: 15px;
+    border: none;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.centered-loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.spinner-container {
+    margin-bottom: 15px;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.text-content {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.loading-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 5px 0;
+}
+
+.loading-message {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.progress-container {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.progress-bar {
+    height: 4px;
+    background: #f0f3f7;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease-out;
+}
+
+/* Animación del spinner */
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Efecto de aparición */
+.centered-loading-modal.fade .modal-dialog {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+}
+
+.centered-loading-modal.show .modal-dialog {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}

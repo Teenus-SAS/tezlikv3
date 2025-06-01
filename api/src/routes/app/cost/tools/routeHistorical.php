@@ -1,5 +1,7 @@
 <?php
 
+namespace tezlikv3\Dao;
+
 use tezlikv3\dao\AssignableExpenseDao;
 use tezlikv3\dao\DataCostDao;
 use tezlikv3\dao\ExpensesDao;
@@ -22,23 +24,23 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Helpers\ResponseHelper;
 use App\Middleware\SessionMiddleware;
 
-/* $app->get('/historical', function (Request $request, Response $response, $args) use (
-    $historicalProductsDao,
-    
-) {// session_start();
+$app->get('/historicalResume', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
     $id_company = $_SESSION['id_company'];
+    $data = $historicalProductsDao->findResumeHistorical($id_company);
+    return ResponseHelper::withJson($response, $data, 200);
+})->add(new SessionMiddleware());
 
-    $data = $historicalProductsDao->findAllHistoricalByCompany($id_company);
-
-    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware()); */
-
-$app->get('/historical', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
+$app->get('/historicalProducts/{period}', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
     // Obtener datos históricos
     try {
         $id_company = $_SESSION['id_company'];
-        $data = $historicalProductsDao->findAllHistoricalByCompany($id_company);
+        $period = $args['period'];
+
+        // Separar por el guion
+        list($year, $period) = explode('-', $period);
+
+        $data = $historicalProductsDao->findAllHistoricalByCompany($id_company, $year, $period);
+
 
         // 3. Retornar respuesta exitosa
         return ResponseHelper::withJson($response, $data);
@@ -77,150 +79,86 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
     $assignableExpenseDao,
     $expensesDao
 ) {
+    //Obtener data
     $id_company = $_SESSION['id_company'];
+    $id_user = $_SESSION['idUser'];
     $flag_expense = $_SESSION['flag_expense'];
+
     $dataHistorical = $request->getParsedBody();
+    $year = $dataHistorical['year'];
+    $month = $dataHistorical['month'];
 
-    $products = $pricesDao->findAllPricesByCompany($id_company);
+    // Iniciar transacción
+    $connection = Connection::getInstance()->getConnection();
+    $connection->beginTransaction();
 
-    $resolution = null;
-    if (isset($dataHistorical['type'])) {
-        $month = date('m');
-        $year = date('Y');
+    try {
+        //Borrado suave historicos
+        $historicalProductsDao->deleteSoftPeriodHistorical($id_company, $id_user, $dataHistorical, $connection);
+        $historicalExpensesDao->deleteSoftHistoricalExpense($id_company, $id_user, $dataHistorical, $connection);
+        $historicalEDDao->deleteSoftHistoricalExpenseDistribution($id_company, $id_user, $dataHistorical, $connection);
 
-        foreach ($products as $arr) {
-            if (isset($resolution['info'])) break;
-
-            $data = [];
-            $data['idProduct'] = $arr['id_product'];
-            $data['price'] = $arr['price'];
-            $data['salePrice'] = $arr['sale_price'];
-            $data['profitability'] = $arr['profitability'];
-            $data['commisionSale'] = $arr['commission_sale'];
-            $data['costMaterials'] = $arr['cost_materials'];
-            $data['costWorkforce'] = $arr['cost_workforce'];
-            $data['costIndirect'] = $arr['cost_indirect_cost'];
-            $data['externalServices'] = $arr['services'];
-            $data['unitsSold'] = $arr['units_sold'];
-            $data['turnover'] = $arr['turnover'];
-            $data['assignableExpense'] = $arr['assignable_expense'];
-            $data['expenseRecover'] = $arr['expense_recover'];
-            $data['month'] = $month;
-            $data['year'] = $year;
-
-            $k = $dataCostDao->calcMinProfitability($data, $flag_expense);
-
-            $data['minProfitability'] = $k;
-
-            $resolution = $historicalProductsDao->insertHistoricalByCompany($data, $id_company);
-        }
-    } else {
-        $historical = $dataHistorical['data'];
-        $year = $historical['year'];
-        $month = $historical['month'];
-
-        if (isset($historical['products']))
-            $historicalProducts = $historical['products'];
+        //Buscar productos
+        $products = $pricesDao->findAllPricesByCompany($id_company);
 
         // Productos
-        foreach ($products as $arr) {
+        foreach ($products as $product) {
             if (isset($resolution['info'])) break;
 
             $data = [];
-            $data['idProduct'] = $arr['id_product'];
-            $data['price'] = $arr['price'];
-            $data['salePrice'] = $arr['sale_price'];
-            $data['profitability'] = $arr['profitability'];
-            $data['commisionSale'] = $arr['commission_sale'];
-            $data['costMaterials'] = $arr['cost_materials'];
-            $data['costWorkforce'] = $arr['cost_workforce'];
-            $data['costIndirect'] = $arr['cost_indirect_cost'];
-            $data['externalServices'] = $arr['services'];
-            $data['unitsSold'] = $arr['units_sold'];
-            $data['turnover'] = $arr['turnover'];
-            $data['assignableExpense'] = $arr['assignable_expense'];
-            $data['expenseRecover'] = $arr['expense_recover'];
+            $data['idProduct'] = $product['id_product'];
+            $data['price'] = $product['price'];
+            $data['salePrice'] = $product['sale_price'];
+            $data['profitability'] = $product['profitability'];
+            $data['commisionSale'] = $product['commission_sale'];
+            $data['costMaterials'] = $product['cost_materials'];
+            $data['costWorkforce'] = $product['cost_workforce'];
+            $data['costIndirect'] = $product['cost_indirect_cost'];
+            $data['externalServices'] = $product['services'];
+            $data['unitsSold'] = $product['units_sold'];
+            $data['turnover'] = $product['turnover'];
+            $data['assignableExpense'] = $product['assignable_expense'];
+            $data['expenseRecover'] = $product['expense_recover'];
             $data['month'] = $month;
             $data['year'] = $year;
 
             $k = $dataCostDao->calcMinProfitability($data, $flag_expense);
-
             $data['minProfitability'] = $k;
 
-            $insert = true;
-
-            if (isset($historical['products'])) {
-                for ($i = 0; $i < sizeof($historicalProducts); $i++) {
-                    if ($data['idProduct'] == $historicalProducts[$i]['id_product']) {
-                        $insert = false;
-                        break;
-                    }
-                }
-            }
-
-            if ($insert == true)
-                $resolution = $historicalProductsDao->insertHistoricalByCompany($data, $id_company);
-            else {
-                $resolution = $historicalProductsDao->updateHistoricalByCompany($data);
-            }
+            $historicalProductsDao->insertHistoricalByCompany($data, $id_company, $connection);
         }
-    }
 
-    // Gastos
-    if ($resolution == null) {
+        // Gastos
         $expenses = $expensesDao->findAllExpensesByCompany($id_company);
-
-        foreach ($expenses as $arr) {
-            $arr['year'] = $year;
-            $arr['month'] = $month;
-
-            $historical = $historicalExpensesDao->findHistorical($arr, $id_company);
-
-            if (!$historical)
-                $resolution = $historicalExpensesDao->insertHistoricalExpense($arr, $id_company);
-            else {
-                $arr['id_historical_expense'] = $historical['id_historical_expense'];
-
-                $resolution = $historicalExpensesDao->updateHistoricalExpense($arr);
-            }
-
-            if (isset($resolution['info'])) break;
+        foreach ($expenses as $expense) {
+            $expense['year'] = $year;
+            $expense['month'] = $month;
+            $resolution = $historicalExpensesDao->insertHistoricalExpense($expense, $id_company, $connection);
         }
-    }
 
-    // Distribucion
-    if ($resolution == null) {
+
+        // Distribucion
         $expenses = $assignableExpenseDao->findAllExpensesDistribution($id_company);
-
-        foreach ($expenses as $arr) {
-            $arr['year'] = $year;
-            $arr['month'] = $month;
-            $arr['assignable_expense'] = $arr['assignable_expense'];
-
-            // Guardar ED Historico (mes)
-            $historical = $historicalEDDao->findHistorical($arr, $id_company);
-
-            if (!$historical)
-                $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
-            else {
-                $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
-
-                $resolution = $historicalEDDao->updateHistoricalExpense($arr);
-            }
-
-            if (isset($resolution['info'])) break;
+        foreach ($expenses as $expense) {
+            $expense['year'] = $year;
+            $expense['month'] = $month;
+            $expense['assignable_expense'] = $expense['assignable_expense'];
+            $historicalEDDao->insertHistoricalExpense($expense, $id_company, $connection);
         }
+
+        // Confirmar transacción
+        $connection->commit();
+
+        return ResponseHelper::withJson($response, ['success' => true, 'message' => 'Historico guardado correctamente']);
+    } catch (\Exception $e) {
+        // Revertir transacción en caso de error
+        $connection->rollBack();
+
+        return ResponseHelper::withJson($response, [
+            'error' => true,
+            'message' => 'Error al procesar datos históricos: ' . $e->getMessage()
+        ], 500);
     }
-
-    if ($resolution == null)
-        $resp = array('success' => true, 'message' => 'Historico guardado correctamente');
-    else if (isset($resolution['info']))
-        $resp = array('info' => true, 'message' => $resolution['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error al guardar la información. Intente nuevamente');
-
-    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
 })->add(new SessionMiddleware());
 
 $app->get('/historical_config', function (Request $request, Response $response, $args) {
@@ -228,4 +166,39 @@ $app->get('/historical_config', function (Request $request, Response $response, 
 
     $response->getBody()->write(json_encode($historical_config, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
+})->add(new SessionMiddleware());
+
+$app->post('/deleteHistorical', function (Request $request, Response $response, $args) use (
+    $historicalProductsDao,
+    $historicalExpensesDao,
+    $historicalEDDao
+) {
+    //Obtener data
+    $id_company = $_SESSION['id_company'];
+    $id_user = $_SESSION['idUser'];
+    $dataHistorical = json_decode($request->getBody()->getContents(), true);
+
+    // Iniciar transacción
+    $connection = Connection::getInstance()->getConnection();
+    $connection->beginTransaction();
+
+    try {
+        //eliminar suave data
+        $historicalProductsDao->deleteSoftPeriodHistorical($id_company, $id_user, $dataHistorical, $connection);
+        $historicalExpensesDao->deleteSoftHistoricalExpense($id_company, $id_user, $dataHistorical, $connection);
+        $historicalEDDao->deleteSoftHistoricalExpenseDistribution($id_company, $id_user, $dataHistorical, $connection);
+
+        // Confirmar transacción
+        $connection->commit();
+
+        return ResponseHelper::withJson($response, ['success' => true, 'message' => 'Historico eliminado correctamente']);
+    } catch (\Exception $e) {
+        // Revertir transacción en caso de error
+        $connection->rollBack();
+
+        return ResponseHelper::withJson($response, [
+            'error' => true,
+            'message' => 'Error al procesar datos históricos: ' . $e->getMessage()
+        ], 500);
+    }
 })->add(new SessionMiddleware());

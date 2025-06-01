@@ -15,6 +15,89 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
+
+    <!-- Estilos CSS modal Mes y año -->
+    <style>
+        .compact-modal {
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .compact-header {
+            padding: 0.75rem 1rem;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .compact-header .modal-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .compact-footer {
+            padding: 0.75rem 1rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .form-control-sm {
+            padding: 0.35rem 0.5rem;
+            font-size: 0.85rem;
+            border-radius: 4px;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.825rem;
+            border-radius: 4px;
+        }
+
+        .invalid-feedback.small {
+            font-size: 0.75rem;
+        }
+
+        .form-label.small {
+            font-size: 0.8rem;
+        }
+    </style>
+
+    <!-- Estilos personalizados Semana-->
+    <style>
+        /* Asegura que el input de semana tenga estilo consistente */
+        input[type="week"] {
+            padding: 0.375rem 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        input[type="week"]:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            outline: 0;
+        }
+
+        /* Estilos para el modal compacto */
+        .modal-sm {
+            max-width: 300px;
+        }
+
+        .modal-header,
+        .modal-footer {
+            padding: 0.75rem 1rem;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .form-text {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+    </style>
 </head>
 
 <body class="horizontal-navbar">
@@ -350,6 +433,8 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
         sessionStorage.removeItem('typePrice');
         id_company = "<?= $_SESSION['id_company'] ?>";
     </script>
+
+
 </body>
 
 </html>

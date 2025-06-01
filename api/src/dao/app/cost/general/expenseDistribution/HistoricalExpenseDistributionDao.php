@@ -20,8 +20,9 @@ class HistoricalExpenseDistributionDao
     {
         $connection = Connection::getInstance()->getConnection1();
         try {
-            $stmt = $connection->prepare("SELECT * FROM historical_expense_distribution 
-                                      WHERE year = :year AND month = :month AND id_product = :id_product AND id_company = :id_company");
+            $sql = "SELECT * FROM tezlikso_histproduccion.historical_expense_distribution 
+                    WHERE year = :year AND month = :month AND id_product = :id_product AND id_company = :id_company";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'year' => $dataExpense['year'],
                 'month' => $dataExpense['month'],
@@ -37,12 +38,17 @@ class HistoricalExpenseDistributionDao
         }
     }
 
-    public function insertHistoricalExpense($dataExpense, $id_company)
+    public function insertHistoricalExpense($dataExpense, $id_company, $connection = null)
     {
-        $connection = Connection::getInstance()->getConnection1();
+        $useExternalConnection = $connection !== null;
+
+        if (!$useExternalConnection)
+            $connection = Connection::getInstance()->getConnection();
+
         try {
-            $stmt = $connection->prepare("INSERT INTO historical_expense_distribution (id_company, year, month, id_product, units_sold, turnover, assignable_expense) 
-                                      VALUES (:id_company, :year, :month, :id_product, :units_sold, :turnover, :assignable_expense)");
+            $sql = "INSERT INTO tezlikso_histproduccion.historical_expense_distribution (id_company, year, month, id_product, units_sold, turnover, assignable_expense) 
+                    VALUES (:id_company, :year, :month, :id_product, :units_sold, :turnover, :assignable_expense)";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_company' => $id_company,
                 'year' => $dataExpense['year'],
@@ -52,26 +58,101 @@ class HistoricalExpenseDistributionDao
                 'turnover' => $dataExpense['turnover'],
                 'assignable_expense' => $dataExpense['assignable_expense']
             ]);
+        } catch (\PDOException $e) {
+            $this->logger->critical(__FUNCTION__ . ': Error de base de datos', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ['error' => true, 'message' => 'Error al insertar los datos históricos'];
+            if (!$useExternalConnection && isset($connection)) {
+                $connection->rollBack();
+            }
         } catch (\Exception $e) {
-            return array('info' => true, 'message' => $e->getMessage());
+            $this->logger->error(__FUNCTION__ . ': Error general', [
+                'error' => $e->getMessage()
+            ]);
+            return ['error' => true, 'message' => $e->getMessage()];
+        } finally {
+            if (!$useExternalConnection && isset($connection)) {
+                $connection = null;
+            }
         }
     }
 
-    public function updateHistoricalExpense($dataExpense)
+    public function updateHistoricalExpense($dataExpense, $connection = null)
     {
-        $connection = Connection::getInstance()->getConnection1();
+        $useExternalConnection = $connection !== null;
+
+        if (!$useExternalConnection)
+            $connection = Connection::getInstance()->getConnection();
+
         try {
-            // id_product = :id_product,
-            $stmt = $connection->prepare("UPDATE historical_expense_distribution SET units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense
-                                          WHERE id_historical_distribution = :id_historical_distribution");
+            $sql = "UPDATE tezlikso_histproduccion.historical_expense_distribution SET units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense
+                    WHERE id_historical_distribution = :id_historical_distribution";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_historical_distribution' => $dataExpense['id_historical_distribution'],
                 'units_sold' => $dataExpense['units_sold'],
                 'turnover' => $dataExpense['turnover'],
                 'assignable_expense' => $dataExpense['assignable_expense']
             ]);
+        } catch (\PDOException $e) {
+            $this->logger->critical(__FUNCTION__ . ': Error de base de datos', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ['error' => true, 'message' => 'Error al insertar los datos históricos'];
+            if (!$useExternalConnection && isset($connection)) {
+                $connection->rollBack();
+            }
         } catch (\Exception $e) {
-            return array('info' => true, 'message' => $e->getMessage());
+            $this->logger->error(__FUNCTION__ . ': Error general', [
+                'error' => $e->getMessage()
+            ]);
+            return ['error' => true, 'message' => $e->getMessage()];
+        } finally {
+            if (!$useExternalConnection && isset($connection)) {
+                $connection = null;
+            }
+        }
+    }
+
+    public function deleteSoftHistoricalExpenseDistribution(int $id_company, int $id_user, array $data, $connection = null)
+    {
+        $useExternalConnection = $connection !== null;
+
+        if (!$useExternalConnection)
+            $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $sql = "UPDATE tezlikso_histproduccion.historical_expenses_distribution SET deleted_at = :deleted_at, deleted_by = :deleted_by 
+                    WHERE id_company = :id_company AND year = :year AND month = :month AND deleted_at IS NULL";
+            $stmt = $connection->prepare($sql);
+            $stmt->execute([
+                'id_company' => $id_company,
+                'year' => $data['year'],
+                'month' => $data['month'],
+                'deleted_at' => date('Y-m-d H:i:s'),
+                'deleted_by' => $id_user,
+            ]);
+        } catch (\PDOException $e) {
+            $this->logger->critical(__FUNCTION__ . ': Error de base de datos', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ['error' => true, 'message' => 'Error al actualizar los datos históricos'];
+            if (!$useExternalConnection && isset($connection)) {
+                $connection->rollBack();
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(__FUNCTION__ . ': Error general', [
+                'error' => $e->getMessage()
+            ]);
+            return ['error' => true, 'message' => $e->getMessage()];
+        } finally {
+            if (!$useExternalConnection && isset($connection)) {
+                $connection = null;
+            }
         }
     }
 }
