@@ -74,7 +74,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
                             </div>
                             <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                 <div class="col-xs-2 py-2 mr-2">
-                                    <button class="btn btn-info ml-3" id="btnProductsLoaded">Productos Cargados</button>
+                                    <button class="btn btn-info ml-3" id="btnProductsLoaded">Seleccionar Productos</button>
                                 </div>
                                 <div class="col-xs-2 py-2 mr-2">
                                     <button class="btn btn-warning" id="btnRawMaterialsAnalysis">Analizar Materias Primas</button>

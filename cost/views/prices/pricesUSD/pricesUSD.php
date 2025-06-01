@@ -1,5 +1,5 @@
 <?php
-require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.php';
+require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMiddleware.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
