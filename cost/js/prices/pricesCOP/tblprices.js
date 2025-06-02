@@ -30,8 +30,8 @@ $(document).ready(function () {
         typeCurrency === "2" && flag_currency_usd === "1"
           ? 2
           : typeCurrency === "3" && flag_currency_eur === "1"
-          ? 3
-          : 1;
+            ? 3
+            : 1;
 
       loadTblPrices(allPrices, op1);
     } catch (error) {
@@ -117,6 +117,16 @@ $(document).ready(function () {
             `<a href="/cost/details-prices"><i id="${data}" class="bi bi-zoom-in seeDetail" data-toggle='tooltip' title='Ficha de Costos' style="font-size: 30px;"></i></a>`,
         },
       ],
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
+      },
     });
   };
 

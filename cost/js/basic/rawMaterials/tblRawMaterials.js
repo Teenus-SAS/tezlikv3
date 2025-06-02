@@ -1,8 +1,8 @@
 $(document).ready(function () {
-  /* Cargue tabla de Materias Primas */ 
+  /* Cargue tabla de Materias Primas */
   let visibleCost = true;
   export_import == '0' || flag_export_import == '0' ? visibleCost = false : visibleCost;
-  
+
   loadAllData = async (op) => {
     try {
       // Definir las promesas basadas en la opción
@@ -115,7 +115,7 @@ $(document).ready(function () {
         data: 'price',
         className: 'classRight',
         render: (data) => renderCost(data, op),
-      }, 
+      },
     ];
 
     if (visibleCost == true) {
@@ -156,6 +156,16 @@ $(document).ready(function () {
       language: {
         url: '/assets/plugins/i18n/Spanish.json',
       },
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
+      },
       deferRender: true, // Mejorar rendimiento para tablas grandes
       fnInfoCallback: (oSettings, iStart, iEnd, iMax, iTotal, sPre) => {
         if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
@@ -165,7 +175,7 @@ $(document).ready(function () {
       columns: columns,
     });
   };
-  
+
   $(document).on('click', '.img', function () {
     var src = $(this).attr('src');
     $('<div>').css({

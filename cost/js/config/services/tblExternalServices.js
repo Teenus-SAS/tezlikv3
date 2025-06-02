@@ -3,7 +3,7 @@ $(document).ready(function () {
   $("#refProduct").change(function (e) {
     e.preventDefault();
     let id = this.value;
-    
+
     $('#selectNameProduct option').prop('selected', function () {
       return $(this).val() == id;
     });
@@ -14,7 +14,7 @@ $(document).ready(function () {
   $("#selectNameProduct").change(function (e) {
     e.preventDefault();
     let id = this.value;
-    
+
     $('#refProduct option').prop('selected', function () {
       return $(this).val() == id;
     });
@@ -30,7 +30,7 @@ $(document).ready(function () {
       // dataServices = services;
 
       let op = 1;
-      if(flag_currency_usd == '1'){
+      if (flag_currency_usd == '1') {
         let selectPriceUSD = $('#selectPriceUSD3').val();
 
         selectPriceUSD == '2' ? op = 2 : op = 1;
@@ -43,7 +43,7 @@ $(document).ready(function () {
   };
 
   // loadAllDataServices(0);
-  
+
   /* Cargue tabla de Proyectos */
   loadTableExternalServices = (data, op) => {
     $('.cardAddService').hide(800);
@@ -113,6 +113,16 @@ $(document).ready(function () {
           },
         },
       ],
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
+      },
       footerCallback: function (row, data, start, end, display) {
         let totalCost = 0;
 

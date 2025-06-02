@@ -22,6 +22,9 @@ if (sizeof($_SESSION) == 0)
 	<link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsCSS.php'; ?>
+	<!-- Select2 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/assets/css/stylesSelectProducs.css">
 </head>
 
 <body class="horizontal-navbar">
@@ -118,7 +121,10 @@ if (sizeof($_SESSION) == 0)
 	<!-- Page End -->
 
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsJS.php'; ?>
+	<!-- Select2 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+	<script src="/public/js/components/selectProducts.js"></script>
 	<script src="/cost/js/basic/products/configProducts.js"></script>
 	<?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
 		<script src="/cost/js/general/priceList/configPriceList.js"></script>

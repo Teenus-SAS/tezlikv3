@@ -35,6 +35,16 @@ $(document).ready(function () {
           render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
         },
       ],
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
+      },
     });
 
     setTimeout(() => {
@@ -147,33 +157,29 @@ $(document).ready(function () {
             <tr>
                 <th>Valor Residual:</td>
                 <td style="width:400px">
-                  <input type="number" class="form-control text-center inputSimulator id_machine ${
-                    d.id_machine
-                  }" id="residual_value-${row}" value="${d.residual_value.toLocaleString('es-CO')}"
+                  <input type="number" class="form-control text-center inputSimulator id_machine ${d.id_machine
+      }" id="residual_value-${row}" value="${d.residual_value.toLocaleString('es-CO')}"
                 </td>
             </tr>
             <tr>
                 <th>Años Depreciacion:</th>
                 <td>
-                  <input type="number" class="form-control text-center inputSimulator id_machine ${
-                    d.id_machine
-                  }" id="years_depreciation-${row}" value="${d.years_depreciation}"
+                  <input type="number" class="form-control text-center inputSimulator id_machine ${d.id_machine
+      }" id="years_depreciation-${row}" value="${d.years_depreciation}"
                 </td>
             </tr>
             <tr>
                 <th>Horas de Trabajo:</th>
                 <td>
-                  <input type="number" class="form-control text-center inputSimulator id_machine ${
-                    d.id_machine
-                  }" id="hours_machine-${row}" value="${d.hours_machine}"
+                  <input type="number" class="form-control text-center inputSimulator id_machine ${d.id_machine
+      }" id="hours_machine-${row}" value="${d.hours_machine}"
                 </td>
             </tr>
             <tr>
                 <th>Dias de Trabajo:</th>
                 <td>
-                  <input type="number" class="form-control text-center inputSimulator id_machine ${
-                    d.id_machine
-                  }" id="days_machine-${row}" value="${d.days_machine}"
+                  <input type="number" class="form-control text-center inputSimulator id_machine ${d.id_machine
+      }" id="days_machine-${row}" value="${d.days_machine}"
                 </td>
             </tr>
         </table>`;
@@ -317,9 +323,8 @@ $(document).ready(function () {
             <tr>
                 <th>Cantidad:</th>
                 <td>
-                  <input type="number" class="form-control text-center inputSimulator id_product_material ${
-                    d.id_product_material
-                  }" id="quantity-${row}" value="${d.quantity.toLocaleString('es-CO')}">
+                  <input type="number" class="form-control text-center inputSimulator id_product_material ${d.id_product_material
+      }" id="quantity-${row}" value="${d.quantity.toLocaleString('es-CO')}">
                 </td>
             </tr> 
         </table>`;
@@ -381,19 +386,16 @@ $(document).ready(function () {
             var options = ``;
 
             for (var i = 0; i < dataMachines.length; i++) {
-              options += `<option value="${dataMachines[i].id_machine}" ${
-                data.id_machine == dataMachines[i].id_machine ? 'selected' : ''
-              }>
+              options += `<option value="${dataMachines[i].id_machine}" ${data.id_machine == dataMachines[i].id_machine ? 'selected' : ''
+                }>
                 ${dataMachines[i].machine}
               </option>`;
             }
 
-            var select = `<select class="form-control id_product_process ${
-              data.id_product_process
-            }" id="machines">
+            var select = `<select class="form-control id_product_process ${data.id_product_process
+              }" id="machines">
               <option disabled>Seleccionar</option>
-              <option value="0" ${
-                data.id_machine == '0' ? 'selected' : ''
+              <option value="0" ${data.id_machine == '0' ? 'selected' : ''
               }>PROCESO MANUAL</option>
               ${options}
             </select>`;
@@ -471,11 +473,10 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="number" class="text-center form-control inputSimulator id_manufacturing_load ${
-              data.id_manufacturing_load
-            }" id="cost-${meta.row + 1}" value="${data.cost.toLocaleString(
-              'es-CO'
-            )}">`;
+            return `<input type="number" class="text-center form-control inputSimulator id_manufacturing_load ${data.id_manufacturing_load
+              }" id="cost-${meta.row + 1}" value="${data.cost.toLocaleString(
+                'es-CO'
+              )}">`;
           },
         },
       ],
@@ -566,11 +567,10 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="number" class="text-center form-control inputSimulator id_service ${
-              data.id_service
-            }" id="cost-${meta.row + 1}" value="${data.cost.toLocaleString(
-              'es-CO'
-            )}">`;
+            return `<input type="number" class="text-center form-control inputSimulator id_service ${data.id_service
+              }" id="cost-${meta.row + 1}" value="${data.cost.toLocaleString(
+                'es-CO'
+              )}">`;
           },
         },
       ],
@@ -611,11 +611,10 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName payroll',
           render: function (data, type, full, meta) {
-            return `<input type="number" class="text-center form-control inputSimulator basicSalary id_payroll ${
-              data.id_payroll
-            }" id="salary-${meta.row + 1}" value="${data.salary.toLocaleString(
-              'es-CO'
-            )}">`;
+            return `<input type="number" class="text-center form-control inputSimulator basicSalary id_payroll ${data.id_payroll
+              }" id="salary-${meta.row + 1}" value="${data.salary.toLocaleString(
+                'es-CO'
+              )}">`;
           },
         },
       ],
@@ -633,15 +632,12 @@ $(document).ready(function () {
     `;
 
     let optionsFactor = `
-    <option value="1" ${
-      d.type_contract === 'Nomina' ? 'selected' : ''
-    }>Nómina</option>
-    <option value="2" ${
-      d.type_contract === 'Servicios' ? 'selected' : ''
-    }>Servicios</option>
-    <option value="3" ${
-      d.type_contract === 'Manual' ? 'selected' : ''
-    }>Cálculo Manual</option>
+    <option value="1" ${d.type_contract === 'Nomina' ? 'selected' : ''
+      }>Nómina</option>
+    <option value="2" ${d.type_contract === 'Servicios' ? 'selected' : ''
+      }>Servicios</option>
+    <option value="3" ${d.type_contract === 'Manual' ? 'selected' : ''
+      }>Cálculo Manual</option>
     `;
 
     sessionStorage.setItem('percentage', d.percentage);
@@ -657,57 +653,50 @@ $(document).ready(function () {
             <tr>
                 <th>Transporte:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator id_payroll ${
-                    d.id_payroll
-                  }" id="transport-${row}" value="${d.transport.toLocaleString('es-CO')}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll
+      }" id="transport-${row}" value="${d.transport.toLocaleString('es-CO')}">
                 </td>
             </tr>
             <tr>
                 <th>Dotaciones:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator id_payroll ${
-                    d.id_payroll
-                  }" id="endowment-${row}" value="${d.endowment.toLocaleString('es-CO')}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll
+      }" id="endowment-${row}" value="${d.endowment.toLocaleString('es-CO')}">
                 </td>
             </tr>
             <tr>
                 <th>Horas Extras:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator id_payroll ${
-                    d.id_payroll
-                  }" id="extra_time-${row}" value="${d.extra_time.toLocaleString('es-CO')}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll
+      }" id="extra_time-${row}" value="${d.extra_time.toLocaleString('es-CO')}">
                 </td>
             </tr>
             <tr>
                 <th>Otros Ingresos:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator id_payroll ${
-                    d.id_payroll
-                  }" id="bonification-${row}" value="${d.bonification.toLocaleString('es-CO')}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll
+      }" id="bonification-${row}" value="${d.bonification.toLocaleString('es-CO')}">
                 </td>
             </tr>
             <tr>
                 <th>Horas Trabajo x Día:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator workingHoursDay id_payroll ${
-                    d.id_payroll
-                  }" id="hours_day-${row}" value="${d.hours_day}">
+                  <input type="number" class="text-center form-control inputSimulator workingHoursDay id_payroll ${d.id_payroll
+      }" id="hours_day-${row}" value="${d.hours_day}">
                 </td>
             </tr>
             <tr>
                 <th>Dias Trabajo x Mes:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator workingDaysMonth id_payroll ${
-                    d.id_payroll
-                  }" id="working_days_month-${row}" value="${d.working_days_month}">
+                  <input type="number" class="text-center form-control inputSimulator workingDaysMonth id_payroll ${d.id_payroll
+      }" id="working_days_month-${row}" value="${d.working_days_month}">
                 </td>
             </tr>
             <tr>
               <th>Riesgo:</th>
               <td>
-                <select id="risk" name="risk" class="form-control ${
-                  d.id_payroll
-                }">
+                <select id="risk" name="risk" class="form-control ${d.id_payroll
+      }">
                   <option disabled value="0">Seleccionar</option>
                   ${optionsRisk}
                 </select>
@@ -716,17 +705,15 @@ $(document).ready(function () {
             <tr>
               <th></th>
               <td>
-                <input type="text" class="form-control text-center inputSimulator valueRisk id_payroll ${
-                  d.id_payroll
-                }" value="${d.percentage}" id="percentage-${row}" readonly>
+                <input type="text" class="form-control text-center inputSimulator valueRisk id_payroll ${d.id_payroll
+      }" value="${d.percentage}" id="percentage-${row}" readonly>
               </td>
             </tr>
             <tr>
                 <th>Tipo Nómina:</th>
                 <td>
-                  <select class="form-control inputSimulator typeFactor id_payroll ${
-                    d.id_payroll
-                  }" id="type_contract-${row}">
+                  <select class="form-control inputSimulator typeFactor id_payroll ${d.id_payroll
+      }" id="type_contract-${row}">
                     <option disabled value="0">Seleccionar</option>
                     ${optionsFactor}
                   </select>
@@ -735,9 +722,8 @@ $(document).ready(function () {
             <tr>
                 <th>Factor:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator factor id_payroll ${
-                    d.id_payroll
-                  }" id="factor_benefit-${row}">
+                  <input type="number" class="text-center form-control inputSimulator factor id_payroll ${d.id_payroll
+      }" id="factor_benefit-${row}">
                 </td>
             </tr>
         </table>`;
@@ -827,11 +813,9 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${
-              data.id_expenses_distribution
-            }" id="units_sold-${
-              meta.row + 1
-            }" value="${data.units_sold.toLocaleString('es-CO')}">`;
+            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution
+              }" id="units_sold-${meta.row + 1
+              }" value="${data.units_sold.toLocaleString('es-CO')}">`;
           },
         },
       ],
@@ -843,9 +827,8 @@ $(document).ready(function () {
             <tr>
                 <th>Vol de Ventas:</th>
                 <td style="width:400px">
-                  <input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${
-                    d.id_expenses_distribution
-                  }" id="turnover-${row}" value="${d.turnover.toLocaleString('es-CO')}">
+                  <input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${d.id_expenses_distribution
+      }" id="turnover-${row}" value="${d.turnover.toLocaleString('es-CO')}">
                 </td>
             </tr>
         </table>`;
@@ -940,11 +923,9 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="number" class="text-center form-control inputSimulator id_family ${
-              data.id_family
-            }" id="units_sold-${
-              meta.row + 1
-            }" value="${data.units_sold.toLocaleString('es-CO')}">`;
+            return `<input type="number" class="text-center form-control inputSimulator id_family ${data.id_family
+              }" id="units_sold-${meta.row + 1
+              }" value="${data.units_sold.toLocaleString('es-CO')}">`;
           },
         },
       ],
@@ -956,9 +937,8 @@ $(document).ready(function () {
             <tr>
                 <th>Vol de Ventas:</th>
                 <td style="width:400px">
-                  <input type="number" class="text-center form-control inputSimulator id_family ${
-                    d.id_family
-                  }" id="turnover-${row}" value="${d.turnover.toLocaleString('es-CO')}">
+                  <input type="number" class="text-center form-control inputSimulator id_family ${d.id_family
+      }" id="turnover-${row}" value="${d.turnover.toLocaleString('es-CO')}">
                 </td>
             </tr>
         </table>`;
@@ -1031,9 +1011,8 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="number" class="text-center form-control inputSimulator 0" id="expense_recover-${
-              meta.row + 1
-            }" value="${data.expense_recover}">`;
+            return `<input type="number" class="text-center form-control inputSimulator 0" id="expense_recover-${meta.row + 1
+              }" value="${data.expense_recover}">`;
           },
         },
       ],

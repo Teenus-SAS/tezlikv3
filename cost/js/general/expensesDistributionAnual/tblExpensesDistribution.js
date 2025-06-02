@@ -8,7 +8,7 @@ $(document).ready(function () {
       return $(this).val() == id;
     });
   });
-  
+
   $('.selectNameProduct').change(function (e) {
     e.preventDefault();
     let id = this.value;
@@ -22,7 +22,7 @@ $(document).ready(function () {
     try {
       const dataExpensesDistribution = await searchData('/api/expensesDistributionAnual');
 
-      sessionStorage.setItem('dataExpensesDistributionA', JSON.stringify(dataExpensesDistribution)); 
+      sessionStorage.setItem('dataExpensesDistributionA', JSON.stringify(dataExpensesDistribution));
 
       loadTableExpensesDistributionA(dataExpensesDistribution);
     } catch (error) {
@@ -31,7 +31,7 @@ $(document).ready(function () {
   }
 
   /* Cargue tabla de Gastos distribuidos */
-  const loadTableExpensesDistributionA = (data) => { 
+  const loadTableExpensesDistributionA = (data) => {
     if ($.fn.DataTable.isDataTable('#tblExpensesDistributionAnual')) {
       tblExpensesDistributionAnual.DataTable().clear().rows.add(data).draw();
     } else {
@@ -77,7 +77,7 @@ $(document).ready(function () {
                 data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return data;
             },
           },
@@ -93,7 +93,7 @@ $(document).ready(function () {
                 data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return `$ ${data}`;
             },
           },
@@ -109,7 +109,7 @@ $(document).ready(function () {
                 data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return `${data} %`;
             },
           },
@@ -125,7 +125,7 @@ $(document).ready(function () {
                 data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return `$ ${data}`;
             },
           },
@@ -140,6 +140,16 @@ $(document).ready(function () {
             },
           },
         ],
+        headerCallback: function (thead, data, start, end, display) {
+          $(thead).find("th").css({
+            "background-color": "#386297",
+            color: "white",
+            "text-align": "center",
+            "font-weight": "bold",
+            padding: "10px",
+            border: "1px solid #ddd",
+          });
+        },
         footerCallback: function (row, data, start, end, display) {
           let units_sold = 0;
           let turnover = 0;

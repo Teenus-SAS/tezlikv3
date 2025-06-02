@@ -231,6 +231,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     </script>
     <script src="/public/js/components/orderData.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/public/js/components/selectProducts.js"></script>
     <script src="/cost/js/general/priceList/configPriceList.js"></script>
     <script>
         $(document).ready(function() {

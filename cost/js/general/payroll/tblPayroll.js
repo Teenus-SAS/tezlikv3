@@ -1,6 +1,6 @@
 $(document).ready(function () {
   /* Cargue tabla de Máquinas */
-  type_payroll == '1' ? visible = true : visible = false; 
+  type_payroll == '1' ? visible = true : visible = false;
 
   loadAllTblData = async () => {
     try {
@@ -32,13 +32,13 @@ $(document).ready(function () {
   loadAllTblData();
 
   const loadTblPayroll = (data) => {
-    if ($.fn.dataTable.isDataTable("#tblPayroll")) { 
+    if ($.fn.dataTable.isDataTable("#tblPayroll")) {
       $("#tblPayroll").DataTable().destroy();
       $("#tblPayroll").empty();
       $('#tblPayroll').append(`
       <tbody id="tblPayrollBody"></tbody>
       ${type_payroll == '1' ?
-      `<tfoot>
+          `<tfoot>
         <tr>
           <th></th>
           <th></th>
@@ -52,7 +52,7 @@ $(document).ready(function () {
     }
     // Encabezados de la tabla
     var headers = ['No.', 'Nombre Empleado', 'Proceso', 'Salario Base', 'Salario Neto', 'Valor Minuto', 'Acciones'];
-    
+
     // Obtén la tabla
     var table = document.getElementById('tblPayroll');
 
@@ -90,31 +90,31 @@ $(document).ready(function () {
           case 'Salario Base':
             let salary = parseFloat(arr.salary);
 
-            if (Math.abs(salary) < 0.01) 
+            if (Math.abs(salary) < 0.01)
               salary = salary.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             else
               salary = salary.toLocaleString('es-CO', { maximumFractionDigits: 0 });
-            
+
             cell.textContent = salary;
             break;
           case 'Salario Neto':
             let salary_net = parseFloat(arr.salary_net);
 
-            if (Math.abs(salary_net) < 0.01) 
+            if (Math.abs(salary_net) < 0.01)
               salary_net = salary_net.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             else
               salary_net = salary_net.toLocaleString('es-CO', { maximumFractionDigits: 0 });
-            
+
             cell.textContent = salary_net;
             break;
           case 'Valor Minuto':
             let minute_value = parseFloat(arr.minute_value);
 
-            if (Math.abs(minute_value) < 0.01) 
+            if (Math.abs(minute_value) < 0.01)
               minute_value = minute_value.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             else
               minute_value = minute_value.toLocaleString('es-CO', { maximumFractionDigits: 0 });
-            
+
             cell.textContent = minute_value;
             break;
           case 'Acciones':
@@ -128,7 +128,7 @@ $(document).ready(function () {
             break;
         }
       });
-    }); 
+    });
 
     $('#tblPayroll').dataTable({
       pageLength: 50,
@@ -140,6 +140,16 @@ $(document).ready(function () {
         if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
           console.error(oSettings.json.error);
         }
+      },
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
       },
       footerCallback: function (row, data, start, end, display) {
         if (type_payroll == '1' && data.length != display.length) {
@@ -185,19 +195,19 @@ $(document).ready(function () {
 
     dragula([document.getElementById('tblPayrollBody')]).on('drop', async function (el, container, source, sibling) {
       let copy = [];
-            
+
       // If the row was dropped within the same container,
       // move it to the specified position
       if (container === source) {
         var targetIndex = sibling ? sibling.rowIndex - 1 : container.children.length - 1;
-        
+
         container.insertBefore(el, container.children[targetIndex]);
         var elements = $('.t-row');
         elements = elements.not('.gu-mirror');
 
         for (let i = 0; i < elements.length; i++) {
           copy.push({ id_payroll: elements[i].dataset.id, route: i + 1 });
-        }  
+        }
 
         $.ajax({
           type: "POST",
@@ -256,7 +266,7 @@ $(document).ready(function () {
     //           data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
     //         } else
     //           data = data.toLocaleString('es-CO', { maximumFractionDigits: 0 });
-            
+
     //         return data;
     //       },
     //     },
@@ -274,7 +284,7 @@ $(document).ready(function () {
     //           data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
     //         } else
     //           data = data.toLocaleString('es-CO', { maximumFractionDigits: 0 });
-            
+
     //         return data;
     //       }
     //     },
@@ -291,7 +301,7 @@ $(document).ready(function () {
     //           data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
     //         } else
     //           data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
     //         return data;
     //       }
     //     },

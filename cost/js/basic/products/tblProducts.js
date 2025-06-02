@@ -1,7 +1,7 @@
-$(document).ready(function () { 
+$(document).ready(function () {
   loadAllData = async () => {
     const [dataAllProducts, dataLimit] = await Promise.all([
-      searchData('/api/products'), 
+      searchData('/api/products'),
       searchData('/api/productsLimit')
     ]);
 
@@ -16,7 +16,7 @@ $(document).ready(function () {
   }
 
   /* Cargue tabla de Proyectos */
-  const loadTblProducts = (data) => { 
+  const loadTblProducts = (data) => {
     if ($.fn.dataTable.isDataTable("#tblProducts")) {
       var table = $("#tblProducts").DataTable();
       var pageInfo = table.page.info(); // Guardar información de la página actual
@@ -81,7 +81,7 @@ $(document).ready(function () {
               data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
             return `$ ${data}`;
           },
         },
@@ -125,8 +125,18 @@ $(document).ready(function () {
           },
         },
       ],
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
+      },
     });
-  } 
+  }
 
   loadAllData();
 });

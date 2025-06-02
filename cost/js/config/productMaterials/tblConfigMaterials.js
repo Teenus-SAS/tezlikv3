@@ -11,8 +11,8 @@ $(document).ready(function () {
       ]);
 
       sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
-      sessionStorage.setItem('dataCompositeProduct', JSON.stringify(dataCompositeProduct)); 
- 
+      sessionStorage.setItem('dataCompositeProduct', JSON.stringify(dataCompositeProduct));
+
       let op = 1;
       if (flag_currency_usd == '1') {
         let selectPriceUSD = $('#selectPriceUSD1').val();
@@ -70,7 +70,7 @@ $(document).ready(function () {
   loadTableMaterials = async (data, op) => {
     // let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
     // let data = dataProductMaterials.filter(item => item.id_product == idProduct);
-    
+
     if (flag_composite_product == '1') {
       let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
       // let arr = dataCompositeProduct.filter(item => item.id_product == idProduct);
@@ -95,7 +95,7 @@ $(document).ready(function () {
     //   $('#tblConfigMaterials').DataTable().column(5).visible(visible);
     //   return;
     // }
-    
+
     tblConfigMaterials = $('#tblConfigMaterials').dataTable({
       destroy: true,
       pageLength: 50,
@@ -145,7 +145,7 @@ $(document).ready(function () {
             } else {
               quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             }
-            
+
             return quantity;
           },
         },
@@ -161,7 +161,7 @@ $(document).ready(function () {
             } else {
               waste = waste.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             }
-            
+
             return `${waste} %`;
           },
         },
@@ -196,12 +196,22 @@ $(document).ready(function () {
           },
         },
       ],
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
+      },
       footerCallback: function (row, data, start, end, display) {
         // let quantity = 0;
         let waste = 0;
         let cost = 0;
         let participation = 0;
-        
+
         for (let i = 0; i < display.length; i++) {
           // quantity += parseFloat(data[display[i]].quantity);
           waste += parseFloat(data[display[i]].waste);
@@ -210,7 +220,7 @@ $(document).ready(function () {
             cost += parseFloat(data[display[i]].cost_product_material_usd);
           else
             cost += parseFloat(data[display[i]].cost_product_material);
-          
+
           participation += parseFloat(data[display[i]].participation);
         }
 

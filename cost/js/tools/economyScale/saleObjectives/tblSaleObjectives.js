@@ -3,12 +3,12 @@ $(document).ready(function () {
         let [dataProducts, dataEconomyScale] = await Promise.all([
             searchData('/api/saleObjectives'),
             searchData('/api/calcEconomyScale')
-        ]); 
+        ]);
 
         sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
         sessionStorage.setItem('allEconomyScale', JSON.stringify(dataEconomyScale));
-    
+
         if (flag_currency_usd == '1' || flag_currency_eur == '1')
             dataProducts = setCurrency(dataProducts);
 
@@ -22,12 +22,12 @@ $(document).ready(function () {
     // Seleccionar moneda
     $(document).on('change', '#selectCurrency', function () {
         let currency = this.value;
- 
+
         sessionStorage.setItem('typeCurrency', currency);
         $('.cardUSD').hide();
         $('.cardEUR').hide();
         let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
-        
+
         switch (currency) {
             case '1': // Pesos
                 break;
@@ -35,7 +35,7 @@ $(document).ready(function () {
                 for (let i = 0; i < dataProducts.length; i++) {
                     dataProducts[i].real_price = parseFloat(dataProducts[i].real_price) / parseFloat(coverage_usd);
                 }
-                
+
                 $('.cardUSD').show(800);
                 break;
             case '3': // Euros
@@ -45,7 +45,7 @@ $(document).ready(function () {
 
                 $('.cardEUR').show(800);
                 break;
-    
+
             default:
                 break;
         }
@@ -55,11 +55,11 @@ $(document).ready(function () {
 
     setCurrency = (data) => {
         let typeCurrency = '1';
-    
+
         typeCurrency = sessionStorage.getItem('typeCurrency');
 
         $('.selectTypeExpense').hide();
- 
+
         switch (typeCurrency) {
             case '2': // Dolares
                 for (let i = 0; i < data.length; i++) {
@@ -68,7 +68,7 @@ $(document).ready(function () {
                 break;
             case '3': // Euros
                 for (let i = 0; i < data.length; i++) {
-                    data[i].real_price = parseFloat(data[i].real_price) / parseFloat(coverage_eur); 
+                    data[i].real_price = parseFloat(data[i].real_price) / parseFloat(coverage_eur);
                 }
                 break;
             default:// Pesos COP 
@@ -77,11 +77,11 @@ $(document).ready(function () {
 
         return data;
     }
-    
+
     /* Cargue tabla de Proyectos */
     loadTblProducts = (data, op) => {
         let typeCurrency = '1';
-    
+
         if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
             typeCurrency = sessionStorage.getItem('typeCurrency');
 
@@ -101,6 +101,16 @@ $(document).ready(function () {
             dom: '<"datatable-error-console">frtip',
             language: {
                 url: '/assets/plugins/i18n/Spanish.json',
+            },
+            headerCallback: function (thead, data, start, end, display) {
+                $(thead).find("th").css({
+                    "background-color": "#386297",
+                    color: "white",
+                    "text-align": "center",
+                    "font-weight": "bold",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                });
             },
             fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
                 if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
@@ -155,7 +165,7 @@ $(document).ready(function () {
                     render: function (data) {
                         let percentage = (parseInt(data.units_sold) / parseInt(data.unit_sold)) * 100;
                         isNaN(percentage) || !isFinite(percentage) ? percentage = 0 : percentage;
- 
+
                         const percentageClasses = [
                             { limit: 100, className: 'badge-success' },
                             { limit: 80, className: 'badge-info' },
@@ -202,11 +212,21 @@ $(document).ready(function () {
                             price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         } else
                             price = price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-            
+
                         return `<a href="javascript:;" <i title="${title}" style="color:black;">$ ${price}</i></a>`;
                     },
                 },
             ],
+            headerCallback: function (thead, data, start, end, display) {
+                $(thead).find("th").css({
+                    "background-color": "#386297",
+                    color: "white",
+                    "text-align": "center",
+                    "font-weight": "bold",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                });
+            },
         });
     }
 

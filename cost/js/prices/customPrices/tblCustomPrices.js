@@ -1,6 +1,6 @@
 $(document).ready(function () {
   customPrices = [];
-  
+
   /* Cargue tabla de Proyectos */
   loadAllData = async () => {
     try {
@@ -14,8 +14,8 @@ $(document).ready(function () {
       //   customPrices = parents;
       //   loadTblCustomPrices(parents);
       // } else {
-        customPrices = prices;
-        loadTblCustomPrices(prices);
+      customPrices = prices;
+      loadTblCustomPrices(prices);
       // }
     } catch (error) {
       console.error('Error loading data:', error);
@@ -47,7 +47,7 @@ $(document).ready(function () {
               }
               data.push(arr[i]);
             }
-          
+
           }
         }
 
@@ -60,7 +60,7 @@ $(document).ready(function () {
 
         let table = document.getElementById('tblCustomPrices');
 
-        let headers = ''; 
+        let headers = '';
 
         for (let i = 0; i < dataPriceList.length; i++) {
           type_custom_price[0] == '-1' ? headers += `<th>${dataPriceList[i].price_name}</th>` : headers += `<th>${dataPriceList[i].price_name}</th>`;
@@ -114,7 +114,7 @@ $(document).ready(function () {
           }
 
           return result;
-        }, []); 
+        }, []);
 
         for (let i = 0; i < combinedData.length; i++) {
           let actions = '';
@@ -147,6 +147,16 @@ $(document).ready(function () {
           language: {
             url: '/assets/plugins/i18n/Spanish.json',
           },
+          headerCallback: function (thead, data, start, end, display) {
+            $(thead).find("th").css({
+              "background-color": "#386297",
+              color: "white",
+              "text-align": "center",
+              "font-weight": "bold",
+              padding: "10px",
+              border: "1px solid #ddd",
+            });
+          },
           fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
             if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
               console.error(oSettings.json.error);
@@ -155,7 +165,7 @@ $(document).ready(function () {
         });
       } else {
         // combinedData = [];
-        
+
         $('#tblCustomPrices').dataTable({
           destroy: true,
           pageLength: 50,
@@ -164,6 +174,16 @@ $(document).ready(function () {
           dom: '<"datatable-error-console">frtip',
           language: {
             url: '/assets/plugins/i18n/Spanish.json',
+          },
+          headerCallback: function (thead, data, start, end, display) {
+            $(thead).find("th").css({
+              "background-color": "#386297",
+              color: "white",
+              "text-align": "center",
+              "font-weight": "bold",
+              padding: "10px",
+              border: "1px solid #ddd",
+            });
           },
           fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
             if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
@@ -195,9 +215,19 @@ $(document).ready(function () {
               className: "uniqueClassName",
             },
           ],
+          headerCallback: function (thead, data, start, end, display) {
+            $(thead).find("th").css({
+              "background-color": "#386297",
+              color: "white",
+              "text-align": "center",
+              "font-weight": "bold",
+              padding: "10px",
+              border: "1px solid #ddd",
+            });
+          },
         });
       }
-        
+
     } catch (error) {
       console.log(error);
     }
@@ -215,7 +245,7 @@ $(document).ready(function () {
             })}`;
 
             i += 1;
-        
+
           } else {
             price_custom = '';
           };

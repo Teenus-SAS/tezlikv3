@@ -1,6 +1,6 @@
-$(document).ready(function () { 
+$(document).ready(function () {
   /* Cargue tabla de Proyectos */
-  loadTableGExternalServices = (data) => {  
+  loadTableGExternalServices = (data) => {
     if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
       var table = $("#tblExternalServices").DataTable();
       var pageInfo = table.page.info(); // Guardar información de la página actual
@@ -13,7 +13,7 @@ $(document).ready(function () {
     tblExternalServices = $("#tblExternalServices").dataTable({
       destroy: true,
       pageLength: 50,
-      data: data, 
+      data: data,
       dom: '<"datatable-error-console">frtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
@@ -48,7 +48,7 @@ $(document).ready(function () {
               data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
             return `$ ${data}`;
           },
         },
@@ -63,6 +63,16 @@ $(document).ready(function () {
           },
         },
       ],
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
+      },
       footerCallback: function (row, data, start, end, display) {
         let totalCost = 0;
 

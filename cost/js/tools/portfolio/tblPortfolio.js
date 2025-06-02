@@ -10,7 +10,7 @@ $(document).ready(function () {
 
         for (const item of data) {
             const { turnover, units_sold, variableCost, costFixed } = item;
-        
+
             const price = turnover / units_sold;
             const totalVariableCost = variableCost * units_sold;
             const totalCostsAndExpense = costFixed + totalVariableCost;
@@ -25,7 +25,7 @@ $(document).ready(function () {
             item.profit_margin1 = profitMargin1;
             item.net_utility = netUtility < 0 ? 0 : netUtility;
             item.net_utility1 = netUtility;
-        
+
             if (netUtility > 0) {
                 totalNetUtility += netUtility;
             }
@@ -49,9 +49,9 @@ $(document).ready(function () {
             }
             return true;
         });
- 
+
         loadTblPortfolio8020(data8020);
-    }; 
+    };
 
     const loadTable = async ({ selector, data, columns, order, footerSelector = null, footerDataField = null }) => {
         $(selector).DataTable({
@@ -62,6 +62,16 @@ $(document).ready(function () {
             dom: '<"datatable-error-console">frtip',
             language: {
                 url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
+            },
+            headerCallback: function (thead, data, start, end, display) {
+                $(thead).find("th").css({
+                    "background-color": "#386297",
+                    color: "white",
+                    "text-align": "center",
+                    "font-weight": "bold",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                });
             },
             fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
                 if (oSettings.json && oSettings.json.hasOwnProperty("error")) {
@@ -81,7 +91,7 @@ $(document).ready(function () {
                 }
             },
         });
-    }; 
+    };
 
     // Configuración de columnas para tblPortfolio8020
     const columnsTblPortfolio8020 = [
@@ -104,7 +114,7 @@ $(document).ready(function () {
 
                 data < 0 ? badgeClass = 'badge badge-danger' : badgeClass = 'badge';
 
-                return `<span class="${badgeClass}" style="font-size: small;" >${netUtilityText}</span>`; 
+                return `<span class="${badgeClass}" style="font-size: small;" >${netUtilityText}</span>`;
             },
         },
         {
@@ -117,7 +127,7 @@ $(document).ready(function () {
             title: 'Participacion',
             data: 'profit8020',
             className: "classCenter",
-            render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`, 
+            render: (data) => `${data.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`,
         },
         {
             title: '',
@@ -131,7 +141,7 @@ $(document).ready(function () {
                 }
             }
         }
-    ]; 
+    ];
 
     const loadTblPortfolio8020 = async (data) => {
         await loadTable({
@@ -143,6 +153,6 @@ $(document).ready(function () {
             footerDataField: 'profit8020'
         });
     };
-    
+
     loadAllPortfolio();
 });

@@ -15,6 +15,20 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsCSS.php'; ?>
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/stylesSelectProducs.css">
+
+    <style>
+        #tblAnalysisMaterials thead th {
+            background-color: #386297;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
 
 <body class="horizontal-navbar">
@@ -198,6 +212,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsJS.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -207,6 +222,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/public/js/components/selectProducts.js"></script>
     <script src="/public/js/components/orderData.js"></script>
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
     <script>

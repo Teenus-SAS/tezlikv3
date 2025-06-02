@@ -3,7 +3,7 @@ $(document).ready(function () {
   loadAllDataExpensesAnual = async () => {
     try {
       const dataExpenses = await searchData('/api/expensesAnual');
- 
+
       // sessionStorage.setItem('dataExpenses', JSON.stringify(dataExpenses));
 
       // if (production_center == '1' && flag_production_center == '1') {
@@ -38,14 +38,14 @@ $(document).ready(function () {
 
   //   // Convertir el objeto de sumas de nuevo en un array
   //   var summarizedExpenses = Object.values(sumExpenses);
-    
+
   //   return summarizedExpenses;
   // };
 
   const loadTblAssExpensesAnual = (data, op) => {
     // if ($.fn.DataTable.isDataTable('#tblAssExpenses')) {
     //   tblAssExpenses.DataTable().clear().rows.add(data).draw(); 
- 
+
     //   // Renderizar las acciones para cada fila de datos
     //   $('#tblAssExpenses .uniqueClassName').each(function (index) {
     //     var rowData = tblAssExpenses.DataTable().row(index).data();
@@ -107,7 +107,7 @@ $(document).ready(function () {
               data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
             return data;
           },
         },
@@ -131,19 +131,29 @@ $(document).ready(function () {
             //   var id;
             //   production_center == '1' && flag_production_center == '1' && data.id_expense_product_center != '0' ? id = data.id_expense_product_center
             //     : id = data.id_expense;
-              
+
             //   return `<a href="javascript:;" <i id="${id}" class="bx bx-edit-alt updateExpenses" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>    
             //          <a href="javascript:;" <i id="${id}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
             // } else {
             //   return '';
             // } 
             var id = data.id_expense_anual;
-            
+
             return `<a href="javascript:;" <i id="${id}" class="bx bx-edit-alt updateExpensesAnual" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>    
                        <a href="javascript:;" <i id="${id}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteExpenseDA(${op})"></i></a>`;
           },
         },
       ],
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
+      },
       rowGroup: {
         dataSrc: function (row) {
           return `<th class="text-center" colspan="6" style="font-weight: bold;"> ${row.puc} </th>`;

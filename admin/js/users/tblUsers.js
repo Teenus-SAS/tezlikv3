@@ -2,12 +2,12 @@ $(document).ready(function () {
   /* Cargue tabla de Proyectos */
   allUsers = [];
 
-  loadAllData = async() => {
+  loadAllData = async () => {
     try {
-      const users = await searchData('/api/usersCompany'); 
+      const users = await searchData('/api/usersCompany');
 
       loadTblUsers(users);
-        
+
       allUsers = users;
     } catch (error) {
       console.error('Error loading data:', error);
@@ -20,7 +20,7 @@ $(document).ready(function () {
     } else {
       tblUsers = $('#tblUsers').dataTable({
         pageLength: 50,
-        data: data, 
+        data: data,
         language: {
           url: '/assets/plugins/i18n/Spanish.json',
         },
@@ -80,16 +80,26 @@ $(document).ready(function () {
             },
           },
         ],
+        headerCallback: function (thead, data, start, end, display) {
+          $(thead).find("th").css({
+            "background-color": "#386297",
+            color: "white",
+            "text-align": "center",
+            "font-weight": "bold",
+            padding: "10px",
+            border: "1px solid #ddd",
+          });
+        },
       });
     }
   }
 
-  $('#company').change(function (e) { 
+  $('#company').change(function (e) {
     e.preventDefault();
 
     let data = allUsers.filter(item => item.id_company == this.value);
 
-    loadTblUsers(data);     
+    loadTblUsers(data);
   });
 
   loadAllData();

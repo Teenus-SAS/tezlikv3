@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   tblFactoryLoad = $('#tblFactoryLoad').dataTable({
     destroy: true,
-    pageLength: 50, 
+    pageLength: 50,
     ajax: function (data, callback, settings) {
       fetch(`/api/factoryLoad`)
         .then(response => response.json())
@@ -66,7 +66,7 @@ $(document).ready(function () {
             data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
           } else
             data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
           return `$ ${data}`;
         },
       },
@@ -81,7 +81,7 @@ $(document).ready(function () {
             data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
           } else
             data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
           return `$ ${data}`;
         },
       },
@@ -95,13 +95,23 @@ $(document).ready(function () {
         },
       },
     ],
+    headerCallback: function (thead, data, start, end, display) {
+      $(thead).find("th").css({
+        "background-color": "#386297",
+        color: "white",
+        "text-align": "center",
+        "font-weight": "bold",
+        padding: "10px",
+        border: "1px solid #ddd",
+      });
+    },
     footerCallback: function (row, data, start, end, display) {
       let cost = 0;
-      let cost_minute = 0; 
+      let cost_minute = 0;
 
       for (let i = 0; i < display.length; i++) {
         cost += parseFloat(data[display[i]].cost);
-        cost_minute += parseFloat(data[display[i]].cost_minute); 
+        cost_minute += parseFloat(data[display[i]].cost_minute);
       }
 
       $(this.api().column(3).footer()).html(

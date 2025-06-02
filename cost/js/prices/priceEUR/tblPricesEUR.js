@@ -10,8 +10,8 @@ $(document).ready(function () {
       // if (flag_composite_product == '1') {
       //   loadTblPricesUSD(parents);
       // } else
-        loadTblPricesUSD(prices);
-      
+      loadTblPricesUSD(prices);
+
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -70,6 +70,16 @@ $(document).ready(function () {
             },
           },
         ],
+        headerCallback: function (thead, data, start, end, display) {
+          $(thead).find("th").css({
+            "background-color": "#386297",
+            color: "white",
+            "text-align": "center",
+            "font-weight": "bold",
+            padding: "10px",
+            border: "1px solid #ddd",
+          });
+        },
       });
     }
   }

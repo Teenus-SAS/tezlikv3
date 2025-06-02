@@ -127,6 +127,16 @@ $(document).ready(function () {
             render: $.fn.dataTable.render.number('.', ',', 2, '', '%'),
           },
         ],
+        headerCallback: function (thead, data, start, end, display) {
+          $(thead).find("th").css({
+            "background-color": "#386297",
+            color: "white",
+            "text-align": "center",
+            "font-weight": "bold",
+            padding: "10px",
+            border: "1px solid #ddd",
+          });
+        },
         footerCallback: function (row, data, start, end, display) {
           let costs = 0;
           let cost_product_material = 0;

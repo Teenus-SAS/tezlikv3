@@ -15,6 +15,10 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsCSS.php'; ?>
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/stylesSelectProducs.css">
+
 </head>
 
 <body class="horizontal-navbar">
@@ -588,14 +592,18 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
     </div>
     <!-- Page End -->
 
+    <!-- JS -->
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/public/partials/scriptsJS.php'; ?>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
     <script src="/cost/js/basic/process/configProcess.js"></script>
     <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script src="/cost/js/basic/rawMaterials/configCategories.js"></script>
-    <script src="/public/js/components/configUnits.js"></script>
     <script src="/cost/js/config/generalServices/configGExternalServices.js"></script>
+    <script src="/public/js/components/configUnits.js"></script>
+    <script src="/public/js/components/selectProducts.js"></script>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -612,14 +620,13 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                 let resp = await searchData('/api/calcGeneralWorkforce');
                 console.log(resp);
             }
-
+            getDataProducts('/api/selectProducts');
             generalCalcWrkf();
         });
     </script>
     <script src="/public/js/import/file.js"></script>
     <script src="/public/js/import/import.js"></script>
     <script src="/public/js/components/orderData.js"></script>
-    <script src="/public/js/components/selectProducts.js"></script>
 
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>

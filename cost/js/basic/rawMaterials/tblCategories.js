@@ -1,4 +1,4 @@
-$(document).ready(function () {  
+$(document).ready(function () {
     loadTblCategories = (data) => {
         if ($.fn.DataTable.isDataTable('#tblCategories')) {
             tblCategories.DataTable().clear().rows.add(data).draw();
@@ -46,6 +46,16 @@ $(document).ready(function () {
                         },
                     },
                 ],
+                headerCallback: function (thead, data, start, end, display) {
+                    $(thead).find("th").css({
+                        "background-color": "#386297",
+                        color: "white",
+                        "text-align": "center",
+                        "font-weight": "bold",
+                        padding: "10px",
+                        border: "1px solid #ddd",
+                    });
+                },
             });
         }
     };

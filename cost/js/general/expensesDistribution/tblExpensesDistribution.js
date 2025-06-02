@@ -8,7 +8,7 @@ $(document).ready(function () {
       return $(this).val() == id;
     });
   });
-  
+
   $('.selectNameProduct').change(function (e) {
     e.preventDefault();
     let id = this.value;
@@ -25,7 +25,7 @@ $(document).ready(function () {
       // if (flag_composite_product == '1')
       //   dataExpensesDistribution = dataExpensesDistribution.filter(item => item.composite == 0);
 
-      sessionStorage.setItem('dataExpensesDistribution', JSON.stringify(dataExpensesDistribution)); 
+      sessionStorage.setItem('dataExpensesDistribution', JSON.stringify(dataExpensesDistribution));
 
       loadTableExpensesDistribution(dataExpensesDistribution);
     } catch (error) {
@@ -34,7 +34,7 @@ $(document).ready(function () {
   }
 
   /* Cargue tabla de Gastos distribuidos */
-  loadTableExpensesDistribution = (data) => { 
+  loadTableExpensesDistribution = (data) => {
     if ($.fn.DataTable.isDataTable('#tblExpenses')) {
       tblExpensesDistribution.DataTable().clear().rows.add(data).draw();
     } else {
@@ -69,7 +69,7 @@ $(document).ready(function () {
             data: 'product',
           },
           {
-            title: 'Unidades Vendidas (mes)',
+            title: 'Unids Vendidas (mes)',
             data: 'units_sold',
             className: 'classRight',
             render: function (data) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
                 data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return data;
             },
           },
@@ -96,7 +96,7 @@ $(document).ready(function () {
                 data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return `$ ${data}`;
             },
           },
@@ -112,7 +112,7 @@ $(document).ready(function () {
                 data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return `${data} %`;
             },
           },
@@ -128,7 +128,7 @@ $(document).ready(function () {
                 data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else
                 data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+
               return `$ ${data}`;
             },
           },
@@ -143,6 +143,16 @@ $(document).ready(function () {
             },
           },
         ],
+        headerCallback: function (thead, data, start, end, display) {
+          $(thead).find("th").css({
+            "background-color": "#386297",
+            color: "white",
+            "text-align": "center",
+            "font-weight": "bold",
+            padding: "10px",
+            border: "1px solid #ddd",
+          });
+        },
         footerCallback: function (row, data, start, end, display) {
           let units_sold = 0;
           let turnover = 0;

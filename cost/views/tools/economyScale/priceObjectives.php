@@ -15,6 +15,17 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsCSS.php'; ?>
+
+    <style>
+        #tblProducts thead th {
+            background-color: #386297;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
 
 <body class="horizontal-navbar">

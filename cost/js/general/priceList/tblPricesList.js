@@ -6,6 +6,16 @@ $(document).ready(function () {
     //   url: '../../api/priceList',
     //   dataSrc: '',
     // },
+    headerCallback: function (thead, data, start, end, display) {
+      $(thead).find("th").css({
+        "background-color": "#386297",
+        color: "white",
+        "text-align": "center",
+        "font-weight": "bold",
+        padding: "10px",
+        border: "1px solid #ddd",
+      });
+    },
     ajax: function (data, callback, settings) {
       fetch(`/api/priceList`)
         .then(response => response.json())
@@ -63,5 +73,15 @@ $(document).ready(function () {
         },
       },
     ],
+    headerCallback: function (thead, data, start, end, display) {
+      $(thead).find("th").css({
+        "background-color": "#386297",
+        color: "white",
+        "text-align": "center",
+        "font-weight": "bold",
+        padding: "10px",
+        border: "1px solid #ddd",
+      });
+    },
   });
 });

@@ -344,6 +344,16 @@ $(document).ready(function () {
       language: {
         url: "/assets/plugins/i18n/Spanish.json",
       },
+      headerCallback: function (thead, data, start, end, display) {
+        $(thead).find("th").css({
+          "background-color": "#386297",
+          color: "white",
+          "text-align": "center",
+          "font-weight": "bold",
+          padding: "10px",
+          border: "1px solid #ddd",
+        });
+      },
       fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
         if (oSettings.json && oSettings.json.hasOwnProperty("error")) {
           console.error(oSettings.json.error);

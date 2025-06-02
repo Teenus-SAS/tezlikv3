@@ -24,10 +24,10 @@ $(document).ready(function () {
         if (r.reload) {
           location.reload();
         }
-        
+
         r = r.filter(item => item.active == 1);
         sessionStorage.setItem('dataProducts', JSON.stringify(r));
-    
+
         populateSelect('.refProduct', r, 'reference');
         populateSelect('.selectNameProduct', r, 'product');
 
@@ -41,10 +41,10 @@ $(document).ready(function () {
   function populateSelect(selector, data, property) {
     let $select = $(selector);
     $select.empty();
-  
+
     let sortedData = sortFunction(data, property);
     $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
-  
+
     $.each(sortedData, function (i, value) {
       $select.append(`<option value ='${value.id_product}' class='${value.composite}'> ${value[property]} </option>`);
     });
@@ -53,9 +53,9 @@ $(document).ready(function () {
   function populateOptions(selector, data, property) {
     let $select = $(selector);
     $select.empty();
-  
+
     $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
-  
+
     $.each(data, function (i, value) {
       $select.append(`<option value ="${value.id_product}"> ${value[property]} </option>`);
     });

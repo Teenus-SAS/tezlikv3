@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // Cargar datos
     window.getDataProducts = async (url) => {
         await $.ajax({
             url: url,
@@ -10,38 +11,52 @@ $(document).ready(function () {
                 r = r.filter(item => item.active == 1);
                 sessionStorage.setItem('dataProducts', JSON.stringify(r));
 
+                const compositeProduct = r.filter(item => item.composite == 1);
+
                 populateSelect('.refProduct', r, 'reference');
                 populateSelect('.selectNameProduct', r, 'product');
+                populateSelect('#refCompositeProduct', compositeProduct, 'reference');
+                populateSelect('#compositeProduct', compositeProduct, 'product');
 
-                let compositeProduct = r.filter(item => item.composite == 1);
-                populateOptions('#refCompositeProduct', compositeProduct, 'reference');
-                populateOptions('#compositeProduct', compositeProduct, 'product');
+                initializeSelect2();
+                synchronizeSelects('.refProduct', '.selectNameProduct');
+                synchronizeSelects('#refCompositeProduct', '#compositeProduct');
             }
         });
     };
 
+    // Función para poblar selects
     function populateSelect(selector, data, property) {
-        let $select = $(selector);
-        $select.empty();
+        const $select = $(selector);
+        $select.empty().append(`<option value="0" disabled selected>Seleccionar</option>`);
+        const sortedData = sortFunction(data, property);
 
-        let sortedData = sortFunction(data, property);
-        $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
-
-        $.each(sortedData, function (i, value) {
-            $select.append(`<option value ='${value.id_product}' class='${value.composite}'> ${value[property]} </option>`);
+        $.each(sortedData, function (i, item) {
+            $select.append(`<option value="${item.id_product}" class="${item.composite}">${item[property]}</option>`);
         });
-    };
+    }
 
-    function populateOptions(selector, data, property) {
-        let $select = $(selector);
-        $select.empty();
-
-        $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
-
-        $.each(data, function (i, value) {
-            $select.append(`<option value ="${value.id_product}"> ${value[property]} </option>`);
+    // Inicializa Select2
+    function initializeSelect2() {
+        $('.refProduct, .selectNameProduct, #refCompositeProduct, #compositeProduct').select2({
+            width: '100%',
+            placeholder: 'Seleccionar',
+            allowClear: true,
         });
-    };
+    }
 
-    getDataProducts('/api/selectProducts');
+    // Sincroniza selects por ID del producto
+    function synchronizeSelects(selector1, selector2) {
+        $(selector1).on('change', function () {
+            let value = $(this).val();
+            $(selector2).val(value).trigger('change.select2');
+        });
+
+        $(selector2).on('change', function () {
+            let value = $(this).val();
+            $(selector1).val(value).trigger('change.select2');
+        });
+    }
+
+    //getDataProducts('/api/selectProducts');
 });

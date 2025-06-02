@@ -69,7 +69,7 @@ $(document).ready(function () {
         title: 'Costo',
         data: 'cost',
         className: 'classRight',
-        render: (data, type, row) => {return `$ ${renderNum(data)}`},
+        render: (data, type, row) => { return `$ ${renderNum(data)}` },
       },
       {
         title: 'Años de Depreciación',
@@ -110,5 +110,15 @@ $(document).ready(function () {
         },
       },
     ],
+    headerCallback: function (thead, data, start, end, display) {
+      $(thead).find("th").css({
+        "background-color": "#386297",
+        color: "white",
+        "text-align": "center",
+        "font-weight": "bold",
+        padding: "10px",
+        border: "1px solid #ddd",
+      });
+    },
   });
 });

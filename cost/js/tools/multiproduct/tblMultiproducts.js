@@ -30,7 +30,7 @@ $(document).ready(function () {
 
       let marginContribution =
         multiproducts[i].price - multiproducts[i].variable_cost;
-      
+
       // marginContribution < 0 ? marginContribution = 0 : marginContribution;
 
       tblMultiproductsBody.insertAdjacentHTML(
@@ -107,6 +107,16 @@ $(document).ready(function () {
         //   url: '/assets/plugins/i18n/Spanish.json',
         // },
         dom: '<"datatable-error-console">frtip',
+        headerCallback: function (thead, data, start, end, display) {
+          $(thead).find("th").css({
+            "background-color": "#386297",
+            color: "white",
+            "text-align": "center",
+            "font-weight": "bold",
+            padding: "10px",
+            border: "1px solid #ddd",
+          });
+        },
         fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
           if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
             console.error(oSettings.json.error);
