@@ -125,7 +125,7 @@
   <!-- ================== BEGIN PAGE JS ================== -->
   <script src="/public/js/components/inactiveUsers.js"></script>
   <script src="assets/js/app.js"></script>
-  <script src="global/js/login/autentication.js"></script>
+  <script src="public/js/login/autentication.js"></script>
   <script>
     sessionStorage.removeItem('op');
     sessionStorage.removeItem('indirect');
