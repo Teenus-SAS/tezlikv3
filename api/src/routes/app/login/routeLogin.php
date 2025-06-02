@@ -204,7 +204,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         'success' => true,
         'location' => $location,
         'token' => $token,
-        'companyConfigHistory' => $dataCompany['cost_historical']
+        'companyConfigHistory' => $dataCompany['cost_historical'] ?? null,
     ], 200);
 });
 

@@ -17,7 +17,7 @@ $(document).ready(function () {
     });
   });
 
-  getDataProducts = async (url) => {
+  /* getDataProducts = async (url) => {
     await $.ajax({
       url: url,
       success: function (r) {
@@ -59,16 +59,16 @@ $(document).ready(function () {
     $.each(data, function (i, value) {
       $select.append(`<option value ="${value.id_product}"> ${value[property]} </option>`);
     });
-  };
+  }; */
 
   function economyScaleOtions(selector, data, property) {
     let $select = $(selector);
     $select.empty();
 
     data = data.filter(item => item.composite == 0);
-  
+
     $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
-  
+
     $.each(data, function (i, value) {
       $select.append(`<option value ="${value.id_product}"> ${value[property]} </option>`);
     });

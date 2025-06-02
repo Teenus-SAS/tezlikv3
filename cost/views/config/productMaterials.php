@@ -608,8 +608,6 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
         coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
 
         $(document).ready(function() {
-            getDataProducts('/api/selectProducts');
-
             const generalCalcWrkf = async () => {
                 let resp = await searchData('/api/calcGeneralWorkforce');
                 console.log(resp);
@@ -618,19 +616,21 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
             generalCalcWrkf();
         });
     </script>
+    <script src="/public/js/import/file.js"></script>
+    <script src="/public/js/import/import.js"></script>
+    <script src="/public/js/components/orderData.js"></script>
+    <script src="/public/js/components/selectProducts.js"></script>
+
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
     <script src="/cost/js/config/services/tblExternalServices.js"></script>
-    <script src="/public/js/components/orderData.js"></script>
     <script src="/cost/js/config/productMaterials/productMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/compositeProducts.js"></script>
     <script src="/cost/js/config/productProcess/productProcess.js"></script>
     <script src="/cost/js/config/services/externalServices.js"></script>
-    <script src="../public/js/import/import.js"></script>
     <script src="/cost/js/config/productMaterials/importProductMaterials.js"></script>
     <script src="/cost/js/config/productProcess/importProductProcess.js"></script>
     <script src="/cost/js/config/services/importExternalServices.js"></script>
-    <script src="../public/js/import/file.js"></script>
 </body>
 
 </html>
