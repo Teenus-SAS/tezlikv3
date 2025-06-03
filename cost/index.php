@@ -5,6 +5,7 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
 <?php require_once __DIR__ . '/modals/modalGeneralDashboard.php'; ?>
 <?php require_once __DIR__ . '/modals/autoHistorical.php'; ?>
 <?php require_once __DIR__ . '/modals/FirstLogin.php'; ?>
+<?php require_once __DIR__ . '/modals/updatesNotices.php'; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -20,6 +21,253 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(__DIR__) . '/public/partials/scriptsCSS.php'; ?>
+
+    <!-- Estilos CSS Modernos -->
+    <style>
+        .updates-window {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .updates-header {
+            background: linear-gradient(135deg, #386297, #4361ee);
+            color: white;
+            border-bottom: none;
+            padding: 1.5rem;
+        }
+
+        .update-icon {
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .update-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .version-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .update-intro {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #4361ee;
+        }
+
+        .lead {
+            margin-bottom: 0;
+            font-size: 1.05rem;
+            /* color: #495057; */
+        }
+
+        .updates-container {
+            margin-bottom: 2rem;
+        }
+
+        .update-card {
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background-color: white;
+            border-left: 4px solid;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .update-card.security {
+            border-left-color: #4cc9f0;
+        }
+
+        .update-card.optimization {
+            border-left-color: #4895ef;
+        }
+
+        .update-card.fixes {
+            border-left-color: #7209b7;
+        }
+
+        .update-header {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .update-badge {
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.75rem;
+        }
+
+        .update-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0;
+            color: #212529;
+        }
+
+        .update-features {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        .update-features li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .update-features li:last-child {
+            margin-bottom: 0;
+        }
+
+        .update-features i {
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            margin-top: 0.15rem;
+            flex-shrink: 0;
+        }
+
+        .update-features .bi-shield-lock {
+            color: #4cc9f0;
+        }
+
+        .update-features .bi-clock-history {
+            color: #4895ef;
+        }
+
+        .update-features .bi-search {
+            color: #7209b7;
+        }
+
+        .update-features .bi-bug {
+            color: #f72585;
+        }
+
+        .update-features .bi-browser-chrome {
+            color: #4361ee;
+        }
+
+        .highlighted-features {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .highlight-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            color: #212529;
+        }
+
+        .highlight-title i {
+            margin-right: 0.75rem;
+            color: #4361ee;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 8px;
+            height: 100%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon.security {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: #4cc9f0;
+        }
+
+        .feature-icon.ux {
+            background-color: rgba(114, 9, 183, 0.1);
+            color: #7209b7;
+        }
+
+        .feature-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        .feature-card ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.25rem;
+        }
+
+        .feature-card ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #6c757d;
+        }
+
+        .updates-footer {
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .btn-outline-secondary {
+            border-color: #dee2e6;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Efectos de hover */
+        .update-card:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
 <body class="horizontal-navbar">
@@ -588,6 +836,8 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
                                 <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
                                 <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
                                 <script src="/public/js/components/printPdf.js"></script>
+                                <script src="/public/js/components/updateNotice.js"></script>
+
                                 <?php if ($_SESSION['status_historical'] == 1 && $_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) { ?>
                                     <script>
                                         d_historical = "<?= $_SESSION['d_historical'] ?>";

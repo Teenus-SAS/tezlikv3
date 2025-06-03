@@ -107,6 +107,7 @@ require_once('../api/src/routes/app/cost/general/routeProductionCenter.php');
 /* Global */
 require_once('../api/src/routes/app/global/routeCompany.php');
 require_once('../api/src/routes/app/global/routeDoubleFactor.php');
+require_once('../api/src/routes/app/global/routeUpdatesNotices.php');
 
 // Profile
 require_once('../api/src/routes/app/global/routeProfile.php');

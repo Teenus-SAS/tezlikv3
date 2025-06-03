@@ -62,6 +62,7 @@ $(document).ready(function () {
         if (response.success) {
           localStorage.setItem('companyConfigHistory', response.companyConfigHistory);
           localStorage.setItem('authToken', response.token);
+          localStorage.setItem('updates_notice', response.updates_notice);
           window.location.href = response.location;
         }
       },

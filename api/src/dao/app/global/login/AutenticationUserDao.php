@@ -19,12 +19,14 @@ class AutenticationUserDao
   public function findByEmail($email)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM users WHERE email = :email");
+    $sql = "SELECT * FROM users WHERE email = :email";
+    $stmt = $connection->prepare($sql);
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch($connection::FETCH_ASSOC);
 
     if (!$user) {
-      $stmt = $connection->prepare("SELECT * FROM admins WHERE email = :email");
+      $sql = "SELECT * FROM admins WHERE email = :email";
+      $stmt = $connection->prepare($sql);
       $stmt->execute(['email' => $email]);
       $user = $stmt->fetch($connection::FETCH_ASSOC);
       if ($user)
