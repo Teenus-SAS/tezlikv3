@@ -29,10 +29,10 @@ $(document).ready(function () {
         break;
       case 'distribution':
         $('.cardExpenseDistribution').show();
-      
+
         if (flag_expense == '1')
           $('.cardNewProducts').show();
-        
+
         if (production_center == '1' && flag_production_center == '1') {
           // Obtener el elemento select
           var selectElement = document.getElementById("selectProductionCenterED");
@@ -40,7 +40,7 @@ $(document).ready(function () {
           selectElement.selectedIndex = 0;
         }
         break;
-      case 'sDistributionA': 
+      case 'sDistributionA':
         // document.getElementsByClassName('nav-link').className = 'nav-link selectNavigation';
 
         $('.cardExpenseDistributionAnual').show();
@@ -61,7 +61,7 @@ $(document).ready(function () {
       attr.style.width = '100%';
     }
   });
-  
+
   $('#btnNewExpense').click(function (e) {
     e.preventDefault();
 
@@ -131,16 +131,16 @@ $(document).ready(function () {
   /* Revision data gasto */
   checkDataExpense = async (url, idExpense) => {
     let puc = parseInt($('#idPuc').val());
-    let value = parseFloat($('#expenseValue').val()); 
+    let value = parseFloat($('#expenseValue').val());
 
     if (production_center == '1' && flag_production_center == '1')
       selectProductionCenter = parseFloat($('#selectProductionCenterExpenses').val());
     else
       selectProductionCenter = 0;
-  
+
     isNaN(value) ? value = 0 : value;
-    
-    if (!puc || puc == ''|| isNaN(selectProductionCenter)) {
+
+    if (!puc || puc == '' || isNaN(selectProductionCenter)) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -163,13 +163,13 @@ $(document).ready(function () {
 
       let arr = data.find(item => item.id_puc == puc);
 
-      if (arr) { 
+      if (arr) {
         url = '/api/updateExpenses';
 
         idExpense = arr.id_expense;
       }
     }
-    
+
     dataExpense.append('expenseValue1', value);
     dataExpense.append('idExpenseProductionCenter', sessionStorage.getItem('id_expense_product_center'));
 
@@ -188,8 +188,8 @@ $(document).ready(function () {
     // let data = dataExpenses.find(item => item.id_expense == id); 
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblAssExpenses.fnGetData(row);
-    
-    if(op == 2){
+
+    if (op == 2) {
       id_expense = data.id_expense_product_center;
       url = `/api/deleteExpenses/${id_expense}/2`;
     } else {
@@ -198,13 +198,13 @@ $(document).ready(function () {
     }
     let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
     let arr = dataExpenses.filter(item => item.id_expense == id_expense);
-    
+
     // if (production_center == '1' && flag_production_center == '1') id_expense = data.id_expense_product_center;
     if (production_center == '1' && flag_production_center == '1' && arr.length > 1 && op == 1) {
       var options = ''
 
       for (let i = 0; i < arr.length; i++) {
-        options += `<option value="${arr[i].id_expense_product_center}">${arr[i].production_center}</option>`;        
+        options += `<option value="${arr[i].id_expense_product_center}">${arr[i].production_center}</option>`;
       }
 
       bootbox.confirm({
@@ -237,8 +237,8 @@ $(document).ready(function () {
             url = `/api/deleteExpenses/${id_expense}/2`;
 
             $.get(url, function (data, textStatus, jqXHR) {
-                messageExpense(data);
-              }
+              messageExpense(data);
+            }
             );
           }
         },
@@ -261,8 +261,8 @@ $(document).ready(function () {
         callback: function (result) {
           if (result == true) {
             $.get(url, function (data, textStatus, jqXHR) {
-                messageExpense(data);
-              }
+              messageExpense(data);
+            }
             );
           }
         },
@@ -275,17 +275,17 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileExpensesAssignation').val('');
-    
+
     if (data.success == true) {
       $('.cardImportExpensesAssignation').hide(800);
       $('#formImportExpesesAssignation').trigger('reset');
       $('.cardCreateExpenses').hide(800);
       $('#formCreateExpenses').trigger('reset');
-      if (production_center == '1' && flag_production_center == '1') { 
+      if (production_center == '1' && flag_production_center == '1') {
         // Obtener el elemento select
         var selectElement = document.getElementById("selectProductionCenterExpenses");
         // Establecer la primera opción como seleccionada por defecto
@@ -297,5 +297,5 @@ $(document).ready(function () {
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
-  }; 
+  };
 });

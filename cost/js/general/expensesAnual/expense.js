@@ -1,16 +1,16 @@
 $(document).ready(function () {
   $('.cardCreateExpensesAnual').hide();
 
-  $('.selectExpenses').change(function (e) { 
+  $('.selectExpenses').change(function (e) {
     e.preventDefault();
 
     $('.cardsGeneral').hide();
     $('.navExpenseMonth').hide();
-    $('.navExpenseAnual').hide(); 
+    $('.navExpenseAnual').hide();
     let elements = document.getElementsByClassName('selectNavigation');
 
     for (let i = 0; i < elements.length; i++) {
-      elements[i].className = 'nav-link selectNavigation';      
+      elements[i].className = 'nav-link selectNavigation';
     }
 
     document.getElementById('sExpenses').className = 'nav-link active selectNavigation';
@@ -25,7 +25,7 @@ $(document).ready(function () {
         $('.navExpenseMonth').show();
         $('.cardExpenses').show();
         break;
-        case '2':// Mensual
+      case '2':// Mensual
         // document.getElementById('sExpensesA').className = 'nav-link active selectNavigation';
         $('.navExpenseAnual').show();
         $('.cardExpensesAnual').show();
@@ -43,7 +43,7 @@ $(document).ready(function () {
       attr.style.width = '100%';
     }
   });
-  
+
   $('#btnNewExpenseAnual').click(function (e) {
     e.preventDefault();
 
@@ -84,7 +84,7 @@ $(document).ready(function () {
 
     // production_center == '1' && flag_production_center == '1' ? id = 'id_expense_anual_product_center' : id = 'id_expense_anual';
     // let data = dataExpenses.find(item => item[id] == this.id);
- 
+
     sessionStorage.setItem('id_expense_anual', data.id_expense_anual);
     $(`#idPucAnual option:contains(${data.number_count} - ${data.count})`).prop(
       'selected',
@@ -112,15 +112,15 @@ $(document).ready(function () {
   /* Revision data gasto */
   const checkDataExpenseA = async (url, idExpense) => {
     let puc = parseInt($('#idPucAnual').val());
-    let value = parseFloat($('#expenseValueAnual').val()); 
+    let value = parseFloat($('#expenseValueAnual').val());
 
     // if (production_center == '1' && flag_production_center == '1')
     //   selectProductionCenter = parseFloat($('#selectProductionCenterExpenses').val());
     // else
     //   selectProductionCenter = 0;
-  
+
     isNaN(value) ? value = 0 : value;
-    
+
     if (!puc || puc == '') {
       toastr.error('Ingrese todos los campos');
       return false;
@@ -150,7 +150,7 @@ $(document).ready(function () {
     //     idExpense = arr.id_expense_anual;
     //   }
     // }
-    
+
     dataExpense.append('expenseValue1', value);
     // dataExpense.append('idExpenseProductionCenter', sessionStorage.getItem('id_expense_anual_product_center'));
 
@@ -180,7 +180,7 @@ $(document).ready(function () {
     // }
     // let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
     // let arr = dataExpenses.filter(item => item.id_expense_anual == id_expense_anual);
-    
+
     // // if (production_center == '1' && flag_production_center == '1') id_expense_anual = data.id_expense_anual_product_center;
     // if (production_center == '1' && flag_production_center == '1' && arr.length > 1 && op == 1) {
     //   var options = ''
@@ -227,29 +227,29 @@ $(document).ready(function () {
     //   });
     // }
     // else {
-      bootbox.confirm({
-        title: 'Eliminar',
-        message:
-          'Está seguro de eliminar este gasto? Esta acción no se puede reversar.',
-        buttons: {
-          confirm: {
-            label: 'Si',
-            className: 'btn-success',
-          },
-          cancel: {
-            label: 'No',
-            className: 'btn-danger',
-          },
+    bootbox.confirm({
+      title: 'Eliminar',
+      message:
+        'Está seguro de eliminar este gasto? Esta acción no se puede reversar.',
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
         },
-        callback: function (result) {
-          if (result == true) {
-            $.get(`/api/deleteExpensesAnual/${id_expense_anual}`, function (data, textStatus, jqXHR) {
-                messageExpenseA(data);
-              }
-            );
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.get(`/api/deleteExpensesAnual/${id_expense_anual}`, function (data, textStatus, jqXHR) {
+            messageExpenseA(data);
           }
-        },
-      });
+          );
+        }
+      },
+    });
     // }
   };
 
@@ -258,11 +258,11 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileExpensesAssignation').val('');
-    
+
     if (data.success == true) {
       $('.cardImportExpensesAssignationAnual').hide(800);
       $('#formImportExpesesAssignationAnual').trigger('reset');
@@ -274,5 +274,5 @@ $(document).ready(function () {
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
-  }; 
+  };
 });

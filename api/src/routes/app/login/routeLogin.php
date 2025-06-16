@@ -27,6 +27,7 @@ $historicalUsersDao = new HistoricalUsersDao();
 $firstLoginDao = new FirstLoginDao();
 $contractsDao = new ContractDao();
 $historicalProductsDao = new HistoricalProductsDao();
+
 $jwtSecret = $_ENV['jwt_key'] ?? '';
 $jwt = new JWTManagerDao($jwtSecret);
 

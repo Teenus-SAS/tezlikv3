@@ -284,7 +284,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="card">
-                                            <div class="card-body" style="display: none;">
+                                            <div class="card-body">
                                                 <form id="formCreateExpenses">
                                                     <div class="form-row">
                                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
