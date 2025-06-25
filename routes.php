@@ -6,8 +6,8 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/router.php");
 get('/', '/index.php');
 
 //Global
-get('/forgot-pass', '/global/views/login/forgot-password.php');
-get('/reset-pass', '/global/views/login/reset-password.php');
+get('/forgot-pass', '/public/views/login/forgot-password.php');
+get('/reset-pass', '/public/views/login/reset-password.php');
 
 /* ADMIN */
 //Navbar
