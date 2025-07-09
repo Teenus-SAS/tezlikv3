@@ -1,606 +1,368 @@
-$(document).ready(function () {
-    // Usuarios Activos
-    graphicActualUsers = (data) => {
-        let users = [];
-        let quantity = [];
-        let total = 0;
+// Registros por mes
+graphicMonth = (allRecords) => {
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const mesActual = meses[new Date().getMonth()];
 
-        let date = actualDate();
+    const dataDelMes = allRecords.filter(r => r.mes === mesActual);
 
-        data = data.filter(item => item.session_active == 1 && item.format_date == date);
-                
-        data = Object.values(data.reduce((result, currentItem) => {
-            const userID = currentItem.id_user;
-                 
-            if (!result[userID]) {
-                result[userID] = {
-                    id_user: currentItem.id_user,
-                    firstname: currentItem.firstname,
-                    lastname: currentItem.lastname,
-                    id_company: currentItem.id_company,
-                    company: currentItem.company,
-                    count: 1,
-                };
-            } else {
-                result[userID].count++;
-            }
-                
-            return result;
-        }, {}));
-                
-        for (let i in data) {
-            users.push(`${data[i].firstname} ${data[i].lastname}`);
-            quantity.push(data[i].count);
-            total = total + data[i].count;
+    const agrupados = {};
+    dataDelMes.forEach(r => {
+        if (!agrupados[r.company]) {
+            agrupados[r.company] = 0;
         }
-                
-        $('#totalActualUsers').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
-                 
-        cmo = document.getElementById('chartActualUsers');
-        chartActualUsers = new Chart(cmo, {
-            plugins: [ChartDataLabels],
-            type: 'doughnut',
-            data: {
-                labels: users,
-                datasets: [
-                    {
-                        data: quantity,
-                        backgroundColor: getRandomColor(data.length),
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data;
-                            dataArr.map((data) => {
-                                sum += data;
-                            });
-                
-                            let percentage = (value * 100) / sum;
-                            if (percentage > 3)
-                                return `${percentage.toLocaleString('es-CO', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })} %`;
-                            else return '';
-                        },
-                        color: 'white',
-                        font: {
-                            size: '14',
-                            weight: 'bold',
-                        },
-                    },
+        agrupados[r.company] += r.total_registros;
+    });
+
+    const labels = Object.keys(agrupados);
+    const data = Object.values(agrupados);
+
+    // 🔢 Calcular promedio
+    const total = data.reduce((sum, val) => sum + val, 0);
+    const promedio = (total / data.length).toFixed(2);
+
+    const ctx = document.getElementById('chartMonth').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: `Total registros - ${mesActual}`,
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
                 },
+                {
+                    label: `Promedio (${promedio})`,
+                    data: new Array(labels.length).fill(promedio),
+                    type: 'line',
+                    borderColor: 'rgba(255, 99, 132, 0.8)',
+                    borderWidth: 1.5,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    tension: 0,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Registros por empresa - ${mesActual}`
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
             },
-        });
-    };
-
-    // Empresas
-    graphicCompanies = (data) => {
-        let companies = [];
-        let quantity = [];
-        let total = 0;
-
-        data = Object.values(data.reduce((result, currentItem) => {
-            const companyId = currentItem.id_company;
-
-            // Si el grupo aún no existe, créalo
-            if (!result[companyId]) {
-                result[companyId] = {
-                    id_user: currentItem.id_user,
-                    firstname: currentItem.firstname,
-                    lastname: currentItem.lastname,
-                    id_company: currentItem.id_company,
-                    company: currentItem.company,
-                    count: 1,
-                };
-            } else {
-                // Incrementa el contador si el grupo ya existe
-                result[companyId].count++;
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Total registros'
+                    }
+                }
             }
-
-            return result;
-        }, {}));
-
-        data.sort((a, b) => b.count - a.count);
-
-        for (let i in data) {
-            companies.push(data[i].company);
-            quantity.push(data[i].count);
-            total = total + data[i].count;
         }
+    });
+};
 
-        if (quantity.length > 1) {
-            let maxDataValue = Math.max(...quantity);
-            let minDataValue = Math.min(...quantity);
-            let valueRange = maxDataValue - minDataValue;
 
-            let step = Math.ceil(valueRange / 10 / 10) * 10;
+// Registros por año
+graphicYear = (allRecords) => {
+    const acumulados = {};
+    let totalGeneral = 0;
 
-            maxYValue = Math.ceil(maxDataValue / step) * step + step;
-        } else {
-            maxYValue = Math.max(...quantity);
+    allRecords.forEach(r => {
+        if (!acumulados[r.company]) {
+            acumulados[r.company] = 0;
         }
+        acumulados[r.company] += r.total_registros;
+        totalGeneral += r.total_registros;
+    });
 
-        $('#totalComapnies').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
- 
-        cmo = document.getElementById('chartCompanies');
-        chartCompanies = new Chart(cmo, {
-            plugins: [ChartDataLabels],
-            type: 'bar',
-            data: {
-                labels: companies,
-                datasets: [
-                    {
-                        data: quantity,
-                        backgroundColor: getRandomColor(data.length),
-                        borderWidth: 1,
-                    },
-                ],
+    const labels = Object.keys(acumulados);
+    const data = labels.map(company =>
+        ((acumulados[company] / totalGeneral) * 100).toFixed(2)
+    );
+
+    const ctx = document.getElementById('chartYear').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels, // aún se usan para el tooltip
+            datasets: [{
+                data: data,
+                backgroundColor: labels.map(() =>
+                    `hsl(${Math.random() * 360}, 70%, 60%)`
+                ),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Participación por empresa - Año actual'
+                },
+                legend: {
+                    display: false // ocultar leyenda (labels fijos)
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function (context) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            return `${label}: ${value}%`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+};
+
+
+graphicChartLineEvolution = (allRecords) => {
+    const mesesOrdenados = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const empresas = [...new Set(allRecords.map(r => r.company))];
+
+    const select = document.getElementById('selectEmpresa');
+    select.innerHTML = '<option value="">-- Selecciona --</option>'; // reset
+
+    empresas.forEach(empresa => {
+        const option = document.createElement('option');
+        option.value = empresa;
+        option.textContent = empresa;
+        select.appendChild(option);
+    });
+
+    const ctx = document.getElementById('chartLineEvolution').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: mesesOrdenados,
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Evolución mensual de registros por empresa'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                }
             },
-            options: {
-                onClick: function (e) {
-                    let elements = chartCompanies.getElementsAtEventForMode(
-                        e,
-                        "nearest",
-                        { intersect: true },
-                        true
-                    );
+            interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Total registros'
+                    }
+                }
+            }
+        }
+    });
 
-                    if (elements && elements.length > 0) {
-                        let activeElement = elements[0];
+    // Escuchar cambios del <select>
+    select.addEventListener('change', function () {
+        const empresaSeleccionada = this.value;
 
-                        let dataIndex = activeElement.index;
-                        let label = chartCompanies.data.labels[dataIndex];
-                        
+        if (!empresaSeleccionada) {
+            chart.data.datasets = [];
+            chart.update();
+            return;
+        }
 
-                        // sad(label);
+        const registrosEmpresa = allRecords.filter(r => r.company === empresaSeleccionada);
+        const dataPorMes = new Array(12).fill(0);
+        registrosEmpresa.forEach(r => {
+            const indexMes = mesesOrdenados.indexOf(r.mes);
+            if (indexMes !== -1) {
+                dataPorMes[indexMes] += r.total_registros;
+            }
+        });
+
+        // Calcular promedio sin contar ceros
+        const suma = dataPorMes.reduce((acc, val) => acc + val, 0);
+        const cantidadMeses = dataPorMes.filter(val => val > 0).length || 1;
+        const promedio = (suma / cantidadMeses).toFixed(2);
+
+        chart.data.datasets = [
+            {
+                label: empresaSeleccionada,
+                data: dataPorMes,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'transparent',
+                borderWidth: 2,
+                tension: 0.3,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            },
+            {
+                label: `Promedio (${promedio})`,
+                data: new Array(12).fill(promedio),
+                borderColor: 'rgba(255, 99, 132, 0.8)',
+                borderWidth: 1.5,
+                borderDash: [5, 5],
+                pointRadius: 0,
+                fill: false
+            }
+        ];
+
+        chart.update();
+    });
+}
+
+// Paso 4: Función para actualizar la línea
+function actualizarGrafico(empresaSeleccionada) {
+    if (!empresaSeleccionada) {
+        chart.data.datasets = [];
+        chart.update();
+        return;
+    }
+
+    const registrosEmpresa = allRecords.filter(r => r.company === empresaSeleccionada);
+
+    const dataPorMes = new Array(12).fill(0);
+    registrosEmpresa.forEach(r => {
+        const indexMes = mesesOrdenados.indexOf(r.mes);
+        if (indexMes !== -1) {
+            dataPorMes[indexMes] += r.total_registros;
+        }
+    });
+
+    chart.data.datasets = [{
+        label: empresaSeleccionada,
+        data: dataPorMes,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        tension: 0.3,
+        pointRadius: 4,
+        pointHoverRadius: 6
+    }];
+    chart.update();
+}
+
+function graphicHeatmap(allRecords) {
+    // Orden de los meses
+    const mesesOrden = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'];
+
+    // Obtener empresas únicas
+    const empresas = [...new Set(allRecords.map(item => item.company))];
+
+    // Crear matriz de datos
+    const dataMatrix = empresas.map(empresa => {
+        return mesesOrden.map(mes => {
+            const registro = allRecords.find(r => r.company === empresa && r.mes === mes);
+            return registro ? registro.total_registros : 0;
+        });
+    });
+
+    // Encontrar el valor máximo para la escala de colores
+    const maxValue = Math.max(...allRecords.map(r => r.total_registros));
+
+    return {
+        labels: mesesOrden,
+        empresas: empresas,
+        data: dataMatrix,
+        maxValue: maxValue
+    };
+}
+
+// 2. Crear el mapa de calor
+function createHeatmapChart(allRecords) {
+    const ctx = document.getElementById('heatmapChart').getContext('2d');
+    const heatmapData = graphicHeatmap(allRecords);
+
+    // Configurar los datos para Chart.js
+    const datasets = heatmapData.empresas.map((empresa, i) => {
+        return {
+            label: empresa,
+            data: heatmapData.data[i],
+            backgroundColor: heatmapData.data[i].map(value => {
+                // Calcular intensidad del color (rojo) basado en el valor
+                const intensity = value / heatmapData.maxValue;
+                return `rgba(255, ${Math.floor(100 * (1 - intensity))}, ${Math.floor(100 * (1 - intensity))}, 0.7)`;
+            }),
+            borderColor: 'rgba(200, 200, 200, 0.2)',
+            borderWidth: 1
+        };
+    });
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: heatmapData.labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Registros por Empresa y Mes',
+                    font: {
+                        size: 16
                     }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: maxYValue,
-                    },
-                    x: {
-                        display: false,
-                    },
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        offset: 2,
-                        formatter: (value, ctx) => {
-                            let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data;
-                            dataArr.map((data) => {
-                                sum += data;
-                            });
-                            let percentage = (value * 100) / sum;
-                            isNaN(percentage) ? (percentage = 0) : percentage;
-                            return `${percentage.toLocaleString('es-CO', {
-                                maximumFractionDigits: 2,
-                            })} %`;
-                        },
-                        color: 'black',
-                        font: {
-                            size: '10',
-                            weight: 'light',
-                        },
-                    },
-                },
-            },
-        });
-    };
-
-    // Usuarios
-    graphicUsers = (data) => {
-        let users = [];
-        let quantity = [];
-        let total = 0;
-
-        data = Object.values(data.reduce((result, currentItem) => {
-            const userID = currentItem.id_user;
- 
-            if (!result[userID]) {
-                result[userID] = {
-                    id_user: currentItem.id_user,
-                    firstname: currentItem.firstname,
-                    lastname: currentItem.lastname,
-                    id_company: currentItem.id_company,
-                    company: currentItem.company,
-                    count: 1,
-                };
-            } else {
-                result[userID].count++;
-            }
-
-            return result;
-        }, {}));
-
-        data.sort((a, b) => b.count - a.count);
-
-        for (let i in data) {
-            users.push(`${data[i].firstname} ${data[i].lastname}`);
-            quantity.push(data[i].count);
-            total = total + data[i].count;
-        }
-
-        if (quantity.length > 1) {
-            let maxDataValue = Math.max(...quantity);
-            let minDataValue = Math.min(...quantity);
-            let valueRange = maxDataValue - minDataValue;
-
-            let step = Math.ceil(valueRange / 10 / 10) * 10;
-
-            maxYValue = Math.ceil(maxDataValue / step) * step + step;
-        } else {
-            maxYValue = Math.max(...quantity);
-        }
-
-        $('#totalUsers').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
-        
-        cmo = document.getElementById('chartUsers');
-        chartUsers = new Chart(cmo, {
-            plugins: [ChartDataLabels],
-            type: 'bar',
-            data: {
-                labels: users,
-                datasets: [
-                    {
-                        data: quantity,
-                        backgroundColor: getRandomColor(data.length),
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                onClick: function (e) {
-                    let elements = chartMonth.getElementsAtEventForMode(
-                        e,
-                        "nearest",
-                        { intersect: true },
-                        true
-                    );
-
-                    if (elements && elements.length > 0) {
-                        let activeElement = elements[0];
-
-                        let dataIndex = activeElement.index;
-                        let label = chartMonth.data.labels[dataIndex];
-
-                        // loadModalExpenses(label, data);
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.dataset.label}: ${context.raw} registros`;
+                        }
                     }
-                }, 
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: maxYValue,
-                    },
-                    x: {
-                        display: false,
-                    },
                 },
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        offset: 2,
-                        formatter: (value, ctx) => {
-                            let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data;
-                            dataArr.map((data) => {
-                                sum += data;
-                            });
-                            let percentage = (value * 100) / sum;
-                            isNaN(percentage) ? (percentage = 0) : percentage;
-                            return `${percentage.toLocaleString('es-CO', {
-                                maximumFractionDigits: 2,
-                            })} %`;
-                        },
-                        color: 'black',
-                        font: {
-                            size: '10',
-                            weight: 'light',
-                        },
-                    },
-                },
-            },
-        });
-    };
-
-    // Mes
-    graphicMonth = (data) => {
-        let date = [];
-        let quantity = [];
-        let total = 0;
-
-        data = Object.values(data.reduce((result, currentItem) => {
-            const date = currentItem.format_date;
-
-            // Si el grupo aún no existe, créalo
-            if (!result[date]) {
-                result[date] = {
-                    id_user: currentItem.id_user,
-                    firstname: currentItem.firstname,
-                    lastname: currentItem.lastname,
-                    id_company: currentItem.id_company,
-                    company: currentItem.company,
-                    day: currentItem.day,
-                    month: currentItem.month,
-                    count: 1,
-                };
-            } else {
-                // Incrementa el contador si el grupo ya existe
-                result[date].count++;
-            }
-
-            return result;
-        }, {}));
-
-        data.sort((a, b) => b.count - a.count);
-
-        for (let i in data) {
-            date.push(`${data[i].day} de ${data[i].month}`);
-            quantity.push(data[i].count);
-            total = total + data[i].count;
-        }
-
-        // $('#totalMonth').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
-
-        cmo = document.getElementById('chartMonth');
-        chartMonth = new Chart(cmo, {
-            plugins: [ChartDataLabels],
-            type: 'bar',
-            data: {
-                labels: date,
-                datasets: [
-                    {
-                        data: quantity,
-                        backgroundColor: getRandomColor(data.length),
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                onClick: function (e) {
-                    let elements = chartMonth.getElementsAtEventForMode(
-                        e,
-                        "nearest",
-                        { intersect: true },
-                        true
-                    );
-
-                    if (elements && elements.length > 0) {
-                        let activeElement = elements[0];
-
-                        let dataIndex = activeElement.index;
-                        let label = chartMonth.data.labels[dataIndex];
-
-                        // loadModalExpenses(label, data);
+                legend: {
+                    position: 'right',
+                    labels: {
+                        boxWidth: 12
                     }
-                }, 
-                 scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: maxYValue,
-                    },
-                    x: {
-                        display: false,
-                    },
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        offset: 2,
-                        formatter: (value, ctx) => {
-                            let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data;
-                            dataArr.map((data) => {
-                                sum += data;
-                            });
-                            let percentage = (value * 100) / sum;
-                            isNaN(percentage) ? (percentage = 0) : percentage;
-                            return `${percentage.toLocaleString('es-CO', {
-                                maximumFractionDigits: 2,
-                            })} %`;
-                        },
-                        color: 'black',
-                        font: {
-                            size: '10',
-                            weight: 'light',
-                        },
-                    },
-                },
+                }
             },
-        });
-    };
-
-    // Año
-    graphicYear = (data) => {
-        let month = [];
-        let quantity = [];
-        let total = 0;
-
-        data = Object.values(data.reduce((result, currentItem) => {
-            const month = currentItem.month;
-
-            // Si el grupo aún no existe, créalo
-            if (!result[month]) {
-                result[month] = {
-                    id_user: currentItem.id_user,
-                    firstname: currentItem.firstname,
-                    lastname: currentItem.lastname,
-                    id_company: currentItem.id_company,
-                    company: currentItem.company,
-                    day: currentItem.day,
-                    month: currentItem.month,
-                    count: 1,
-                };
-            } else {
-                // Incrementa el contador si el grupo ya existe
-                result[month].count++;
+            scales: {
+                x: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: 'Meses'
+                    }
+                },
+                y: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: 'Total de Registros'
+                    },
+                    beginAtZero: true
+                }
             }
-
-            return result;
-        }, {}));
-
-        data.sort((a, b) => b.count - a.count);
-
-        for (let i in data) {
-            month.push(data[i].month);
-            quantity.push(data[i].count);
-            total = total + data[i].count;
         }
+    });
+}
 
-        $('#totalYear').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
-
-        cmo = document.getElementById('chartYear');
-        chartYear = new Chart(cmo, {
-            plugins: [ChartDataLabels],
-            type: 'doughnut',
-            data: {
-                labels: month,
-                datasets: [
-                    {
-                        data: quantity,
-                        backgroundColor: getRandomColor(data.length),
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data;
-                            dataArr.map((data) => {
-                                sum += data;
-                            });
-                
-                            let percentage = (value * 100) / sum;
-                            if (percentage > 3)
-                                return `${percentage.toLocaleString('es-CO', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })} %`;
-                            else return '';
-                        },
-                        color: 'white',
-                        font: {
-                            size: '14',
-                            weight: 'bold',
-                        },
-                    },
-                },
-            },
-        });
-    };
-
-    // Promedio
-    graphicAverageLogin = (data) => { 
-        let companies = [];
-        let total = [];
-
-        for (let i in data) { 
-            companies.push(data[i].company); 
-            total.push(data[i].count); 
-        } 
-
-        let maxYValue;
-
-        if (total.length > 1) {
-            let maxDataValue = Math.max(...total);
-            let minDataValue = Math.min(...total);
-            let valueRange = maxDataValue - minDataValue;
-
-            if (Math.abs(valueRange) < 1) {
-                maxYValue = 1;
-            } else {
-                let step = Math.ceil(valueRange / 10 / 10) * 10;
-
-                maxYValue = Math.ceil(maxDataValue / step) * step + step;
-
-                isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
-            }
-        } else {
-            maxYValue = Math.max(...total);
-        }
-
-        cmc = document.getElementById('chartTotalLogin').getContext('2d');
-        chartTotalLogin = new Chart(cmc, {
-            plugins: [ChartDataLabels],
-            type: 'bar',
-            data: {
-                labels: companies,
-                datasets: [
-                    {
-                        data: total,
-                        backgroundColor: getRandomColor(data.length),
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: maxYValue,
-                    },
-                    x: {
-                        display: false,
-                    },
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        offset: 2,
-                        formatter: (value, ctx) => {
-                          let sum = 0;
-                          let dataArr = ctx.chart.data.datasets[0].data;
-                          dataArr.map((data) => {
-                            sum += data;
-                          });
-                          let percentage = (value * 100) / sum;
-                          isNaN(percentage) ? (percentage = 0) : percentage;
-                          return `${percentage.toLocaleString('es-CO', {
-                            maximumFractionDigits: 2,
-                          })} %`;
-                        }, 
-                        color: 'black',
-                        font: {
-                            size: '10',
-                            weight: 'light',
-                        },
-                    },
-                },
-            },
-        });
-    };
-});

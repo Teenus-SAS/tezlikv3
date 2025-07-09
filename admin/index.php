@@ -14,6 +14,34 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
     <title>TezlikSoftware Admin | Dashboard</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
     <?php include_once dirname(__DIR__) . '/public/partials/scriptsCSS.php'; ?>
+
+    <style>
+        /* Asegura que todos los cards tengan el mismo alto mínimo */
+        .dashboard-card-equal {
+            height: 100%;
+            min-height: 320px;
+            /* Ajusta este valor según necesidad */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dashboard-card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
+
 </head>
 
 
@@ -126,29 +154,13 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
                         </div>
                         <!-- Row 2-->
                         <div class="row d-flex align-items-center">
-                            <!-- Begin total sales chart -->
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Usuarios (Activos)</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="chart-container">
-                                            <canvas id="chartActualUsers" style="width: 80%;"></canvas>
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Total</p>
-                                                <p class="mb-0 font-weight-bold" id="totalActualUsers"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card">
+
+                            <div class="col-lg-8">
+                                <div class="card dashboard-card-equal">
                                     <div class="card-header">
                                         <h5 class="card-title">Mes</h5>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body dashboard-card-body">
                                         <div class="chart-container">
                                             <canvas id="chartMonth" style="width: 80%;"></canvas>
                                             <div class="center-text">
@@ -159,12 +171,13 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-lg-4">
-                                <div class="card">
+                                <div class="card dashboard-card-equal">
                                     <div class="card-header">
                                         <h5 class="card-title">Año</h5>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body dashboard-card-body">
                                         <div class="chart-container">
                                             <canvas id="chartYear" style="width: 80%;"></canvas>
                                             <div class="center-text">
@@ -175,51 +188,45 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="card">
+
+                            <div class="col-lg-6">
+                                <div class="card dashboard-card-equal">
                                     <div class="card-header">
-                                        <h5 class="card-title">Empresas</h5>
+                                        <h5 class="card-title">Evolución</h5>
                                     </div>
-                                    <div class="card-body">
-                                        <canvas id="chartCompanies"></canvas>
-                                        <!-- <div class="chart-container">
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Total</p>
-                                                <p class="mb-0 font-weight-bold" id="totalComapnies"></p>
-                                            </div>
-                                        </div> -->
+                                    <div class="card-body dashboard-card-body">
+                                        <div class="form-inline mb-3">
+                                            <label for="selectEmpresa" class="mr-2"><strong>Selecciona una empresa:</strong></label>
+                                            <select class="form-control form-control-sm w-auto" id="selectEmpresa">
+                                                <option value="">-- Selecciona --</option>
+                                            </select>
+                                        </div>
+                                        <canvas id="chartLineEvolution"></canvas>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="card">
+
+
+                            <div class="col-lg-6">
+                                <div class="card dashboard-card-equal">
                                     <div class="card-header">
-                                        <h5 class="card-title">Usuarios</h5>
+                                        <h5 class="card-title">Mapa de Calor</h5>
                                     </div>
-                                    <div class="card-body">
-                                        <canvas id="chartUsers"></canvas>
-                                        <!-- <div class="chart-container">
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Total</p>
-                                                <p class="mb-0 font-weight-bold" id="totalUsers"></p>
-                                            </div>
-                                        </div> -->
+                                    <div class="card-body dashboard-card-body">
+                                        <canvas id="heatmapChart"></canvas>
+
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-lg-4">
-                                <div class="card">
+                                <div class="card dashboard-card-equal">
                                     <div class="card-header">
                                         <h5 class="card-title">Total Ingresos</h5>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body dashboard-card-body">
                                         <canvas id="chartTotalLogin"></canvas>
-                                        <!-- <div class="chart-container">
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Total</p>
-                                                <p class="mb-0 font-weight-bold" id="totalUsers"></p>
-                                            </div>
-                                        </div> -->
+
                                     </div>
                                 </div>
                             </div>
@@ -237,6 +244,9 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
     <!-- Page End -->
 
     <?php include_once dirname(__DIR__) . '/public/partials/scriptsJS.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1.0/dist/chartjs-chart-matrix.min.js"></script>
+
     <script src="/admin/js/global/changeCompany.js"></script>
     <script src="/admin/js/companies/configCompanies.js"></script>
     <script src="/public/js/components/actualDate.js"></script>

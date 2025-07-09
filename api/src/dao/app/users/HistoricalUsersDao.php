@@ -32,7 +32,8 @@ class HistoricalUsersDao
         try {
             $connection = Connection::getInstance()->getConnection();
 
-            $stmt = $connection->prepare("INSERT INTO historical_users (id_user) VALUES(:id_user)");
+            $sql = "INSERT INTO historical_users (id_user) VALUES(:id_user)";
+            $stmt = $connection->prepare($sql);
             $stmt->execute(['id_user' => $id_user]);
         } catch (\Exception $e) {
             return array('info' => true, 'message' => $e->getMessage());

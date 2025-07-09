@@ -163,9 +163,9 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         }
 
         // Guardar sesion
-        if ($user['id_user'] != 1) {
+        if ($user['id_user'] != 1)
             $historicalUsersDao->insertHistoricalUser($user['id_user']);
-        }
+
         $location = '../../cost/';
     } else {
         /* Configurar sesión admin */

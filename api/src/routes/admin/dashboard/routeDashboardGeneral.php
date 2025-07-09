@@ -16,32 +16,23 @@ $app->get('/dashboardCountsGeneral', function (Request $request, Response $respo
     // Obtener Cantidad de Productos
     $products = $dashboardGeneralsDao->findAllProducts();
 
-    // Obtener Cantidad de Empresas
+    // Obtener Cantidad de Empresas Activas
     $companies = $dashboardGeneralsDao->findAllCompanies();
 
-    // Obtener Cantidad de Usuarios
-    $users = $dashboardGeneralsDao->findAllUsers();
-
     // Obtener Cantidad de Usuarios Activos
+    $users = $dashboardGeneralsDao->findAllUsersActive();
+
+    // Obtener Cantidad de Usuarios En sesion
     $usersSession = $dashboardGeneralsDao->findAllActiveUsersSession();
 
-    // Obtener Cantidad Empresas y Usuarios activos
-    $sCompany = $dashboardGeneralsDao->findAllComaniesAndUsers();
-    // Obtener Cantidad Mese activo
-    $month = $dashboardGeneralsDao->findAllCountByMonth();
-    $year = $dashboardGeneralsDao->findAllCountByYear();
-
-    // Obtener Cantidad total por empresa
-    $count = $dashboardGeneralsDao->findAllCountByCompany();
+    // Obtener todos los ingresos
+    $allRecords = $dashboardGeneralsDao->findAllRecordsByYear();
 
     $generalDashboardCounts['allProducts'] = $products;
     $generalDashboardCounts['allCompanies'] = $companies;
     $generalDashboardCounts['allUsers'] = $users;
     $generalDashboardCounts['allUsersSession'] = $usersSession;
-    $generalDashboardCounts['sCompany'] = $sCompany;
-    $generalDashboardCounts['month'] = $month;
-    $generalDashboardCounts['year'] = $year;
-    $generalDashboardCounts['count'] = $count;
+    $generalDashboardCounts['allRecords'] = $allRecords;
 
     $response->getBody()->write(json_encode($generalDashboardCounts, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
