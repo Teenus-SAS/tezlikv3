@@ -60,10 +60,10 @@ class MachinesDao
                                   ORDER BY machine ASC");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $machines = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("machines", array('machines' => $machines));
+
     return $machines;
   }
 
@@ -86,8 +86,6 @@ class MachinesDao
         'hours_machine' => trim($dataMachine['hoursMachine']),
         'days_machine' => trim($dataMachine['daysMachine'])
       ]);
-
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       return $message;
@@ -112,7 +110,6 @@ class MachinesDao
         'hours_machine' => trim($dataMachine['hoursMachine']),
         'days_machine' => trim($dataMachine['daysMachine'])
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
@@ -133,7 +130,6 @@ class MachinesDao
       if ($rows > 0) {
         $stmt = $connection->prepare("DELETE FROM machines WHERE id_machine = :id_machine");
         $stmt->execute(['id_machine' => $id_machine]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
       }
     } catch (\Exception $e) {
       $message = $e->getMessage();

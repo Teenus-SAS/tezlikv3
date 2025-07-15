@@ -32,7 +32,7 @@ class ClassificationDao
             'id_product' => $dataInventory['idProduct'],
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $inventoryABC = $stmt->fetch($connection::FETCH_ASSOC);
         return $inventoryABC;
     }
@@ -65,7 +65,6 @@ class ClassificationDao
                 'id_product' => $dataInventory['idProduct'],
                 'classification' => $dataInventory['classification']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

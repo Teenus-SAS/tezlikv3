@@ -26,10 +26,10 @@ class FactoryLoadDao
                                   WHERE ml.id_company = :id_company;");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $factoryloads = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("factory load", array('factory load' => $factoryloads));
+
     return $factoryloads;
   }
 
@@ -50,7 +50,6 @@ class FactoryLoadDao
         'input' => strtoupper(trim($dataFactoryLoad['descriptionFactoryLoad'])),
         'cost' => $dataFactoryLoad['costFactory'],
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
@@ -73,7 +72,6 @@ class FactoryLoadDao
         'input' => strtoupper(trim($dataFactoryLoad['descriptionFactoryLoad'])),
         'cost' => $dataFactoryLoad['costFactory']
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('error' => true, 'message' => $message);
@@ -92,7 +90,6 @@ class FactoryLoadDao
     if ($rows > 0) {
       $stmt = $connection->prepare("DELETE FROM manufacturing_load WHERE id_manufacturing_load = :id_manufacturing_load");
       $stmt->execute(['id_manufacturing_load' => $dataFactoryLoad['idManufacturingLoad']]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }
 }

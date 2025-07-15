@@ -23,7 +23,7 @@ class CompaniesLicenseStatusDao
         $stmt = $connection->prepare("SELECT license_status FROM companies_licenses WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $status = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         return $status;
     }
 
@@ -38,7 +38,6 @@ class CompaniesLicenseStatusDao
                 'stat' => $status,
                 'id_company' => $id_company,
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

@@ -24,10 +24,10 @@ class GeneralProductsDao
                                       WHERE p.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $products));
+
         return $products;
     }
 
@@ -41,10 +41,10 @@ class GeneralProductsDao
                                         WHERE p.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $products));
+
         return $products;
     }
 
@@ -111,7 +111,7 @@ class GeneralProductsDao
             'id_company' => $id_company
         ]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $product = $stmt->fetch($connection::FETCH_ASSOC);
         return $product;
@@ -126,10 +126,10 @@ class GeneralProductsDao
                                   WHERE p.id_company = :id_company AND p.active = 1 ORDER BY `p`.`product`, `p`.`reference` ASC");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $products));
+
         return $products;
     }
 
@@ -144,10 +144,10 @@ class GeneralProductsDao
                                       WHERE p.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $expenses = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("expenses", array('expenses' => $expenses));
+
         return $expenses;
     }
 
@@ -161,10 +161,10 @@ class GeneralProductsDao
                                       WHERE p.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $recoverExpense = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("recoverExpense", array('recoverExpense' => $recoverExpense));
+
         return $recoverExpense;
     }
 
@@ -177,26 +177,24 @@ class GeneralProductsDao
                                   WHERE p.id_company = :id_company AND p.active = 0");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $products));
+
         return $products;
     }
 
     public function findAllProducts($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.id_product AS selectNameProduct, p.reference, p.product
-                                      FROM products p
-                                      INNER JOIN expenses_distribution ed ON ed.id_product = p.id_product
-                                      WHERE p.id_company = :id_company AND p.active = 1");
+        $sql = "SELECT p.id_product, p.id_product AS selectNameProduct, p.reference, p.product
+                FROM products p
+                INNER JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                WHERE p.id_company = :id_company AND p.active = 1";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $products));
         return $products;
     }
 
@@ -211,10 +209,10 @@ class GeneralProductsDao
                                       AND (ed.units_sold != 0 OR er.expense_recover != 0)");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $products));
+
         return $products;
     }
 
@@ -229,8 +227,6 @@ class GeneralProductsDao
             'price' => $totalPrice,
             'id_product' => $idProduct
         ]);
-
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
 
     public function activeOrInactiveProducts($id_product, $active)
@@ -243,7 +239,6 @@ class GeneralProductsDao
                 'id_product' => $id_product,
                 'active' => $active
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -261,7 +256,6 @@ class GeneralProductsDao
                 'id_product' => $id_product,
                 'composite' => $composite
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -282,7 +276,6 @@ class GeneralProductsDao
                 'id_product' => $id_product,
                 'new_product' => $status
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

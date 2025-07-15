@@ -19,19 +19,19 @@ class ProcessDao
     public function findAllProcessByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        
+
         $sql = "SELECT p.id_process, p.process, p.id_company, IFNULL((SELECT COUNT(id_payroll) 
                 FROM payroll WHERE id_process = p.id_process), 0) AS count_payroll, p.route
                 FROM process p 
                 WHERE p.id_company = :id_company ORDER BY p.route ASC";
-        
+
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $processes = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("process", array('process' => $processes));
+
         return $processes;
     }
 
@@ -45,7 +45,6 @@ class ProcessDao
                 'id_company'  => $id_company,
                 'process' => strtoupper(trim($dataProcess['process']))
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -67,7 +66,6 @@ class ProcessDao
                 'process' => strtoupper(trim($dataProcess['process'])),
                 'id_process' => $dataProcess['idProcess'],
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -86,7 +84,6 @@ class ProcessDao
             if ($rows > 0) {
                 $stmt = $connection->prepare("DELETE FROM process WHERE id_process = :id_process");
                 $stmt->execute(['id_process' => $id_process]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

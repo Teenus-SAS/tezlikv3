@@ -54,10 +54,10 @@ class PricesDao
 
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $prices = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("prices", array('prices' => $prices));
+
     return $prices;
   }
 
@@ -72,7 +72,7 @@ class PricesDao
       'id_product' => $id_product,
       'id_company' => $id_company
     ]);
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $price = $stmt->fetch($connection::FETCH_ASSOC);
     return $price;
@@ -83,7 +83,7 @@ class PricesDao
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT * FROM custom_prices WHERE id_price_list = :id_price_list");
     $stmt->execute(['id_price_list' => $id_price_list]);
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $price = $stmt->fetch($connection::FETCH_ASSOC);
     return $price;

@@ -22,7 +22,7 @@ class GeneralExternalServicesDao
         $stmt = $connection->prepare("SELECT * FROM general_external_services WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $externalservices = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $externalservices));
+
         return $externalservices;
     }
 
@@ -54,7 +54,6 @@ class GeneralExternalServicesDao
                 'cost' => $dataExternalService['costService'],
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             if ($e->getCode() == 23000)
@@ -77,7 +76,6 @@ class GeneralExternalServicesDao
                 'cost' => $dataExternalService['costService'],
                 'id_general_service' => $dataExternalService['idService']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -96,7 +94,6 @@ class GeneralExternalServicesDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM general_external_services WHERE id_general_service = :id_general_service");
             $stmt->execute(['id_general_service' => $idService]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

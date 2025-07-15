@@ -51,7 +51,7 @@ class GeneralProductMaterialsDao
                                       WHERE pm.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
         $productsmaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $productsmaterials));
+
         return $productsmaterials;
     }
 
@@ -66,7 +66,7 @@ class GeneralProductMaterialsDao
                                       WHERE pm.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $productsmaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $productsmaterials));
+
         return $productsmaterials;
     }
 
@@ -94,7 +94,6 @@ class GeneralProductMaterialsDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM products_materials WHERE id_product = :id_product");
             $stmt->execute(['id_product' => $dataProductMaterial['idProduct']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 

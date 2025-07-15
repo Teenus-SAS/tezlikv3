@@ -79,7 +79,6 @@ class GeneralExpenseDistributionAnualDao
         if ($row > 0) {
             $stmt = $connection->prepare("DELETE FROM expenses_distribution WHERE id_product = :id_product");
             $stmt->execute(['id_product' => $dataExpensesDistribution['idProduct']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

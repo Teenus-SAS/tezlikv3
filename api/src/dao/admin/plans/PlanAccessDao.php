@@ -23,7 +23,7 @@ class PlanAccessDao
         $stmt = $connection->prepare("SELECT * FROM plans_access");
         $stmt->execute();
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $plans = $stmt->fetchAll($connection::FETCH_ASSOC);
 
         return $plans;
@@ -36,7 +36,7 @@ class PlanAccessDao
         $stmt = $connection->prepare("SELECT * FROM plans_access WHERE id_plan = :id_plan");
         $stmt->execute(['id_plan' => $id_plan]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $plans = $stmt->fetch($connection::FETCH_ASSOC);
 
         return $plans;
@@ -50,15 +50,19 @@ class PlanAccessDao
                                                                   cost_multiproduct = :cost_multiproduct, cost_economy_scale = :cost_economy_scale, cost_sale_objectives = :cost_sale_objectives, cost_price_objectives = :cost_price_objectives, cost_simulator = :cost_simulator
                                           WHERE id_plan= :id_plan");
             $stmt->execute([
-                'id_plan' => $dataPlan['idPlan'],                                   'cost_sale_objectives' => $dataPlan['salesObjective'],
-                'cant_products' => $dataPlan['cantProducts'],                       'cost_price_objectives' => $dataPlan['priceObjective'],
-                'cost_price' => $dataPlan['prices'],                                'cost_quote' => $dataPlan['quotes'],
-                'custom_price' => $dataPlan['customPrices'],                        'cost_multiproduct' => $dataPlan['multiproduct'],
-                'cost_analysis_material' => $dataPlan['analysisRawMaterials'],      'cost_simulator' => $dataPlan['simulator'],
-                'cost_economy_scale' => $dataPlan['economyScale'],                  'cost_support' => $dataPlan['support'],
+                'id_plan' => $dataPlan['idPlan'],
+                'cost_sale_objectives' => $dataPlan['salesObjective'],
+                'cant_products' => $dataPlan['cantProducts'],
+                'cost_price_objectives' => $dataPlan['priceObjective'],
+                'cost_price' => $dataPlan['prices'],
+                'cost_quote' => $dataPlan['quotes'],
+                'custom_price' => $dataPlan['customPrices'],
+                'cost_multiproduct' => $dataPlan['multiproduct'],
+                'cost_analysis_material' => $dataPlan['analysisRawMaterials'],
+                'cost_simulator' => $dataPlan['simulator'],
+                'cost_economy_scale' => $dataPlan['economyScale'],
+                'cost_support' => $dataPlan['support'],
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

@@ -25,9 +25,9 @@ class UserAdminDao
                                         INNER JOIN companies c ON c.id_company = u.id_company
                                         INNER JOIN cost_users_access cua ON cua.id_user = u.id_user");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $users = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+
         return $users;
     }
 
@@ -37,9 +37,9 @@ class UserAdminDao
 
         $stmt = $connection->prepare("SELECT * FROM admins");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $users = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+
         return $users;
     }
 
@@ -51,7 +51,7 @@ class UserAdminDao
 
         $stmt = $connection->prepare("SELECT * FROM admins WHERE email = :email");
         $stmt->execute(['email' => $email]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $admin = $stmt->fetch($connection::FETCH_ASSOC);
         return $admin;
@@ -96,8 +96,6 @@ class UserAdminDao
                 'id_admin' => $dataUser['idAdmin'],
                 'email' => $dataUser['email']
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             if ($e->getCode() == 23000)
@@ -132,7 +130,6 @@ class UserAdminDao
         try {
             $stmt = $connection->prepare("DELETE FROM admins WHERE id_admin = :id_admin");
             $stmt->execute(['id_admin' => $id_admin]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

@@ -22,10 +22,10 @@ class PlanMaterialsDao
     $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company ORDER BY material ASC");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("materials", array('materials' => $materials));
+
     return $materials;
   }
 
@@ -51,7 +51,6 @@ class PlanMaterialsDao
         'quantity' => $quantity,
         'category' => $dataMaterial['category']
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
 
@@ -84,7 +83,6 @@ class PlanMaterialsDao
         'quantity' => $quantity,
         'category' => $dataMaterial['category']
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);

@@ -42,7 +42,6 @@ class ProfileDao
                     'pass' => $pass
                 ]);
             }
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -74,7 +73,6 @@ class ProfileDao
                     'pass' => $pass
                 ]);
             }
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

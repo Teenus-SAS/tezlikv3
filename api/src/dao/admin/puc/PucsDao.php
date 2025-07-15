@@ -25,8 +25,8 @@ class PucsDao
         $stmt = $connection->prepare("SELECT * FROM puc ORDER BY CAST(SUBSTRING(number_count, 1, 2) AS UNSIGNED), CAST(SUBSTRING(number_count, 1, 4) AS UNSIGNED), CAST(SUBSTRING(number_count, 1, 5) AS UNSIGNED);");
         $stmt->execute();
         $puc = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("puc", array('puc' => $puc));
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+
 
         return $puc;
     }
@@ -52,7 +52,6 @@ class PucsDao
                 'number_count' => trim($dataPuc['accountNumber']),
                 'count' => ucfirst(strtolower(trim($dataPuc['account'])))
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 
@@ -69,7 +68,6 @@ class PucsDao
                 'number_count' => trim($dataPuc['accountNumber']),
                 'count' => ucfirst(strtolower(trim($dataPuc['account'])))
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

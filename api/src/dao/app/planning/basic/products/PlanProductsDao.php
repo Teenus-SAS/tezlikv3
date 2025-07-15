@@ -26,9 +26,9 @@ class PlanProductsDao
                                   WHERE p.id_company = :id_company");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
     $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("products", array('products' => $products));
+
     return $products;
   }
 
@@ -48,7 +48,6 @@ class PlanProductsDao
         'quantity' => $dataProduct['quantity'],
         'category' => $dataProduct['category']
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
 
@@ -76,7 +75,6 @@ class PlanProductsDao
         'category' => $dataProduct['category'],
         'id_product' => $dataProduct['idProduct'],
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);

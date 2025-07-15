@@ -29,7 +29,7 @@ class ProductsInProcessDao
             'id_product' => $idProduct,
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $productsInProcess = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $productsInProcess;
@@ -45,7 +45,7 @@ class ProductsInProcessDao
                                       INNER JOIN plan_categories c ON c.id_category = p.category
                                       WHERE c.category LIKE '%EN PROCESO'");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $productsInProcess = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $productsInProcess;
@@ -62,7 +62,7 @@ class ProductsInProcessDao
             'id_product' => $dataProduct['idProduct'],
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $productInProcess = $stmt->fetch($connection::FETCH_ASSOC);
         return $productInProcess;
@@ -80,7 +80,6 @@ class ProductsInProcessDao
                 'id_product' => $dataProduct['idProduct'],
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -99,7 +98,6 @@ class ProductsInProcessDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM plan_products_categories WHERE id_product_category = :id_product_category");
             $stmt->execute(['id_product_category' => $id_product_category]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

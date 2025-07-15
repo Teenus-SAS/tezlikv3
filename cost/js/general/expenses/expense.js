@@ -79,16 +79,16 @@ $(document).ready(function () {
     loadTblAssExpenses(summarizedExpenses, 1);
   });
 
+  //Actualizar Gasto General
   $('#btnCreateExpense').click(function (e) {
     e.preventDefault();
 
-    let idExpense = sessionStorage.getItem('id_expense');
+    const idExpense = sessionStorage.getItem('id_expense');
+    const endpoint = (!idExpense)
+      ? '/api/addExpenses'
+      : '/api/updateExpenses';
 
-    if (idExpense == '' || idExpense == null) {
-      checkDataExpense('/api/addExpenses', idExpense);
-    } else {
-      checkDataExpense('/api/updateExpenses', idExpense);
-    }
+    checkDataExpense(endpoint, idExpense || '');
   });
 
   $(document).on('click', '.updateExpenses', function (e) {
@@ -271,7 +271,7 @@ $(document).ready(function () {
   };
 
   /* Mensaje de exito */
-  messageExpense = (data) => {
+  messageExpense = async (data) => {
     if (data.reload) {
       location.reload();
     }

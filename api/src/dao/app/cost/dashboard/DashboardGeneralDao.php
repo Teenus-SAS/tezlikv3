@@ -23,7 +23,7 @@ class DashboardGeneralDao
 
     $stmt = $connection->prepare("SELECT * FROM general_data WHERE id_company = :id_company");
     $stmt->execute(['id_company' => $id_company]);
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $multiproducts = $stmt->fetch($connection::FETCH_ASSOC);
     return $multiproducts;
@@ -40,10 +40,10 @@ class DashboardGeneralDao
                                       GROUP BY p.product ORDER BY `totalTime` DESC");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $timeProcess = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("timeProcess", array('timeProcess' => $timeProcess));
+
     return $timeProcess;
   }
 
@@ -59,11 +59,11 @@ class DashboardGeneralDao
                                       ORDER BY `p`.`product` ASC");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $averageTimeProcess = $stmt->fetchAll($connection::FETCH_ASSOC);
 
-    $this->logger->notice("averageTimeProcess", array('averageTimeProcess' => $averageTimeProcess));
+
     return $averageTimeProcess;
   }
 
@@ -76,10 +76,10 @@ class DashboardGeneralDao
                                       WHERE pc.id_company = :id_company GROUP BY `py`.`id_process`");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $processMinuteValue = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("processMinuteValue", array('processMinuteValue' => $processMinuteValue));
+
     return $processMinuteValue;
   }
 
@@ -93,10 +93,10 @@ class DashboardGeneralDao
                                       ORDER BY `totalCostMinute` ASC");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $factoryLoadMinuteValue = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("factoryLoadMinuteValue", array('factoryLoadMinuteValue' => $factoryLoadMinuteValue));
+
     return $factoryLoadMinuteValue;
   }
 
@@ -113,9 +113,9 @@ class DashboardGeneralDao
     $stmt->execute(['id_company' => $id_company]);
     $expenseValue = $stmt->fetchAll($connection::FETCH_ASSOC);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
-    $this->logger->notice("expenseValue", array('expenseValue' => $expenseValue));
+
+
     return $expenseValue;
   }
 
@@ -142,7 +142,7 @@ class DashboardGeneralDao
                                     INNER JOIN expenses_recover er ON er.id_product = p.id_product
                                   WHERE p.id_company = :id_company AND p.active = 1");
     $stmt->execute(['id_company' => $id_company]);
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
     $expenseValue = $stmt->fetch($connection::FETCH_ASSOC);
 
     return $expenseValue;
@@ -161,8 +161,8 @@ class DashboardGeneralDao
     $stmt->execute(['id_company' => $id_company]);
     $quantityMaterials = $stmt->fetch($connection::FETCH_ASSOC);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-    $this->logger->notice("expenseValue", array('expenseValue' => $quantityMaterials));
+
+
     return $quantityMaterials;
   }
 }

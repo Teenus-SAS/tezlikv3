@@ -22,7 +22,7 @@ class TrmDao
 
         $stmt = $connection->prepare("SELECT * FROM historical_trm");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $historicalTrm = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $historicalTrm;
@@ -35,7 +35,7 @@ class TrmDao
 
             $stmt = $connection->prepare("SELECT * FROM historical_trm WHERE date_trm = :date_trm");
             $stmt->execute(['date_trm' => $date]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
             $historicalTrm = $stmt->fetch($connection::FETCH_ASSOC);
             return $historicalTrm;
@@ -117,7 +117,6 @@ class TrmDao
         try {
             $stmt = $connection->prepare("DELETE FROM historical_trm WHERE date_trm < DATE_ADD(CURRENT_DATE, INTERVAL -2 YEAR)");
             $stmt->execute();
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -133,7 +132,6 @@ class TrmDao
         try {
             $stmt = $connection->prepare("DELETE FROM historical_trm");
             $stmt->execute();
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

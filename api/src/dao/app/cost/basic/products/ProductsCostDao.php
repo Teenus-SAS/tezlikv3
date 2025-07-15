@@ -23,7 +23,7 @@ class ProductsCostDao
 
         $stmt = $connection->prepare("SELECT * FROM products_costs WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $productsCosts = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $productsCosts;
@@ -64,7 +64,6 @@ class ProductsCostDao
                 'profitability' => trim($dataProduct['profitability']),
                 'commission_sale' => trim($dataProduct['commissionSale'])
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $error = array('info' => true, 'message' => $e->getMessage());
             return $error;
@@ -82,7 +81,6 @@ class ProductsCostDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM products_costs WHERE id_product = :id_product");
             $stmt->execute(['id_product' => $dataProduct['idProduct']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

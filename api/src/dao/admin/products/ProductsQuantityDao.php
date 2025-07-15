@@ -24,9 +24,9 @@ class ProductsQuantityDao
 
         $stmt = $connection->prepare("SELECT COUNT(id_product) AS quantity FROM products");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $quantityProducts = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("AllProducts", array('AllProducts' => $quantityProducts));
+
 
         return $quantityProducts;
     }
@@ -44,10 +44,10 @@ class ProductsQuantityDao
             'id_plan' => $id_plan
         ]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $products = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $products));
+
         return $products;
     }
 }

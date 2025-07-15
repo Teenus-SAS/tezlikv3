@@ -51,18 +51,26 @@ class Planning_machinesDao
                                       VALUES (:id_machine, :id_company, :number_workers, :hours_day, :hour_start, :hour_end, :year, :january, 
                                               :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december)");
             $stmt->execute([
-                'id_company' => $id_company,                            'april' => $dataPMachines['april'],
-                'id_machine' => $dataPMachines['idMachine'],            'may' => $dataPMachines['may'],
-                'number_workers' => $dataPMachines['numberWorkers'],    'june' => $dataPMachines['june'],
-                'hours_day' => $dataPMachines['hoursDay'],              'july' => $dataPMachines['july'],
-                'hour_start' => $dataPMachines['hourStart'],            'august' => $dataPMachines['august'],
-                'hour_end' => $dataPMachines['hourEnd'],                'september' => $dataPMachines['september'],
-                'year' =>  $dataPMachines['year'],                      'october' => $dataPMachines['october'],
-                'january' => $dataPMachines['january'],                 'november' => $dataPMachines['november'],
-                'february' => $dataPMachines['february'],               'december' => $dataPMachines['december'],
+                'id_company' => $id_company,
+                'april' => $dataPMachines['april'],
+                'id_machine' => $dataPMachines['idMachine'],
+                'may' => $dataPMachines['may'],
+                'number_workers' => $dataPMachines['numberWorkers'],
+                'june' => $dataPMachines['june'],
+                'hours_day' => $dataPMachines['hoursDay'],
+                'july' => $dataPMachines['july'],
+                'hour_start' => $dataPMachines['hourStart'],
+                'august' => $dataPMachines['august'],
+                'hour_end' => $dataPMachines['hourEnd'],
+                'september' => $dataPMachines['september'],
+                'year' =>  $dataPMachines['year'],
+                'october' => $dataPMachines['october'],
+                'january' => $dataPMachines['january'],
+                'november' => $dataPMachines['november'],
+                'february' => $dataPMachines['february'],
+                'december' => $dataPMachines['december'],
                 'march' => $dataPMachines['march']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -80,18 +88,26 @@ class Planning_machinesDao
                                                     august = :august, september = :september, october = :october, november = :november, december = :december
                                           WHERE id_program_machine = :id_program_machine");
             $stmt->execute([
-                'id_program_machine' => $dataPMachines['idProgramMachine'],     'april' => $dataPMachines['april'],
-                'id_machine' => $dataPMachines['idMachine'],                    'may' => $dataPMachines['may'],
-                'number_workers' => $dataPMachines['numberWorkers'],            'june' => $dataPMachines['june'],
-                'hours_day' => $dataPMachines['hoursDay'],                      'july' => $dataPMachines['july'],
-                'hour_start' => $dataPMachines['hourStart'],                    'august' => $dataPMachines['august'],
-                'hour_end' => $dataPMachines['hourEnd'],                        'september' => $dataPMachines['september'],
-                'year' => $dataPMachines['year'],                               'october' => $dataPMachines['october'],
-                'january' => $dataPMachines['january'],                         'november' => $dataPMachines['november'],
-                'february' => $dataPMachines['february'],                       'december' => $dataPMachines['december'],
+                'id_program_machine' => $dataPMachines['idProgramMachine'],
+                'april' => $dataPMachines['april'],
+                'id_machine' => $dataPMachines['idMachine'],
+                'may' => $dataPMachines['may'],
+                'number_workers' => $dataPMachines['numberWorkers'],
+                'june' => $dataPMachines['june'],
+                'hours_day' => $dataPMachines['hoursDay'],
+                'july' => $dataPMachines['july'],
+                'hour_start' => $dataPMachines['hourStart'],
+                'august' => $dataPMachines['august'],
+                'hour_end' => $dataPMachines['hourEnd'],
+                'september' => $dataPMachines['september'],
+                'year' => $dataPMachines['year'],
+                'october' => $dataPMachines['october'],
+                'january' => $dataPMachines['january'],
+                'november' => $dataPMachines['november'],
+                'february' => $dataPMachines['february'],
+                'december' => $dataPMachines['december'],
                 'march' => $dataPMachines['march']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -110,7 +126,6 @@ class Planning_machinesDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM plan_program_machines WHERE id_program_machine = :id_program_machine");
             $stmt->execute(['id_program_machine' => $id_program_machine]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

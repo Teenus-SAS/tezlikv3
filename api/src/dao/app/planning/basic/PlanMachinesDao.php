@@ -25,10 +25,10 @@ class PlanMachinesDao
                                   WHERE m.id_company = :id_company;");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $machines = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("machines", array('machines' => $machines));
+
     return $machines;
   }
 
@@ -44,7 +44,6 @@ class PlanMachinesDao
         'id_company' => $id_company,
         'machine' => strtoupper($dataMachine['machine'])
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
 
@@ -66,7 +65,6 @@ class PlanMachinesDao
         'id_machine' => $dataMachine['idMachine'],
         'machine' => strtoupper($dataMachine['machine'])
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);

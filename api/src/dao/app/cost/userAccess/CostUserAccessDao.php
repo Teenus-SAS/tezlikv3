@@ -78,9 +78,9 @@ class CostUserAccessDao
         $stmt->execute([
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $users = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+
         return $users;
         // }
     }
@@ -142,9 +142,9 @@ class CostUserAccessDao
                                         LEFT JOIN cost_users_access usa ON usa.id_user = us.id_user
                                       WHERE us.id_company = :id_company AND us.id_user = :id_user");
         $stmt->execute(['id_company' => $id_company, 'id_user' => $id_user]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $users = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+
         return $users;
     }
 
@@ -265,7 +265,6 @@ class CostUserAccessDao
                 'backup' => $dataUser['costBackup'],
                 'type_payroll' => $dataUser['typePayroll'],
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -371,7 +370,6 @@ class CostUserAccessDao
                     'backup' => $dataUser['costBackup'],
                     'type_payroll' => $dataUser['typePayroll'],
                 ]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             } catch (\Exception $e) {
                 $message = $e->getMessage();
                 $error = array('error' => true, 'message' => $message);
@@ -387,6 +385,5 @@ class CostUserAccessDao
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("DELETE FROM cost_users_access WHERE id_user = :id_user");
         $stmt->execute(['id_user' => $dataUser['id_user']]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
 }

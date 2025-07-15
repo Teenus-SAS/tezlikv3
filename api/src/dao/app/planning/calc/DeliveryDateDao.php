@@ -29,7 +29,7 @@ class DeliveryDateDao
             $stmt->execute([
                 'id_order' => $dataOrder['idOrder'],
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
             $deliveryDate = $stmt->fetch($connection::FETCH_ASSOC);
             if ($deliveryDate['delivery_date'] != 0) break;
         }
@@ -46,7 +46,6 @@ class DeliveryDateDao
                 'id_order' => $dataOrder['idOrder'],
                 'delivery_date' => $deliveryDate
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

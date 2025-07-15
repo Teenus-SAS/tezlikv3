@@ -40,7 +40,7 @@ class QuotesDao
                                         INNER JOIN quote_payment_methods pm ON pm.id_method = q.id_payment_method
                                       WHERE q.id_company = :id_company GROUP BY qp.id_quote ORDER BY qp.id_quote DESC");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $quotes = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $quotes;
@@ -58,7 +58,7 @@ class QuotesDao
                                         INNER JOIN quote_payment_methods pm ON pm.id_method = q.id_payment_method
                                       WHERE q.id_quote = :id_quote");
         $stmt->execute(['id_quote' => $id_quote]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $quote = $stmt->fetch($connection::FETCH_ASSOC);
         return $quote;
@@ -81,8 +81,6 @@ class QuotesDao
                 'delivery_date' => $dataQuote['deliveryDate'],
                 'observation' => $dataQuote['observation']
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -108,7 +106,6 @@ class QuotesDao
                 'delivery_date' => $dataQuote['deliveryDate'],
                 'observation' => $dataQuote['observation']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -129,7 +126,6 @@ class QuotesDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM quotes WHERE id_quote = :id_quote");
                 $stmt->execute(['id_quote' => $id_quote]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

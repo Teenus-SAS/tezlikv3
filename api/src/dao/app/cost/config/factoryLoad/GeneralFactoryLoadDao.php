@@ -26,9 +26,9 @@ class GeneralFactoryLoadDao
             'id_machine' => $dataFactoryLoad['idMachine'],
             'input' => strtoupper(trim($dataFactoryLoad['descriptionFactoryLoad']))
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $factoryload = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("factory load", array('factory load' => $factoryload));
+
         return $factoryload;
     }
 }

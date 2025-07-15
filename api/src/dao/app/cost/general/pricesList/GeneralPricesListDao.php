@@ -26,10 +26,10 @@ class GeneralPricesListDao
             'id_company' => $id_company
         ]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $pricesList = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("pricesList", array('pricesList' => $pricesList));
+
         return $pricesList;
     }
 
@@ -43,8 +43,6 @@ class GeneralPricesListDao
                 'id_price_list' => $dataPrice['idPriceList'],
                 'percentage' => $dataPrice['percentage']
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

@@ -24,7 +24,7 @@ class QCompaniesDao
         $stmt->execute([
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $companies = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $companies;
@@ -45,7 +45,6 @@ class QCompaniesDao
                 'phone' => $dataCompany['phone'],
                 'city' => $dataCompany['city'],
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -68,7 +67,6 @@ class QCompaniesDao
                 'phone' => $dataCompany['phone'],
                 'city' => $dataCompany['city']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -88,7 +86,6 @@ class QCompaniesDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM quote_companies WHERE id_quote_company = :id_quote_company");
                 $stmt->execute(['id_quote_company' => $id_company]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             if ($e->getCode() == 23000)

@@ -51,7 +51,7 @@ class ProductsProcessDao
                                       ORDER BY pp.route ASC");
         $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
         $productsprocess = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $productsprocess));
+
         return $productsprocess;
     }
 
@@ -107,7 +107,6 @@ class ProductsProcessDao
                     'auto_machine' => $dataProductProcess['autoMachine']
                 ]);
             }
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -135,8 +134,6 @@ class ProductsProcessDao
                 'employee' => $dataProductProcess['employees'],
                 'auto_machine' => $dataProductProcess['autoMachine']
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -156,7 +153,6 @@ class ProductsProcessDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM products_process WHERE id_product_process = :id_product_process");
             $stmt->execute(['id_product_process' => $dataProductProcess['idProductProcess']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

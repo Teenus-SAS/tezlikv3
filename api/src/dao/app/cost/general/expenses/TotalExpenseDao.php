@@ -18,44 +18,36 @@ class TotalExpenseDao
 
     public function findTotalExpenseByCompany($id_company)
     {
-
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT total_expense FROM general_data
-                                      WHERE id_company = :id_company");
+        $sql = "SELECT total_expense FROM general_data WHERE id_company = :id_company";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("expenses", array('expenses' => $totalExpense));
         return $totalExpense;
     }
 
     public function calcTotalExpenseByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT IFNULL(SUM(expense_value), 0) AS expenses_value 
-                                      FROM expenses WHERE id_company = :id_company");
+        $sql = "SELECT IFNULL(SUM(expense_value), 0) AS expenses_value 
+                FROM expenses WHERE id_company = :id_company";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("expenses", array('expenses' => $totalExpense));
         return $totalExpense;
     }
 
     public function calcTotalExpenseAnualByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT IFNULL(SUM(expense_value), 0) AS expenses_value 
-                                      FROM expenses_anual WHERE id_company = :id_company");
+        $sql = "SELECT IFNULL(SUM(expense_value), 0) AS expenses_value 
+                FROM expenses_anual WHERE id_company = :id_company";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("expenses", array('expenses' => $totalExpense));
         return $totalExpense;
     }
 
@@ -63,16 +55,14 @@ class TotalExpenseDao
     {
 
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT IFNULL(SUM(e.expense_value), 0) + IFNULL(SUM(ecp.expense_value), 0) AS expenses_value 
-                                      FROM expenses e
-                                        LEFT JOIN expenses_products_centers ecp ON ecp.id_expense = e.id_expense
-                                      WHERE e.id_company = :id_company");
+        $sql = "SELECT IFNULL(SUM(e.expense_value), 0) + IFNULL(SUM(ecp.expense_value), 0) AS expenses_value 
+                FROM expenses e
+                LEFT JOIN expenses_products_centers ecp ON ecp.id_expense = e.id_expense
+                WHERE e.id_company = :id_company";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("expenses", array('expenses' => $totalExpense));
         return $totalExpense;
     }
 
@@ -81,8 +71,9 @@ class TotalExpenseDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO general_data (total_expense, id_company)
-                                      VALUES (:total_expense, :id_company)");
+            $sql = "INSERT INTO general_data (total_expense, id_company)
+                    VALUES (:total_expense, :id_company)";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'total_expense' => $data['expenses_value'],
                 'id_company' => $id_company
@@ -97,8 +88,9 @@ class TotalExpenseDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE general_data SET total_expense = :total_expense 
-                                    WHERE id_company = :id_company");
+            $sql = "UPDATE general_data SET total_expense = :total_expense 
+                    WHERE id_company = :id_company";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'total_expense' => $data['expenses_value'],
                 'id_company' => $id_company

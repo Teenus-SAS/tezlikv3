@@ -25,7 +25,7 @@ class DatesMachinesDao
                                         INNER JOIN machines m ON m.id_machine = dm.id_machine 
                                       WHERE dm.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $machines = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $machines;
     }
@@ -39,7 +39,7 @@ class DatesMachinesDao
             'id_machine' => $dataMachine['idMachine'],
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $machine = $stmt->fetch($connection::FETCH_ASSOC);
         return $machine;
     }
@@ -59,7 +59,6 @@ class DatesMachinesDao
                 'start_dat' => $dataMachine['startDate'],
                 'creation_date' => $today_date
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

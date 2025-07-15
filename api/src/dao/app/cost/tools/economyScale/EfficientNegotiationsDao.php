@@ -35,7 +35,7 @@ class EfficientNegotiationsDao
             $stmt->execute([
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
             $fixedCosts = $stmt->fetchAll($connection::FETCH_ASSOC);
             return $fixedCosts;
@@ -57,7 +57,7 @@ class EfficientNegotiationsDao
             $stmt->execute([
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
             $variablesCosts = $stmt->fetchAll($connection::FETCH_ASSOC);
             return $variablesCosts;
@@ -80,7 +80,7 @@ class EfficientNegotiationsDao
             'id_product' => $id_product,
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $fixedCosts = $stmt->fetch($connection::FETCH_ASSOC);
         return $fixedCosts;
@@ -99,7 +99,7 @@ class EfficientNegotiationsDao
             'id_product' => $id_product,
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $variablesCosts = $stmt->fetch($connection::FETCH_ASSOC);
         return $variablesCosts;

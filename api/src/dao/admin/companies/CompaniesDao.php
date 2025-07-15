@@ -26,9 +26,9 @@ class CompaniesDao
                                       INNER JOIN companies_licenses cl ON cl.id_company = c.id_company
                                       WHERE c.company != 'Demo' AND cl.license_start <= cl.license_end");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $companyData = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("AllCompanies", array('AllCompanies' => $companyData));
+
 
         return $companyData;
     }
@@ -41,9 +41,9 @@ class CompaniesDao
                                       INNER JOIN companies_licenses cl ON cp.id_company = cl.id_company 
                                       WHERE cl.license_status = :stat");
         $stmt->execute(['stat' => $stat]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $companyData = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("AllCompanies", array('AllCompanies' => $companyData));
+
 
         return $companyData;
     }
@@ -65,8 +65,6 @@ class CompaniesDao
                 'telephone' => $dataCompany['companyTel'],
                 'nit' => $dataCompany['companyNIT']
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -83,8 +81,6 @@ class CompaniesDao
             $stmt->execute([
                 'company' => trim($dataCompany['company'])
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -111,7 +107,6 @@ class CompaniesDao
                 'nit' => $dataCompany['companyNIT'],
                 'id_company' => $dataCompany['idCompany']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

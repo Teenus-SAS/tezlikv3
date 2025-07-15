@@ -29,7 +29,6 @@ class GeneralMoldsDao
                 'date_active' => $fecha_hoy,
                 'id_mold' => $dataMold['idMold']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -48,7 +47,6 @@ class GeneralMoldsDao
                 'id_mold' => $dataMold['idMold'],
                 'observation' => $dataMold['observationMold']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

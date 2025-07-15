@@ -41,7 +41,7 @@ class GeneralCompositeProductsDao
                                       WHERE cp.id_company = :id_company AND p.active = 1 AND (SELECT active FROM products WHERE id_product = cp.id_product) = 1");
         $stmt->execute(['id_company' => $id_company]);
         $compositeProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $compositeProducts));
+
         return $compositeProducts;
     }
 
@@ -57,7 +57,7 @@ class GeneralCompositeProductsDao
             'id_child_product' => $dataProduct['compositeProduct']
         ]);
         $compositeProduct = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $compositeProduct));
+
         return $compositeProduct;
     }
 
@@ -69,7 +69,7 @@ class GeneralCompositeProductsDao
             'id_product' => $id_product
         ]);
         $compositeProduct = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $compositeProduct));
+
         return $compositeProduct;
     }
 
@@ -86,7 +86,7 @@ class GeneralCompositeProductsDao
             'id_child_product' => $id_child_product
         ]);
         $compositeProduct = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $compositeProduct));
+
         return $compositeProduct;
     }
 
@@ -157,7 +157,6 @@ class GeneralCompositeProductsDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM composite_products WHERE id_product = :id_product");
             $stmt->execute(['id_product' => $id_product]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 
@@ -172,7 +171,6 @@ class GeneralCompositeProductsDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM composite_products WHERE id_child_product = :id_child_product");
             $stmt->execute(['id_child_product' => $id_child_product]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

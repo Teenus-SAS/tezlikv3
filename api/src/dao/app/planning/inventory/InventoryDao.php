@@ -27,9 +27,9 @@ class InventoryDao
             'id_company' => $id_company,
             'category' => $category
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("materials", array('materials' => $materials));
+
         return $materials;
     }
 
@@ -44,9 +44,9 @@ class InventoryDao
             'id_company' => $id_company,
             'category' => $category
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("materials", array('materials' => $materials));
+
         return $materials;
     }
 
@@ -63,7 +63,7 @@ class InventoryDao
             'reference' => $dataInventory['refProduct'],
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $products = $stmt->fetch($connection::FETCH_ASSOC);
         return $products;
     }
@@ -82,7 +82,7 @@ class InventoryDao
             'category' => $dataInventory['category'],
             'id_company' => $id_company,
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $inventory = $stmt->fetch($connection::FETCH_ASSOC);
         return $inventory;
     }

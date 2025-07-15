@@ -30,10 +30,10 @@ class GeneralOrdersDao
             'id_order' => $dataOrder['order'],
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $order = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("pedido", array('pedido' => $order));
+
         return $order;
     }
 
@@ -43,7 +43,7 @@ class GeneralOrdersDao
 
         $stmt = $connection->prepare("SELECT CONCAT(num_order, '-' , id_product) AS concate FROM plan_orders WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $orders = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $orders;
@@ -59,7 +59,6 @@ class GeneralOrdersDao
                 'num_order' => $num_order,
                 'id_product' => $id_product,
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

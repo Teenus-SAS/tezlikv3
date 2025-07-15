@@ -69,10 +69,10 @@ class PayrollDao
                                   WHERE p.id_company = :id_company ORDER BY p.route ASC;");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("payroll", array('payroll' => $payroll));
+
     return $payroll;
   }
 
@@ -102,7 +102,6 @@ class PayrollDao
         'minute_value' => trim($dataPayroll['minuteValue']),
         'salary_net' => trim($dataPayroll['salaryNet'])
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       if ($e->getCode() == 23000)
@@ -138,7 +137,6 @@ class PayrollDao
         'minute_value' => trim($dataPayroll['minuteValue']),
         'salary_net' => trim($dataPayroll['salaryNet']),
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
@@ -157,7 +155,6 @@ class PayrollDao
     if ($rows > 0) {
       $stmt = $connection->prepare("DELETE FROM payroll WHERE id_payroll = :id_payroll");
       $stmt->execute(['id_payroll' => $id_payroll]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }
 }

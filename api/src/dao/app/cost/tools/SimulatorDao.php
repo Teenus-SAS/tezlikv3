@@ -26,7 +26,7 @@ class SimulatorDao
                                       WHERE pp.id_product = :id_product AND ml.id_company = :id_company");
     $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $factoryLoads = $stmt->fetchAll($connection::FETCH_ASSOC);
     return $factoryLoads;
@@ -43,7 +43,7 @@ class SimulatorDao
                                   WHERE fp.id_product = :id_product AND p.id_company = :id_company GROUP BY p.id_payroll");
     $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
     return $payroll;

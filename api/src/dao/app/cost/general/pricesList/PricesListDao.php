@@ -25,10 +25,10 @@ class PricesListDao
                                       WHERE pl.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $pricesList = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("pricesList", array('pricesList' => $pricesList));
+
         return $pricesList;
     }
 
@@ -43,10 +43,10 @@ class PricesListDao
                                       WHERE p.id_product = :id_product");
         $stmt->execute(['id_product' => $id_product]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $pricesList = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("pricesList", array('pricesList' => $pricesList));
+
         return $pricesList;
     }
 
@@ -60,8 +60,6 @@ class PricesListDao
                 'id_company' => $id_company,
                 'price_name' => strtoupper(trim($dataPrice['priceName']))
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -79,8 +77,6 @@ class PricesListDao
                 'id_price_list' => $dataPrice['idPriceList'],
                 'price_name' => strtoupper(trim($dataPrice['priceName']))
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -100,7 +96,6 @@ class PricesListDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM price_list WHERE id_price_list = :id_price_list");
                 $stmt->execute(['id_price_list' => $id_price_list]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

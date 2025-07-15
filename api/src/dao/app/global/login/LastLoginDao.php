@@ -31,7 +31,6 @@ class LastLoginDao
                 $stmt = $connection->prepare("UPDATE admins SET last_login = now() WHERE id_admin = :id_admin");
                 $stmt->execute(['id_admin' => $id_user]);
             }
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

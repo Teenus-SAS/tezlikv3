@@ -25,9 +25,9 @@ class LastDataDao
                                       FROM users us INNER JOIN companies cp ON cp.id_company = us.id_company
                                       WHERE us.session_active = 1 ORDER BY us.last_login DESC");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $lastLogs = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("Last Login", array('Last Login' => $lastLogs));
+
 
         return $lastLogs;
     }
@@ -53,7 +53,7 @@ class LastDataDao
         $stmt->execute(['id_company' => $id_company]);
         $user = $stmt->fetch($connection::FETCH_ASSOC);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         return $user;
     }
 
@@ -108,10 +108,10 @@ class LastDataDao
 
         $stmt = $connection->prepare("SELECT MAX(id_manufacturing_load) AS id_manufacturing_load FROM manufacturing_load WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $factoryload = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("factory load", array('factory load' => $factoryload));
+
 
         return $factoryload;
     }
@@ -123,10 +123,10 @@ class LastDataDao
 
         $stmt = $connection->prepare("SELECT MAX(id_product_process) AS id_product_process  FROM products_process WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $productProcess = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("factory load", array('factory load' => $productProcess));
+
 
         return $productProcess;
     }
@@ -138,10 +138,10 @@ class LastDataDao
 
         $stmt = $connection->prepare("SELECT MAX(id_general_service) AS id_general_service FROM general_external_services WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $productProcess = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("factory load", array('factory load' => $productProcess));
+
 
         return $productProcess;
     }
@@ -154,7 +154,7 @@ class LastDataDao
 
         $stmt = $connection->prepare("SELECT MAX(id_payroll) AS id_payroll FROM payroll WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $payroll = $stmt->fetch($connection::FETCH_ASSOC);
         return $payroll;
@@ -167,7 +167,7 @@ class LastDataDao
 
         $stmt = $connection->prepare("SELECT MAX(id_expense) AS id_expense FROM expenses WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $expense = $stmt->fetch($connection::FETCH_ASSOC);
         return $expense;
@@ -180,7 +180,7 @@ class LastDataDao
 
         $stmt = $connection->prepare("SELECT MAX(id_quote) AS id_quote FROM quotes");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $quote = $stmt->fetch($connection::FETCH_ASSOC);
         return $quote;
@@ -192,7 +192,7 @@ class LastDataDao
 
         $stmt = $connection->prepare("SELECT MAX(id_quote_product) AS id_quote_product FROM quotes_products");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $quote = $stmt->fetch($connection::FETCH_ASSOC);
         return $quote;
@@ -204,7 +204,7 @@ class LastDataDao
 
         $stmt = $connection->prepare("SELECT MAX(id_quote_company) AS id_quote_company FROM quote_companies");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $company = $stmt->fetch($connection::FETCH_ASSOC);
         return $company;
@@ -216,7 +216,7 @@ class LastDataDao
 
         $stmt = $connection->prepare("SELECT MAX(id_custom_price) AS id_custom_price FROM custom_prices");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $company = $stmt->fetch($connection::FETCH_ASSOC);
         return $company;

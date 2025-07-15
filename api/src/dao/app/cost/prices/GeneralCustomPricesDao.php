@@ -28,10 +28,10 @@ class GeneralCustomPricesDao
             'id_company' => $id_company
         ]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $pricesList = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("pricesList", array('pricesList' => $pricesList));
+
         return $pricesList;
     }
 
@@ -66,8 +66,6 @@ class GeneralCustomPricesDao
                 'id_custom_price' => $id_custom_price,
                 'price' => $price
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -84,8 +82,6 @@ class GeneralCustomPricesDao
             $stmt->execute([
                 'flag_price' => $dataPrice['typePrice']
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

@@ -28,7 +28,7 @@ class InventoryDaysDao
                                       INNER JOIN products_price_history pph ON pph.id_product = p.id_product
                                       WHERE p.id_product = :id_product");
         $stmt->execute(['id_product' => $dataInventory['idProduct']]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $inventoryDays = $stmt->fetch($connection::FETCH__ASSOC);
 
         $this->updateInventoryDays($dataInventory, $inventoryDays['inventory_day']);
@@ -44,7 +44,6 @@ class InventoryDaysDao
                 'id_product' => $dataInventory['idProduct'],
                 'inventory_day' => $inventoryDay
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

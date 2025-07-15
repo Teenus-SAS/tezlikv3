@@ -56,10 +56,10 @@ class DashboardProductsDao
                                         WHERE pc.id_product = :id_product AND pc.id_company = :id_company");
         $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $costAnalysisProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("cost", array('cost' => $costAnalysisProducts));
+
         return $costAnalysisProducts;
     }
 
@@ -84,10 +84,10 @@ class DashboardProductsDao
             $stmt->execute(['id_company' => $id_company]);
         }
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $totalTimeProcess = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("totalTime", array('totalTime' => $totalTimeProcess));
+
         return $totalTimeProcess;
     }
 
@@ -116,11 +116,11 @@ class DashboardProductsDao
             ]);
         }
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $averageTimeProcess = $stmt->fetch($connection::FETCH_ASSOC);
 
-        $this->logger->notice("averageTimeProcess", array('averageTimeProcess' => $averageTimeProcess));
+
         return $averageTimeProcess;
     }
 
@@ -145,10 +145,10 @@ class DashboardProductsDao
             $stmt->execute(['id_company' => $id_company]);
         }
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $costWorkforce = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("costWorkforce", array('costWorkforce' => $costWorkforce));
+
         return $costWorkforce;
     }
 
@@ -165,7 +165,7 @@ class DashboardProductsDao
                                   WHERE pm.id_product = :id_product AND pm.id_company = :id_company 
                                   ORDER BY participation DESC");
         $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $costRawMaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
 
         if ($op == 2) {
@@ -183,7 +183,7 @@ class DashboardProductsDao
                                       GROUP BY p.id_product 
                                       ORDER BY participation DESC");
             $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
             $data = $stmt->fetchAll($connection::FETCH_ASSOC);
 
             $costRawMaterials = array_merge($costRawMaterials, $data);
@@ -195,7 +195,7 @@ class DashboardProductsDao
             array_multisort($cost, SORT_DESC, $costRawMaterials);
         }
 
-        $this->logger->notice("costRawMaterials", array('costRawMaterials' => $costRawMaterials));
+
         return $costRawMaterials;
     }
 }

@@ -29,9 +29,9 @@ class UsersDao
       $stmt = $connection->prepare("SELECT * FROM users ORDER BY firstname");
 
     $stmt->execute();
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
     $users = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+
     return $users;
   }
 
@@ -46,10 +46,10 @@ class UsersDao
       $stmt->execute(['id_company' => $id_company]);
     }
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $users = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("users", array('users' => $users));
+
     return $users;
   }
 
@@ -60,8 +60,8 @@ class UsersDao
     $stmt->execute(['email' => trim($email)]);
     $user = $stmt->fetch($connection::FETCH_ASSOC);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-    $this->logger->notice("usuario Obtenido", array('usuario' => $user));
+
+
     return $user;
   }
 
@@ -80,7 +80,6 @@ class UsersDao
         'id_rols' => 2,
         'active' => 1
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
@@ -105,7 +104,6 @@ class UsersDao
         'id_rols' => 2,
         'active' => 1
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
@@ -138,7 +136,6 @@ class UsersDao
         'id_user' => $dataUser['id_user']
       ]);
     }
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
   }
 
 
@@ -149,7 +146,6 @@ class UsersDao
     try {
       $stmt = $connection->prepare("DELETE FROM users WHERE id_user = :id");
       $stmt->execute(['id' => $dataUser['id_user']]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);

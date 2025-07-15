@@ -25,9 +25,9 @@ class UnitSalesDao
                                       WHERE u.id_company = :id_company;");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $sales = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("Ventas", array('Ventas' => $sales));
+
         return $sales;
     }
 
@@ -55,16 +55,22 @@ class UnitSalesDao
             $stmt = $connection->prepare("INSERT INTO plan_unit_sales (id_company, id_product, year, jan, feb, mar, apr, may, jun, jul, aug, sept, oct, nov, dece) 
                                           VALUES (:id_company, :id_product, :year, :jan, :feb, :mar, :apr, :may, :jun, :jul, :aug, :sept, :oct, :nov, :dece)");
             $stmt->execute([
-                'id_company'  => $id_company,                       'jun' => $dataSale['june'],
-                'id_product' => $dataSale['idProduct'],             'jul' => $dataSale['july'],
-                'year' => $year,                                    'aug' => $dataSale['august'],
-                'jan' => $dataSale['january'],                      'sept' => $dataSale['september'],
-                'feb' => $dataSale['february'],                     'oct' => $dataSale['october'],
-                'mar' => $dataSale['march'],                        'nov' => $dataSale['november'],
-                'apr' => $dataSale['april'],                        'dece' => $dataSale['december'],
+                'id_company'  => $id_company,
+                'jun' => $dataSale['june'],
+                'id_product' => $dataSale['idProduct'],
+                'jul' => $dataSale['july'],
+                'year' => $year,
+                'aug' => $dataSale['august'],
+                'jan' => $dataSale['january'],
+                'sept' => $dataSale['september'],
+                'feb' => $dataSale['february'],
+                'oct' => $dataSale['october'],
+                'mar' => $dataSale['march'],
+                'nov' => $dataSale['november'],
+                'apr' => $dataSale['april'],
+                'dece' => $dataSale['december'],
                 'may' => $dataSale['may'],
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -83,16 +89,22 @@ class UnitSalesDao
                                                             jun = :jun, jul = :jul, aug = :aug, sept = :sept, oct = :oct, nov = :nov, dece = :dece
                                           WHERE id_unit_sales = :id_unit_sales");
             $stmt->execute([
-                'id_unit_sales' => $dataSale['idSale'],             'jun' => $dataSale['june'],
-                'id_product' => $dataSale['idProduct'],             'jul' => $dataSale['july'],
-                'year' => $year,                                    'aug' => $dataSale['august'],
-                'jan' => $dataSale['january'],                      'sept' => $dataSale['september'],
-                'feb' => $dataSale['february'],                     'oct' => $dataSale['october'],
-                'mar' => $dataSale['march'],                        'nov' => $dataSale['november'],
-                'apr' => $dataSale['april'],                        'dece' => $dataSale['december'],
+                'id_unit_sales' => $dataSale['idSale'],
+                'jun' => $dataSale['june'],
+                'id_product' => $dataSale['idProduct'],
+                'jul' => $dataSale['july'],
+                'year' => $year,
+                'aug' => $dataSale['august'],
+                'jan' => $dataSale['january'],
+                'sept' => $dataSale['september'],
+                'feb' => $dataSale['february'],
+                'oct' => $dataSale['october'],
+                'mar' => $dataSale['march'],
+                'nov' => $dataSale['november'],
+                'apr' => $dataSale['april'],
+                'dece' => $dataSale['december'],
                 'may' => $dataSale['may'],
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -111,7 +123,6 @@ class UnitSalesDao
             if ($rows > 0) {
                 $stmt = $connection->prepare("DELETE FROM plan_unit_sales WHERE id_unit_sales = :id_unit_sales");
                 $stmt->execute(['id_unit_sales' => $id_unit_sales]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

@@ -32,10 +32,10 @@ class ExpensesDistributionDao
                                       WHERE me.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $expenses = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("expenses", array('expenses' => $expenses));
+
         return $expenses;
     }
 
@@ -68,7 +68,6 @@ class ExpensesDistributionDao
                 'units_sold' => $dataExpensesDistribution['unitsSold'],
                 'turnover' => $dataExpensesDistribution['turnover']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             if ($e->getCode() == 23000)
@@ -94,7 +93,6 @@ class ExpensesDistributionDao
                 'units_sold' => $dataExpensesDistribution['unitsSold'],
                 'turnover' => $dataExpensesDistribution['turnover']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -113,7 +111,6 @@ class ExpensesDistributionDao
         if ($row > 0) {
             $stmt = $connection->prepare("DELETE FROM expenses_distribution WHERE id_expenses_distribution = :id_expenses_distribution");
             $stmt->execute(['id_expenses_distribution' => $dataExpensesDistribution['idExpensesDistribution']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

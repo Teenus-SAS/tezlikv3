@@ -23,9 +23,9 @@ class ActiveUsersDao
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT COUNT(session_active)AS quantity FROM users WHERE session_active = 1");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $active = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("Session Active Users", array('licenses' => $active));
+
 
         return $active;
     }

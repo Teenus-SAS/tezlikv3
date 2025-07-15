@@ -23,7 +23,7 @@ class PlansDao
         $stmt = $connection->prepare("SELECT * FROM plans");
         $stmt->execute();
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $plans = $stmt->fetchAll($connection::FETCH_ASSOC);
 
         return $plans;

@@ -25,7 +25,7 @@ class QuoteProductsDao
                                         INNER JOIN products p ON p.id_product = qp.id_product
                                       WHERE qp.id_quote = :id_quote");
         $stmt->execute(['id_quote' => $id_quote]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $quotesProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $quotesProducts;
@@ -49,7 +49,6 @@ class QuoteProductsDao
                 'discount' => $dataQuote['discount'],
                 'profitability' => $dataQuote['profitability']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -64,7 +63,6 @@ class QuoteProductsDao
         try {
             $stmt = $connection->prepare("DELETE FROM quotes_products WHERE id_quote = :id_quote");
             $stmt->execute(['id_quote' => $id_quote]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

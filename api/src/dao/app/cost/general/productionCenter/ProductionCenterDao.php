@@ -26,10 +26,10 @@ class ProductionCenterDao
                                       WHERE pc.id_company = :id_company GROUP BY pc.id_production_center");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $productions_center = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("productions_center", array('productions_center' => $productions_center));
+
         return $productions_center;
     }
 
@@ -43,7 +43,6 @@ class ProductionCenterDao
                 'production_center' => strtoupper(trim($dataPCenter['production'])),
                 'id_company'  => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -65,7 +64,6 @@ class ProductionCenterDao
                 'production_center' => strtoupper(trim($dataPCenter['production'])),
                 'id_production_center' => $dataPCenter['idProductionCenter'],
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -84,7 +82,6 @@ class ProductionCenterDao
             if ($rows > 0) {
                 $stmt = $connection->prepare("DELETE FROM productions_center WHERE id_production_center = :id_production_center");
                 $stmt->execute(['id_production_center' => $id_production_center]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

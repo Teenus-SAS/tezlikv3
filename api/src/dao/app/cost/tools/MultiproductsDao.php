@@ -67,7 +67,7 @@ class MultiproductsDao
         $stmt->execute([
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $multiproducts = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $multiproducts;
@@ -80,7 +80,7 @@ class MultiproductsDao
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_product' => $id_product]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $multiproduct = $stmt->fetch($connection::FETCH_ASSOC);
         return $multiproduct;
@@ -100,7 +100,6 @@ class MultiproductsDao
                 'participation' => $dataProduct['participation'],
                 'expense' => $dataProduct['expense']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -123,7 +122,6 @@ class MultiproductsDao
                 'participation' => $dataProduct['participation'],
                 'expense' => $dataProduct['expense']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -150,7 +148,6 @@ class MultiproductsDao
                 'total_units' => $data['total_units'],
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

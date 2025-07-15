@@ -22,10 +22,10 @@ class PucDao
     $stmt = $connection->prepare("SELECT * FROM puc ORDER BY CAST(SUBSTRING(number_count, 1, 2) AS UNSIGNED), CAST(SUBSTRING(number_count, 1, 4) AS UNSIGNED), CAST(SUBSTRING(number_count, 1, 5) AS UNSIGNED);");
     $stmt->execute();
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $puc = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("process", array('process' => $puc));
+
     return $puc;
   }
 
@@ -52,7 +52,6 @@ class PucDao
         'number_count' => trim($dataPuc['numberCount']),
         'count' => ucfirst(strtolower(trim($dataPuc['count'])))
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       if ($e->getCode() == 23000)
         $message = 'Numero de cuenta duplicada. Ingrese un nuevo numero';
@@ -73,7 +72,6 @@ class PucDao
         'number_count' => trim($dataPuc['numberCount']),
         'count' => ucfirst(strtolower(trim($dataPuc['count'])))
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
@@ -92,7 +90,6 @@ class PucDao
     if ($rows > 0) {
       $stmt = $connection->prepare("DELETE FROM puc WHERE id_puc = :id_puc");
       $stmt->execute(['id_puc' => $id_puc]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }
 }

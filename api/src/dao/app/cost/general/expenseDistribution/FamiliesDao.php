@@ -22,10 +22,10 @@ class FamiliesDao
         $stmt = $connection->prepare("SELECT * FROM families WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $families = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("families", array('families' => $families));
+
         return $families;
     }
 
@@ -66,10 +66,10 @@ class FamiliesDao
                                       WHERE id_company = :id_company AND (assignable_expense > 0 OR units_sold > 0 OR turnover > 0)");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $expenses = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("expenses", array('expenses' => $expenses));
+
         return $expenses;
     }
 
@@ -98,7 +98,6 @@ class FamiliesDao
                 'family' => strtoupper(trim($dataFamily['family'])),
                 'id_company' => $id_company,
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             if ($e->getCode() == 23000)
@@ -117,7 +116,6 @@ class FamiliesDao
                 'id_family' => $dataFamily['idFamily'],
                 'family' => strtoupper(trim($dataFamily['family']))
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -135,7 +133,6 @@ class FamiliesDao
                 'flag_family' => $flag_family,
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -153,7 +150,6 @@ class FamiliesDao
                 'id_product' => $dataFamily['selectNameProduct'],
                 'id_family' => $dataFamily['idFamily']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -175,7 +171,6 @@ class FamiliesDao
                 'turnover' => $dataFamily['turnover'],
                 'id_family' => $dataFamily['idFamily']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -194,7 +189,6 @@ class FamiliesDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM families WHERE id_family = :id_family");
                 $stmt->execute(['id_family' => $id_family]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

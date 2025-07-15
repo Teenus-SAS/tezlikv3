@@ -33,8 +33,8 @@ class AutenticationUserDao
         $user['rol'] = 'admin';
     }
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-    $this->logger->notice("usuarios Obtenidos", array('usuarios' => $user));
+
+
     return $user;
   }
 
@@ -42,7 +42,7 @@ class AutenticationUserDao
   {
     $stmt = $connection->prepare("SELECT * FROM admins WHERE email = :email");
     $stmt->execute(['email' => $dataUser]);
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
     $user = $stmt->fetch($connection::FETCH_ASSOC);
 
     return $user;

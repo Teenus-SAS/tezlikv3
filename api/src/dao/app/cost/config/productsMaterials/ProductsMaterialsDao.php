@@ -32,7 +32,7 @@ class ProductsMaterialsDao
                                       WHERE p.id_company = :id_company AND p.id_product = :id_product");
         $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
         $productsmaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $productsmaterials));
+
         return $productsmaterials;
     }
 
@@ -87,7 +87,6 @@ class ProductsMaterialsDao
                 'quantity' => trim($dataProductMaterial['quantity']),
                 'waste' => trim($dataProductMaterial['waste']),
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -112,7 +111,6 @@ class ProductsMaterialsDao
                 'quantity' => trim($dataProductMaterial['quantity']),
                 'waste' => trim($dataProductMaterial['waste']),
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -133,7 +131,6 @@ class ProductsMaterialsDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM products_materials WHERE id_product_material = :id_product_material");
             $stmt->execute(['id_product_material' => $dataProductMaterial['idProductMaterial']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

@@ -27,7 +27,7 @@ class UnitsDao
         $stmt->execute();
 
         $units = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         return $units;
     }
 
@@ -39,7 +39,7 @@ class UnitsDao
         $stmt->execute(['id_magnitude' => $id_magnitude]);
 
         $units = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         return $units;
     }
 
@@ -54,7 +54,7 @@ class UnitsDao
         ]);
 
         $unit = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         return $unit;
     }
 
@@ -70,7 +70,6 @@ class UnitsDao
                 'unit' => strtoupper(trim($dataUnit['unit'])),
                 'abbreviation' => strtoupper(trim($dataUnit['abbreviation']))
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -95,7 +94,6 @@ class UnitsDao
                 'unit' => strtoupper(trim($dataUnit['unit'])),
                 'abbreviation' => strtoupper(trim($dataUnit['abbreviation']))
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

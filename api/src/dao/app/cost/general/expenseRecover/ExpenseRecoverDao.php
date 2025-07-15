@@ -20,16 +20,14 @@ class ExpenseRecoverDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT er.id_expense_recover, p.id_product, p.reference, p.product, er.expense_recover
-                                      FROM products p
-                                        INNER JOIN expenses_recover er ON p.id_product = er.id_product
-                                      WHERE p.id_company = :id_company AND p.active = 1");
+        $sql = "SELECT er.id_expense_recover, p.id_product, p.reference, p.product, er.expense_recover
+                FROM products p
+                INNER JOIN expenses_recover er ON p.id_product = er.id_product
+                WHERE p.id_company = :id_company AND p.active = 1";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $recoverExpense = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("recoverExpense", array('recoverExpense' => $recoverExpense));
         return $recoverExpense;
     }
 
@@ -37,8 +35,9 @@ class ExpenseRecoverDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT id_expense_recover FROM expenses_recover 
-                                      WHERE id_product = :id_product AND id_company = :id_company");
+        $sql = "SELECT id_expense_recover FROM expenses_recover 
+                WHERE id_product = :id_product AND id_company = :id_company";
+        $stmt = $connection->prepare($sql);
         $stmt->execute([
             'id_product' => trim($dataExpense['idProduct']),
             'id_company' => $id_company
@@ -58,7 +57,6 @@ class ExpenseRecoverDao
                 'id_company' => $id_company,
                 'expense_recover' => $dataExpense['percentage']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             if ($e->getCode() == 23000)
                 $message = 'Producto ya registrado. Intente con uno nuevo';
@@ -79,7 +77,6 @@ class ExpenseRecoverDao
                 'expense_recover' => $dataExpense['percentage'],
                 'id_expense_recover' => $dataExpense['idExpenseRecover']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -99,7 +96,6 @@ class ExpenseRecoverDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM expenses_recover WHERE id_expense_recover = :id_expense_recover");
                 $stmt->execute(['id_expense_recover' => $id_expense_recover]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

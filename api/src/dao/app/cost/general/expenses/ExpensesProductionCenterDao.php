@@ -30,10 +30,10 @@ class ExpensesProductionCenterDao
                                     ORDER BY CAST(SUBSTRING(p.number_count, 1, 2) AS UNSIGNED), CAST(SUBSTRING(p.number_count, 1, 4) AS UNSIGNED), CAST(SUBSTRING(p.number_count, 1, 5) AS UNSIGNED)");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $expenses = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("expenses", array('expenses' => $expenses));
+
         return $expenses;
     }
 
@@ -65,8 +65,6 @@ class ExpensesProductionCenterDao
                 'id_production_center' => $dataExpense['production'],
                 'expense_value' => trim($dataExpense['expenseValue1'])
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -86,7 +84,6 @@ class ExpensesProductionCenterDao
                 'id_production_center' => $dataExpense['production'],
                 'id_expense_product_center' => trim($dataExpense['idExpenseProductionCenter'])
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -105,7 +102,6 @@ class ExpensesProductionCenterDao
         if ($row > 0) {
             $stmt = $connection->prepare("DELETE FROM expenses_products_centers WHERE id_expense_product_center = :id_expense_product_center");
             $stmt->execute(['id_expense_product_center' => $id_expense_product_center]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

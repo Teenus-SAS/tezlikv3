@@ -21,9 +21,9 @@ class HistoricalUsersDao
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT * FROM historical_user");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $users = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("users", array('users' => $users));
+
         return $users;
     }
 

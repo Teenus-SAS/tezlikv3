@@ -542,6 +542,10 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
             }
         }
 
+        //Calcular el porcentaje 
+        if ($flag === 1) // Distribucion por recuperacion
+            $percentage = $calculator->calculate($totalSales, $overhead);
+
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Gasto actualizado correctamente');
         else if (isset($resolution['info']))

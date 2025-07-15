@@ -22,10 +22,10 @@ class CompanyDao
     $stmt = $connection->prepare("SELECT * FROM companies WHERE id_company = :id_company;");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $company = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("company", array('company' => $company));
+
     return $company;
   }
 
@@ -51,7 +51,7 @@ class CompanyDao
         'creador' => $dataCompany['creador']
 
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
       $stmt = $connection->prepare("SELECT MAX(id_company) AS id_company FROM companies");
       $stmt->execute();
@@ -92,7 +92,6 @@ class CompanyDao
         'id_company' => $id_company
 
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
@@ -110,7 +109,6 @@ class CompanyDao
     if ($rows > 0) {
       $stmt = $connection->prepare("DELETE FROM companies WHERE id_company = :id_company");
       $stmt->execute(['id_company' => $id_company]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }
 }

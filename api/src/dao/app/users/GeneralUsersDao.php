@@ -41,8 +41,8 @@ class GeneralUsersDao
         $stmt->execute(['id_company' => $id_company]);
         $quantity_users_allows = $stmt->fetch($connection::FETCH_ASSOC);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        $this->logger->notice("usuario Obtenido", array('usuario' => $quantity_users_allows));
+
+
         return $quantity_users_allows;
     }
 
@@ -55,8 +55,8 @@ class GeneralUsersDao
         $stmt->execute(['id_company' => $id_company]);
         $quantity_users_created = $stmt->fetch($connection::FETCH_ASSOC);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        $this->logger->notice("cantidad usuarios obtenidos", array('cantidad usuarios' => $quantity_users_created));
+
+
         return $quantity_users_created;
     }
 

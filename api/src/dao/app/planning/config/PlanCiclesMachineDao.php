@@ -60,7 +60,6 @@ class PlanCiclesMachineDao
                 'id_company' => $id_company,
                 'cicles_hour' => $ciclesHour
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -83,7 +82,6 @@ class PlanCiclesMachineDao
                 'id_machine' => $dataCiclesMachine['idMachine'],
                 'cicles_hour' => $ciclesHour
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -102,7 +100,6 @@ class PlanCiclesMachineDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM plan_cicles_machine WHERE id_cicles_machine = :id_cicles_machine");
             $stmt->execute(['id_cicles_machine' => $id_cicles_machine]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

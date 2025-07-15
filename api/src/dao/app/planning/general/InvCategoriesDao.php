@@ -22,10 +22,10 @@ class invCategoriesDao
         $stmt = $connection->prepare("SELECT * FROM plan_categories");
         $stmt->execute();
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $categories = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("categories", array('categories' => $categories));
+
         return $categories;
     }
 
@@ -37,10 +37,10 @@ class invCategoriesDao
             'type_category' => strtoupper(trim($typeCategory))
         ]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $categories = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("categories", array('categories' => $categories));
+
         return $categories;
     }
 
@@ -69,7 +69,6 @@ class invCategoriesDao
                 'category' => strtoupper(trim($dataCategory['category'])),
                 'type_category' => $dataCategory['typeCategory']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -95,7 +94,6 @@ class invCategoriesDao
                 'type_category' => $dataCategory['typeCategory'],
                 'id_category' => $dataCategory['idCategory'],
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -115,7 +113,6 @@ class invCategoriesDao
                 $stmt = $connection->prepare("DELETE FROM plan_categories WHERE id_category = :id_category");
                 $stmt->execute(['id_category' => $id_category]);
             }
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             if ($e->getCode() == 23000)

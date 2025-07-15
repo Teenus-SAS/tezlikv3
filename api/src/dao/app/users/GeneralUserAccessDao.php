@@ -97,8 +97,8 @@ class GeneralUserAccessDao
         $stmt->execute(['id_user' => $id_user]);
         $userAccess = $stmt->fetch($connection::FETCH_ASSOC);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        $this->logger->notice("usuario Obtenido", array('usuario' => $userAccess));
+
+
         return $userAccess;
     }
 

@@ -21,7 +21,7 @@ class GeneralQuotesDao
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT * FROM quotes WHERE id_payment_method = :id_payment_method");
         $stmt->execute(['id_payment_method' => $id_method]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $quotes = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $quotes;
@@ -35,7 +35,7 @@ class GeneralQuotesDao
             'id_material' => $id_material
         ]);
         $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $materials));
+
         return $materials;
     }
 
@@ -44,7 +44,7 @@ class GeneralQuotesDao
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT * FROM quotes_products WHERE id_product = :id_product");
         $stmt->execute(['id_product' => $id_product]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $quotesProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $quotesProducts;
@@ -67,7 +67,7 @@ class GeneralQuotesDao
                                       INNER JOIN materials m ON qp.id_material = m.id_material
                                       WHERE qp.id_quote = :id_quote");
         $stmt->execute(['id_quote' => $id_quote]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $quotesProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $quotesProducts;
@@ -85,7 +85,6 @@ class GeneralQuotesDao
                 'id_material' => $dataQuote['idMaterial'],
                 'quantity_material' => $dataQuote['quantityMaterial']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -103,7 +102,6 @@ class GeneralQuotesDao
                 'id_quote' => $dataQuote['idQuote'],
                 'flag_quote' => 1
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -123,7 +121,6 @@ class GeneralQuotesDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM quotes_products WHERE id_product = :id_product");
                 $stmt->execute(['id_product' => $dataQuote['idProduct']]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

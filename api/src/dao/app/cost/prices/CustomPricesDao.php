@@ -38,10 +38,10 @@ class CustomPricesDao
                                       AND IF(cp.flag_price = 0, pc.sale_price, pc.price) != 0 ORDER BY `cp`.`id_price_list` ASC");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $pricesList = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("pricesList", array('pricesList' => $pricesList));
+
         return $pricesList;
     }
 
@@ -62,8 +62,6 @@ class CustomPricesDao
                 'price' => $dataPrice['customPricesValue'],
                 // 'flag_price' => $dataPrice['typePrice']
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -87,8 +85,6 @@ class CustomPricesDao
                 'id_price_list' => $dataPrice['idPriceList'],
                 'price' => $dataPrice['customPricesValue'],
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -108,7 +104,6 @@ class CustomPricesDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM custom_prices WHERE id_custom_price = :id_custom_price");
                 $stmt->execute(['id_custom_price' => $id_custom_price]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

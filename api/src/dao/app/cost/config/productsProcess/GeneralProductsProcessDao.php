@@ -46,7 +46,7 @@ class GeneralProductsProcessDao
                                       ORDER BY pp.route ASC");
         $stmt->execute(['id_company' => $id_company]);
         $productsprocess = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $productsprocess));
+
         return $productsprocess;
     }
 
@@ -148,7 +148,6 @@ class GeneralProductsProcessDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM products_process WHERE id_product = :id_product");
             $stmt->execute(['id_product' => $dataProductProcess['idProduct']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

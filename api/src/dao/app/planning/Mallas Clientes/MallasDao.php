@@ -24,7 +24,7 @@ class MallasDao
         $stmt->execute([
             'id_cliente' => $dataMalla['idClient']
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $malla = $stmt->fetch($connection::FETCH_ASSOC);
         return $malla;
     }
@@ -39,7 +39,6 @@ class MallasDao
                 'id_cliente' => $dataMalla['idClient'],
                 'dia_entrega' => $dataMalla['deliveryDay']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -58,7 +57,6 @@ class MallasDao
                 'id' => $dataMalla['idMalla'],
                 'dia_entrega' => $dataMalla['deliveryDay']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -77,7 +75,6 @@ class MallasDao
         if ($row > 0) {
             $stmt = $connection->prepare("DELETE FROM plan_malla_clientes WHERE id_mold = :id_mold");
             $stmt->execute(['id' => $id]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

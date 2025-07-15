@@ -25,7 +25,7 @@ class ContactsDao
                                       INNER JOIN quote_companies qc ON qc.id_quote_company = c.id_quote_company
                                       WHERE qc.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $contacts = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $contacts;
@@ -40,7 +40,7 @@ class ContactsDao
                                       INNER JOIN quote_companies qc ON qc.id_quote_company = c.id_quote_company
                                       WHERE c.id_quote_company = :id_quote_company");
         $stmt->execute(['id_quote_company' => $id_quote_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $contacts = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $contacts;
@@ -62,7 +62,6 @@ class ContactsDao
                 'position' => $dataContact['position'],
                 'id_quote_company' => $dataContact['idCompany']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -89,7 +88,6 @@ class ContactsDao
                 'position' => $dataContact['position'],
                 'id_quote_company' => $dataContact['idCompany']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -110,7 +108,6 @@ class ContactsDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM quote_customers WHERE id_contact = :id_contact");
                 $stmt->execute(['id_contact' => $id_contact]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

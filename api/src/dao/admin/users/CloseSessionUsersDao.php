@@ -23,7 +23,6 @@ class CloseSessionUsersDao
         try {
             $stmt = $connection->prepare("UPDATE users SET session_active = 0 WHERE id_user = :id_user");
             $stmt->execute(['id_user' => $id_user['id']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

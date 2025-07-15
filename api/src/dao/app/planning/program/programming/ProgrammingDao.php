@@ -26,7 +26,7 @@ class ProgrammingDao
                                       INNER JOIN plan_orders o ON o.id_product = p.id_product 
                                       WHERE pcm.id_machine = :id_machine");
         $stmt->execute(['id_machine' => $dataProgramming['idMachine']]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $productsAndOrders = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $productsAndOrders;
     }
@@ -41,7 +41,7 @@ class ProgrammingDao
                                       INNER JOIN plan_orders o ON o.id_product = pcm.id_product
                                       WHERE o.id_product = :id_product");
         $stmt->execute(['id_product' => $dataProgramming['idProduct']]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $machinesAndOrders = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $machinesAndOrders;
     }
@@ -57,7 +57,7 @@ class ProgrammingDao
                                       INNER JOIN plan_orders o ON o.id_product = p.id_product
                                       WHERE o.id_order = :id_order");
         $stmt->execute(['id_order' => $dataProgramming['idOrder']]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $products;
     }

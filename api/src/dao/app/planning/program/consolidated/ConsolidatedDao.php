@@ -29,7 +29,7 @@ class ConsolidatedDao
                                       INNER JOIN plan_orders_types ot ON ot.id_order_type = o.id_order_type
                                       WHERE o.id_company = :id_company;");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $consolidated = $stmt->fetchAll($connection::FETCH_ASSOC);
 
         // Obtener tipos de pedidos en la base de datos
@@ -44,7 +44,7 @@ class ConsolidatedDao
                 'id_order_type' => $dataOrderTypes[$i]['id_order_type'],
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
             $orderTypes = $stmt->fetchAll($connection::FETCH_ASSOC);
 
@@ -86,7 +86,7 @@ class ConsolidatedDao
             'week' => $week,
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $consolidated = $stmt->fetchAll($connection::FETCH_ASSOC);
 
 

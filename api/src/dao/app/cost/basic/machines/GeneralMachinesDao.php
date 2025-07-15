@@ -25,10 +25,10 @@ class GeneralMachinesDao
                                       ORDER BY machine ASC");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $machines = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("machines", array('machines' => $machines));
+
         return $machines;
     }
 

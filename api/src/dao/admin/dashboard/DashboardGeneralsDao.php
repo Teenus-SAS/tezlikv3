@@ -95,9 +95,9 @@ class DashboardGeneralsDao
                 WHERE MONTH(hu.date) = MONTH(CURRENT_DATE()) AND YEAR(hu.date) = YEAR(CURDATE());";
         $stmt = $connection->prepare($sql);
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $companies = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("companies", array('companies' => $companies));
+
         return $companies;
     }
 
@@ -135,9 +135,9 @@ class DashboardGeneralsDao
                                         INNER JOIN historical_users hu ON hu.id_user = u.id_user
                                       WHERE YEAR(hu.date) = YEAR(CURRENT_DATE())");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $month = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("month", array('month' => $month));
+
         return $month;
     } */
 }

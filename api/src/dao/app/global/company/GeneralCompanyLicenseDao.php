@@ -41,7 +41,6 @@ class GeneralCompanyLicenseDao
             'flag_expense' => $flag_expense,
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
 
     public function updateFlagPrice($flag_price, $id_company)

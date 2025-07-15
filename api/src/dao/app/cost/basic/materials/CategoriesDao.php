@@ -24,10 +24,10 @@ class CategoriesDao
                                       WHERE c.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $categories = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("categories", array('categories' => $categories));
+
         return $categories;
     }
 
@@ -41,7 +41,6 @@ class CategoriesDao
                 'id_company'  => $id_company,
                 'category' => strtoupper(trim($dataCategory['category']))
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -63,7 +62,6 @@ class CategoriesDao
                 'category' => strtoupper(trim($dataCategory['category'])),
                 'id_category' => $dataCategory['idCategory'],
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -82,7 +80,6 @@ class CategoriesDao
             if ($rows > 0) {
                 $stmt = $connection->prepare("DELETE FROM categories WHERE id_category = :id_category");
                 $stmt->execute(['id_category' => $id_category]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

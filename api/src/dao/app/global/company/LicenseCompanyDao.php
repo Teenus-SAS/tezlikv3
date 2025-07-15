@@ -30,7 +30,7 @@ class LicenseCompanyDao
                 WHERE c.id_company = :id_company";
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $dataCompany = $stmt->fetch($connection::FETCH_ASSOC);
 
         return $dataCompany;
@@ -52,8 +52,6 @@ class LicenseCompanyDao
                 'quantity_user' => 1,
                 'license_status' => 1
             ]);
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -74,7 +72,6 @@ class LicenseCompanyDao
                 'quantity_user' => $dataLicenseCompany['quantityUser'],
                 'license_status' => 1
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -92,7 +89,6 @@ class LicenseCompanyDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM companies_licenses WHERE id_company_license = :id_company_license");
             $stmt->execute(['id_company_license' => $id_company_license]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

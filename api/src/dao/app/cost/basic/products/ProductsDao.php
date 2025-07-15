@@ -27,10 +27,10 @@ class ProductsDao
                                   ORDER BY `p`.`product`, `p`.`reference` ASC");
     $stmt->execute(['id_company' => $id_company]);
 
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-    $this->logger->notice("products", array('products' => $products));
+
     return $products;
   }
 
@@ -49,7 +49,6 @@ class ProductsDao
         'active' => $dataProduct['active'],
         'id_company' => $id_company,
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
@@ -72,7 +71,6 @@ class ProductsDao
         'active' => $dataProduct['active'],
         'id_company' => $id_company
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
@@ -92,7 +90,6 @@ class ProductsDao
       if ($rows > 0) {
         $stmt = $connection->prepare("DELETE FROM products WHERE id_product = :id_product");
         $stmt->execute(['id_product' => $id_product]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
       }
     } catch (\Exception $e) {
       $message = $e->getMessage();

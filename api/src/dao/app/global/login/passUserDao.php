@@ -29,7 +29,6 @@ class PassUserDao
 
             $stmt = $connection->prepare("UPDATE users SET pass = :pass WHERE id_user = :id_user");
             $stmt->execute(['id_user' => $id_user, 'pass' => $pass]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 
@@ -68,7 +67,7 @@ class PassUserDao
                 $stmt = $connection->prepare("UPDATE users SET password = :pass WHERE email = :email");
 
             $result = $stmt->execute(['pass' => $pass, 'email' => $email]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
             /* Enviar $new_pass por email */
             if ($result)

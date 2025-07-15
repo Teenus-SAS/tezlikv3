@@ -56,9 +56,9 @@ class CompaniesLicenseDao
                                         INNER JOIN plans_access pa ON cl.plan = pa.id_plan
                                       WHERE cl.license_status = 1");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $licenses = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("licenses", array('licenses' => $licenses));
+
 
         return $licenses;
     }
@@ -216,8 +216,6 @@ class CompaniesLicenseDao
                     'inyection' => $dataLicense['inyection'],
                 ]);
             }
-
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -275,7 +273,6 @@ class CompaniesLicenseDao
                 'flag_export_import' => $dataLicense['exportImport'],
                 'inyection' => $dataLicense['inyection']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -292,7 +289,6 @@ class CompaniesLicenseDao
                                             INNER JOIN companies c ON c.id_company = cl.id_company
                                           WHERE c.company = 'Demo' AND cl.license_end < CURRENT_DATE");
             $stmt->execute();
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

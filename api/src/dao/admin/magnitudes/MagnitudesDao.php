@@ -22,7 +22,7 @@ class MagnitudesDao
 
         $stmt = $connection->prepare("SELECT * FROM convert_magnitudes");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $magnitudes = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $magnitudes;
@@ -36,7 +36,7 @@ class MagnitudesDao
         $stmt->execute([
             'magnitude' => strtoupper(trim($dataMagnitude['magnitude']))
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $magnitude = $stmt->fetch($connection::FETCH_ASSOC);
         return $magnitude;
@@ -51,7 +51,6 @@ class MagnitudesDao
             $stmt->execute([
                 'magnitude' => strtoupper(trim($dataMagnitude['magnitude']))
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -72,7 +71,6 @@ class MagnitudesDao
                 'id_magnitude' => $dataMagnitude['idMagnitude'],
                 'magnitude' => strtoupper(trim($dataMagnitude['magnitude']))
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 

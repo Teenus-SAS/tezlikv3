@@ -27,7 +27,7 @@ class GeneralServicesDao
                                         ORDER BY sx.name_service ASC;");
         $stmt->execute(['id_product' => trim($id_product), 'id_company' => $id_company]);
         $externalservices = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $externalservices));
+
         return $externalservices;
     }
 
@@ -91,7 +91,6 @@ class GeneralServicesDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM services WHERE id_product = :id_product");
             $stmt->execute(['id_product' => $dataExternalService['idProduct']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

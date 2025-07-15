@@ -22,10 +22,10 @@ class InvMoldsDao
 
         $stmt = $connection->prepare("SELECT * FROM plan_inv_molds WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $molds = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("Moldes", array('Moldes' => $molds));
+
         return $molds;
     }
 
@@ -40,7 +40,7 @@ class InvMoldsDao
             'mold' => strtoupper(trim($dataMold['mold'])),
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $molds = $stmt->fetch($connection::FETCH_ASSOC);
         return $molds;
     }
@@ -61,7 +61,6 @@ class InvMoldsDao
                 'cavity' => $dataMold['cavity'],
                 'cavity_available' => $dataMold['cavityAvailable']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             if ($e->getCode() == 23000)
@@ -87,7 +86,6 @@ class InvMoldsDao
                 'cavity' => $dataMold['cavity'],
                 'cavity_available' => $dataMold['cavityAvailable']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -106,7 +104,6 @@ class InvMoldsDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM plan_inv_molds WHERE id_mold = :id_mold");
                 $stmt->execute(['id_mold' => $id_mold]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

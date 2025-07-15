@@ -22,7 +22,7 @@ class PaymentMethodsDao
 
         $stmt = $connection->prepare("SELECT * FROM quote_payment_methods WHERE flag = 0 AND id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $paymentMethods = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $paymentMethods;
@@ -38,7 +38,6 @@ class PaymentMethodsDao
                 'method' => $dataPayment['method'],
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -57,7 +56,6 @@ class PaymentMethodsDao
                 'id_method' => $dataPayment['idMethod'],
                 'method' => $dataPayment['method']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
@@ -78,7 +76,6 @@ class PaymentMethodsDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM quote_payment_methods WHERE id_method = :id_method");
                 $stmt->execute(['id_method' => $id_method]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

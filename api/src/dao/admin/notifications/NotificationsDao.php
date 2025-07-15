@@ -25,10 +25,10 @@ class NotificationsDao
                                         FROM notifications n
                                         LEFT JOIN companies c ON c.id_company = n.id_company;");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $notifications = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("notifications", array('notifications' => $notifications));
+
         return $notifications;
     }
 
@@ -41,7 +41,7 @@ class NotificationsDao
                                         LEFT JOIN companies c ON c.id_company = n.id_company
                                       WHERE n.id_company IN(0, :id_company) ORDER BY n.date_notification DESC;");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $notifications = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $notifications;
@@ -59,7 +59,6 @@ class NotificationsDao
                 'descr' => $dataNotifications['description'],
                 'check_notification' => 1
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -79,7 +78,6 @@ class NotificationsDao
                 'descr' => $dataNotifications['description'],
                 'id_notification' => $dataNotifications['idNotification']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -98,7 +96,6 @@ class NotificationsDao
                 'check_notification' => 0,
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -117,7 +114,6 @@ class NotificationsDao
         if ($row > 0) {
             $stmt = $connection->prepare("DELETE FROM notifications WHERE id_notification = :id_notification");
             $stmt->execute(['id_notification' => $id_notification]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
 }

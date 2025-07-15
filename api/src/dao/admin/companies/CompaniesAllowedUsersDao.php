@@ -27,9 +27,9 @@ class CompaniesAllowedUsersDao
                                       INNER JOIN companies_licenses cl ON cp.id_company = cl.id_company
                                       WHERE cl.license_status = 0");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $allowedData = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("licenses get", array('licenses' => $allowedData));
+
 
         return $allowedData;
     }
@@ -47,7 +47,6 @@ class CompaniesAllowedUsersDao
                 'id_company_license' => $id_company_license,
                 'quantity_user' => $quantity_user
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

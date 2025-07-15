@@ -55,10 +55,10 @@ class GeneralMaterialsDao
                                       WHERE m.id_company = :id_company ORDER BY m.material ASC");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("materials", array('materials' => $materials));
+
         return $materials;
     }
 
@@ -81,10 +81,10 @@ class GeneralMaterialsDao
                                       WHERE m.id_company = :id_company ORDER BY m.material ASC");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("materials", array('materials' => $materials));
+
         return $materials;
     }
 
@@ -95,10 +95,10 @@ class GeneralMaterialsDao
                                       WHERE id_company = :id_company AND flag_usd = 1");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("materials", array('materials' => $materials));
+
         return $materials;
     }
 
@@ -314,7 +314,6 @@ class GeneralMaterialsDao
             if ($rows > 0) {
                 $stmt = $connection->prepare("DELETE FROM materials WHERE id_material = :id_material");
                 $stmt->execute(['id_material' => $id_material]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

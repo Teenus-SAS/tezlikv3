@@ -51,7 +51,7 @@ class AMLotsDao
             }
             return $error;
         }
-        $this->logger->notice("products", array('products' => $productsRawmaterials));
+
         return $productsRawmaterials;
     }
 

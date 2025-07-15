@@ -33,8 +33,6 @@ class MaterialsDao
         'cost' => $dataMaterial['costRawMaterial'],
         'flag_usd' => $dataMaterial['usd']
       ]);
-
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
 
@@ -64,7 +62,6 @@ class MaterialsDao
         'flag_usd' => $dataMaterial['usd'],
         'id_company' => $id_company
       ]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);

@@ -24,9 +24,9 @@ class LastLoginUsersDao
                                       FROM companies cp INNER JOIN users us ON cp.id_company = us.id_company 
                                       WHERE session_active = 1 ORDER BY us.last_login DESC");
         $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $lastLog = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("Session Active Users", array('Session' => $lastLog));
+
 
         return $lastLog;
     }

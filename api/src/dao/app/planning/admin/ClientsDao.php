@@ -22,10 +22,10 @@ class ClientsDao
 
         $stmt = $connection->prepare("SELECT * FROM plan_clients WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $clients = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("clientes", array('clientes' => $clients));
+
         return $clients;
     }
 
@@ -38,7 +38,7 @@ class ClientsDao
             'client' => ucfirst(strtolower(trim($dataClient['client']))),
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $client = $stmt->fetch($connection::FETCH_ASSOC);
         return $client;
@@ -59,7 +59,6 @@ class ClientsDao
                 'client' => ucfirst(strtolower(trim($dataClient['client']))),
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             if ($e->getCode() == 23000)
@@ -84,7 +83,6 @@ class ClientsDao
                 'client' => ucfirst(strtolower(trim($dataClient['client']))),
                 'id_client' => $dataClient['idClient']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -104,7 +102,6 @@ class ClientsDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM plan_clients WHERE id_client = :id_client");
                 $stmt->execute(['id_client' => $id_client]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();

@@ -24,10 +24,10 @@ class GeneralPayrollDao
                                       WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("payroll", array('payroll' => $payroll));
+
         return $payroll;
     }
 
@@ -57,10 +57,10 @@ class GeneralPayrollDao
                                         WHERE pay.id_company = :id_company ORDER BY p.process ASC");
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $processPayroll = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("processPayroll", array('processPayroll' => $processPayroll));
+
         return $processPayroll;
     }
 

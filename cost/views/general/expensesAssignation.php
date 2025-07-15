@@ -1043,6 +1043,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                 <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
                 <script src="/cost/js/general/expensesDistribution/newProducts.js"></script>
                 <script src="/cost/js/general/expensesDistribution/importExpensesDistribution.js"></script>
+                <script src="/cost/js/general/expenseRecover/handleExpensesRecovery.js"></script>
 
                 <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
                     <script src="/cost/js/general/expensesDistribution/configProducts.js"></script>

@@ -32,7 +32,7 @@ class FinalDateDao
             'id_machine' => $dataMachine['idMachine'],
             'id_company' => $id_company
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $finalDate = $stmt->fetch($connection::FETCH_ASSOC);
         return $finalDate;
     }
@@ -49,7 +49,6 @@ class FinalDateDao
                 'id_machine' => $dataMachine['idMachine'],
                 'id_company' => $id_company
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

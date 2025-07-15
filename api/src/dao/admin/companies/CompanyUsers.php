@@ -26,9 +26,9 @@ class CompanyUsers
                                       FROM companies cp INNER JOIN users us ON cp.id_company = us.id_company
                                       WHERE cp.id_company = :id_company");
         $stmt->execute(['id_company' => $idCompany]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $licenses = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("licenses", array('licenses' => $licenses));
+
 
         return $licenses;
     }
@@ -41,7 +41,7 @@ class CompanyUsers
         $stmt = $connection->prepare("SELECT active FROM users WHERE id_user = :id_user");
         $stmt->execute(['id_user' => $id_user]);
         $status = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         return $status;
     }
 
@@ -56,7 +56,6 @@ class CompanyUsers
                 'active' => $status,
                 'id_user' => $id_user,
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

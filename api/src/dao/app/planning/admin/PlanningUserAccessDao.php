@@ -32,9 +32,9 @@ class PlanningUserAccessDao
                                             LEFT JOIN planning_user_access usa ON usa.id_user = us.id_user 
                                           WHERE us.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $users = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+
         return $users;
         // }
     }
@@ -53,9 +53,9 @@ class PlanningUserAccessDao
              WHERE us.id_company = :id_company AND us.id_user = :id_user;"
         );
         $stmt->execute(['id_company' => $id_company, 'id_user' => $id_user]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $users = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+
         return $users;
     }
 
@@ -70,19 +70,28 @@ class PlanningUserAccessDao
                                           VALUES (:id_user, :create_mold, :create_product, :create_material, :create_machine, :create_process, :products_material, :products_process, 
                                                     :programs_machine, :cicles_machine, :inv_category, :sale, :user, :client, :orders_type, :inventory, :plan_order, :program, :plan_load, :explosion_of_material, :office)");
             $stmt->execute([
-                'id_user' => $dataUser['idUser'],                                       'sale' => $dataUser['sale'],
-                'create_mold' => $dataUser['createMold'],                               'user' => $dataUser['plannigUser'],
-                'create_product' => $dataUser['planningCreateProduct'],                 'client' => $dataUser['client'],
-                'create_material' => $dataUser['planningCreateMaterial'],               'orders_type' => $dataUser['ordersType'],
-                'create_machine' => $dataUser['planningCreateMachine'],                 'inventory' => $dataUser['inventory'],
-                'create_process' => $dataUser['planningCreateProcess'],                 'plan_order' => $dataUser['order'],
-                'products_material' => $dataUser['planningProductsMaterial'],           'program' => $dataUser['program'],
-                'products_process' => $dataUser['planningProductsProcess'],             'plan_load' => $dataUser['load'],
-                'programs_machine' => $dataUser['programsMachine'],                     'explosion_of_material' => $dataUser['explosionOfMaterial'],
-                'cicles_machine' => $dataUser['ciclesMachine'],                         'office' => $dataUser['office'],
+                'id_user' => $dataUser['idUser'],
+                'sale' => $dataUser['sale'],
+                'create_mold' => $dataUser['createMold'],
+                'user' => $dataUser['plannigUser'],
+                'create_product' => $dataUser['planningCreateProduct'],
+                'client' => $dataUser['client'],
+                'create_material' => $dataUser['planningCreateMaterial'],
+                'orders_type' => $dataUser['ordersType'],
+                'create_machine' => $dataUser['planningCreateMachine'],
+                'inventory' => $dataUser['inventory'],
+                'create_process' => $dataUser['planningCreateProcess'],
+                'plan_order' => $dataUser['order'],
+                'products_material' => $dataUser['planningProductsMaterial'],
+                'program' => $dataUser['program'],
+                'products_process' => $dataUser['planningProductsProcess'],
+                'plan_load' => $dataUser['load'],
+                'programs_machine' => $dataUser['programsMachine'],
+                'explosion_of_material' => $dataUser['explosionOfMaterial'],
+                'cicles_machine' => $dataUser['ciclesMachine'],
+                'office' => $dataUser['office'],
                 'inv_category' => $dataUser['invCategory']
             ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
@@ -109,19 +118,28 @@ class PlanningUserAccessDao
                                                                             user = :user, client = :client, orders_type = :orders_type, inventory = :inventory, plan_order = :plan_order, program = :program, plan_load = :plan_load, explosion_of_material = :explosion_of_material, office = :office
                                               WHERE id_user = :id_user");
                 $stmt->execute([
-                    'id_user' => $dataUser['idUser'],                                       'sale' => $dataUser['sale'],
-                    'create_mold' => $dataUser['createMold'],                               'user' => $dataUser['plannigUser'],
-                    'create_product' => $dataUser['planningCreateProduct'],                 'client' => $dataUser['client'],
-                    'create_material' => $dataUser['planningCreateMaterial'],               'orders_type' => $dataUser['ordersType'],
-                    'create_machine' => $dataUser['planningCreateMachine'],                 'inventory' => $dataUser['inventory'],
-                    'create_process' => $dataUser['planningCreateProcess'],                 'plan_order' => $dataUser['order'],
-                    'products_material' => $dataUser['planningProductsMaterial'],           'program' => $dataUser['program'],
-                    'products_process' => $dataUser['planningProductsProcess'],             'plan_load' => $dataUser['load'],
-                    'programs_machine' => $dataUser['programsMachine'],                     'explosion_of_material' => $dataUser['explosionOfMaterial'],
-                    'cicles_machine' => $dataUser['ciclesMachine'],                         'office' => $dataUser['office'],
+                    'id_user' => $dataUser['idUser'],
+                    'sale' => $dataUser['sale'],
+                    'create_mold' => $dataUser['createMold'],
+                    'user' => $dataUser['plannigUser'],
+                    'create_product' => $dataUser['planningCreateProduct'],
+                    'client' => $dataUser['client'],
+                    'create_material' => $dataUser['planningCreateMaterial'],
+                    'orders_type' => $dataUser['ordersType'],
+                    'create_machine' => $dataUser['planningCreateMachine'],
+                    'inventory' => $dataUser['inventory'],
+                    'create_process' => $dataUser['planningCreateProcess'],
+                    'plan_order' => $dataUser['order'],
+                    'products_material' => $dataUser['planningProductsMaterial'],
+                    'program' => $dataUser['program'],
+                    'products_process' => $dataUser['planningProductsProcess'],
+                    'plan_load' => $dataUser['load'],
+                    'programs_machine' => $dataUser['programsMachine'],
+                    'explosion_of_material' => $dataUser['explosionOfMaterial'],
+                    'cicles_machine' => $dataUser['ciclesMachine'],
+                    'office' => $dataUser['office'],
                     'inv_category' => $dataUser['invCategory']
                 ]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             } catch (\Exception $e) {
                 $message = $e->getMessage();
                 $error = array('error' => true, 'message' => $message);
@@ -137,6 +155,5 @@ class PlanningUserAccessDao
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("DELETE FROM planning_user_access WHERE id_user = :id_user");
         $stmt->execute(['id_user' => $dataUser['idUser']]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
 }

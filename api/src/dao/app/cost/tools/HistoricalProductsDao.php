@@ -27,7 +27,7 @@ class HistoricalProductsDao
                 ORDER BY year DESC, month DESC;";
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $products;
     }
@@ -62,7 +62,7 @@ class HistoricalProductsDao
                 WHERE p.id_company = :id_company AND month = :period AND year = :year  ";
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company, 'period' => $period, 'year' => $year]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $products;
     }
@@ -80,7 +80,7 @@ class HistoricalProductsDao
         $stmt->execute([
             'id_historic' => $id_historic
         ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $products = $stmt->fetch($connection::FETCH_ASSOC);
         return $products;
@@ -92,7 +92,7 @@ class HistoricalProductsDao
 
     //     $stmt = $connection->prepare("SELECT * FROM historical_products WHERE id_product = :id_product");
     //     $stmt->execute(['id_product' => $id_product]);
-    //     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
     //     $products = $stmt->fetch($connection::FETCH_ASSOC);
     //     return $products;
@@ -109,7 +109,7 @@ class HistoricalProductsDao
                     WHERE p.id_company = :id_company ORDER BY hp.date_product ASC LIMIT 1";
             $stmt = $connection->prepare($sql);
             $stmt->execute(['id_company' => $id_company]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
             $products = $stmt->fetch($connection::FETCH_ASSOC);
             return $products;

@@ -29,10 +29,10 @@ class ReportCostDao
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $generalCost = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("generalCost", array('generalCost' => $generalCost));
+
         return $generalCost;
     }
 
@@ -56,10 +56,10 @@ class ReportCostDao
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
 
         $costWorkforce = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("costWorkforce", array('costWorkforce' => $costWorkforce));
+
         return $costWorkforce;
     }
 }

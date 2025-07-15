@@ -29,7 +29,7 @@ class CompositeProductsDao
                                       WHERE cp.id_company = :id_company AND cp.id_product = :id_product");
         $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
         $compositeProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("products", array('products' => $compositeProducts));
+
         return $compositeProducts;
     }
 
