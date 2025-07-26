@@ -208,7 +208,7 @@ $(document).ready(function () {
       materialsToImport[i].costRawMaterial = arr.costo;
       materialsToImport[i].costImport = arr.costo_importacion;
       materialsToImport[i].costExport = arr.costo_nacionalizacion;
-      materialsToImport[i].typeCost = arr.tipo_moneda;
+      materialsToImport[i].typeCost = arr.tipo_moneda || 'COP';
     }
 
     return { importStatus, materialsToImport, insert, update };

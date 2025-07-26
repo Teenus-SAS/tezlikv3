@@ -107,9 +107,10 @@ class GeneralMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT id_material FROM materials 
-                                        WHERE (reference = :reference AND material = :material) 
-                                        AND id_company = :id_company");
+        $sql = "SELECT id_material FROM materials 
+                WHERE (reference = :reference AND material = :material) 
+                AND id_company = :id_company";
+        $stmt = $connection->prepare($sql);
         $stmt->execute([
             'reference' => trim($dataMaterial['refRawMaterial']),
             'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
@@ -167,6 +168,32 @@ class GeneralMaterialsDao
         ]);
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $products;
+    }
+
+    public function findMaterialKeysByCompany($idCompany)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        if (empty($keys)) return [];
+
+        // Separar referencias y materiales para armar WHERE compuesto
+        $conditions = [];
+        $params = [':id_company' => $idCompany];
+        foreach ($keys as $index => $key) {
+            [$ref, $mat] = explode('|', $key);
+            $conditions[] = "(reference = :ref{$index} AND material = :mat{$index})";
+            $params[":ref{$index}"] = $ref;
+            $params[":mat{$index}"] = $mat;
+        }
+
+        $sql = "SELECT reference, material FROM materials WHERE id_company = :id_company AND (" . implode(" OR ", $conditions) . ")";
+        $stmt = $$connection->prepare($sql);
+        $stmt->execute($params);
+        $rows = $stmt->fetchAll();
+
+        return array_map(function ($row) {
+            return $row['reference'] . '|' . $row['material'];
+        }, $rows);
     }
 
     /* Modificar Costo Ficha Tecnica */

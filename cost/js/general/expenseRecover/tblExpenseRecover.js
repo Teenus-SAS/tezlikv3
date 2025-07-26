@@ -38,7 +38,7 @@ loadTableExpenseRecover = async () => {
           <td class="uniqueClassName">${i + 1}</td>
           <td class="uniqueClassName">${data[i].reference} </td>
           <td class="uniqueClassName">${data[i].product} </td>
-          <td class="uniqueClassName">${data[i].expense_recover} %</td>
+         <td class="uniqueClassName">${parseFloat(data[i].expense_recover).toFixed(2)} %</td>
           <td class="uniqueClassName">
             <a href="javascript:;" <i id="${data[i].id_expense_recover
       }" class="bx bx-edit-alt updateExpenseRecover" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>

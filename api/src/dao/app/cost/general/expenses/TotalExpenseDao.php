@@ -19,7 +19,24 @@ class TotalExpenseDao
     public function findTotalExpenseByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
+
         $sql = "SELECT total_expense FROM general_data WHERE id_company = :id_company";
+        $stmt = $connection->prepare($sql);
+        $stmt->execute(['id_company' => $id_company]);
+
+        $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
+        return $totalExpense;
+    }
+
+    public function findTotalRevenuesByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $sql = "SELECT IFNULL(SUM(e.expense_value), 0) AS expenses_value
+                FROM expenses e
+                JOIN puc p ON p.id_puc = e.id_puc
+                WHERE e.id_company = :id_company
+                AND p.number_count LIKE '4%';";
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
@@ -30,8 +47,11 @@ class TotalExpenseDao
     public function calcTotalExpenseByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $sql = "SELECT IFNULL(SUM(expense_value), 0) AS expenses_value 
-                FROM expenses WHERE id_company = :id_company";
+        $sql = "SELECT IFNULL(SUM(e.expense_value), 0) AS expenses_value
+                FROM expenses e
+                JOIN puc p ON p.id_puc = e.id_puc
+                WHERE e.id_company = :id_company
+                AND p.number_count NOT LIKE '4%';";
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 

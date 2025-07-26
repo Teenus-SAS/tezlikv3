@@ -85,6 +85,8 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
     $coverage_usd = $_SESSION['coverage_usd'];
     $dataMaterials = sizeof($dataMaterial);
 
+    $materialsBD = $generalMaterialsDao->findAllMaterialsByCompany($id_company);
+
     if ($dataMaterials > 1) {
 
         $material = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
@@ -256,8 +258,34 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
             return $resolution;
         }
+
+        function findAndAddMaterialIdOptimized(array $material, array $materialsBD): array
+        {
+            static $indexedMaterials = null;
+
+            // Indexar los materiales solo una vez
+            if ($indexedMaterials === null) {
+                $indexedMaterials = [];
+                foreach ($materialsBD as $item) {
+                    $key = strtolower(trim($item['reference'] ?? '') . '|' . trim($item['material'] ?? ''));
+                    $indexedMaterials[$key] = $item['id_material'] ?? null;
+                }
+            }
+
+            $searchKey = strtolower(trim($material['refRawMaterial'] ?? '') . '|' . trim($material['nameRawMaterial'] ?? ''));
+
+            if (isset($indexedMaterials[$searchKey]))
+                $material['idMaterial'] = $indexedMaterials[$searchKey];
+
+            return $material;
+        }
+
         // Función principal optimizada
-        foreach ($materials as &$material) {
+        foreach ($materials as $material) {
+
+            //buscar si existe
+            $material = findAndAddMaterialIdOptimized($material, $materialsBD);
+
             if (!isset($material['idMaterial'])) {
                 if ($material['typeCost'] == 'COP' || $_SESSION['flag_currency_usd'] == '0') {
                     $material['usd'] = 0;

@@ -33,9 +33,9 @@ $(document).ready(function () {
           className: 'uniqueClassName',
           render: function (data) {
             if (data.status == 0)
-              icon = '/global/assets/images/trash_v.png';
+              icon = '/public/assets/images/trash_v.png';
             else
-              icon = '/global/assets/images/trash_x.png';
+              icon = '/public/assets/images/trash_x.png';
 
             return `
                 <a href="javascript:;" <i id="${data.id_production_center}" class="bx bx-edit-alt updatePCenter" data-toggle='tooltip' title='Actualizar Produccion' style="font-size: 30px;"></i></a>

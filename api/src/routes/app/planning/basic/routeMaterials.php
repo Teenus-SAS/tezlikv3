@@ -22,9 +22,7 @@ $app->get('/planMaterials', function (Request $request, Response $response, $arg
 });
 
 /* Consultar Materias prima importada */
-$app->post('/planMaterialsDataValidation', function (Request $request, Response $response, $args) use (
-    $generalMaterialsDao
-) {
+$app->post('/planMaterialsDataValidation', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
     $dataMaterial = $request->getParsedBody();
 
     if (isset($dataMaterial)) {

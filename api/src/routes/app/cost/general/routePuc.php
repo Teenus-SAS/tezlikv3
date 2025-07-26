@@ -13,7 +13,10 @@ use App\Middleware\SessionMiddleware;
 /* Consulta todos */
 
 $app->get('/puc', function (Request $request, Response $response, $args) use ($pucDao) {
-    $puc = $pucDao->findAllCountsPUC();
+    $id_company = $_SESSION['id_company'];
+
+    $puc = $pucDao->findAllCountsPUC($id_company);
+
     $response->getBody()->write(json_encode($puc, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 })->add(new SessionMiddleware());

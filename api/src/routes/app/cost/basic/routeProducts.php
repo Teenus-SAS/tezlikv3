@@ -1,32 +1,34 @@
 <?php
 
-use tezlikv3\dao\AssignableExpenseDao;
-use tezlikv3\Dao\ConversionUnitsDao;
-use tezlikv3\dao\CostMaterialsDao;
-use tezlikv3\dao\CostWorkforceDao;
-use tezlikv3\dao\ExpenseRecoverDao;
-use tezlikv3\dao\ExpensesDistributionDao;
-use tezlikv3\dao\ExternalServicesDao;
-use tezlikv3\dao\FamiliesDao;
-use tezlikv3\dao\GeneralExpenseRecoverDao;
-use tezlikv3\dao\GeneralExpenseDistributionDao;
-use tezlikv3\dao\GeneralProductMaterialsDao;
-use tezlikv3\dao\GeneralProductsProcessDao;
-use tezlikv3\dao\ProductsMaterialsDao;
-use tezlikv3\dao\ProductsProcessDao;
-use tezlikv3\dao\GeneralServicesDao;
-use tezlikv3\dao\FilesDao;
-use tezlikv3\dao\GeneralCompositeProductsDao;
-use tezlikv3\dao\GeneralExternalServicesDao;
-use tezlikv3\dao\GeneralMaterialsDao;
-use tezlikv3\dao\GeneralProductsDao;
-use tezlikv3\dao\IndirectCostDao;
-use tezlikv3\dao\LastDataDao;
-use tezlikv3\dao\ProductsDao;
-use tezlikv3\dao\ProductsCostDao;
-use tezlikv3\dao\PriceProductDao;
-use tezlikv3\Dao\PriceUSDDao;
-use tezlikv3\dao\ProductsQuantityDao;
+use tezlikv3\dao\{
+    AssignableExpenseDao,
+    ConversionUnitsDao,
+    CostMaterialsDao,
+    CostWorkforceDao,
+    ExpenseRecoverDao,
+    ExpensesDistributionDao,
+    ExternalServicesDao,
+    FamiliesDao,
+    GeneralExpenseRecoverDao,
+    GeneralExpenseDistributionDao,
+    GeneralProductMaterialsDao,
+    GeneralProductsProcessDao,
+    ProductsMaterialsDao,
+    ProductsProcessDao,
+    GeneralServicesDao,
+    FilesDao,
+    GeneralCompositeProductsDao,
+    GeneralExternalServicesDao,
+    GeneralMaterialsDao,
+    GeneralProductsDao,
+    IndirectCostDao,
+    LastDataDao,
+    ProductsDao,
+    ProductsCostDao,
+    PriceProductDao,
+    PriceUSDDao,
+    ProductsQuantityDao
+};
 
 
 $productsDao = new ProductsDao();

@@ -35,9 +35,9 @@ $(document).ready(function () {
                         data: null,
                         className: 'uniqueClassName',
                         render: function (data) {
-                            if (data.status == 0) icon = '/global/assets/images/trash_v.png';
+                            if (data.status == 0) icon = '/public/assets/images/trash_v.png';
                             else {
-                                icon = '/global/assets/images/trash_x.png';
+                                icon = '/public/assets/images/trash_x.png';
                             }
                             return `
                         <a href="javascript:;" <i id="${data.id_category}" class="bx bx-edit-alt updateCategory" data-toggle='tooltip' title='Actualizar Categoria' style="font-size: 30px;"></i></a>

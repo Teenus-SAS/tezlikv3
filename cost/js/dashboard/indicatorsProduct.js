@@ -1,6 +1,6 @@
 $(document).ready(function () {
   let id_product = sessionStorage.getItem('idProduct');
-     
+
   loadIndicatorsProducts = async (id_product) => {
     try {
       const data = await searchData(`/api/dashboardPricesProducts/${id_product}`);
@@ -89,8 +89,8 @@ $(document).ready(function () {
     dataCost = getDataCost(data[0]);
 
     let typeCurrency = '1';
-    
-    if((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
+
+    if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
       typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
@@ -157,9 +157,9 @@ $(document).ready(function () {
   /* Ventas */
 
   UnitsVolSold = (data) => {
-     let typeCurrency = '1';
-    
-    if((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
+    let typeCurrency = '1';
+
+    if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
       typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
@@ -175,29 +175,12 @@ $(document).ready(function () {
     isNaN(price) ? price = 0 : price;
 
     $('.recomendedPrice').html(`$ ${price.toLocaleString('es-CO', { maximumFractionDigits: max })}`);
-
-    /*
-    let element = document.getElementsByClassName('recomendedPrice');
-    
-    for (let i = 0; i < element.length; i++) {
-      element[i].innerHTML = `$ ${price.toLocaleString('es-CO', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      })}`;
-
-      if (price < data[0].sale_price)
-        element[i].className = 'mb-0 text-danger recomendedPrice';
-      else if (price == data[0].price)
-        element[i].className = 'mb-0 text-warning recomendedPrice';
-      else
-        element[i].className = 'mb-0 recomendedPrice';
-    }*/
   };
 
   /* Costeo Total */
   totalCostData = (data) => {
     let typeCurrency = '1';
-    
+
     if ((flag_currency_usd == '1' || flag_currency_eur == '1') && sessionStorage.getItem('typeCurrency'))
       typeCurrency = sessionStorage.getItem('typeCurrency');
 
@@ -265,8 +248,13 @@ $(document).ready(function () {
       })}`
     );
 
-    if (flag_expense == '2')
-      $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
+    if (flag_expense == '2') {
+      $('#expenses').html(`
+        Gastos (<span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;">
+                  ${parseFloat(data[0].expense_recover).toFixed(1)}%
+                </span>)
+              `);
+    }
 
     $('#payAssignableExpenses').html(
       `$ ${dataCost.expense.toLocaleString('es-CO', {
@@ -276,7 +264,7 @@ $(document).ready(function () {
     );
 
     $('#commission').html(
-      `Comisión Vts (${parseFloat(data[0].commission_sale).toLocaleString('es-CO', {
+      `Comisión Ventas (${parseFloat(data[0].commission_sale).toLocaleString('es-CO', {
         maximumFractionDigits: 2,
       })}%)`
     );
@@ -296,7 +284,7 @@ $(document).ready(function () {
           maximumFractionDigits: 2,
         })}%)`
       );
-    
+
     $('#profitability').html(
       `$ ${Math.round(dataCost.costProfitability).toLocaleString('es-CO')}`
     );
@@ -316,7 +304,7 @@ $(document).ready(function () {
     $('#minProfit').html(`${data[0].profitability.toLocaleString('es-CO', {
       maximumFractionDigits: 2,
     })}%`);
-    
+
     $('#actualProfitability').html(``);
 
     if (data[0].sale_price > 0) {
@@ -324,7 +312,7 @@ $(document).ready(function () {
       let content = '';
       document.getElementById('recomendedPrice').className = 'mb-0 recomendedPrice mt-1';
       document.getElementById('actualSalePrice').className = 'mb-0 mt-1';
- 
+
       if (!isFinite(dataCost.actualProfitability2))
         dataCost.actualProfitability2 = 0;
 
@@ -372,10 +360,10 @@ $(document).ready(function () {
       $('.cardSalePrice').hide();
     }
 
-    if (data[0].turnover > 0 && data[0].units_sold > 0 ) {
+    if (data[0].turnover > 0 && data[0].units_sold > 0) {
       $('.cardRecomendedPrice').empty();
       content = '';
- 
+
       if (dataCost.actualProfitability2 <= 0) {
         content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
@@ -388,7 +376,7 @@ $(document).ready(function () {
                     </div>
                   </div>`;
         $('#recomendedPrice').addClass('text-danger');
-      
+
       } else if (dataCost.actualProfitability2 < data[0].profitability /*|| dataCost.actualProfitability2 >= 1*/) {
         content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
@@ -439,9 +427,9 @@ $(document).ready(function () {
   }
   setTimeout(setProduct, 2000);
 
-  $('#imageProduct').click(function (e) { 
+  $('#imageProduct').click(function (e) {
     e.preventDefault();
-    
+
     let img = sessionStorage.getItem('imageProduct');
 
     bootbox.alert(`<img src="${img}" class="mx-auto d-block" style="width: 500px;">`);

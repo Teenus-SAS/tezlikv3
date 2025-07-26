@@ -22,8 +22,9 @@ class MaterialsDao
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("INSERT INTO materials (id_company, id_category ,reference, material, unit, cost, flag_usd) 
-                                      VALUES(:id_company, :id_category, :reference, :material, :unit, :cost, :flag_usd)");
+      $sql = "INSERT INTO materials (id_company, id_category ,reference, material, unit, cost, flag_usd) 
+              VALUES(:id_company, :id_category, :reference, :material, :unit, :cost, :flag_usd)";
+      $stmt = $connection->prepare($sql);
       $stmt->execute([
         'id_company' => $id_company,
         'id_category' => $dataMaterial['idCategory'],

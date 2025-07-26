@@ -79,9 +79,9 @@ $(document).ready(function () {
       value < 0.01
         ? { minimumFractionDigits: 2, maximumFractionDigits: 9 }
         : {
-            minimumFractionDigits: op === 2 ? 2 : 0,
-            maximumFractionDigits: op === 2 ? 2 : 0,
-          };
+          minimumFractionDigits: op === 2 ? 2 : 0,
+          maximumFractionDigits: op === 2 ? 2 : 0,
+        };
     return `$ ${value.toLocaleString("es-CO", options)}`;
   };
 
@@ -117,8 +117,8 @@ $(document).ready(function () {
   const calculateTotal = (item, priceOption) => {
     return flag_currency_usd === "1" && priceOption === 2
       ? parseFloat(item.cost_usd) +
-          parseFloat(item.cost_import_usd) +
-          parseFloat(item.cost_export_usd)
+      parseFloat(item.cost_import_usd) +
+      parseFloat(item.cost_export_usd)
       : item.cost_total;
   };
 
@@ -156,8 +156,8 @@ $(document).ready(function () {
   const renderActions = (data) => {
     const statusIcon =
       data.status === 0
-        ? "/global/assets/images/trash_v.png"
-        : "/global/assets/images/trash_x.png";
+        ? "/public/assets/images/trash_v.png"
+        : "/public/assets/images/trash_x.png";
 
     return `
         <a href="javascript:;" class="mdi mdi-playlist-check" title="Ver Detalle"></a>

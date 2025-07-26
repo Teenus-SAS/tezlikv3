@@ -1,22 +1,25 @@
 <?php
 
-use tezlikv3\dao\AssignableExpenseDao;
-use tezlikv3\dao\CostMaterialsDao;
-use tezlikv3\dao\ExpensesDao;
-use tezlikv3\dao\ExpensesProductionCenterDao;
-use tezlikv3\dao\FamiliesDao;
-use tezlikv3\dao\GeneralCompanyLicenseDao;
-use tezlikv3\dao\GeneralCompositeProductsDao;
-use tezlikv3\dao\GeneralPCenterDao;
-use tezlikv3\dao\GeneralProductsDao;
-use tezlikv3\dao\LastDataDao;
-use tezlikv3\dao\LicenseCompanyDao;
-use tezlikv3\dao\ParticipationExpenseDao;
-use tezlikv3\dao\PriceProductDao;
-use tezlikv3\Dao\PriceUSDDao;
-use tezlikv3\dao\ProductionCenterDao;
-use tezlikv3\dao\PucDao;
-use tezlikv3\dao\TotalExpenseDao;
+use tezlikv3\dao\{
+    AssignableExpenseDao,
+    CalcRecoveryExpensesDao,
+    CostMaterialsDao,
+    ExpensesDao,
+    ExpensesProductionCenterDao,
+    FamiliesDao,
+    GeneralCompanyLicenseDao,
+    GeneralCompositeProductsDao,
+    GeneralPCenterDao,
+    GeneralProductsDao,
+    LastDataDao,
+    LicenseCompanyDao,
+    ParticipationExpenseDao,
+    PriceProductDao,
+    PriceUSDDao,
+    ProductionCenterDao,
+    PucDao,
+    TotalExpenseDao
+};
 
 $expensesDao = new ExpensesDao();
 $assignableExpenseDao = new AssignableExpenseDao();
@@ -35,28 +38,26 @@ $productionCenterDao = new ProductionCenterDao();
 $generalPCenterDao = new GeneralPCenterDao();
 $expensesProductionCenterDao = new ExpensesProductionCenterDao();
 $lastDataDao = new LastDataDao();
+$calcRecoveryExpenses = new CalcRecoveryExpensesDao();
 
-use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
-use App\Helpers\ResponseHelper;
+use Psr\Http\Message\ResponseInterface as Response;
 use App\Middleware\SessionMiddleware;
+use App\Helpers\ResponseHelper;
 
 $app->get('/checkTypeExpense', function (Request $request, Response $response, $args) use ($licenseCompanyDao) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $typeExpense = $licenseCompanyDao->findLicenseCompany($id_company);
-    $response->getBody()->write(json_encode($typeExpense, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
+    return ResponseHelper::withJson($response, $typeExpense, 200);
 })->add(new SessionMiddleware());
 
 $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $response, $args) use ($generalCompanyLicenseDao) {
     $id_company = $_SESSION['id_company'];
     $typeExpense = $generalCompanyLicenseDao->updateFlagExpense($args['flag'], $id_company);
 
-    if ($args['flag'] == 2) {
+    if ($args['flag'] == 2)
         $_SESSION['expense'] = 0;
-    }
 
     $_SESSION['flag_expense'] = $args['flag'];
 
@@ -65,8 +66,7 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error. Intente nuevamente');
 
-    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
+    return ResponseHelper::withJson($response, $resp, 200);
 })->add(new SessionMiddleware());
 
 /* Consulta todos */
@@ -79,8 +79,7 @@ $app->get('/expenses', function (Request $request, Response $response, $args) us
     else
         $expenses = $expensesDao->findAllExpensesByCompany($id_company);
 
-    $response->getBody()->write(json_encode($expenses, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
+    return ResponseHelper::withJson($response, $expenses, 200);
 })->add(new SessionMiddleware());
 
 /* Consulta todos */
@@ -212,7 +211,8 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
     $productionCenterDao,
     $generalPCenterDao,
     $expensesProductionCenterDao,
-    $lastDataDao
+    $lastDataDao,
+    $calcRecoveryExpenses
 ) {
     // session_start();
     $id_company = $_SESSION['id_company'];
@@ -404,7 +404,8 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $productionCenterDao,
-    $expensesProductionCenterDao
+    $expensesProductionCenterDao,
+    $calcRecoveryExpenses
 ) {
     // session_start();
     $id_company = $_SESSION['id_company'];
@@ -415,14 +416,14 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
 
     $data = [];
 
-    $expense = $expensesDao->findExpense($dataExpense, $id_company);
+    try {
+        $expense = $expensesDao->findExpense($dataExpense, $id_company);
 
-    if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1)
-        $expense = $expensesProductionCenterDao->findExpense($dataExpense);
+        if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1)
+            $expense = $expensesProductionCenterDao->findExpense($dataExpense);
 
-    !is_array($expense) ? $data['id_expense'] = 0 : $data = $expense;
+        !is_array($expense) ? $data['id_expense'] = 0 : $data = $expense;
 
-    if ($data['id_expense'] == $dataExpense['idExpense'] || $data['id_expense'] == 0) {
         $resolution = $expensesDao->updateExpenses($dataExpense);
 
         if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
@@ -543,8 +544,11 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
         }
 
         //Calcular el porcentaje 
-        if ($flag === 1) // Distribucion por recuperacion
-            $percentage = $calculator->calculate($totalSales, $overhead);
+        if ($flag === 1 && $id_company === 1) { // Distribucion por recuperacion
+            $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
+            $products = $generalProductsDao->findAllProductsToRecovery($id_company);
+            $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
+        }
 
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Gasto actualizado correctamente');
@@ -552,11 +556,17 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
             $resp = array('info' => true, 'message' => $resolution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    } else
-        $resp = array('info' => true, 'message' => 'No. Cuenta duplicada. Ingrese un nuevo No. Cuenta');
 
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    } catch (\Exception $e) {
+        /* if ($connection->inTransaction()) {
+            $connection->rollBack();
+        } */
+        error_log("Error en /updateExpenses: " . $e->getMessage());
+        return ResponseHelper::withJson($response, ['error' => 'Internal Server Error'], 500);
+    }
 })->add(new SessionMiddleware());
 
 $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Response $response, $args) use (

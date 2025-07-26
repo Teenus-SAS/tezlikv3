@@ -16,25 +16,30 @@ class PucDao
     $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
   }
 
-  public function findAllCountsPUC()
+  public function findAllCountsPUC($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM puc ORDER BY CAST(SUBSTRING(number_count, 1, 2) AS UNSIGNED), CAST(SUBSTRING(number_count, 1, 4) AS UNSIGNED), CAST(SUBSTRING(number_count, 1, 5) AS UNSIGNED);");
-    $stmt->execute();
 
+    $sql = "SELECT * FROM puc WHERE (:id_company = 1 OR number_count NOT LIKE '4%')
+            ORDER BY CAST(SUBSTRING(number_count, 1, 2) AS UNSIGNED), 
+                CAST(SUBSTRING(number_count, 1, 4) AS UNSIGNED), 
+                CAST(SUBSTRING(number_count, 1, 5) AS UNSIGNED);";
 
+    $stmt = $connection->prepare($sql);
+    $stmt->execute(['id_company' => $id_company]);
 
     $puc = $stmt->fetchAll($connection::FETCH_ASSOC);
-
     return $puc;
   }
+
 
   // Consultar si existe la cuenta en BD
   public function findPuc($dataPuc)
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $stmt = $connection->prepare("SELECT id_puc FROM puc WHERE number_count = :number_count AND count = :count");
+    $sql = "SELECT id_puc FROM puc WHERE number_count = :number_count AND count = :count";
+    $stmt = $connection->prepare($sql);
     $stmt->execute([
       'number_count' => trim($dataPuc['numberCount']),
       'count' => ucfirst(strtolower(trim($dataPuc['count'])))

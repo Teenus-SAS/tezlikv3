@@ -82,8 +82,8 @@ $(document).ready(function () {
 
     const renderActions = (data) => {
       const icon = parseInt(data.status) === 0
-        ? '/global/assets/images/trash_v.png'
-        : '/global/assets/images/trash_x.png';
+        ? '/public/assets/images/trash_v.png'
+        : '/public/assets/images/trash_x.png';
 
       const check = parseInt(data.status) !== 0
         ? `<a href="javascript:;" <i id="${data.id_material}" class="mdi mdi-playlist-check seeDetailMaterials" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px; color:black;"></i></a>`

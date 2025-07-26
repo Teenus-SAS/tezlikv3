@@ -27,6 +27,9 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
         <!-- Begin Left Navigation -->
         <?php include_once dirname(dirname(__DIR__)) . '/partials/nav.php'; ?>
 
+        <!-- Spinner -->
+        <?php include_once dirname(dirname(__DIR__)) . '/partials/spinner.php'; ?>
+
         <!-- Begin main content -->
         <div class="main-content">
             <!-- Loader -->
@@ -844,7 +847,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                                     <th></th>
                                                                     <th></th>
                                                                     <th></th>
-                                                                    <th class="classRight">Total:</th>
+                                                                    <th class="classRight">Total Gastos:</th>
                                                                     <th></th>
                                                                     <th></th>
                                                                 </tr>
@@ -864,7 +867,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                                     <th></th>
                                                                     <th></th>
                                                                     <th></th>
-                                                                    <th class="classRight">Total:</th>
+                                                                    <th class="classRight">Total Gastos:</th>
                                                                     <th></th>
                                                                     <th></th>
                                                                 </tr>
@@ -931,7 +934,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                                             <tr>
                                                                                 <th></th>
                                                                                 <th></th>
-                                                                                <th>Total:</th>
+                                                                                <th>Total Gastos:</th>
                                                                                 <th></th>
                                                                                 <th></th>
                                                                                 <th></th>
@@ -964,7 +967,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                                         <tr>
                                                                             <th></th>
                                                                             <th></th>
-                                                                            <th>Total:</th>
+                                                                            <th>Total Gastos:</th>
                                                                             <th></th>
                                                                             <th></th>
                                                                             <th></th>
@@ -1018,6 +1021,8 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
             <script src="../public/js/import/import.js"></script>
             <script src="../public/js/import/file.js"></script>
             <script src="/public/js/components/orderData.js"></script>
+            <script src="/cost/js/general/expenses/expensesUtils.js"></script>
+            <script src="/cost/js/general/expenses/expensesHandle.js"></script>
 
             <?php if (
                 $_SESSION['expense'] == 1 ||

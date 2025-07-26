@@ -45,9 +45,9 @@ $(document).ready(function () {
             break;
           case 'Acciones':
             if (arr.count_payroll == 0)
-              icon = '/global/assets/images/trash_v.png';
+              icon = '/public/assets/images/trash_v.png';
             else
-              icon = '/global/assets/images/trash_x.png';
+              icon = '/public/assets/images/trash_x.png';
 
             cell.innerHTML = `<a href="javascript:;" <i id="${arr.id_process}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>
                 <a href="javascript:;"><img src="${icon}" alt="Eliminar Proceso" id="${arr.id_process}" style="width:30px;height:30px;margin-top:-20px" onclick="deleteFunction(${arr.id_process})"></a>`

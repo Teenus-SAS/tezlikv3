@@ -19,32 +19,28 @@ class GeneralProductsDao
     public function findDataBasicProductsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.composite, p.active
-                                      FROM products p
-                                      WHERE p.id_company = :id_company");
+        $sql = "SELECT p.id_product, p.reference, p.product, p.composite, p.active
+                FROM products p
+                WHERE p.id_company = :id_company";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-
-
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-
         return $products;
     }
 
     public function findAllEDProductsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.id_product AS selectNameProduct, gl.total_expense AS expense, IFNULL(ed.units_sold, 0) AS soldUnit, 0 AS participation
-                                        FROM products p
-                                            INNER JOIN general_data gl ON gl.id_company = p.id_company
-                                            LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
-                                        WHERE p.id_company = :id_company AND p.active = 1");
+        $sql = "SELECT p.id_product, p.id_product AS selectNameProduct, gl.total_expense AS expense, IFNULL(ed.units_sold, 0) AS soldUnit, 0 AS participation
+                FROM products p
+                    INNER JOIN general_data gl ON gl.id_company = p.id_company
+                    LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                WHERE p.id_company = :id_company AND p.active = 1";
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 
-
-
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-
         return $products;
     }
 
@@ -53,16 +49,17 @@ class GeneralProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * 
-                                  FROM products p
-                                  INNER JOIN products_costs pc ON pc.id_product = p.id_product
-                                  WHERE (p.reference = :reference AND p.product = :product) 
-                                  AND p.id_company = :id_company");
+        $sql = "SELECT * FROM products p
+                INNER JOIN products_costs pc ON pc.id_product = p.id_product
+                WHERE (p.reference = :reference AND p.product = :product) 
+                AND p.id_company = :id_company";
+        $stmt = $connection->prepare($sql);
         $stmt->execute([
             'reference' => trim($dataProduct['referenceProduct']),
             'product' => strtoupper(trim($dataProduct['product'])),
             'id_company' => $id_company
         ]);
+
         $findProduct = $stmt->fetch($connection::FETCH_ASSOC);
         return $findProduct;
     }
@@ -79,6 +76,7 @@ class GeneralProductsDao
             'product' => strtoupper(trim($dataProduct['product'])),
             'id_company' => $id_company
         ]);
+
         $findProduct = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $findProduct;
     }
@@ -87,12 +85,10 @@ class GeneralProductsDao
     public function findProductById($id_product)
     {
         $connection = Connection::getInstance()->getConnection();
+        $sql = "SELECT * FROM products WHERE id_product = :id_product";
+        $stmt = $connection->prepare($sql);
+        $stmt->execute(['id_product' => $id_product]);
 
-        $stmt = $connection->prepare("SELECT * FROM products
-                                      WHERE id_product = :id_product");
-        $stmt->execute([
-            'id_product' => $id_product
-        ]);
         $findProduct = $stmt->fetch($connection::FETCH_ASSOC);
         return $findProduct;
     }
@@ -101,17 +97,16 @@ class GeneralProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT p.img, IFNULL(pc.price, 0) AS price, IFNULL(pc.sale_price, 0) AS sale_price, 
-                                             IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.cost_materials, 0) AS cost_materials
-                                  FROM products p
-                                  LEFT JOIN products_costs pc ON pc.id_product = p.id_product
-                                  WHERE p.id_product = :id_product AND p.id_company = :id_company");
+        $sql = "SELECT p.img, IFNULL(pc.price, 0) AS price, IFNULL(pc.sale_price, 0) AS sale_price, 
+                            IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.cost_materials, 0) AS cost_materials
+                FROM products p
+                LEFT JOIN products_costs pc ON pc.id_product = p.id_product
+                WHERE p.id_product = :id_product AND p.id_company = :id_company";
+        $stmt = $connection->prepare($sql);
         $stmt->execute([
             'id_product' => $id_product,
             'id_company' => $id_company
         ]);
-
-
 
         $product = $stmt->fetch($connection::FETCH_ASSOC);
         return $product;
@@ -126,10 +121,22 @@ class GeneralProductsDao
                                   WHERE p.id_company = :id_company AND p.active = 1 ORDER BY `p`.`product`, `p`.`reference` ASC");
         $stmt->execute(['id_company' => $id_company]);
 
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
 
+    public function findAllProductsToRecovery($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $sql = "SELECT p.id_product, p.created_at 
+                FROM products p
+                WHERE p.id_company = :id_company AND p.active = 1 
+                    AND YEAR(p.created_at) = YEAR(CURRENT_DATE)
+                    AND MONTH(p.created_at) = MONTH(CURRENT_DATE);";
+        $stmt = $connection->prepare($sql);
+        $stmt->execute(['id_company' => $id_company]);
 
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-
         return $products;
     }
 
@@ -144,10 +151,7 @@ class GeneralProductsDao
                                       WHERE p.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
 
-
-
         $expenses = $stmt->fetchAll($connection::FETCH_ASSOC);
-
         return $expenses;
     }
 
@@ -161,10 +165,7 @@ class GeneralProductsDao
                                       WHERE p.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
 
-
-
         $recoverExpense = $stmt->fetchAll($connection::FETCH_ASSOC);
-
         return $recoverExpense;
     }
 
@@ -177,10 +178,7 @@ class GeneralProductsDao
                                   WHERE p.id_company = :id_company AND p.active = 0");
         $stmt->execute(['id_company' => $id_company]);
 
-
-
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-
         return $products;
     }
 
@@ -209,10 +207,7 @@ class GeneralProductsDao
                                       AND (ed.units_sold != 0 OR er.expense_recover != 0)");
         $stmt->execute(['id_company' => $id_company]);
 
-
-
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-
         return $products;
     }
 
