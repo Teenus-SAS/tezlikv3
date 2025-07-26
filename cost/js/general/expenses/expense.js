@@ -127,10 +127,10 @@ $(document).on('click', '.updateExpenses', function (e) {
   );
 });
 
-deleteFunction = (op) => {
-  // let data = dataExpenses.find(item => item.id_expense == id); 
-  let row = $(this.activeElement).parent().parent()[0];
+$(document).on('click', '.deleteExpenses', function (e) {
+  let row = $(this).closest('tr')[0];
   let data = tblAssExpenses.fnGetData(row);
+  const op = $(this).data('op');
 
   if (op == 2) {
     id_expense = data.id_expense_product_center;
@@ -211,7 +211,7 @@ deleteFunction = (op) => {
       },
     });
   }
-};
+});
 
 /* Mensaje de exito */
 messageExpense = async (data) => {

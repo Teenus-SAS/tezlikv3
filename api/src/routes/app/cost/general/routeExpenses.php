@@ -388,6 +388,14 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
         }
     }
 
+    //Calcular el porcentaje de recuperacion
+    if ($flag === 1 && $id_company === 1) { // Distribucion por recuperacion
+        $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
+        $products = $generalProductsDao->findAllProductsToRecovery($id_company);
+        $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
+        $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
+    }
+
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 })->add(new SessionMiddleware());
@@ -547,6 +555,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
         if ($flag === 1 && $id_company === 1) { // Distribucion por recuperacion
             $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
             $products = $generalProductsDao->findAllProductsToRecovery($id_company);
+            $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
             $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
         }
 
@@ -581,7 +590,8 @@ $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Respo
     $costMaterialsDao,
     $assignableExpenseDao,
     $productionCenterDao,
-    $expensesProductionCenterDao
+    $expensesProductionCenterDao,
+    $calcRecoveryExpenses
 ) {
     // session_start();
     $id_company = $_SESSION['id_company'];
@@ -697,6 +707,14 @@ $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Respo
                 $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
         }
+    }
+
+    //Calcular el porcentaje de recuperacion
+    if ($flag === 1 && $id_company === 1) { // Distribucion por recuperacion
+        $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
+        $products = $generalProductsDao->findAllProductsToRecovery($id_company);
+        $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
+        $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
     }
 
     if ($resolution == null)
