@@ -2,6 +2,7 @@
 
 use tezlikv3\dao\{
     AssignableExpenseDao,
+    CalcRecoveryExpensesDao,
     ConversionUnitsDao,
     CostMaterialsDao,
     CostWorkforceDao,
@@ -27,7 +28,8 @@ use tezlikv3\dao\{
     ProductsCostDao,
     PriceProductDao,
     PriceUSDDao,
-    ProductsQuantityDao
+    ProductsQuantityDao,
+    TotalExpenseDao
 };
 
 
@@ -60,6 +62,8 @@ $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
 $pricesUSDDao = new PriceUSDDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
+$totalExpenseDao = new TotalExpenseDao();
+$calcRecoveryExpenses = new CalcRecoveryExpensesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -256,7 +260,10 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
     $lastDataDao,
     $FilesDao,
     $productsCostDao,
-    $productsQuantityDao
+    $productsQuantityDao,
+    $expensesRecoverDao,
+    $totalExpenseDao,
+    $calcRecoveryExpenses
 ) {
     $id_company = $_SESSION['id_company'];
     $id_plan = $_SESSION['plan'];
@@ -292,6 +299,24 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
 
                     // 
                     // $generalProductsDao->updateStatusNewProduct($lastProductId['id_product'], 1);
+                }
+
+                //Ingresar porcentaje de gasto
+                $dataExpense['idProduct'] = $dataProduct['idProduct'];
+                $dataExpense['percentage'] = 0;
+
+                $expensesRecoverDao->insertRecoverExpenseByCompany($dataExpense, $id_company);
+
+                //Calcular el porcentaje de recuperacion
+                $flag = $_SESSION['flag_expense_distribution'];
+
+                if ($flag === 1 && $id_company === 1) { // Distribucion por recuperacion
+                    $products = [['id_product' => $dataProduct['idProduct'], 'created_at' => date('Y-m-d')]];
+
+                    $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
+                    $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
+                    $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
+                    $products = null;
                 }
 
                 if ($products == null)
@@ -436,79 +461,6 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
                 $products = $pricesUSDDao->calcPriceUSDandModify($arr, $coverage_usd);
             }
-
-            // if ($products == null && $_SESSION['flag_composite_product'] == '1') {
-            //     // Calcular costo material porq
-            //     $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProduct['idProduct']);
-
-            //     foreach ($productsCompositer as $arr) {
-            //         if (isset($products['info'])) break;
-
-            //         $data = [];
-            //         $data['compositeProduct'] = $arr['id_child_product'];
-            //         $data['idProduct'] = $arr['id_product'];
-            //         $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-            //         $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
-
-            //         if (isset($resolution['info'])) break;
-            //         $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-            //         $products = $costMaterialsDao->updateCostMaterials($data, $id_company);
-
-            //         if (isset($products['info'])) break;
-
-            //         $data = $priceProductDao->calcPrice($arr['id_product']);
-
-            //         if (isset($data['totalPrice']))
-            //             $products = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
-            //         else break;
-
-            //         if (isset($products['info'])) break;
-
-            //         if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
-            //             $k = [];
-            //             $k['price'] = $data['totalPrice'];
-            //             $k['sale_price'] = $data['sale_price'];
-            //             $k['id_product'] = $arr['id_product'];
-
-            //             $products = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-            //         }
-            //         if (isset($products['info'])) break;
-
-            //         $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
-
-            //         foreach ($productsCompositer2 as $k) {
-            //             if (isset($products['info'])) break;
-
-            //             $data = [];
-            //             $data['compositeProduct'] = $k['id_child_product'];
-            //             $data['idProduct'] = $k['id_product'];
-
-            //             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-            //             $products = $generalCompositeProductsDao->updateCostCompositeProduct($data);
-
-            //             if (isset($products['info'])) break;
-            //             $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-            //             $products = $costMaterialsDao->updateCostMaterials($data, $id_company);
-
-            //             if (isset($products['info'])) break;
-
-            //             $data = $priceProductDao->calcPrice($k['id_product']);
-
-            //             if (isset($data['totalPrice']))
-            //                 $products = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
-
-            //             if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
-            //                 $i = [];
-            //                 $i['price'] = $data['totalPrice'];
-            //                 $i['sale_price'] = $data['sale_price'];
-            //                 $i['id_product'] = $k['id_product'];
-
-            //                 $products = $pricesUSDDao->calcPriceUSDandModify($i, $coverage_usd);
-            //             }
-            //             if (isset($products['info'])) break;
-            //         }
-            //     }
-            // }
 
             if ($products == null)
                 $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');

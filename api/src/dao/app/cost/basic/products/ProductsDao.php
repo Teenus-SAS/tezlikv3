@@ -62,8 +62,9 @@ class ProductsDao
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product, active = :active
-                                    WHERE id_product = :id_product AND id_company = :id_company");
+      $sql = "UPDATE products SET reference = :reference, product = :product, active = :active
+              WHERE id_product = :id_product AND id_company = :id_company";
+      $stmt = $connection->prepare($sql);
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => strtoupper(trim($dataProduct['product'])),

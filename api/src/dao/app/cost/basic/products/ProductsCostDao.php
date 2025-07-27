@@ -56,8 +56,10 @@ class ProductsCostDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE products_costs SET sale_price = :sale_price, profitability = :profitability, commission_sale = :commission_sale
-                                      WHERE id_product = :id_product");
+            $sql = "UPDATE products_costs 
+                    SET sale_price = :sale_price, profitability = :profitability, commission_sale = :commission_sale
+                    WHERE id_product = :id_product";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_product' => trim($dataProduct['idProduct']),
                 'sale_price' => $dataProduct['salePrice'],

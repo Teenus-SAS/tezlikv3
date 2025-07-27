@@ -173,11 +173,13 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                             <div class="col-xs-2 mr-2 cardNewProducts" style="display:none">
                                                 <button class="btn btn-secondary" id="btnNewProducts">Nuevos Productos</button>
                                             </div>
-                                            <div class="col-xs-2 mr-2 cardBtnExpenseRecover" style="display:none">
-                                                <button class="btn btn-warning" id="btnNewExpenseRecover">Recuperar Gastos</button>
-                                            </div>
+                                            <?php if ($_SESSION['id_company'] !== 1) { ?>
+                                                <div class="col-xs-2 mr-2 cardBtnExpenseRecover" style="display:none">
+                                                    <button class="btn btn-warning" id="btnNewExpenseRecover">Recuperar Gastos</button>
+                                                </div>
+                                            <?php  } ?>
                                             <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" style="display:none">
-                                                <button class="btn btn-info" id="btnImportNewExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                                <button class="btn btn-info" id="btnImportNewExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                             </div>
                                             <?php if ($_SESSION['type_expense'] == 1) { ?>
                                                 <div class="col-xs-2 mb-0 mr-1 floating-label enable-floating-label show-label cardBtnExpensesDistribution" style="display: none;">
@@ -594,12 +596,12 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                 <form id="formExpenseRecover">
                                                     <div class="form-row">
                                                         <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                            <select class="form-control refProduct" name="idProduct" id="ERRefProduct"></select>
-                                                            <label for="ERRefProduct">Referencia</label>
+                                                            <label for="idReference">Referencia</label>
+                                                            <select class="form-control refProduct" name="idProduct" id="idReference"></select>
                                                         </div>
                                                         <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                            <select class="form-control selectNameProduct" name="nameProduct" id="ERNameProduct"></select>
-                                                            <label for="ERNameProduct">Nombre Producto</label>
+                                                            <label for="idNameProduct">Nombre Producto</label>
+                                                            <select class="form-control selectNameProduct" name="nameProduct" id="idNameProduct"></select>
                                                         </div>
                                                         <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
                                                             <input type="number" class="form-control text-center" id="percentage" name="percentage">
@@ -1016,6 +1018,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                 production_center = "<?= $_SESSION['production_center'] ?>";
                 flag_production_center = "<?= $_SESSION['flag_production_center'] ?>";
                 DatatableTblMultiproducts = 0;
+                const id_company = <?= $_SESSION['id_company']; ?>;
             </script>
 
             <script src="../public/js/import/import.js"></script>
@@ -1023,6 +1026,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
             <script src="/public/js/components/orderData.js"></script>
             <script src="/cost/js/general/expenses/expensesUtils.js"></script>
             <script src="/cost/js/general/expenses/expensesHandle.js"></script>
+            <script src="/cost/js/general/expenseRecover/eventsExpensesRecovery.js"></script>
 
             <?php if (
                 $_SESSION['expense'] == 1 ||

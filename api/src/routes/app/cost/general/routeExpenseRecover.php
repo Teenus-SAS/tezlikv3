@@ -1,12 +1,18 @@
 <?php
 
-use tezlikv3\dao\CostMaterialsDao;
-use tezlikv3\dao\ExpenseRecoverDao;
-use tezlikv3\dao\GeneralCompositeProductsDao;
-use tezlikv3\dao\GeneralProductsDao;
-use tezlikv3\dao\GeneralExpenseRecoverDao;
-use tezlikv3\dao\PriceProductDao;
-use tezlikv3\Dao\PriceUSDDao;
+namespace Tezlikv3\dao;
+
+use tezlikv3\dao\{
+    CalcRecoveryExpensesDao,
+    CostMaterialsDao,
+    ExpenseRecoverDao,
+    GeneralCompositeProductsDao,
+    GeneralProductsDao,
+    GeneralExpenseRecoverDao,
+    PriceProductDao,
+    PriceUSDDao,
+    TotalExpenseDao
+};
 
 $expenseRecoverDao = new ExpenseRecoverDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
@@ -15,6 +21,8 @@ $priceProductDao = new PriceProductDao();
 $pricesUSDDao = new PriceUSDDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
+$totalExpenseDao = new TotalExpenseDao();
+$calcRecoveryExpenses = new CalcRecoveryExpensesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -289,4 +297,48 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+})->add(new SessionMiddleware());
+
+$app->get('/changeManualRecovery/{id_recovery}/{id_product}', function (Request $request, Response $response, $args) use (
+    $expenseRecoverDao,
+    $totalExpenseDao,
+    $calcRecoveryExpenses
+) {
+    // session_start();
+    $id_company = $_SESSION['id_company'];
+    $flag = $_SESSION['id_company'];
+
+    $idExpenseRecovery = $args['id_recovery'];
+    $idProduct = $args['id_product'];
+
+    $connection = Connection::getInstance()->getConnection();
+
+    try {
+        // Iniciar transacción
+        $connection->beginTransaction();
+
+        //Modifica estado
+        $expenseRecoverDao->changeManualRecovery($idExpenseRecovery, $id_company);
+
+        //Calcula el porcentaje automaticamente basado en los gastos
+        if ($flag === 1 && $id_company === 1) { // Distribucion por recuperacion
+            $products = [['id_product' => $idProduct, 'created_at' => date('Y-m-d')]];
+
+            $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
+            $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
+            $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
+            $products = null;
+        }
+
+        // Confirma transaccion
+        $connection->commit();
+
+        return ResponseHelper::withJson($response, ['message' => 'Successful'], 200);
+    } catch (\Exception $e) {
+        if ($connection->inTransaction())
+            $connection->rollBack();
+
+        error_log("Error en /changeManualRecovery: " . $e->getMessage());
+        return ResponseHelper::withJson($response, ['error' => 'Internal Server Error'], 500);
+    }
 })->add(new SessionMiddleware());

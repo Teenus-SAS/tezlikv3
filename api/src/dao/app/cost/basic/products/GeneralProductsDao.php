@@ -128,11 +128,12 @@ class GeneralProductsDao
     public function findAllProductsToRecovery($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $sql = "SELECT p.id_product, p.created_at 
-                FROM products p
+        $sql = "SELECT p.id_product, p.created_at FROM products p
+                JOIN expenses_recover er ON er.id_product = p.id_product 
                 WHERE p.id_company = :id_company AND p.active = 1 
                     AND YEAR(p.created_at) = YEAR(CURRENT_DATE)
-                    AND MONTH(p.created_at) = MONTH(CURRENT_DATE);";
+                    AND MONTH(p.created_at) = MONTH(CURRENT_DATE)
+                    AND er.manual_recovery = 0";
         $stmt = $connection->prepare($sql);
         $stmt->execute(['id_company' => $id_company]);
 

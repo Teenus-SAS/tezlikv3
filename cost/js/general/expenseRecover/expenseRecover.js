@@ -21,84 +21,29 @@ $('#btnNewExpenseRecover').click(async function (e) {
   await loadExpensesRProducts();
 });
 
+/* Actualizar recuperación gasto */
+$(document).on('click', '.updateExpenseRecover', function () {
+
+  //Mostrar formulario
+  $('.cardExpenseRecover').show(800);
+
+  // Obtener data
+  const tblExpenses = $('#tblExpenses').DataTable();
+  const row = $(this).closest("tr");
+  const data = tblExpenses.row(row).data();
+
+  handleUpdateExpenseRecovery(data);
+});
+
 $('#btnExpenseRecover').click(function (e) {
   e.preventDefault();
 
-  let id_expense_recover = sessionStorage.getItem('id_expense_recover');
+  const id_expense_recover = $(this).data('expense-id');
 
   if (id_expense_recover == '' || !id_expense_recover) {
-    checkDataExpenseRecover('/api/addExpenseRecover', id_expense_recover);
-  } else checkDataExpenseRecover('/api/updateExpenseRecover', id_expense_recover);
+    handleCheckDataExpenseRecover('/api/addExpenseRecover', id_expense_recover);
+  } else handleCheckDataExpenseRecover('/api/updateExpenseRecover', id_expense_recover);
 });
-
-/* Actualizar recuperacion gasto */
-$(document).on('click', '.updateExpenseRecover', function () {
-  $('.cardImportExpenses').hide(800);
-  $('.cardExpensesDistribution').hide(800);
-  $('.cardExpenseRecover').show(800);
-  $('#btnExpenseRecover').html('Actualizar');
-
-  let data = sessionStorage.getItem('dataExpensesRecover');
-
-  data = JSON.parse(data);
-
-  data = setDataRowRecover(data, this.id);
-
-  sessionStorage.setItem('id_expense_recover', data.id_expense_recover);
-
-  $('#ERRefProduct').empty();
-  $('#ERNameProduct').empty();
-
-  $('#ERRefProduct').append(
-    `<option value = '${data.id_product}'> ${data.reference} </option>`
-  );
-
-  $('#ERNameProduct').append(
-    `<option value ='${data.id_product}'> ${data.product} </option>`
-  );
-
-  $(`#ERRefProduct`).prop('disabled', true);
-  $(`#ERNameProduct`).prop('disabled', true);
-
-  $('#percentage').val(data.expense_recover);
-
-  $('html, body').animate(
-    {
-      scrollTop: 0,
-    },
-    1000
-  );
-});
-
-/* Revision Data gasto */
-checkDataExpenseRecover = async (url, idExpenseRecover) => {
-  let idProduct = parseInt($('#ERNameProduct').val());
-  let percentage = parseFloat($('#percentage').val());
-
-  // percentage = parseFloat(percentage.replace(',', '.'));
-
-  let data = idProduct * percentage;
-
-  if (isNaN(data) || data <= 0) {
-    toastr.error('Ingrese todos los campos');
-    return false;
-  }
-
-  if (percentage > 100) {
-    toastr.error('El porcentaje de recuperación debe ser menor al 100%');
-    return false;
-  }
-
-  $(`#ERRefProduct`).prop('disabled', false);
-  let dataExpenseRecover = new FormData(formExpenseRecover);
-
-  if (idExpenseRecover != null)
-    dataExpenseRecover.append('idExpenseRecover', idExpenseRecover);
-
-  let resp = await sendDataPOST(url, dataExpenseRecover);
-
-  messageDistribution(resp, 2);
-};
 
 /* Eliminar recuperacion de gasto */
 $(document).on('click', '.deleteExpenseRecover', function () {
