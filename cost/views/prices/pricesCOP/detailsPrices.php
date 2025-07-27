@@ -292,11 +292,11 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
                                                             <p class="mb-1 expenses text-truncate" style="color:darkcyan;" id="expenses">Gastos</p>
                                                             <h6 class="mb-1 text-right expenses" id="payAssignableExpenses"></h6>
 
-                                                            <p class="mb-1 commission text-truncate" style="color:darkcyan;" id="commission">Comisión Vta</p>
-                                                            <h6 class="mb-1 text-right commission" id="commisionSale"></h6>
-
                                                             <p class="mb-1 profit minProfit text-truncate" style="color:darkcyan;" id="profit">Rentabilidad</p>
                                                             <h6 class="mb-1 text-right profit" id="profitability"></h6>
+
+                                                            <p class="mb-1 commission text-truncate" style="color:darkcyan;" id="commission">Comisión Vta</p>
+                                                            <h6 class="mb-1 text-right commission" id="commisionSale"></h6>
                                                         </div>
                                                     </div>
                                                 </div>
