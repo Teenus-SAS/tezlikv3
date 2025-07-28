@@ -318,9 +318,11 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
                                             </li>
                                         </ul>
 
-                                        <!-- Botón de guardar cambios abajo -->
                                         <div class="pb-3 text-center saveChanges d-none" id="saveContainer">
-                                            <span id="saveChanges" class="btn btn-primary btn-sm">Guardar cambios</span>
+                                            <button id="saveChanges" class="btn btn-primary btn-sm" type="button">
+                                                <span class="spinner-border spinner-border-sm me-2 d-none" id="spinnerSave" role="status" aria-hidden="true"></span>
+                                                <span id="saveText">Guardar cambios</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

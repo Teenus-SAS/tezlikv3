@@ -1,14 +1,22 @@
 <?php
 
-use tezlikv3\dao\DashboardGeneralDao;
-use tezlikv3\dao\LicenseCompanyDao;
-use tezlikv3\dao\MultiproductsDao;
-use tezlikv3\dao\PricesDao;
+namespace tezlikv3\Dao;
+
+use tezlikv3\dao\{
+    DashboardGeneralDao,
+    ExpenseRecoverDao,
+    LicenseCompanyDao,
+    MultiproductsDao,
+    PricesDao,
+    ProductsCostDao
+};
 
 $dashboardGeneralDao = new DashboardGeneralDao();
 $pricesDao = new PricesDao();
 $LicenseCompanyDao = new LicenseCompanyDao();
 $multiproductsDao = new MultiproductsDao();
+$productCostDao = new ProductsCostDao();
+$expenseRecoverDao = new ExpenseRecoverDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -80,20 +88,40 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
     return $response->withHeader('Content-Type', 'application/json');
 })->add(new SessionMiddleware());
 
-/* $app->post('/updateCosts', function (Request $request, Response $response, $args) use (
-    $dashboardGeneralDao,
-    $pricesDao
+$app->post('/updateCosts', function (Request $request, Response $response, $args) use (
+    $productCostDao,
+    $expenseRecoverDao
 ) {
     // session_start();
     $id_company = $_SESSION['id_company'];
     $data = $request->getParsedBody();
 
-    if (isset($data['commision'])) {
-        $pricesDao->updatePrice();
+
+    try {
+        // Iniciar una transacción
+        $connection = Connection::getInstance()->getConnection();
+        $connection->beginTransaction();
+
+        if (isset($data['commission']) or isset($data['profit']))
+            $productCostDao->updateCostByCompany($data, $id_company, $connection);
+        else {
+            $expense = $expenseRecoverDao->findExpenseRecover($data, $id_company);
+            $data['idExpenseRecover'] = $expense['id_expense_recover'];
+            $expenseRecoverDao->updateRecoverExpense($data);
+        }
+
+        // Confirmar la transacción
+        $connection->commit();
+
+        $resp = ['success' => true, 'message' => 'Actualizacion exitosa'];
+        return ResponseHelper::withJson($response, $resp, 200);
+    } catch (\Exception $e) {
+        if ($connection && $connection->inTransaction()) {
+            $connection->rollBack();
+        }
+
+        error_log("Error en addAreas: " . $e->getMessage()); // Log interno
+        $resp = ['error' => true, 'message' => 'Internal server error'];
+        return ResponseHelper::withJson($response, $resp, 500);
     }
-
-
-
-    $response->getBody()->write(json_encode($generalExpenses, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware()); */
+})->add(new SessionMiddleware());

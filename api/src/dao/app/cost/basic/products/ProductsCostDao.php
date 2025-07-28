@@ -73,29 +73,30 @@ class ProductsCostDao
         }
     }
 
-    public function updateCostByCompany($dataProduct)
+    public function updateCostByCompany($dataProduct, $id_company, $connection = null)
     {
-        $connection = Connection::getInstance()->getConnection();
+        $useExternalConnection = $connection !== null;
+        $stmt = null;
 
+        if (!$useExternalConnection)
+            $connection = Connection::getInstance()->getConnection();
         try {
             // Construcción dinámica de la consulta SQL
             $updates = [];
-            $params = ['id_product' => trim($dataProduct['idProduct'])];
+            $params = [
+                'id_product' => trim($dataProduct['idProduct']),
+                'id_company' => $id_company
+            ];
 
             // Verificar y agregar cada campo si está presente
-            if (isset($dataProduct['sale_price'])) {
-                $updates[] = 'sale_price = :sale_price';
-                $params['sale_price'] = trim($dataProduct['sale_price']);
-            }
-
-            if (isset($dataProduct['profitability'])) {
+            if (isset($dataProduct['profit'])) {
                 $updates[] = 'profitability = :profitability';
-                $params['profitability'] = trim($dataProduct['profitability']);
+                $params['profitability'] = trim($dataProduct['profit']);
             }
 
-            if (isset($dataProduct['commissionSale'])) {
-                $updates[] = 'commission_sale = :commission_sale';
-                $params['commission_sale'] = trim($dataProduct['commissionSale']);
+            if (isset($dataProduct['commission'])) {
+                $updates[] = 'commission_sale = :commission';
+                $params['commission'] = trim($dataProduct['commission']);
             }
 
             // Si no hay campos para actualizar, retornar
@@ -105,19 +106,19 @@ class ProductsCostDao
 
             // Construir la consulta SQL final
             $sql = "UPDATE products_costs SET " . implode(', ', $updates) .
-                " WHERE id_product = :id_product";
+                " WHERE id_product = :id_product AND id_company = :id_company";
 
             $stmt = $connection->prepare($sql);
             $stmt->execute($params);
-
-            return true;
         } catch (\Exception $e) {
-            // Registrar el error además de retornarlo
-            error_log('Error updating product costs: ' . $e->getMessage());
-            return [
-                'info' => true,
-                'message' => 'Error al actualizar costos del producto: ' . $e->getMessage()
-            ];
+            $this->logger->error(__FUNCTION__, ['error' => $e->getMessage()]);
+            throw $e;
+        } finally {
+            if ($stmt)
+                $stmt->closeCursor();
+
+            if (!$useExternalConnection && $connection)
+                $connection = null;
         }
     }
 
