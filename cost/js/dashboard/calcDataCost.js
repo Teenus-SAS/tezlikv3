@@ -126,7 +126,7 @@ $(document).on('click', '#profitDisplay', function () {
   const val = $(this).data('value') || parseFloat($(this).text());
   $(this).replaceWith(`
     <input type="number" id="profitInput" class="form-control form-control-sm"
-           style="max-width:60px; display:inline;" min="0" max="100" step="0.1" value="${val} data-change="1">
+           style="max-width:60px; display:inline;" min="0" max="100" step="0.1" value="${val}" data-change="1">
   `);
   $('#profitInput').focus();
 });

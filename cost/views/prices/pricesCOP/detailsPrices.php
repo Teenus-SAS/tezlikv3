@@ -270,9 +270,9 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
                         ?>
 
                         <!-- Row 2-->
-                        <div class="row align-items-stretch">
+                        <div class="row flex-nowrap overflow-hidden no-scroll">
                             <!-- Costeo Total -->
-                            <div class="col-sm-3 d-flex">
+                            <div class="col-auto d-flex">
                                 <div class="card w-100 h-100">
                                     <div class="card-header">
                                         <h5 class="card-title">Costeo Total</h5>
@@ -310,7 +310,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
                                                             <p class="mb-1 profit minProfit text-truncate" style="color:darkcyan;" id="profit">Rentabilidad</p>
                                                             <h6 class="mb-1 text-right profit" id="profitability"></h6>
 
-                                                            <p class="mb-1 commission text-truncate" style="color:darkcyan;" id="commission">Comisión Vta</p>
+                                                            <p class="mb-1 pr-3 commission text-truncate" style="color:darkcyan;" id="commission">Comisión Vta</p>
                                                             <h6 class="mb-1 text-right commission" id="commisionSale"></h6>
                                                         </div>
                                                     </div>
@@ -331,7 +331,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
 
                             <!-- Costos y Gastos -->
                             <?php
-                            $colCostChart = ($_SESSION['flag_expense'] == 2) ? 'col-sm-9' : 'col-sm-6';
+                            $colCostChart = ($_SESSION['flag_expense'] == 2) ? 'col-lg-9' : 'col-lg-6';
                             ?>
                             <div class="<?= $colCostChart ?> d-flex">
                                 <div class="card w-100 h-100">
