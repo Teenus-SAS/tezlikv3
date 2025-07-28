@@ -80,7 +80,7 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
     return $response->withHeader('Content-Type', 'application/json');
 })->add(new SessionMiddleware());
 
-$app->post('/updateCosts', function (Request $request, Response $response, $args) use (
+/* $app->post('/updateCosts', function (Request $request, Response $response, $args) use (
     $dashboardGeneralDao,
     $pricesDao
 ) {
@@ -96,4 +96,4 @@ $app->post('/updateCosts', function (Request $request, Response $response, $args
 
     $response->getBody()->write(json_encode($generalExpenses, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
+})->add(new SessionMiddleware()); */
