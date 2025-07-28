@@ -250,24 +250,21 @@ $(document).ready(function () {
 
     if (flag_expense == '2') {
       $('#expenses').html(`
-        Gastos (<span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;">
+        Gastos (<span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;" data-value=${parseFloat(data[0].expense_recover)}>
                   ${parseFloat(data[0].expense_recover).toFixed(1)}%
                 </span>)
               `);
     }
 
     $('#payAssignableExpenses').html(
-      `$ ${dataCost.expense.toLocaleString('es-CO', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: max,
-      })}`
+      `$ ${dataCost.expense.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: max, })}`
     );
 
-    $('#commission').html(
-      `Comisión Ventas (${parseFloat(data[0].commission_sale).toLocaleString('es-CO', {
-        maximumFractionDigits: 2,
-      })}%)`
-    );
+    $('#commission').html(`
+      Comisión Vtas (<span id="commissionDisplay" style="cursor:pointer; color:#007bff;" data-value="${parseFloat(data[0].commission_sale)}">
+        ${parseFloat(data[0].commission_sale).toLocaleString('es-CO', { maximumFractionDigits: 2 })}%
+      </span>)
+    `);
     $('#commisionSale').html(
       `$ ${Math.round(dataCost.costCommissionSale).toLocaleString('es-CO')}`
     );
@@ -280,9 +277,9 @@ $(document).ready(function () {
       );
     else
       $('#profit').html(
-        `Rentabilidad (${parseFloat(data[0].profitability).toLocaleString('es-CO', {
-          maximumFractionDigits: 2,
-        })}%)`
+        `Rentabilidad (<span id="profitDisplay" style="cursor:pointer; color:#007bff;" data-value="${parseFloat(data[0].profitability)}">
+          ${parseFloat(data[0].profitability).toLocaleString('es-CO', { maximumFractionDigits: 2, })}%
+        </span>)`
       );
 
     $('#profitability').html(

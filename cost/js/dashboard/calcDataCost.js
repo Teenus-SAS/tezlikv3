@@ -68,7 +68,7 @@ getDataCost = (data) => {
   };
 };
 
-// Al hacer click en el porcentaje, lo convierte en input
+// Mostrar input editable para GASTOS
 $(document).on('click', '#expenseRecoverDisplay', function () {
   const val = $(this).data('value') || parseFloat($(this).text());
   $(this).replaceWith(`
@@ -78,73 +78,148 @@ $(document).on('click', '#expenseRecoverDisplay', function () {
   $('#expenseRecoverInput').focus();
 });
 
-// Al salir del input, guarda el valor y actualiza cálculos
-$(document).on('blur', '#expenseRecoverInput', function () {
-  const val = parseFloat($(this).val()).toFixed(1);
-  const newSpan = `
-    <span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}">
-      ${val}%
-    </span>
-  `;
-
-  $(this).replaceWith(newSpan);
-
-  // Ejecuta el recálculo
-  recalculateSalesPrice(val);
-});
-
-
-// Al presionar Enter o salir del input, se actualiza
+// Guardar cambios al salir del input de GASTOS
 $(document).on('blur', '#expenseRecoverInput', updateExpenseRecover);
 $(document).on('keypress', '#expenseRecoverInput', function (e) {
-  if (e.which == 13) { // Enter
-    updateExpenseRecover();
-  }
+  if (e.which == 13) updateExpenseRecover();
 });
 
 function updateExpenseRecover() {
   const val = parseFloat($('#expenseRecoverInput').val()).toFixed(1);
-
   $('#expenseRecoverInput').replaceWith(`
-    <span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;">
+    <span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}">
       ${val}%
     </span>
   `);
-
-  data[0].expense_recover = parseFloat(val);
-
   recalculateSalesPrice();
 }
 
-function recalculateSalesPrice(expenseRecoverValue = null) {
+// Mostrar input editable para COMISIÓN
+$(document).on('click', '#commissionDisplay', function () {
+  const val = $(this).data('value') || parseFloat($(this).text());
+  $(this).replaceWith(`
+    <input type="number" id="commissionInput" class="form-control form-control-sm"
+           style="max-width:60px; display:inline;" min="0" max="100" step="0.1" value="${val}">
+  `);
+  $('#commissionInput').focus();
+});
+
+// Guardar cambios al salir del input de COMISIÓN
+$(document).on('blur', '#commissionInput', updateCommission);
+$(document).on('keypress', '#commissionInput', function (e) {
+  if (e.which == 13) updateCommission();
+});
+
+function updateCommission() {
+  const val = parseFloat($('#commissionInput').val()).toFixed(1);
+  $('#commissionInput').replaceWith(`
+    <span id="commissionDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}">
+      ${val}%
+    </span>
+  `);
+  recalculateSalesPrice();
+}
+
+// Mostrar input editable para RENTABILIDAD
+$(document).on('click', '#profitDisplay', function () {
+  const val = $(this).data('value') || parseFloat($(this).text());
+  $(this).replaceWith(`
+    <input type="number" id="profitInput" class="form-control form-control-sm"
+           style="max-width:60px; display:inline;" min="0" max="100" step="0.1" value="${val}">
+  `);
+  $('#profitInput').focus();
+});
+
+// Guardar cambios al salir del input de RENTABILIDAD
+$(document).on('blur', '#profitInput', updateProfit);
+$(document).on('keypress', '#profitInput', function (e) {
+  if (e.which == 13) updateProfit();
+});
+
+function updateProfit() {
+  const val = parseFloat($('#profitInput').val()).toFixed(1);
+  $('#profitInput').replaceWith(`
+    <span id="profitDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}">
+      ${val}%
+    </span>
+  `);
+  recalculateSalesPrice();
+}
+
+// ============================
+// 🧮 FUNCIÓN DE RECÁLCULO
+// ============================
+function recalculateSalesPrice() {
   const payRawMaterial = getValue('#payRawMaterial');
   const payWorkforce = getValue('#payWorkforce');
   const payIndirectCost = getValue('#payIndirectCost');
   const services = getValue('#services');
 
+  const expensePercentage = parseFloat(
+    $('#expenseRecoverInput').length ? $('#expenseRecoverInput').val() : $('#expenseRecoverDisplay').data('value')
+  ) || 0;
+
+  const commissionPercentage = parseFloat(
+    $('#commissionInput').length ? $('#commissionInput').val() : $('#commissionDisplay').data('value')
+  ) || 0;
+
+  const profitPercentage = parseFloat(
+    $('#profitInput').length ? $('#profitInput').val() : $('#profitDisplay').data('value')
+  ) || 0;
+
   const baseCost = payRawMaterial + payWorkforce + payIndirectCost + services;
 
-  const expensePercentage = parseFloat(expenseRecoverValue ?? $('#expenseRecoverDisplay').data('value') ?? 0);
-  const commissionPercentage = 6;
-  const profitPercentage = 12;
+  let expenses = 0;
+  let salesPrice = 0;
+  let commission = 0;
+  let profit = 0;
+  let costTotal = 0;
 
-  const expensesValue = baseCost * (expensePercentage / 100);
-  $('#payAssignableExpenses').text(formatCOP(expensesValue));
+  if (expensePercentage === 0) {
+    // 🟨 Gasto fijo, se toma desde el texto
+    expenses = parseValueFromText('#payAssignableExpenses');
 
-  const costTotal = baseCost + expensesValue;
+    // 🧮 Primero se calcula el precio sin comisión
+    const partialPrice = (baseCost + expenses) / (1 - profitPercentage / 100);
+
+    // 🧮 Luego se aplica la comisión
+    salesPrice = partialPrice / (1 - commissionPercentage / 100);
+
+    // Comisión real sobre PV
+    commission = salesPrice * (commissionPercentage / 100);
+
+    // Utilidad real sobre precio después de comisión
+    profit = (salesPrice - commission - baseCost - expenses);
+  } else {
+    // 🧮 Gasto como porcentaje (cálculo encadenado)
+    const netoFactor = (1 - expensePercentage / 100) * (1 - profitPercentage / 100) * (1 - commissionPercentage / 100);
+    salesPrice = baseCost / netoFactor;
+
+    commission = salesPrice * (commissionPercentage / 100);
+    const valueAfterCommission = salesPrice - commission;
+    profit = valueAfterCommission * (profitPercentage / 100);
+    const valueAfterProfit = valueAfterCommission - profit;
+    expenses = valueAfterProfit * (expensePercentage / 100);
+  }
+
+  costTotal = baseCost + expenses;
+
+  // 🖨️ Mostrar resultados
+  $('#payAssignableExpenses').text(formatCOP(expenses));
   $('#costTotal').text(formatCOP(costTotal));
-
-  const commission = costTotal * (commissionPercentage / 100);
   $('#commisionSale').text(formatCOP(commission));
-
-  const profit = costTotal * (profitPercentage / 100);
   $('#profitability').text(formatCOP(profit));
-
-  const salesPrice = costTotal + commission + profit;
   $('#salesPrice').text(formatCOP(salesPrice));
 }
 
 
+
+
+
+
+// ============================
+// 🔧 UTILIDADES
+// ============================
 function getValue(selector) {
   return parseFloat($(selector).text().replace(/\$|\./g, '').replace(',', '.')) || 0;
 }
@@ -153,3 +228,7 @@ function formatCOP(value) {
   return `$ ${Math.round(value).toLocaleString('es-CO')}`;
 }
 
+function parseValueFromText(selector) {
+  const text = $(selector).text().replace(/[^\d,.-]/g, '').replace(',', '.');
+  return parseFloat(text) || 0;
+}
