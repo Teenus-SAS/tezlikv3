@@ -80,6 +80,7 @@ class ProductsCostDao
 
         if (!$useExternalConnection)
             $connection = Connection::getInstance()->getConnection();
+
         try {
             // Construcción dinámica de la consulta SQL
             $updates = [];
@@ -89,6 +90,11 @@ class ProductsCostDao
             ];
 
             // Verificar y agregar cada campo si está presente
+            if (isset($dataProduct['salesPrice'])) {
+                $updates[] = 'price = :salesPrice';
+                $params['salesPrice'] = trim($dataProduct['salesPrice']);
+            }
+
             if (isset($dataProduct['profit'])) {
                 $updates[] = 'profitability = :profitability';
                 $params['profitability'] = trim($dataProduct['profit']);

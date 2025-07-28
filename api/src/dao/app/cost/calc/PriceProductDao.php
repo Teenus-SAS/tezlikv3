@@ -173,7 +173,7 @@ class PriceProductDao
             }
 
             $stmt = $connection->prepare($sql);
-            $stmt->execute(['id_company' => $id_company, 'id_product' => $product['id_product']]);
+            $stmt->execute(['id_company' => $id_company, 'id_product' => $product[0]['id_product']]);
 
             return ['success' => true, 'message' => 'Precios actualizados correctamente.'];
         } catch (\Exception $e) {

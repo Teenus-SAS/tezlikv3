@@ -3,8 +3,13 @@ $(document).on('click', '#saveChanges', function () {
     const expense = $('#expenseRecoverDisplay');
     const profit = $('#profitDisplay');
     const commision = $('#commissionDisplay');
+
+    const salesPriceText = $('#salesPrice').text();
+    const salesPrice = parseFloat(salesPriceText.replace(/[^\d,]/g, '').replace(',', '.'));
+
     const idProduct = sessionStorage.getItem('idProduct');
 
+    data.salesPrice = salesPrice;
     data.idProduct = idProduct;
 
     if (expense.attr('data-change') === '1')
