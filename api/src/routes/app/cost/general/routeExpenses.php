@@ -557,6 +557,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
             $products = $generalProductsDao->findAllProductsToRecovery($id_company);
             $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
             $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
+            $priceProductDao->calcPriceByCompany($id_company);
         }
 
         if ($resolution == null)

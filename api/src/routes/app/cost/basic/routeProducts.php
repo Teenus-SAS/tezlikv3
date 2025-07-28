@@ -316,6 +316,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                     $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
                     $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
                     $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
+                    $priceProductDao->calcPriceByProduct($id_company, $products);
                     $products = null;
                 }
 

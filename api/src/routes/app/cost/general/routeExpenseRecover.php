@@ -302,7 +302,8 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
 $app->get('/changeManualRecovery/{id_recovery}/{id_product}', function (Request $request, Response $response, $args) use (
     $expenseRecoverDao,
     $totalExpenseDao,
-    $calcRecoveryExpenses
+    $calcRecoveryExpenses,
+    $priceProductDao
 ) {
     // session_start();
     $id_company = $_SESSION['id_company'];
@@ -327,6 +328,7 @@ $app->get('/changeManualRecovery/{id_recovery}/{id_product}', function (Request 
             $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
             $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
             $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
+            $priceProductDao->calcPriceByProduct($id_company, $products);
             $products = null;
         }
 
