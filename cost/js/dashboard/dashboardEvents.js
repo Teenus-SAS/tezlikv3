@@ -12,8 +12,11 @@ $(document).on('click', '#saveChanges', function () {
     data.salesPrice = salesPrice;
     data.idProduct = idProduct;
 
-    if (expense.attr('data-change') === '1')
-        data.percentage = expense.attr('data-value');
+    if (expense.attr('data-change') === '1') {
+        percentageTxt = expense.attr('data-value');
+        const percentage = parseInt(percentageTxt, 10);
+        data.percentage = percentage;
+    }
 
     if (commision.attr('data-change') === '1')
         data.commission = commision.attr('data-value');

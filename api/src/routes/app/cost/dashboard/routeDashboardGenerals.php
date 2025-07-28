@@ -96,15 +96,14 @@ $app->post('/updateCosts', function (Request $request, Response $response, $args
     $id_company = $_SESSION['id_company'];
     $data = $request->getParsedBody();
 
-
     try {
         // Iniciar una transacción
         $connection = Connection::getInstance()->getConnection();
         $connection->beginTransaction();
 
-        if (isset($data['commission']) or isset($data['profit']))
-            $productCostDao->updateCostByCompany($data, $id_company, $connection);
-        else {
+        $productCostDao->updateCostByCompany($data, $id_company, $connection);
+
+        if (isset($data['percentage'])) {
             $expense = $expenseRecoverDao->findExpenseRecover($data, $id_company);
             $data['idExpenseRecover'] = $expense['id_expense_recover'];
             $expenseRecoverDao->updateRecoverExpense($data);
