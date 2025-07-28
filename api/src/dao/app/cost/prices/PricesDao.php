@@ -64,10 +64,12 @@ class PricesDao
   public function findPriceByProduct($id_product, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, pc.profitability, pc.price, pc.sale_price
-                                  FROM products p
-                                  INNER JOIN products_costs pc ON pc.id_product = p.id_product
-                                  WHERE p.id_product = :id_product AND p.id_company = :id_company");
+
+    $sql = "SELECT p.id_product, pc.profitability, pc.price, pc.sale_price
+            FROM products p
+            INNER JOIN products_costs pc ON pc.id_product = p.id_product
+            WHERE p.id_product = :id_product AND p.id_company = :id_company";
+    $stmt = $connection->prepare($sql);
     $stmt->execute([
       'id_product' => $id_product,
       'id_company' => $id_company

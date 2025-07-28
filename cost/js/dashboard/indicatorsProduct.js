@@ -250,8 +250,8 @@ $(document).ready(function () {
 
     if (flag_expense == '2') {
       $('#expenses').html(`
-        Gastos (<span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;" data-value=${parseFloat(data[0].expense_recover)}>
-                  ${parseFloat(data[0].expense_recover).toFixed(1)}%
+        Gastos (<span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;" data-value=${parseFloat(data[0].expense_recover)} data-change="0">
+                  ${parseFloat(data[0].expense_recover).toFixed(2)}%
                 </span>)
               `);
     }
@@ -261,7 +261,7 @@ $(document).ready(function () {
     );
 
     $('#commission').html(`
-      Comisión Vtas (<span id="commissionDisplay" style="cursor:pointer; color:#007bff;" data-value="${parseFloat(data[0].commission_sale)}">
+      Comisión Vtas (<span id="commissionDisplay" style="cursor:pointer; color:#007bff;" data-value="${parseFloat(data[0].commission_sale)}" data-change="0">
         ${parseFloat(data[0].commission_sale).toLocaleString('es-CO', { maximumFractionDigits: 2 })}%
       </span>)
     `);
@@ -277,7 +277,7 @@ $(document).ready(function () {
       );
     else
       $('#profit').html(
-        `Rentabilidad (<span id="profitDisplay" style="cursor:pointer; color:#007bff;" data-value="${parseFloat(data[0].profitability)}">
+        `Rentabilidad (<span id="profitDisplay" style="cursor:pointer; color:#007bff;" data-value="${parseFloat(data[0].profitability)}" data-change="0">
           ${parseFloat(data[0].profitability).toLocaleString('es-CO', { maximumFractionDigits: 2, })}%
         </span>)`
       );

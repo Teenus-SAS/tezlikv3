@@ -1,9 +1,9 @@
 <?php
 
-use tezlikv3\dao\CompositeProductsDao;
-use tezlikv3\dao\DashboardProductsDao;
-
-
+use tezlikv3\dao\{
+    CompositeProductsDao,
+    DashboardProductsDao
+};
 
 $dashboardProductsDao = new DashboardProductsDao();
 $compositeProductsDao = new CompositeProductsDao();

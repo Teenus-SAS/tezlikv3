@@ -1,3 +1,4 @@
+
 getDataCost = (data) => {
   let {
     assignable_expense: expense,
@@ -87,7 +88,7 @@ $(document).on('keypress', '#expenseRecoverInput', function (e) {
 function updateExpenseRecover() {
   const val = parseFloat($('#expenseRecoverInput').val()).toFixed(1);
   $('#expenseRecoverInput').replaceWith(`
-    <span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}">
+    <span id="expenseRecoverDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}" data-change="1">
       ${val}%
     </span>
   `);
@@ -113,7 +114,7 @@ $(document).on('keypress', '#commissionInput', function (e) {
 function updateCommission() {
   const val = parseFloat($('#commissionInput').val()).toFixed(1);
   $('#commissionInput').replaceWith(`
-    <span id="commissionDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}">
+    <span id="commissionDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}" data-change="1">
       ${val}%
     </span>
   `);
@@ -125,7 +126,7 @@ $(document).on('click', '#profitDisplay', function () {
   const val = $(this).data('value') || parseFloat($(this).text());
   $(this).replaceWith(`
     <input type="number" id="profitInput" class="form-control form-control-sm"
-           style="max-width:60px; display:inline;" min="0" max="100" step="0.1" value="${val}">
+           style="max-width:60px; display:inline;" min="0" max="100" step="0.1" value="${val} data-change="1">
   `);
   $('#profitInput').focus();
 });
@@ -139,7 +140,7 @@ $(document).on('keypress', '#profitInput', function (e) {
 function updateProfit() {
   const val = parseFloat($('#profitInput').val()).toFixed(1);
   $('#profitInput').replaceWith(`
-    <span id="profitDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}">
+    <span id="profitDisplay" style="cursor:pointer; color:#007bff;" data-value="${val}" data-change="1">
       ${val}%
     </span>
   `);
@@ -154,6 +155,8 @@ function recalculateSalesPrice() {
   const payWorkforce = getValue('#payWorkforce');
   const payIndirectCost = getValue('#payIndirectCost');
   const services = getValue('#services');
+
+  $('#saveContainer').removeClass('d-none').hide().fadeIn(800);
 
   const expensePercentage = parseFloat(
     $('#expenseRecoverInput').length ? $('#expenseRecoverInput').val() : $('#expenseRecoverDisplay').data('value')
@@ -202,6 +205,7 @@ function recalculateSalesPrice() {
     expenses = valueAfterProfit * (expensePercentage / 100);
   }
 
+  $('.saveChanges').fadeIn();
   costTotal = baseCost + expenses;
 
   // 🖨️ Mostrar resultados

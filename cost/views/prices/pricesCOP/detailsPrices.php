@@ -16,6 +16,21 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsCSS.php'; ?>
+    <style>
+        /*  .saveChanges {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease, max-height 0.5s ease;
+        }
+
+        .saveChanges.show {
+            opacity: 1;
+            max-height: 100px;
+        }
+
+        */
+    </style>
 </head>
 
 <body class="horizontal-navbar">
@@ -262,8 +277,8 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
                                     <div class="card-header">
                                         <h5 class="card-title">Costeo Total</h5>
                                     </div>
-                                    <div class="card-body p-0">
-                                        <ul class="list-group list-group-flush">
+                                    <div class="card-body d-flex flex-column p-0">
+                                        <ul class="list-group list-group-flush flex-grow-1">
                                             <li class="list-group-item py-3">
                                                 <div class="media">
                                                     <div class="media-body">
@@ -302,9 +317,15 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
                                                 </div>
                                             </li>
                                         </ul>
+
+                                        <!-- Botón de guardar cambios abajo -->
+                                        <div class="pb-3 text-center saveChanges d-none" id="saveContainer">
+                                            <span id="saveChanges" class="btn btn-primary btn-sm">Guardar cambios</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- Costos y Gastos -->
                             <?php
@@ -491,6 +512,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
         id_company = "<?= $_SESSION['id_company'] ?>";
         viewPrices = 2;
     </script>
+    <script src="/cost/js/dashboard/dashboardEvents.js"></script>
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
     <script src="/cost/js/dashboard/graphicsProduct.js"></script>

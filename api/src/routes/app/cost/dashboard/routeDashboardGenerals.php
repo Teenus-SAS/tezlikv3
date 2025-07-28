@@ -79,3 +79,21 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
     $response->getBody()->write(json_encode($generalExpenses, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 })->add(new SessionMiddleware());
+
+$app->post('/updateCosts', function (Request $request, Response $response, $args) use (
+    $dashboardGeneralDao,
+    $pricesDao
+) {
+    // session_start();
+    $id_company = $_SESSION['id_company'];
+    $data = $request->getParsedBody();
+
+    if (isset($data['commision'])) {
+        $pricesDao->updatePrice();
+    }
+
+
+
+    $response->getBody()->write(json_encode($generalExpenses, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+})->add(new SessionMiddleware());
