@@ -464,7 +464,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
                 $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCountCP($id_company);
                 $expenseCount = $participationExpenseDao->findAllExpensesByCompanyCP($id_company);
 
-                $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
+                //$resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
 
                 $productions = $productionCenterDao->findAllPCenterByCompany($id_company);
 
