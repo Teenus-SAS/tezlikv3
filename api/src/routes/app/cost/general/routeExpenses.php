@@ -303,7 +303,7 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
             $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCountCP($id_company);
             $expenseCount = $participationExpenseDao->findAllExpensesByCompanyCP($id_company);
 
-            $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
+            //$resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
 
             $productions = $productionCenterDao->findAllPCenterByCompany($id_company);
 
@@ -491,7 +491,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
                 $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCount($id_company);
                 $expenseCount = $participationExpenseDao->findAllExpensesByCompany($id_company);
 
-                $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
+                //$resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
 
                 // Consulta unidades vendidades y volumenes de venta por producto
                 $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
@@ -612,7 +612,7 @@ $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Respo
             $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCount($id_company);
             $expenseCount = $participationExpenseDao->findAllExpensesByCompany($id_company);
         }
-        $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
+        //$resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
     }
 
     // Calcular total del gasto
