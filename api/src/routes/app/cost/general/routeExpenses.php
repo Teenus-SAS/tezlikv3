@@ -330,7 +330,7 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
             $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCount($id_company);
             $expenseCount = $participationExpenseDao->findAllExpensesByCompany($id_company);
 
-            $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
+            //$resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
             // Consulta unidades vendidades y volumenes de venta por producto
             $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
 
