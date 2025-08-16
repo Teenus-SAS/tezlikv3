@@ -8,12 +8,20 @@ include_once __DIR__ . '/AutoloaderSourceCode.php';
 $app = AppFactory::create();
 $app->setBasePath('/api');
 
-// OPCIÓN 1: Lazy Loading de Rutas
-// Solo carga las rutas cuando se necesiten
-class RouteLoader
-{
-    private static $routes = [
-        // Admin routes
+// Configuración de rutas organizadas
+$routeConfig = [
+    // Rutas críticas que siempre se cargan
+    'critical' => [
+        '../api/src/routes/app/login/routeLogin.php',
+        '../api/src/routes/app/login/routepassUser.php',
+        '../api/src/routes/app/login/routeInactiveUser.php',
+        '../api/src/routes/app/global/routeCompany.php',
+        '../api/src/routes/app/global/routeDoubleFactor.php',
+        '../api/src/routes/app/global/routeProfile.php',
+    ],
+
+    // Rutas condicionales basadas en el path
+    'conditional' => [
         'admin/companies' => [
             '../api/src/routes/admin/companies/routeCompanies.php',
             '../api/src/routes/admin/companies/routeCompaniesLicense.php',
@@ -24,8 +32,10 @@ class RouteLoader
             '../api/src/routes/admin/plans/routePlans.php',
             '../api/src/routes/admin/plans/routePlanAccess.php',
         ],
-        'admin/login' => [
-            '../api/src/routes/admin/login/routeLastLoginsUsers.php',
+        'admin/users' => [
+            '../api/src/routes/admin/users/routeActiveUsers.php',
+            '../api/src/routes/admin/users/routeCloseSessionUsers.php',
+            '../api/src/routes/admin/users/routeUserAdmin.php',
         ],
         'admin/products' => [
             '../api/src/routes/admin/products/routeQuantityProducts.php',
@@ -35,11 +45,6 @@ class RouteLoader
         ],
         'admin/notifications' => [
             '../api/src/routes/admin/notifications/routeNotifications.php',
-        ],
-        'admin/users' => [
-            '../api/src/routes/admin/users/routeActiveUsers.php',
-            '../api/src/routes/admin/users/routeCloseSessionUsers.php',
-            '../api/src/routes/admin/users/routeUserAdmin.php',
         ],
         'admin/benefits' => [
             '../api/src/routes/admin/benefits/routeBenefits.php',
@@ -65,8 +70,9 @@ class RouteLoader
         'admin/contract' => [
             '../api/src/routes/admin/contract/routeContract.php',
         ],
-
-        // App routes
+        'admin/login' => [
+            '../api/src/routes/admin/login/routeLastLoginsUsers.php',
+        ],
         'app/cost/trm' => [
             '../api/src/routes/app/cost/trm/routeTrm.php',
         ],
@@ -135,57 +141,45 @@ class RouteLoader
             '../api/src/routes/app/cost/userAccess/routeUserAccess.php',
         ],
         'app/global' => [
-            '../api/src/routes/app/global/routeCompany.php',
-            '../api/src/routes/app/global/routeDoubleFactor.php',
             '../api/src/routes/app/global/routeUpdatesNotices.php',
-            '../api/src/routes/app/global/routeProfile.php',
-        ],
-        'app/login' => [
-            '../api/src/routes/app/login/routeLogin.php',
-            '../api/src/routes/app/login/routepassUser.php',
-            '../api/src/routes/app/login/routeInactiveUser.php',
         ],
         'app/users' => [
             '../api/src/routes/app/users/routeGeneralUserAccess.php',
             '../api/src/routes/app/users/routeUsers.php',
             '../api/src/routes/app/users/routeQuantityUsers.php',
         ],
-    ];
+    ]
+];
 
-    private static $loadedGroups = [];
-
-    public static function loadRouteGroup($groupName)
-    {
-        if (!isset(self::$loadedGroups[$groupName]) && isset(self::$routes[$groupName])) {
-            foreach (self::$routes[$groupName] as $routeFile) {
-                if (file_exists($routeFile)) {
-                    require_once $routeFile;
-                }
-            }
-            self::$loadedGroups[$groupName] = true;
-        }
-    }
-
-    public static function loadRoutesForPath($path)
-    {
-        foreach (self::$routes as $groupName => $files) {
-            if (strpos($path, $groupName) === 0) {
-                self::loadRouteGroup($groupName);
-                break;
-            }
+/**
+ * Función para cargar rutas con el contexto de $app
+ */
+function tezlik_loadApiRoutes($routes, $app)
+{
+    foreach ($routes as $route) {
+        if (file_exists($route)) {
+            // Incluir el archivo en una función anónima para pasar $app
+            (function () use ($route, $app) {
+                require_once $route;
+            })();
         }
     }
 }
 
-// Middleware para cargar rutas bajo demanda
-$app->add(function ($request, $handler) {
-    $path = $request->getUri()->getPath();
-    // Remover el base path
-    $path = str_replace('/api/', '', $path);
+// Cargar rutas críticas
+tezlik_loadApiRoutes($routeConfig['critical'], $app);
 
-    RouteLoader::loadRoutesForPath($path);
+// Determinar qué rutas cargar basado en el path actual
+$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+$path = parse_url($requestUri, PHP_URL_PATH);
+$path = str_replace('/api/', '', $path);
 
-    return $handler->handle($request);
-});
+// Cargar rutas específicas para el path actual
+foreach ($routeConfig['conditional'] as $pathPattern => $routes) {
+    if (strpos($path, $pathPattern) === 0) {
+        tezlik_loadApiRoutes($routes, $app);
+        break; // Solo cargar el primer match para evitar duplicados
+    }
+}
 
 $app->run();
