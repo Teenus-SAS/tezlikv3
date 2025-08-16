@@ -15,11 +15,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css">
-<!-- ================== BEGIN POLYFILLS  ================== -->
-<!--[if lt IE 9]>
-      <script src="assets/libs/html5shiv/js/html5shiv.js"></script>
-      <script src="assets/libs/respondjs/js/respond.min.js"></script>
-   <![endif]-->
 <!-- ================== END POLYFILLS  ================== -->
 
 <link rel="stylesheet" href="/assets/css/stylesModalLoading.css">
@@ -40,3 +35,4 @@
 
 <!-- Spinner -->
 <link rel="stylesheet" href="/assets/css/styleSpinner.css">
+<link rel="stylesheet" href="/assets/css/style_spinner.css">

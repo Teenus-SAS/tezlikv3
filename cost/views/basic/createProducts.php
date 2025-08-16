@@ -30,6 +30,9 @@ require_once dirname(dirname(__DIR__)) . '/modals/inactiveProducts.php';
         <!-- Begin Left Navigation -->
         <?php include_once dirname(dirname(__DIR__)) . '/partials/nav.php'; ?>
 
+        <!-- spinner-->
+        <?php include_once dirname(dirname(__DIR__)) . '/partials/spinnerLoad.php'; ?>
+
         <!-- Begin main content -->
         <div class="main-content">
             <!-- Loader -->

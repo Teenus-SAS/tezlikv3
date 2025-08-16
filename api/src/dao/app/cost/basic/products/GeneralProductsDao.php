@@ -197,6 +197,19 @@ class GeneralProductsDao
         return $products;
     }
 
+    public function findAllCompleteProducts($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $sql = "SELECT id_product, id_product AS selectNameProduct, reference, product, active
+                FROM products
+                WHERE id_company = :id_company";
+        $stmt = $connection->prepare($sql);
+        $stmt->execute(['id_company' => $id_company]);
+
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
+
     public function findAllEDAndERProducts($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -271,6 +284,26 @@ class GeneralProductsDao
             $stmt->execute([
                 'id_product' => $id_product,
                 'new_product' => $status
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function updateStatusProduct($id_product, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $sql = "UPDATE products SET active = :active
+              WHERE id_product = :id_product AND id_company = :id_company";
+            $stmt = $connection->prepare($sql);
+            $stmt->execute([
+                'id_product' => $id_product,
+                'active' => 1,
+                'id_company' => $id_company
             ]);
         } catch (\Exception $e) {
             $message = $e->getMessage();
