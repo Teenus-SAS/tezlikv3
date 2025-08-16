@@ -266,7 +266,7 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
     }
 
     $id_company = $_SESSION['id_company'];
-    $products = $dataProduct['importProducts'];
+    $products = json_decode($dataProduct['importProducts'], true);
 
     // Función para validar campos obligatorios
     $validateRequiredFields = function ($product, $rowIndex) {
