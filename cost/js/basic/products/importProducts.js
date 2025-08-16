@@ -26,16 +26,6 @@ $(document).ready(function () {
 
     $('.cardBottons').hide();
 
-    let form = document.getElementById('formProducts');
-
-    form.insertAdjacentHTML(
-      'beforeend',
-      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
-        <div class="spinner-border text-secondary" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-      </div>`
-    );
 
     importFile(selectedFile)
       .then((data) => {
@@ -118,6 +108,8 @@ $(document).ready(function () {
       const params = new URLSearchParams();
       params.append('importProducts', JSON.stringify(data));
 
+      PricingSpinner.show("Verificando Data");
+
       const response = await fetch('/api/productsDataValidation', {
         method: 'POST',
         headers: {
@@ -128,6 +120,8 @@ $(document).ready(function () {
       });
 
       const resp = await response.json();
+
+      PricingSpinner.hide();
 
       if (resp.reload) {
         location.reload();
@@ -183,6 +177,8 @@ $(document).ready(function () {
       const params = new URLSearchParams();
       params.append('importProducts', JSON.stringify(data));
 
+      PricingSpinner.show("Importando Datos");
+
       const response = await fetch('/api/addProducts', {
         method: 'POST',
         headers: {
@@ -193,10 +189,14 @@ $(document).ready(function () {
       });
 
       const result = await response.json();
+
+      PricingSpinner.hide();
+
       message(result);
 
     } catch (error) {
       console.error('Error en saveProductTable:', error);
+      PricingSpinner.hide();
       $('.cardLoading').remove();
       $('.cardBottons').show(400);
       toastr.error('Error al guardar los productos. Intente nuevamente.');

@@ -1,4 +1,4 @@
-<div id="medical-spinner" class="spinner-overlay hidden">
+<div id="pricing-spinner" class="spinner-overlay hidden">
     <div class="spinner-content">
         <div class="spinner-icon"></div>
         <div class="spinner-message">

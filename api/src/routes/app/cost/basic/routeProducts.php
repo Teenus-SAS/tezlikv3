@@ -550,7 +550,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
             } else
                 $resp = array('info' => true, 'message' => 'El producto ya existe en la base de datos. Ingrese uno nuevo');
         } else {
-            $products = $dataProduct['importProducts'];
+            $products = json_decode($dataProduct['importProducts'], true);
             $resolution = null;
             $id_user = $_SESSION['idUser'];
 
