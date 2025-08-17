@@ -1,7 +1,7 @@
 $(document).ready(function () {
     loadContract = async () => {
         // let data = await searchData('/api/contracts');
-        
+
         if (d_contract === "1") {
             if (date_contract === "0" && modalActive === false) {
                 modalActive = true;
@@ -28,7 +28,7 @@ $(document).ready(function () {
                                     if (data.reload) {
                                         location.reload();
                                     }
-                                    
+
                                     if (data.success == true) {
                                         toastr.success(data.message);
                                         return false;
@@ -38,7 +38,7 @@ $(document).ready(function () {
                             );
                         } else {
                             $.get(
-                                `/api/logoutInactiveUser`,
+                                `/api/userSession/logoutInactiveUser`,
                                 function (data, textStatus, jqXHR) {
                                     location.href = '/';
                                 }
@@ -47,14 +47,14 @@ $(document).ready(function () {
 
                         if (typeof checkFirstDay === 'function')
                             checkFirstDay();
-                    
+
                         if (typeof checkFirstLogin === 'function')
                             checkFirstLogin();
                     },
                 }).find('div.modal-content').addClass('confirmWidth')
                     .find('div.bootbox-body').addClass('bootbox1-body');
             }
-        } else {                    
+        } else {
             if (typeof checkFirstLogin === 'function')
                 checkFirstLogin();
         }

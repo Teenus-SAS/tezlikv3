@@ -6,8 +6,8 @@ $(document).ready(function () {
   loadAllDataMaterials = async (id) => {
     try {
       const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
-        searchData(`/api/productsMaterials/${id}`),
-        searchData(`/api/compositeProducts/${id}`)
+        searchData(`/api/dataSheetMaterials/productsMaterials/${id}`),
+        searchData(`/api/subproducts/compositeProducts/${id}`)
       ]);
 
       sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));

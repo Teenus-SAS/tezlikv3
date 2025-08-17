@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   loadIndicatorsProducts = async (id_product) => {
     try {
-      const data = await searchData(`/api/dashboardPricesProducts/${id_product}`);
+      const data = await searchData(`/api/panelProducts/${id_product}`);
 
       sessionStorage.removeItem('imageProduct');
       $('.social-bar').hide(800);

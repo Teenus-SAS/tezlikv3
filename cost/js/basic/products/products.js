@@ -22,9 +22,9 @@ $(document).ready(function () {
     let idProduct = sessionStorage.getItem('id_product');
 
     if (idProduct == '' || idProduct == null) {
-      checkDataProducts('/api/addProducts', idProduct);
+      checkDataProducts('/api/products/addProducts', idProduct);
     } else {
-      checkDataProducts('/api/updateProducts', idProduct);
+      checkDataProducts('/api/products/updateProducts', idProduct);
     }
   });
 
@@ -102,12 +102,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '/api/deleteProduct',
-            dataProduct,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.post('/api/products/deleteProduct', dataProduct, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },
@@ -165,12 +162,9 @@ $(document).ready(function () {
           dataProduct['salePrice'] = sale_price;
           dataProduct['idFamily'] = data.id_family;
 
-          $.post(
-            '/api/copyProduct',
-            dataProduct,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.post('/api/products/copyProduct', dataProduct, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },
@@ -198,7 +192,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `/api/changeComposite/${data.id_product}/${data.composite == '0' ? '1' : '0'}`,
+            `/api/products/changeComposite/${data.id_product}/${data.composite == '0' ? '1' : '0'}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }
@@ -231,32 +225,4 @@ $(document).ready(function () {
     else if (data.info == true) toastr.info(data.message);
   };
 
-
-  /* // Interceptor para manejar tokens en las solicitudes
-  axios.interceptors.request.use(config => {
-    const token = localStorage.getItem('auth_token') || getCookie('auth_token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  });
-
-  // Interceptor para manejar respuestas 401
-  axios.interceptors.response.use(
-    response => response,
-    error => {
-      if (error.response.status === 401) {
-        localStorage.removeItem('auth_token');
-        window.location.reload(); // Forzar recarga para limpiar estado
-      }
-      return Promise.reject(error);
-    }
-  );
-
-  // Función auxiliar para obtener cookies
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  } */
 });

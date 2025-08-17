@@ -22,9 +22,9 @@ $('#btnCreateCategory').click(function (e) {
     let idCategory = sessionStorage.getItem('id_category');
 
     if (idCategory == '' || idCategory == null) {
-        checkDataCategory('/api/addCategory', idCategory);
+        checkDataCategory('/api/categories/addCategory', idCategory);
     } else {
-        checkDataCategory('/api/updateCategory', idCategory);
+        checkDataCategory('/api/categories/updateCategory', idCategory);
     }
 });
 

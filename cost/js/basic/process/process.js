@@ -23,9 +23,9 @@ $(document).ready(function () {
     let idProcess = sessionStorage.getItem('id_process');
 
     if (idProcess == '' || idProcess == null) {
-      checkDataProcess('/api/addProcess', idProcess);
+      checkDataProcess('/api/process/addProcess', idProcess);
     } else {
-      checkDataProcess('/api/updateProcess', idProcess);
+      checkDataProcess('/api/process/updateProcess', idProcess);
     }
   });
 
@@ -70,7 +70,7 @@ $(document).ready(function () {
 
   /* Eliminar proceso */
 
-  deleteFunction = (id) => { 
+  deleteFunction = (id) => {
     let data = dataProcess.find(item => item.id_process == id);
     let count_payroll = parseInt(data.count_payroll);
 
@@ -98,7 +98,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `../../api/deleteProcess/${id_process}`,
+            `/api/process/deleteProcess/${id_process}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }
@@ -113,21 +113,21 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileProcess').val('');
-    
+
     if (data.success == true) {
       $('.cardImportProcess').hide(800);
       $('#formImportProcess').trigger('reset');
       $('.cardCreateProcess').hide(800);
       $('#formCreateProcess').trigger('reset');
-      
+
       loadTblProcess();
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
-  }; 
+  };
 });

@@ -116,9 +116,9 @@ $('#btnCreateMaterial').click(function (e) {
   let idMaterial = sessionStorage.getItem('id_material');
 
   if (idMaterial == '' || idMaterial == null) {
-    checkDataMaterial('/api/addMaterials', idMaterial);
+    checkDataMaterial('/api/materials/addMaterials', idMaterial);
   } else {
-    checkDataMaterial('/api/updateMaterials', idMaterial);
+    checkDataMaterial('/api/materials/updateMaterials', idMaterial);
   }
 });
 
@@ -268,12 +268,9 @@ deleteMaterials = () => {
     },
     callback: function (result) {
       if (result == true) {
-        $.post(
-          '../../api/deleteMaterial',
-          dataMaterial,
-          function (data, textStatus, jqXHR) {
-            messageMaterials(data);
-          }
+        $.post('/api/materials/deleteMaterial', dataMaterial, function (data, textStatus, jqXHR) {
+          messageMaterials(data);
+        }
         );
       }
     },
@@ -360,7 +357,7 @@ $(document).on('click', '.indirect', function () {
     callback: function (result) {
       if (result == true) {
         $.get(
-          `/api/changeIndirect/${data.id_material}/${data.flag_indirect == '0' ? '1' : '0'}`,
+          `/api/materials/changeIndirect/${data.id_material}/${data.flag_indirect == '0' ? '1' : '0'}`,
           function (data, textStatus, jqXHR) {
             messageMaterials(data);
           }
@@ -427,7 +424,7 @@ $(document).on('click', '.billRawMaterial', function () {
 
         $.ajax({
           type: "POST",
-          url: '/api/saveBillMaterial',
+          url: '/api/materials/saveBillMaterial',
           data: dataMaterial,
           contentType: false,
           cache: false,

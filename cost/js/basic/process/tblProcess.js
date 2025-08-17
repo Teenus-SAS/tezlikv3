@@ -100,7 +100,7 @@ $(document).ready(function () {
 
         $.ajax({
           type: "POST",
-          url: "/api/saveRouteProcess",
+          url: "/api/process/saveRouteProcess",
           data: { data: copy },
           success: function (resp) {
             message(resp);

@@ -9,9 +9,9 @@ $(document).ready(function () {
         $('.cardAddNewProduct').toggle(800);
         $('#btnAddProduct').html('Asignar');
         $('#units2').empty();
-        
+
         sessionStorage.removeItem('id_composite_product');
-        
+
         $('.inputs').css('border-color', '');
         $('#formAddNewProduct').trigger('reset');
     });
@@ -22,7 +22,7 @@ $(document).ready(function () {
         let data = JSON.parse(sessionStorage.getItem('dataUnits'));
 
         let filterData = data.filter(item => item.unit == 'UNIDAD');
-        
+
         let $select = $(`#unit2`);
         $select.empty();
         $select.append(`<option disabled>Seleccionar</option>`);
@@ -52,12 +52,12 @@ $(document).ready(function () {
 
         if (idCompositeProduct == '' || idCompositeProduct == null) {
             checkDataProducts(
-                '/api/addCompositeProduct',
+                '/api/subproducts/addCompositeProduct',
                 idCompositeProduct
             );
         } else {
             checkDataProducts(
-                '/api/updateCompositeProduct',
+                '/api/subproducts/updateCompositeProduct',
                 idCompositeProduct
             );
         }
@@ -81,11 +81,11 @@ $(document).ready(function () {
         $('#quantityCP').val(data.quantity);
         $('#wasteCP').val(data.waste);
 
-        $('#wasteCP').click(); 
+        $('#wasteCP').click();
         data = JSON.parse(sessionStorage.getItem('dataUnits'));
 
         let filterData = data.filter(item => item.unit == 'UNIDAD');
-        
+
         let $select = $(`#unit2`);
         $select.empty();
         $select.append(`<option disabled>Seleccionar</option>`);
@@ -140,7 +140,7 @@ $(document).ready(function () {
         //     toastr.error('Ingrese todos los campos');
         //     return false;
         // }
-      
+
         if (ref == idProduct) {
             $('#compositeProduct').css('border-color', 'red');
             toastr.error('Seleccione un producto compuesto diferente');

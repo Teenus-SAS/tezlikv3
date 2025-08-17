@@ -3,7 +3,7 @@ $(document).ready(function () {
     e.preventDefault();
     let id = this.value;
 
-    let data = await searchData(`/api/productCost/${id}`);
+    let data = await searchData(`/api/products/productCost/${id}`);
 
     data.sale == '0' ? price = parseFloat(data.price) : price = parseFloat(data.sale_price);
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
     $('#pricesList').empty();
 
     $('#pricesList').append('<option disabled selected>Seleccionar</option>');
-    
+
     for (let i = 0; i < data.id_price_list.length; i++) {
       $('#pricesList').append(
         `<option value = ${data.id_price_list[i]}> ${data.price_names[i]} </option>`
@@ -81,7 +81,7 @@ $(document).ready(function () {
     op_price_list = true;
 
     $('.cardCreateCustomPrices').show(800);
-    
+
     $('#btnCreateCustomPrice').html('Actualizar');
 
     $('html, body').animate(
@@ -198,11 +198,11 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('#fileCustom').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
-    
+
     if (data.success == true) {
       $('.cardCreateCustomPrices').hide(800);
       $('.cardImportCustom').hide(800);

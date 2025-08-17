@@ -54,9 +54,9 @@ $(document).ready(function () {
         if (flag_composite_product == '0')
           // expectedHeaders = ['referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas', ];
           expectedHeaders.splice(expectedHeaders.length - 1, 1);
-        if(idUser !='1')
+        if (idUser != '1')
           expectedHeaders.splice(0, 1);
-        
+
         const actualHeaders = data.actualHeaders;
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -68,14 +68,14 @@ $(document).ready(function () {
           toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
           return false;
         }
-        
+
         let productsToImport = arr.map((item) => {
           let salePrice = '';
 
           if (item.precio_venta)
             salePrice = item.precio_venta.toString().replace('.', ',');
 
-          let dataImport = { 
+          let dataImport = {
             referenceProduct: item.referencia,
             product: item.producto,
             salePrice: salePrice,
@@ -102,7 +102,7 @@ $(document).ready(function () {
               active: item.activo,
             };
           }
-          
+
           return dataImport;
         });
 
@@ -117,13 +117,13 @@ $(document).ready(function () {
   const checkProduct = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/productsDataValidation',
+      url: '/api/products/productsDataValidation',
       data: { importProducts: data },
       success: function (resp) {
         if (resp.reload) {
           location.reload();
         }
-        
+
         if (resp.error == true) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
@@ -164,7 +164,7 @@ $(document).ready(function () {
   const saveProductTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addProducts',
+      url: '/api/products/addProducts',
       data: { importProducts: data },
       success: function (r) {
         message(r);
@@ -176,10 +176,10 @@ $(document).ready(function () {
   $('#btnDownloadImportsProducts').click(function (e) {
     e.preventDefault();
 
-    let url = idUser == '1' ? 'assets/formatsXlsx/Productos(Admin).xlsx':'assets/formatsXlsx/Productos.xlsx';
+    let url = idUser == '1' ? 'assets/formatsXlsx/Productos(Admin).xlsx' : 'assets/formatsXlsx/Productos.xlsx';
 
-    if(flag_composite_product == '1'){
-      url = idUser == '1' ? 'assets/formatsXlsx/Productos(Compuesto-Admin).xlsx': 'assets/formatsXlsx/Productos(Compuesto).xlsx';
+    if (flag_composite_product == '1') {
+      url = idUser == '1' ? 'assets/formatsXlsx/Productos(Compuesto-Admin).xlsx' : 'assets/formatsXlsx/Productos(Compuesto).xlsx';
     }
 
     let newFileName = 'Productos.xlsx';

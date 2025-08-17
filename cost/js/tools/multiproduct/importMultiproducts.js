@@ -52,7 +52,7 @@ $(document).ready(function () {
         if (data.reload) {
           location.reload();
         }
-        
+
         if (resp.error == true) {
           toastr.error(resp.message);
           $('#fileMultiproducts').val('');
@@ -120,7 +120,7 @@ $(document).ready(function () {
     multiproductsToImport[0].expense = expenseAsignation;
     $.ajax({
       type: 'POST',
-      url: '/api/addMultiproduct',
+      url: '/api/multiproducts/addMultiproduct',
       data: { importMultiproducts: multiproductsToImport },
       success: function (r) {
         if (r.success == true) {

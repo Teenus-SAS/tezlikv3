@@ -78,7 +78,7 @@ $(document).ready(function () {
   saveCategoryTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addCategory',
+      url: '/api/categories/addCategory',
       data: { importCategories: data },
       success: function (r) {
         /* Mensaje de exito */

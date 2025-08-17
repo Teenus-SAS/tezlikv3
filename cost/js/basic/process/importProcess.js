@@ -79,13 +79,13 @@ $(document).ready(function () {
   const checkProcess = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/processDataValidation',
+      url: '/api/process/processDataValidation',
       data: { importProcess: data },
       success: function (resp) {
         if (resp.reload) {
           location.reload();
         }
-        
+
         if (resp.error == true) {
           $('#fileProcess').val('');
           $('.cardLoading').remove();
@@ -125,7 +125,7 @@ $(document).ready(function () {
   const saveProcessTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addProcess',
+      url: '/api/process/addProcess',
       data: { importProcess: data },
       success: function (r) {
         message(r);

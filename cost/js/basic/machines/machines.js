@@ -21,9 +21,9 @@ $(document).ready(function () {
     e.preventDefault();
     let idMachine = sessionStorage.getItem('id_machine');
     if (idMachine == '' || idMachine == null) {
-      checkDataMachines('/api/addMachines', idMachine);
+      checkDataMachines('/api/machines/addMachines', idMachine);
     } else {
-      checkDataMachines('/api/updateMachines', idMachine);
+      checkDataMachines('/api/machines/updateMachines', idMachine);
     }
   });
 
@@ -38,17 +38,17 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblMachines.fnGetData(row);
 
-    $('#machine').val(data.machine); 
+    $('#machine').val(data.machine);
     $('#costMachine').val(data.cost);
     $('#residualValue').val(data.residual_value);
     $('#depreciationYears').val(data.years_depreciation);
 
     $('#hoursMachine').val(data.hours_machine);
     $('#daysMachine').val(data.days_machine);
-    
+
     $('#ciclesMachine').val(data.cicles_machine);
     $('#cavities').val(data.cavities);
-    
+
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -73,7 +73,7 @@ $(document).ready(function () {
     daysMachine = parseFloat(daysMachine);
 
     let data = costMachine * yearsDepreciation * hoursMachine * daysMachine;
-    
+
     if (inyection == 1)
       data = data * ciclesMachine * cavities;
 
@@ -132,8 +132,7 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '../../api/deleteMachine',
+          $.post('/api/machines/deleteMachine',
             dataMachine,
             function (data, textStatus, jqXHR) {
               message(data);
@@ -149,12 +148,12 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileMachines').val('');
-    
-    if (data.success == true) { 
+
+    if (data.success == true) {
       $('.cardImportMachines').hide(800);
       $('#formImportMachines').trigger('reset');
       $('.cardCreateMachines').hide(800);

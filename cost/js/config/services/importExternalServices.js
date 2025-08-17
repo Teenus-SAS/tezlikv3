@@ -42,7 +42,7 @@ $(document).ready(function () {
       .then(async (data) => {
         let arr = data.rowObject;
 
-         if (arr.length == 0) {
+        if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileExternalServices').val('');
@@ -63,21 +63,21 @@ $(document).ready(function () {
           toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
           return false;
         }
- 
+
         let resp = await validateDataSX(arr);
-          checkExternalService(resp.externalServiceToImport, resp.debugg);
+        checkExternalService(resp.externalServiceToImport, resp.debugg);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
       });
   });
 
-  /* Validar data */ 
+  /* Validar data */
   const validateDataSX = async (data) => {
     let externalServiceToImport = [];
-    let debugg = []; 
+    let debugg = [];
 
-    const dataProducts = JSON.parse(sessionStorage.getItem('dataProducts')); 
+    const dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
 
     for (let i = 0; i < data.length; i++) {
       let arr = data[i];
@@ -126,7 +126,7 @@ $(document).ready(function () {
   const checkExternalService = (data, debugg) => {
     $.ajax({
       type: 'POST',
-      url: '/api/externalServiceDataValidation',
+      url: '/api/dataSheetServices/externalServiceDataValidation',
       data: {
         importExternalService: data,
         debugg: debugg
@@ -209,9 +209,9 @@ $(document).ready(function () {
   const saveExternalServiceTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addExternalService',
+      url: '/api/dataSheetServices/addExternalService',
       data: { importExternalService: data },
-      success: function (r) { 
+      success: function (r) {
         messageServices(r);
       },
     });
@@ -219,7 +219,7 @@ $(document).ready(function () {
 
   /* Descargar formato */
   $('#btnDownloadImportsExternalServices').click(function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
 
     let url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
 
@@ -231,6 +231,6 @@ $(document).ready(function () {
     link.click();
 
     document.body.removeChild(link);
-    delete link; 
+    delete link;
   });
 });

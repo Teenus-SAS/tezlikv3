@@ -9,7 +9,7 @@ $(document).ready(function () {
     //   dataSrc: '',
     // },
     ajax: function (data, callback, settings) {
-      fetch(`/api/units`)
+      fetch(`/api/measurements/units`)
         .then(response => response.json())
         .then(data => {
           // Si el servidor indica recargar la página

@@ -2,10 +2,6 @@ $(document).ready(function () {
   /* Cargue tabla de Lista de precios */
   tblPricesList = $('#tblPricesList').dataTable({
     pageLength: 50,
-    // ajax: {
-    //   url: '../../api/priceList',
-    //   dataSrc: '',
-    // },
     headerCallback: function (thead, data, start, end, display) {
       $(thead).find("th").css({
         "background-color": "#386297",

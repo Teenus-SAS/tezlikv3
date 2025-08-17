@@ -15,11 +15,11 @@ $(document).ready(function () {
 
     let display = $('.cardAddService').css('display');
     let dataGServices = JSON.parse(sessionStorage.getItem('dataGServices'));
-    
+
     if (display == 'none' && !dataGServices) {
       await loadAllDataGServices(2);
     };
-    
+
     $('.cardAddService').toggle(800);
     sessionStorage.removeItem('id_service');
     $('.inputs').css('border-color', '');
@@ -39,31 +39,31 @@ $(document).ready(function () {
     let idService = sessionStorage.getItem('id_service');
 
     if (idService == '' || idService == null) {
-      checkDataServices('/api/addExternalService', idService);
+      checkDataServices('/api/dataSheetServices/addExternalService', idService);
     } else {
-      checkDataServices('/api/updateExternalService', idService);
+      checkDataServices('/api/dataSheetServices/updateExternalService', idService);
     }
   });
 
-   /* Cargar información de servicios generales */
-  $('#generalServices').change(function (e) { 
+  /* Cargar información de servicios generales */
+  $('#generalServices').change(function (e) {
     e.preventDefault();
 
     let dataServices = JSON.parse(sessionStorage.getItem('dataGServices'));
 
     let data = dataServices.find(item => item.id_general_service == this.value);
-    $('#service').val(data.name_service); 
+    $('#service').val(data.name_service);
     $('#costService').val(data.cost);
   });
 
   /* Actualizar servicio */
 
-  $(document).on('click', '.updateExternalService',async function (e) {
+  $(document).on('click', '.updateExternalService', async function (e) {
     $('.cardImportExternalServices').hide(800);
     $('.inputs').css('border-color', '');
-    
+
     let dataGServices = JSON.parse(sessionStorage.getItem('dataGServices'));
-    
+
     if (!dataGServices) {
       await loadAllDataGServices(2);
     };
@@ -76,9 +76,9 @@ $(document).ready(function () {
 
     sessionStorage.setItem('id_service', data.id_service);
 
-    $('#service').val(data.name_service); 
+    $('#service').val(data.name_service);
     $('#costService').val(data.cost);
-    $(`#generalServices option[value=${data.id_general_service}]`).prop('selected', true); 
+    $(`#generalServices option[value=${data.id_general_service}]`).prop('selected', true);
 
     $('html, body').animate(
       {
@@ -92,15 +92,15 @@ $(document).ready(function () {
     let emptyInputs = [];
 
     let service = $('#service').val();
-    let costService = parseFloat($('#costService').val());  
+    let costService = parseFloat($('#costService').val());
 
     // Verificar cada campo y agregar los vacíos a la lista
     if (!service) {
-      emptyInputs.push('#service'); 
+      emptyInputs.push('#service');
     }
     if (!costService) {
       emptyInputs.push('#costService');
-    } 
+    }
 
     // Marcar los campos vacíos con borde rojo
     emptyInputs.forEach(function (selector) {
@@ -126,7 +126,7 @@ $(document).ready(function () {
     let idProduct = parseInt($('#selectNameProduct').val());
     // let service = $('#service').val();
     // let cost = parseFloat($('#costService').val());
-    let generalServices = parseFloat($('#generalServices').val());  
+    let generalServices = parseFloat($('#generalServices').val());
     isNaN(generalServices) ? generalServices = 0 : generalServices;
 
     // cost = parseFloat(strReplaceNumber(cost));
@@ -178,7 +178,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.post(
-            '../../api/deleteExternalService',
+            '/api/dataSheetServices/deleteExternalService',
             dataExternalService,
             function (data, textStatus, jqXHR) {
               messageServices(data);
@@ -195,11 +195,11 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileExternalServices').val('');
-    
+
     if (data.success == true) {
       $('.cardImportExternalServices').hide(800);
       $('#formImportExternalServices').trigger('reset');

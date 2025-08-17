@@ -46,7 +46,7 @@ $(document).ready(function () {
       /* Materia Prima */
       let dataMaterials = await searchData('/api/materials');
       if (dataMaterials.length > 0) {
-        data = []; 
+        data = [];
 
         dataMaterials.forEach(item => {
           let baseData = {
@@ -144,7 +144,7 @@ $(document).ready(function () {
 
       if (execute == false) return false;
       /* Productos Materiales */
-      let dataProductsMaterials = await searchData('/api/allProductsMaterials');
+      let dataProductsMaterials = await searchData('/api/dataSheetMaterials/allProductsMaterials');
       if (dataProductsMaterials.length > 0) {
         data = [];
 
@@ -165,7 +165,7 @@ $(document).ready(function () {
 
         /* Productos Compuestos */
         if (flag_composite_product == '1') {
-          let dataCompositeProduct = await searchData('/api/allCompositeProducts');
+          let dataCompositeProduct = await searchData('/api/subproducts/allCompositeProducts');
           if (dataCompositeProduct.length > 0) {
             let data1 = [];
 
@@ -185,7 +185,7 @@ $(document).ready(function () {
                 tipo: 'PRODUCTO',
               });
             }
- 
+
             data = [...data, ...data1];
           }
         }
@@ -196,12 +196,12 @@ $(document).ready(function () {
 
       if (execute == false) return false;
       /* Productos Procesos */
-      let dataProductsProcess = await searchData('/api/allProductsProcess');
+      let dataProductsProcess = await searchData('/api/dataSheetProcess/allProductsProcess');
       /* Nomina */
       let dataPayroll = await searchData('/api/payroll');
 
       if (dataProductsProcess.length > 0) {
-        data = []; 
+        data = [];
 
         for (i = 0; i < dataProductsProcess.length; i++) {
           if (flag_employee == '1' && dataProductsProcess[i].employee != '') {
@@ -216,7 +216,7 @@ $(document).ready(function () {
             });
 
             str_name_employees = arr_name_employees.join(',');
-            
+
             data.push({
               referencia_producto: dataProductsProcess[i].reference,
               producto: dataProductsProcess[i].product,
@@ -270,7 +270,7 @@ $(document).ready(function () {
 
       if (execute == false) return false;
       /* Servicios */
-      let dataServices = await searchData('/api/allExternalservices');
+      let dataServices = await searchData('/api/dataSheetServices/allExternalservices');
       if (dataServices.length > 0) {
         data = [];
 
@@ -288,7 +288,7 @@ $(document).ready(function () {
       }
 
       if (execute == false) return false;
-      
+
       if (dataPayroll.length > 0) {
         data = [];
 
@@ -333,7 +333,7 @@ $(document).ready(function () {
       }
 
       if (execute == false) return false;
-       
+
       data = [];
       let url, op;
 
@@ -441,7 +441,7 @@ $(document).ready(function () {
           XLSX.utils.book_append_sheet(wb, ws, 'Distribucion de Gastos Anuales');
         }
       }
- 
+
       $('.loading').hide(800);
       document.body.style.overflow = '';
       execute = true;
@@ -454,7 +454,7 @@ $(document).ready(function () {
 
   $('.close-btn').click(function (e) {
     e.preventDefault();
-    
+
     $('.loading').hide(800);
     document.body.style.overflow = '';
     execute = false;

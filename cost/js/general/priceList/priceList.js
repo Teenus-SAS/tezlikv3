@@ -22,9 +22,9 @@ $(document).ready(function () {
     let idPriceList = sessionStorage.getItem('id_price_list');
 
     if (idPriceList == '' || idPriceList == null) {
-      checkDataPricesList('/api/addPriceList', idPriceList);
+      checkDataPricesList('/api/priceList/addPriceList', idPriceList);
     } else {
-      checkDataPricesList('/api/updatePriceList', idPriceList);
+      checkDataPricesList('/api/priceList/updatePriceList', idPriceList);
     }
   });
 
@@ -91,8 +91,7 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.get(
-            `../../api/deletePriceList/${id_price_list}`,
+          $.get(`/api/priceList/deletePriceList/${id_price_list}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }

@@ -24,7 +24,7 @@ $(document).ready(function () {
 
   loadAllDataServices = async (id) => {
     try {
-      const services = await searchData(`/api/externalServices/${id}`);
+      const services = await searchData(`/api/dataSheetServices/externalServices/${id}`);
 
       sessionStorage.setItem('dataServices', JSON.stringify(services));
       // dataServices = services;

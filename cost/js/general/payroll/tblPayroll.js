@@ -8,7 +8,7 @@ $(document).ready(function () {
         searchData('/api/payroll'),
         searchData('/api/salarynet'),
         searchData('/api/process'),
-        searchData('/api/allProductsProcess'),
+        searchData('/api/dataSheetProcess/allProductsProcess'),
       ]);
 
       sessionStorage.setItem('dataCost', JSON.stringify(dataCost));

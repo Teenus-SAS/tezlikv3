@@ -245,7 +245,7 @@ const checkProduct = (data, insert, update) => {
 const saveMaterialTable = (data) => {
   $.ajax({
     type: 'POST',
-    url: '../api/addMaterials',
+    url: '/api/materials/addMaterials',
     data: { importMaterials: data },
     success: function (r) {
       messageMaterials(r);

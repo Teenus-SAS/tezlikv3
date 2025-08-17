@@ -117,7 +117,7 @@ $(document).ready(function () {
       );
     });
   };
-  
+
   /* Ocultar panel crear producto */
   $('.cardAddMaterials').hide();
 
@@ -129,15 +129,15 @@ $(document).ready(function () {
     $('.cardAddNewProduct').hide(800);
     $('#btnAddMaterials').html('Asignar');
     $('#units').empty();
-    
+
     let display = $('.cardAddMaterials').css('display');
     let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
-    
+
     if (display == 'none' && !dataMaterials) {
       await loadDataMaterial(1, '/api/selectMaterials');
       await getSelectCategories();
     };
-      
+
     $('.cardAddMaterials').toggle(800);
     let categories = JSON.parse(sessionStorage.getItem('dataCategories'));
 
@@ -199,12 +199,12 @@ $(document).ready(function () {
 
     if (idProductMaterial == '' || idProductMaterial == null) {
       checkDataProductsMaterials(
-        '/api/addProductsMaterials',
+        '/api/dataSheetMaterials/addProductsMaterials',
         idProductMaterial
       );
     } else {
       checkDataProductsMaterials(
-        '/api/updateProductsMaterials',
+        '/api/dataSheetMaterials/updateProductsMaterials',
         idProductMaterial
       );
     }
@@ -219,7 +219,7 @@ $(document).ready(function () {
     $('.categories').hide(800);
 
     let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
-    
+
     if (!dataMaterials) {
       await loadDataMaterial(1, '/api/selectMaterials');
       await getSelectCategories();
@@ -269,7 +269,7 @@ $(document).ready(function () {
   function validateForm() {
     let emptyInputs = [];
     let refMaterial = parseInt($('#refMaterial').val());
-    let units = parseInt($('#units').val()); 
+    let units = parseInt($('#units').val());
     let quantity = parseFloat($('#quantityMP').val());
 
     // Verificar cada campo y agregar los vacíos a la lista
@@ -323,15 +323,15 @@ $(document).ready(function () {
       toastr.error('La cantidad debe ser mayor a cero (0)');
       return false;
     }
-    
+
     let dataProductMaterial = new FormData(formAddMaterials);
     dataProductMaterial.append('idProduct', idProduct);
-    
+
     if (idProductMaterial != '' || idProductMaterial != null)
       dataProductMaterial.append('idProductMaterial', idProductMaterial);
-    
+
     let resp = await sendDataPOST(url, dataProductMaterial);
-    
+
     // $('.inputs').css('border-color', '');
     messageMaterials(resp);
   };
@@ -349,17 +349,16 @@ $(document).ready(function () {
     if (op == '1') {
       let idProductMaterial = data.id_product_material;
       dataP['idProductMaterial'] = idProductMaterial;
-      url = '/api/deleteProductMaterial';
+      url = '/api/dataSheetMaterials/deleteProductMaterial';
     } else {
       dataP['idCompositeProduct'] = data.id_composite_product;
-      url = '/api/deleteCompositeProduct';
+      url = '/api/subproducts/deleteCompositeProduct';
     }
 
     bootbox.confirm({
       title: 'Eliminar',
-      message: `Está seguro de eliminar ${
-        op == '1' ? 'esta Materia prima' : 'este Producto Compuesto'
-      }? Esta acción no se puede reversar.`,
+      message: `Está seguro de eliminar ${op == '1' ? 'esta Materia prima' : 'este Producto Compuesto'
+        }? Esta acción no se puede reversar.`,
       buttons: {
         confirm: {
           label: 'Si',
@@ -386,11 +385,11 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileProductsMaterials').val('');
-    
+
     if (data.success) {
       $('.cardImportProductsMaterials').hide(800);
       $('#formImportProductMaterial').trigger('reset');
@@ -401,7 +400,7 @@ $(document).ready(function () {
 
       $('#formAddMaterials').trigger('reset');
       let idProduct = $('#selectNameProduct').val();
-      if(idProduct)
+      if (idProduct)
         loadAllDataMaterials(idProduct);
 
       toastr.success(data.message);
@@ -419,7 +418,7 @@ $(document).ready(function () {
     /* Materiales */
     let data = [];
     let arr = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
-    
+
     if (flag_composite_product == '1') {
       let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
 
@@ -430,7 +429,7 @@ $(document).ready(function () {
         item['reference_product'] = refProduct;
         item['product'] = nameProduct;
       });
-      
+
       arr = [...arr, ...dataCompositeProduct];
     }
 
@@ -459,11 +458,11 @@ $(document).ready(function () {
 
     /* Procesos */
     data = [];
-    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess')); 
+    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
 
     arr = dataProductProcess.filter((item) => item.id_product == id_product);
     if (arr.length > 0) {
-      for (i = 0; i < arr.length; i++) { 
+      for (i = 0; i < arr.length; i++) {
         if (flag_employee == '1' && arr[i].employee != '') {
           let str_name_employees = '';
           let dataPayroll = sessionStorage.getItem('dataPayroll');
@@ -472,7 +471,7 @@ $(document).ready(function () {
             dataPayroll = await searchData('/api/basicPayroll');
             sessionStorage.setItem('dataPayroll', JSON.stringify(dataPayroll));
           }
-          
+
           let employees = arr[i].employee.toString().split(',');
           let arr_name_employees = [];
 
@@ -505,7 +504,7 @@ $(document).ready(function () {
             eficiencia: arr[i].efficiency,
             maquina_autonoma: arr[i].auto_machine,
           });
-          
+
         }
       }
 

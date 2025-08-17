@@ -91,220 +91,19 @@ $(document).ready(function () {
       });
   });
 
-  /* Validar Data */
- /*  const validateDataFTM = async (data) => {
-    let productMaterialsToImport = [];
-    let debugg = [];
-
-    const dataProducts = JSON.parse(sessionStorage.getItem("dataProducts"));
-    let dataMaterials = JSON.parse(sessionStorage.getItem("dataMaterials"));
-
-    for (let i = 0; i < data.length; i++) {
-      let arr = data[i];
-
-      let quantity = arr.cantidad > 0 ? arr.cantidad.toString() : "";
-      let waste = arr.desperdicio >= 0 ? arr.desperdicio.toString() : "";
-
-      !arr.referencia_producto
-        ? (arr.referencia_producto = "")
-        : arr.referencia_producto;
-      !arr.producto ? (arr.producto = "") : arr.producto;
-      !arr.referencia_material
-        ? (arr.referencia_material = "")
-        : arr.referencia_material;
-      !arr.material ? (arr.material = "") : arr.material;
-      !arr.magnitud ? (arr.magnitud = "") : arr.magnitud;
-      !arr.unidad ? (arr.unidad = "") : arr.unidad;
-      !arr.tipo ? (arr.tipo = "") : arr.tipo;
-
-      if (
-        !arr.referencia_producto ||
-        !arr.producto ||
-        !arr.referencia_material ||
-        !arr.material ||
-        !arr.magnitud ||
-        !arr.unidad ||
-        quantity.trim() === "" ||
-        waste.trim() === "" ||
-        !arr.tipo ||
-        !arr.referencia_producto.toString().trim() ||
-        !arr.producto.toString().trim() ||
-        !arr.referencia_material.toString().trim() ||
-        !arr.material.toString().trim() ||
-        !arr.magnitud.toString().trim() ||
-        !arr.unidad.toString().trim() ||
-        !arr.tipo.toString().trim()
-      ) {
-        debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
-      }
-
-      let valQuantity = parseFloat(quantity.replace(",", ".")) * 1;
-      if (isNaN(valQuantity) || valQuantity <= 0) {
-        debugg.push({
-          message: `La cantidad debe ser mayor a cero (0). Fila: ${i + 2}`,
-        });
-      }
-
-      let product = dataProducts.find(
-        (item) =>
-          item.reference == arr.referencia_producto.toString().trim() &&
-          item.product == arr.producto.toString().toUpperCase().trim()
-      );
-
-      if (!product) {
-        debugg.push({
-          message: `Producto no existe en la base de datos. Fila: ${i + 2}`,
-        });
-        product = { id_product: "" };
-      }
-
-      productMaterialsToImport.push({
-        referenceProduct: arr.referencia_producto,
-        product: arr.producto,
-        refRawMaterial: arr.referencia_material,
-        nameRawMaterial: arr.material,
-        magnitude: arr.magnitud,
-        unit: arr.unidad,
-        quantity: quantity,
-        waste: waste,
-        type: arr.tipo,
-      });
-
-      let type = arr.tipo.toUpperCase().trim();
-
-      switch (type) {
-        case "MATERIAL": */
-          /* if (!dataMaterials) {
-            await loadDataMaterial(1, "/api/selectMaterials");
-            dataMaterials = JSON.parse(sessionStorage.getItem("dataMaterials"));
-          }
-
-          let material = dataMaterials.find(
-            (item) =>
-              item.reference == arr.referencia_material.toString().trim() &&
-              item.material == arr.material.toString().toUpperCase().trim()
-          );
-
-          if (!material) {
-            debugg.push({
-              message: `Materia prima no existe en la base de datos. Fila: ${
-                i + 2
-              }`,
-            });
-          } else {
-            productMaterialsToImport[i]["idProduct"] = product.id_product;
-            productMaterialsToImport[i]["material"] = material.id_material;
-          } */
-          /* try { */
-            // Verifica si `dataMaterials` ya está cargado
-            /* if (!dataMaterials) {
-              await loadDataMaterial(1, "/api/selectMaterials");
-              dataMaterials = JSON.parse(
-                sessionStorage.getItem("dataMaterials")
-              );
-            }
- */
-            // Valida que `dataMaterials` se haya cargado correctamente
-            /* if (!dataMaterials || !Array.isArray(dataMaterials)) {
-              debugg.push({
-                message:
-                  "Error al cargar los materiales desde la base de datos.",
-              });
-              break;
-            }
- */
-            // Normaliza las propiedades para comparar
-            /* const referencia = arr.referencia_material?.toString().trim();
-            const materialName = arr.material?.toString().toUpperCase().trim(); */
-
-            // Busca el material en la lista cargada
-           /*  const material = dataMaterials.find(
-              (item) =>
-                item.reference === referencia && item.material === materialName
-            ); */
-
-            // Valida si se encontró el material
-           /*  if (!material) {
-              debugg.push({
-                message: `Materia prima no existe en la base de datos. Fila: ${
-                  i + 2
-                }`,
-              });
-            } else { */
-              // Valida que `productMaterialsToImport[i]` existe
-             /*  if (!productMaterialsToImport[i]) {
-                productMaterialsToImport[i] = {};
-              }
-
-              productMaterialsToImport[i]["idProduct"] =
-                product?.id_product || null;
-              productMaterialsToImport[i]["material"] = material.id_material;
-            }
-          } catch (error) {
-            debugg.push({
-              message: `Error procesando la fila ${i + 2}: ${error.message}`,
-            });
-          }
-          break;
-
-        case "PRODUCTO": */
-          /*  let compositeProduct = dataProducts.find(item =>
-            item.reference == arr.referencia_material.toString().trim() &&
-            item.product == arr.material.toString().toUpperCase().trim()
-          ); */
-
-         /*  let reference = arr.referencia_material?.toString().trim();
-          let product = arr.material?.toString().toUpperCase().trim();
-
-          let compositeProduct = dataProducts.find(
-            (item) => item.reference === reference && item.product === product
-          );
-
-          if (!compositeProduct) {
-            debugg.push({
-              message: `Producto no existe en la base de datos. Fila: ${i + 2}`,
-            });
-          } else {
-            if (
-              typeof compositeProduct === "object" &&
-              !Array.isArray(compositeProduct) &&
-              compositeProduct !== null &&
-              compositeProduct.composite == 0
-            ) {
-              debugg.push({
-                message: `Producto no está definido como compuesto. Fila: ${
-                  i + 2
-                }`,
-              });
-            } else {
-              productMaterialsToImport[i]["idProduct"] = product.id_product;
-              productMaterialsToImport[i]["compositeProduct"] =
-                compositeProduct.id_product;
-            }
-          }
-          break;
-
-        default:
-          debugg.push({ message: `Tipo desconocido en la fila: ${i + 2}` });
-      }
-    }
-
-    return { productMaterialsToImport, debugg };
-  }; */
-
   const validateDataFTM = async (data) => {
     let productMaterialsToImport = [];
     let debugg = [];
-  
+
     const dataProducts = JSON.parse(sessionStorage.getItem("dataProducts"));
     let dataMaterials = JSON.parse(sessionStorage.getItem("dataMaterials"));
-  
+
     for (let i = 0; i < data.length; i++) {
       let arr = data[i];
-  
+
       let quantity = arr.cantidad > 0 ? arr.cantidad.toString() : "";
       let waste = arr.desperdicio >= 0 ? arr.desperdicio.toString() : "";
-  
+
       arr.referencia_producto = arr.referencia_producto || "";
       arr.producto = arr.producto || "";
       arr.referencia_material = arr.referencia_material || "";
@@ -312,7 +111,7 @@ $(document).ready(function () {
       arr.magnitud = arr.magnitud || "";
       arr.unidad = arr.unidad || "";
       arr.tipo = arr.tipo || "";
-  
+
       if (
         !arr.referencia_producto.toString().trim() ||
         !arr.producto.toString().trim() ||
@@ -327,27 +126,27 @@ $(document).ready(function () {
         debugg.push({ message: `Columna vacía en la fila: ${i + 2}` });
         continue;
       }
-  
+
       let valQuantity = parseFloat(quantity.replace(",", ".")) * 1;
       if (isNaN(valQuantity) || valQuantity <= 0) {
         debugg.push({
           message: `La cantidad debe ser mayor a cero (0). Fila: ${i + 2}`,
         });
       }
-  
+
       let product = dataProducts.find(
         (item) =>
           item.reference === arr.referencia_producto.toString().trim() &&
           item.product === arr.producto.toString().toUpperCase().trim()
       );
-  
+
       if (!product) {
         debugg.push({
           message: `Producto no existe en la base de datos. Fila: ${i + 2}`,
         });
         product = { id_product: "" };
       }
-  
+
       productMaterialsToImport.push({
         referenceProduct: arr.referencia_producto,
         product: arr.producto,
@@ -359,44 +158,43 @@ $(document).ready(function () {
         waste: waste,
         type: arr.tipo,
       });
-  
+
       let type = arr.tipo.toUpperCase().trim();
-  
+
       switch (type) {
         case "MATERIAL":
           try {
             if (!dataMaterials) {
-              await loadDataMaterial(1, "/api/selectMaterials");
+              await loadDataMaterial(1, "/api/materials/selectMaterials");
               dataMaterials = JSON.parse(sessionStorage.getItem("dataMaterials"));
             }
-  
+
             if (!dataMaterials || !Array.isArray(dataMaterials)) {
               debugg.push({
                 message: "Error al cargar los materiales desde la base de datos.",
               });
               break;
             }
-  
+
             const referencia = arr.referencia_material?.toString().trim();
             const materialName = arr.material?.toString().toUpperCase().trim();
-  
+
             const material = dataMaterials.find(
               (item) =>
                 item.reference === referencia &&
                 item.material === materialName
             );
-  
+
             if (!material) {
               debugg.push({
-                message: `Materia prima no existe en la base de datos. Fila: ${
-                  i + 2
-                }`,
+                message: `Materia prima no existe en la base de datos. Fila: ${i + 2
+                  }`,
               });
             } else {
               if (!productMaterialsToImport[i]) {
                 productMaterialsToImport[i] = {};
               }
-  
+
               productMaterialsToImport[i]["idProduct"] =
                 product?.id_product || null;
               productMaterialsToImport[i]["material"] = material.id_material;
@@ -407,18 +205,18 @@ $(document).ready(function () {
             });
           }
           break;
-  
+
         case "PRODUCTO":
           // Renombrar variable para evitar conflictos
           let compositeProductRef = arr.referencia_material?.toString().trim();
           let compositeProductName = arr.material?.toString().toUpperCase().trim();
-  
+
           let compositeProduct = dataProducts.find(
             (item) =>
               item.reference === compositeProductRef &&
               item.product === compositeProductName
           );
-  
+
           if (!compositeProduct) {
             debugg.push({
               message: `Producto no existe en la base de datos. Fila: ${i + 2}`,
@@ -431,9 +229,8 @@ $(document).ready(function () {
               compositeProduct.composite == 0
             ) {
               debugg.push({
-                message: `Producto no está definido como compuesto. Fila: ${
-                  i + 2
-                }`,
+                message: `Producto no está definido como compuesto. Fila: ${i + 2
+                  }`,
               });
             } else {
               productMaterialsToImport[i]["idProduct"] = product.id_product;
@@ -442,21 +239,21 @@ $(document).ready(function () {
             }
           }
           break;
-  
+
         default:
           debugg.push({ message: `Tipo desconocido en la fila: ${i + 2}` });
       }
     }
-  
+
     return { productMaterialsToImport, debugg };
   };
-  
+
 
   /* Mensaje de advertencia */
   const checkProductMaterial = (data, debugg) => {
     $.ajax({
       type: "POST",
-      url: "/api/productsMaterialsDataValidation",
+      url: "/api/dataSheetMaterials/productsMaterialsDataValidation",
       data: {
         importProductsMaterials: data,
         debugg: debugg,
@@ -547,7 +344,7 @@ $(document).ready(function () {
     // console.log(data);
     $.ajax({
       type: "POST",
-      url: "/api/addProductsMaterials",
+      url: "/api/dataSheetMaterials/addProductsMaterials",
       data: { importProductsMaterials: data },
       success: function (r) {
         $(".cardProducts").show(800);

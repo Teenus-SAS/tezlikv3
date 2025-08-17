@@ -47,7 +47,7 @@ $(document).ready(function () {
           toastr.error('Archivo vacio. Verifique nuevamente');
           return false;
         }
-        
+
         const expectedHeaders = ['maquina', 'costo', 'años_depreciacion', 'horas_maquina', 'dias_maquina'];
 
         const actualHeaders = data.actualHeaders;
@@ -66,9 +66,9 @@ $(document).ready(function () {
           let cost = '';
           let residualValue = '';
 
-          if(item.costo)
+          if (item.costo)
             cost = item.costo.toString().replace('.', ',');
-          if(item.residualValue)
+          if (item.residualValue)
             residualValue = item.valor_residual.toString().replace('.', ',');
 
           return {
@@ -91,7 +91,7 @@ $(document).ready(function () {
   const checkMachine = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/machinesDataValidation',
+      url: '/api/machines/machinesDataValidation',
       data: { importMachines: data },
       success: function (resp) {
         if (resp.reload) {
@@ -136,7 +136,7 @@ $(document).ready(function () {
   const saveMachineTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addMachines',
+      url: '/api/machines/addMachines',
       data: { importMachines: data },
       success: function (r) {
         message(r);

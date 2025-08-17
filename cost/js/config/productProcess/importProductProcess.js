@@ -164,9 +164,8 @@ $(document).ready(function () {
       let valOT = parseFloat(operationTime.replace(",", ".")) * 1;
       if (isNaN(valOT) || valOT <= 0) {
         debugg.push({
-          message: `El tiempo de operación debe ser mayor a cero (0). Fila: ${
-            i + 2
-          }`,
+          message: `El tiempo de operación debe ser mayor a cero (0). Fila: ${i + 2
+            }`,
         });
       }
 
@@ -230,7 +229,7 @@ $(document).ready(function () {
   const checkProductProcess = (data, debugg) => {
     $.ajax({
       type: "POST",
-      url: "/api/productsProcessDataValidation",
+      url: "/api/dataSheetProcess/productsProcessDataValidation",
       data: {
         importProductsProcess: data,
         debugg: debugg,
@@ -344,7 +343,7 @@ $(document).ready(function () {
   const saveProductProcessTable = (data) => {
     $.ajax({
       type: "POST",
-      url: "/api/addProductsProcess",
+      url: "/api/dataSheetProcess/addProductsProcess",
       data: { importProductsProcess: data },
       success: function (r) {
         messageProcess(r);

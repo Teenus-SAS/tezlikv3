@@ -14,12 +14,12 @@ $(document).ready(function () {
     $('.cardImportProductsProcess').hide(800);
     $('.employees').hide();
     $('#btnAddProcess').html('Asignar');
-    
+
     sessionStorage.removeItem('id_product_process');
     checkBoxEmployees = [''];
     let display = $('.cardAddProcess').css('display');
     let dataMachines = JSON.parse(sessionStorage.getItem('dataMachines'));
-    
+
     if (display == 'none' && !dataMachines) {
       await findSelectProcess();
       await getSelectMachine('/api/selectMachines');
@@ -28,7 +28,7 @@ $(document).ready(function () {
     $('.cardAddProcess').toggle(800);
 
     if (inyection == '1') $('#enlistmentTime').prop('readonly', true);
- 
+
     $('#btnEmployees').html('');
     $('#formAddProcess').trigger('reset');
     $('.inputs').css('border-color', '');
@@ -39,7 +39,7 @@ $(document).ready(function () {
   // if (flag_employee == '1') {
   $('#idProcess').change(async function (e) {
     e.preventDefault();
-    
+
     checkBoxEmployees = [''];
     let count_payroll = parseInt(
       $('#idProcess').find('option:selected').attr('class')
@@ -101,7 +101,7 @@ $(document).ready(function () {
     /* Mostrar operadores */
     $('#btnEmployees').click(function (e) {
       e.preventDefault();
-    
+
       let id_process = $('#idProcess').val();
 
       if (id_process) {
@@ -135,7 +135,7 @@ $(document).ready(function () {
           employees = checkBoxEmployees;
 
         let copyCheckBoxEmployees = [...checkBoxEmployees];
-    
+
         let options = data.map(payrollItem => {
           let checked = '';
           if (employees[0] == '') checked = 'checked';
@@ -183,25 +183,25 @@ $(document).ready(function () {
     let idProductProcess = sessionStorage.getItem('id_product_process');
 
     if (idProductProcess == '' || idProductProcess == null) {
-      checkDataProductsProcess('/api/addProductsProcess', idProductProcess);
+      checkDataProductsProcess('/api/dataSheetProcess/addProductsProcess', idProductProcess);
     } else {
-      checkDataProductsProcess('/api/updateProductsProcess', idProductProcess);
+      checkDataProductsProcess('/api/dataSheetProcess/updateProductsProcess', idProductProcess);
     }
   });
 
   /* Actualizar productos Procesos */
-  $(document).on('click', '.updateProcess',async function (e) {
+  $(document).on('click', '.updateProcess', async function (e) {
     $('.cardImportProductsProcess').hide(800);
     $('.checkMachine').hide();
     $('.inputs').css('border-color', '');
-    
+
     let dataMachines = JSON.parse(sessionStorage.getItem('dataMachines'));
-    
+
     if (!dataMachines) {
       await findSelectProcess();
       await getSelectMachine('/api/selectMachines');
     };
-    
+
     $('.cardAddProcess').show(800);
     $('#btnAddProcess').html('Actualizar');
 
@@ -251,15 +251,15 @@ $(document).ready(function () {
     $('#operationTime').val(data.operation_time);
     $('#efficiency').val(data.efficiency);
 
-    $('#enlistmentTime').click(); 
+    $('#enlistmentTime').click();
 
     if (data.auto_machine == 'SI') {
       $('#checkMachine').prop('checked', true);
     }
 
-    if(data.id_machine != 0)
-      $('.checkMachine').show();    
-    
+    if (data.id_machine != 0)
+      $('.checkMachine').show();
+
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -272,16 +272,16 @@ $(document).ready(function () {
     let emptyInputs = [];
 
     let refP = parseInt($('#idProcess').val());
-    let refM = parseInt($('#idMachine').val()); 
+    let refM = parseInt($('#idMachine').val());
 
     // Verificar cada campo y agregar los vacíos a la lista
     if (!refP) {
-      emptyInputs.push('#idProcess'); 
+      emptyInputs.push('#idProcess');
     }
 
     if (isNaN(refM)) {
       emptyInputs.push('#idMachine');
-    } 
+    }
 
     // Marcar los campos vacíos con borde rojo
     emptyInputs.forEach(function (selector) {
@@ -325,10 +325,10 @@ $(document).ready(function () {
 
     if (idMachine == '0') autoMachine = 0;
 
-    let employees = ''; 
+    let employees = '';
 
     flag_employee == '1' ? (employees = checkBoxEmployees.toString()) : (employees);
-    
+
     $.ajax({
       type: 'POST',
       url: url,
@@ -348,11 +348,11 @@ $(document).ready(function () {
       success: function (resp) {
         messageProcess(resp);
       }
-    });     
+    });
   };
 
   /* Eliminar proceso */
-  deleteProcess = (id) => { 
+  deleteProcess = (id) => {
     let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
     let data = dataProductProcess.find((item) => item.id_product_process == id);
 
@@ -379,7 +379,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.post(
-            '/api/deleteProductProcess',
+            '/api/dataSheetProcess/deleteProductProcess',
             dataProductProcess1,
             function (data, textStatus, jqXHR) {
               messageProcess(data);
@@ -390,7 +390,7 @@ $(document).ready(function () {
     });
   };
 
-  /* Modificar empleados */ 
+  /* Modificar empleados */
   $(document).on('click', '.checkboxEmployees', function () {
     // Obtener el ID del checkbox
     let id = $(this).attr('id');
@@ -416,7 +416,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('#fileProductsProcess').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
@@ -426,7 +426,7 @@ $(document).ready(function () {
       $('.cardImportProductsProcess').hide(800);
       $('#formImportProductProcess').trigger('reset');
       $('.cardAddProcess').hide(800);
-      $('.cardProducts').show(800); 
+      $('.cardProducts').show(800);
       $('#formAddProcess').trigger('reset');
       let idProduct = $('#selectNameProduct').val();
       if (idProduct)

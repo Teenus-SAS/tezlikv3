@@ -28,12 +28,12 @@ $(document).ready(function () {
 
   const changeStatusProduct = (id, op) => {
     $.ajax({
-      url: `/api/changeActiveProduct/${id}/${op}`,
+      url: `/api/products/changeActiveProduct/${id}/${op}`,
       success: function (data) {
         if (data.reload) {
           location.reload();
         }
-        
+
         if (data.success == true) {
           toastr.success(data.message);
           loadAllData();
@@ -155,9 +155,9 @@ $(document).ready(function () {
   $(document).on("click", ".checkInactiveProduct", async function () {
     let id = this.id;
     let idProduct = id.slice(8, id.length);
-    
+
     await changeStatusProduct(idProduct, 1);
-    
+
     // $(this).closest("tr").remove();
     var rowIndex = $(this).closest("tr").index();
 

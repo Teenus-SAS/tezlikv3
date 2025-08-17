@@ -144,7 +144,7 @@ $(document).ready(function () {
 
   loadAllDataProcess = async (id) => {
     try {
-      const productsProcess = await searchData(`/api/productsProcess/${id}`);
+      const productsProcess = await searchData(`/api/dataSheetProcess/productsProcess/${id}`);
 
       sessionStorage.setItem(
         "dataProductProcess",
@@ -387,7 +387,7 @@ $(document).ready(function () {
 
           $.ajax({
             type: "POST",
-            url: "/api/saveRouteProductProcess",
+            url: "/api/dataSheetProcess/saveRouteProductProcess",
             data: { data: copy },
             success: function (resp) {
               messageProcess(resp);
