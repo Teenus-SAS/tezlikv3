@@ -34,9 +34,9 @@ $(document).ready(function () {
     let idPayroll = sessionStorage.getItem('id_payroll');
 
     if (idPayroll == '' || idPayroll == null) {
-      checkDataPayroll('/api/addPayroll', idPayroll);
+      checkDataPayroll('/api/payroll/addPayroll', idPayroll);
     } else {
-      checkDataPayroll('/api/updatePayroll', idPayroll);
+      checkDataPayroll('/api/payroll/updatePayroll', idPayroll);
     }
   });
 
@@ -108,13 +108,7 @@ $(document).ready(function () {
       let factor = parseFloat($('#factor').val());
       let risk = parseFloat($('#risk').val());
 
-      // salary = parseFloat(strReplaceNumber(salary));
       basicSalary = salary;
-      // transport = parseFloat(strReplaceNumber(transport));
-      // endowment = parseFloat(strReplaceNumber(endowment));
-      // extraTime = parseFloat(strReplaceNumber(extraTime));
-      // bonification = parseFloat(strReplaceNumber(bonification));
-      // factor = parseFloat(factor);
 
       isNaN(transport) ? (transport = 0) : transport;
       isNaN(endowment) ? (endowment = 0) : endowment;
@@ -154,7 +148,7 @@ $(document).ready(function () {
           sessionStorage.getItem('salary') || $('#basicSalary').val()
         )
       );
-  
+
       dataPayroll.append('salary', salary);
     }
 
@@ -183,24 +177,24 @@ $(document).ready(function () {
     }
 
     let id_product_process = data.id_product_process.toString().split(",");
-    
+
     if (id_product_process[0] != 0) {
       let status = true;
-      
+
       for (let i = 0; i < id_product_process.length; i++) {
         let dataPProcess = allProductProcess.find(item => item.id_product_process == id_product_process[i]);
-        
+
         if (dataPProcess.employee != '') {
           let employee = dataPProcess.employee.toString().split(",");
           if (employee.length == 1) {
-            status = false; 
+            status = false;
             break;
           }
         }
       }
 
       if (status == false) {// Esa ficha de productos tiene solo a esa nomina asociada, si se elimina pasaria a hacer global el costo de la mano de obra
-        toastr.error('Nomina asociada directamente a ficha de productos.'); 
+        toastr.error('Nomina asociada directamente a ficha de productos.');
         return false;
       }
     }
@@ -210,8 +204,6 @@ $(document).ready(function () {
     dataPayroll['id_product_process'] = data.id_product_process;
 
     let employee = allPayroll.filter(item => item.employee == data.employee);
-    // dataPayroll['employee'] = data.employee;
-    // let resp = await searchData(`/api/checkEmployee/${data.employee}`);
 
     employee.length > 1 ? msg = '' : msg = 'Es el unico empleado de nomina.<br>';
 
@@ -233,7 +225,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.post(
-            '/api/deletePayroll',
+            '/api/payroll/deletePayroll',
             dataPayroll,
             function (data, textStatus, jqXHR) {
               message(data);
@@ -250,8 +242,6 @@ $(document).ready(function () {
 
     let allPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
     let allProcess = JSON.parse(sessionStorage.getItem('dataProcess'));
-    // let dataProcess = await searchData(`/api/process/${employee}`);
-    // let process = leaveUniqueKey(allProcess, 'id_process');
     let processByEmployee = allPayroll.filter(item => item.employee == employee);
 
     // Filtrar el primer array para eliminar los elementos que están en el segundo array
@@ -266,8 +256,6 @@ $(document).ready(function () {
       options += `<option value="${process[i].id_process}"> ${process[i].process} </option>`;
     }
 
-    // let row = $(this.activeElement).parent().parent()[0];
-    // let data = tblPayroll.fnGetData(row);
     let data = allPayroll.find(item => item.id_payroll == id);
 
     bootbox.confirm({
@@ -318,7 +306,7 @@ $(document).ready(function () {
           dataPayroll['salaryNet'] = data.salary_net;
 
           $.post(
-            '/api/copyPayroll',
+            '/api/payroll/copyPayroll',
             dataPayroll,
             function (data, textStatus, jqXHR) {
               message(data);
@@ -335,11 +323,11 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('#filePayroll').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
-    
+
     if (data.success == true) {
       $('.cardImportPayroll').hide(800);
       $('#formImportPayroll').trigger('reset');
@@ -351,7 +339,7 @@ $(document).ready(function () {
       $('#createPayroll').modal('hide');
       $('#formCreatePayroll').trigger('reset');
       loadAllTblData();
-      toastr.success(data.message); 
+      toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);

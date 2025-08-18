@@ -1,7 +1,7 @@
 $(document).ready(function () {
   /* Cargue tabla de Proyectos */
 
-  visible_cost_price = plan_cost_price === '1'; 
+  visible_cost_price = plan_cost_price === '1';
   visible_custom_price = plan_custom_price === '1';
   visible_analysis_material = plan_cost_analysis_material === '1';
   visible_economy_sale = plan_cost_economy_sale === '1' || flag_economy_scale === '1';
@@ -15,12 +15,8 @@ $(document).ready(function () {
 
   tblUsers = $("#tblUsers").dataTable({
     pageLength: 50,
-    // ajax: {
-    //   url: "/api/costUsersAccess",
-    //   dataSrc: "",
-    // },
     ajax: function (data, callback, settings) {
-      fetch(`/api/costUsersAccess`)
+      fetch(`/api/accessUsers/costUsersAccess`)
         .then(response => response.json())
         .then(data => {
           // Si el servidor indica recargar la página
@@ -94,7 +90,7 @@ $(document).ready(function () {
       },
       {
         title: "Maestros",
-        data: null, 
+        data: null,
         render: function (data, type, row) {
           const permissions = [];
 
@@ -152,7 +148,7 @@ $(document).ready(function () {
       },
       {
         title: "Configuración",
-        data: null, 
+        data: null,
         render: function (data, type, row) {
           const permissions = [];
 
@@ -193,7 +189,7 @@ $(document).ready(function () {
       },
       {
         title: "General",
-        data: null, 
+        data: null,
         render: function (data, type, row) {
           const permissions = [];
 
@@ -204,7 +200,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
- 
+
           permissions.push({
             name: "Gastos",
             icon: data.expense
@@ -212,7 +208,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: `${flag_expense == 2 ? 'Recuperación Gastos' : 'Distribución Gastos'}`,
             icon: data.expense_distribution
@@ -229,8 +225,8 @@ $(document).ready(function () {
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
             });
-          
-          if(flag_expense_anual == '1')
+
+          if (flag_expense_anual == '1')
             permissions.push({
               name: "Gastos Anuales",
               icon: data.anual_expense
@@ -252,7 +248,7 @@ $(document).ready(function () {
       },
       {
         title: "Cotización",
-        data: null, 
+        data: null,
         render: function (data, type, row) {
           const permissions = [];
 
@@ -293,7 +289,7 @@ $(document).ready(function () {
       },
       {
         title: "Administrador",
-        data: null, 
+        data: null,
         render: function (data, type, row) {
           const permissions = [];
 
@@ -303,7 +299,7 @@ $(document).ready(function () {
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
-          }); 
+          });
 
           permissions.push({
             name: "Usuarios",
@@ -311,7 +307,7 @@ $(document).ready(function () {
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
-          });          
+          });
 
           let output = '<div class="stacked-column" style="width:60px">';
           for (const permission of permissions) {
@@ -326,7 +322,7 @@ $(document).ready(function () {
       },
       {
         title: "Menu Navegación",
-        data: null, 
+        data: null,
         render: function (data, type, row) {
           const permissions = [];
 
@@ -337,7 +333,7 @@ $(document).ready(function () {
                 ? "bi bi-check-circle-fill text-success"
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
-            }); 
+            });
 
           if (visible_custom_price == true)
             permissions.push({
@@ -347,7 +343,7 @@ $(document).ready(function () {
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
             });
-          
+
           if (visible_quote == true)
             permissions.push({
               name: "Cotizacion",
@@ -356,7 +352,7 @@ $(document).ready(function () {
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
             });
-          
+
           if (visible_support == true)
             permissions.push({
               name: "Soporte",
@@ -379,7 +375,7 @@ $(document).ready(function () {
       },
       {
         title: "Herramientas",
-        data: null, 
+        data: null,
         render: function (data, type, row) {
           const permissions = [];
 
@@ -400,7 +396,7 @@ $(document).ready(function () {
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
             });
-          
+
           if (visible_sale_objectives == true)
             permissions.push({
               name: "Objetivos De Ventas",
@@ -409,7 +405,7 @@ $(document).ready(function () {
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
             });
-          
+
           if (visible_price_objectives == true)
             permissions.push({
               name: "Objetivos De Precios",
@@ -460,7 +456,7 @@ $(document).ready(function () {
       },
       {
         title: "Reportes",
-        data: null, 
+        data: null,
         render: function (data, type, row) {
           const permissions = [];
 

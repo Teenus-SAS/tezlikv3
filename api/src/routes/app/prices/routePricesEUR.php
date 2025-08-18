@@ -1,18 +1,10 @@
 <?php
 
-use tezlikv3\dao\GeneralMaterialsDao;
-use tezlikv3\dao\LicenseCompanyDao;
-use tezlikv3\dao\MaterialsDao;
-use tezlikv3\Dao\PriceEURDao;
-use tezlikv3\dao\ProductsDao;
-use tezlikv3\Dao\TrmDao;
-
-$trmDao = new TrmDao();
-$priceEURDao = new PriceEURDao();
-$productsDao = new ProductsDao();
-$materialsDao = new MaterialsDao();
-$generalMaterialsDao = new GeneralMaterialsDao();
-$licenceCompanyDao = new LicenseCompanyDao();
+use tezlikv3\dao\{
+    LicenseCompanyDao,
+    PriceEURDao,
+    ProductsDao
+};
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -22,13 +14,12 @@ use App\Middleware\SessionMiddleware;
 
 /* Consultar Euro actual */
 
-$app->get('/priceEUR/{coverage_eur}', function (Request $request, Response $response, $args) use (
-    $licenceCompanyDao,
-    $priceEURDao,
-    $productsDao,
-    $generalMaterialsDao,
-    $trmDao
-) {
+$app->get('/priceEUR/{coverage_eur}', function (Request $request, Response $response, $args) {
+
+    $priceEURDao = new PriceEURDao();
+    $productsDao = new ProductsDao();
+    $licenceCompanyDao = new LicenseCompanyDao();
+
     $id_company = $_SESSION['id_company'];
 
     $company = $licenceCompanyDao->findLicenseCompany($id_company);

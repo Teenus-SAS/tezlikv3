@@ -33,12 +33,9 @@ $app->group('/login', function (RouteCollectorProxy $group) {
         $licenseDao = new LicenseCompanyDao();
         $autenticationDao = new AutenticationUserDao();
         $statusActiveUserDao = new StatusActiveUserDao();
-        $generateCodeDao = new GenerateCodeDao();
-        $sendEmailDao = new SendEmailDao();
         $lastLoginDao = new LastLoginDao();
         $userAccessDao = new GeneralUserAccessDao();
         $historicalUsersDao = new HistoricalUsersDao();
-        $firstLoginDao = new FirstLoginDao();
         $contractsDao = new ContractDao();
         $historicalProductsDao = new HistoricalProductsDao();
 

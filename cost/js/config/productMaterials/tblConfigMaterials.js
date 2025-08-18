@@ -1,281 +1,277 @@
-$(document).ready(function () {
-  // allProductMaterials = [];
-  // allComposites = [];
-  let visible;
+let visible;
 
-  loadAllDataMaterials = async (id) => {
-    try {
-      const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
-        searchData(`/api/dataSheetMaterials/productsMaterials/${id}`),
-        searchData(`/api/subproducts/compositeProducts/${id}`)
-      ]);
+loadAllDataMaterials = async (id) => {
+  try {
+    const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
+      searchData(`/api/dataSheetMaterials/productsMaterials/${id}`),
+      searchData(`/api/subproducts/compositeProducts/${id}`)
+    ]);
 
-      sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
-      sessionStorage.setItem('dataCompositeProduct', JSON.stringify(dataCompositeProduct));
+    sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
+    sessionStorage.setItem('dataCompositeProduct', JSON.stringify(dataCompositeProduct));
 
-      let op = 1;
-      if (flag_currency_usd == '1') {
-        let selectPriceUSD = $('#selectPriceUSD1').val();
+    let op = 1;
+    if (flag_currency_usd == '1') {
+      let selectPriceUSD = $('#selectPriceUSD1').val();
 
-        selectPriceUSD == '2' ? op = 2 : op = 1;
-      }
-
-      loadTableMaterials(dataProductMaterials, op);
-    } catch (error) {
-      console.error('Error loading data:', error);
+      selectPriceUSD == '2' ? op = 2 : op = 1;
     }
-  };
 
-  /* Seleccion producto */
-  $('#refProduct').change(function (e) {
-    e.preventDefault();
-    let id = this.value;
-    let composite = parseInt($(this).find('option:selected').attr('class'));
+    loadTableMaterials(dataProductMaterials, op);
+  } catch (error) {
+    console.error('Error loading data:', error);
+  }
+};
 
-    if (composite == 0) {
-      $('#btnAddNewProduct').show();
-    } else
-      $('#btnAddNewProduct').hide();
+/* Seleccion producto */
+$('#refProduct').change(function (e) {
+  e.preventDefault();
+  let id = this.value;
+  let composite = parseInt($(this).find('option:selected').attr('class'));
 
-    $('#selectNameProduct option').prop('selected', function () {
-      return $(this).val() == id;
-    });
-    $('.btnDownloadXlsx').show(800);
-    $('.cardAddNewProduct').hide(800);
-    $('.cardAddMaterials').hide(800);
-    loadAllDataMaterials(id);
+  if (composite == 0) {
+    $('#btnAddNewProduct').show();
+  } else
+    $('#btnAddNewProduct').hide();
+
+  $('#selectNameProduct option').prop('selected', function () {
+    return $(this).val() == id;
   });
-
-  $('#selectNameProduct').change(function (e) {
-    e.preventDefault();
-    let id = this.value;
-    let composite = parseInt($(this).find('option:selected').attr('class'));
-
-    if (composite == 0) {
-      $('#btnAddNewProduct').show();
-    } else
-      $('#btnAddNewProduct').hide();
-
-    $('#refProduct option').prop('selected', function () {
-      return $(this).val() == id;
-    });
-    $('.btnDownloadXlsx').show(800);
-    $('.cardAddNewProduct').hide(800);
-    $('.cardAddMaterials').hide(800);
-
-    loadAllDataMaterials(id);
-  });
-
-  /* Cargue tabla de Proyectos */
-  loadTableMaterials = async (data, op) => {
-    // let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
-    // let data = dataProductMaterials.filter(item => item.id_product == idProduct);
-
-    if (flag_composite_product == '1') {
-      let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
-      // let arr = dataCompositeProduct.filter(item => item.id_product == idProduct);
-
-      data = [...data, ...dataCompositeProduct];
-    }
-
-    let waste = 0;
-
-    data.forEach(item => {
-      waste += parseFloat(item.waste);
-    });
-
-    waste == 0 ? visible = false : visible = true;
-
-    // if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
-    //   var table = $("#tblConfigMaterials").DataTable();
-    //   var pageInfo = table.page.info(); // Guardar información de la página actual
-    //   table.clear();
-    //   table.rows.add(data).draw();
-    //   table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos 
-    //   $('#tblConfigMaterials').DataTable().column(5).visible(visible);
-    //   return;
-    // }
-
-    tblConfigMaterials = $('#tblConfigMaterials').dataTable({
-      destroy: true,
-      pageLength: 50,
-      data: data,
-      dom: '<"datatable-error-console">frtip',
-      language: {
-        url: '/assets/plugins/i18n/Spanish.json',
-      },
-      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
-          console.error(oSettings.json.error);
-        }
-      },
-      columns: [
-        {
-          title: 'No.',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data, type, full, meta) {
-            return meta.row + 1;
-          },
-        },
-        {
-          title: 'Referencia',
-          data: 'reference_material',
-          className: 'uniqueClassName',
-        },
-        {
-          title: 'Materia Prima',
-          data: 'material',
-          className: 'classCenter',
-        },
-        {
-          title: 'Unidad',
-          data: 'abbreviation',
-          className: 'classCenter',
-        },
-        {
-          title: 'Cantidad Usada',
-          data: 'quantity',
-          className: 'classCenter',
-          render: function (data) {
-            let quantity = parseFloat(data);
-
-            if (Math.abs(quantity) < 0.01) {
-              quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            } else {
-              quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            }
-
-            return quantity;
-          },
-        },
-        {
-          title: 'Desperdicio',
-          data: 'waste',
-          className: 'classCenter',
-          visible: visible,
-          render: function (data) {
-            let waste = parseFloat(data);
-            if (Math.abs(waste) < 0.01) {
-              waste = waste.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            } else {
-              waste = waste.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            }
-
-            return `${waste} %`;
-          },
-        },
-        {
-          title: 'Precio Unitario',
-          data: function (row, type, val, meta) {
-            if (flag_currency_usd == '1' && op == 2) {
-              return parseFloat(row.cost_product_material_usd);
-            } else {
-              return row.cost_product_material;
-            }
-          },
-          className: 'classCenter',
-          render: (data, type, row) => renderCost(data, op),
-        },
-        {
-          title: 'Participacion',
-          data: 'participation',
-          className: 'classCenter',
-          render: function (data) {
-            data = parseFloat(data);
-            return `${data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`;
-          },
-        },
-        {
-          title: 'Acciones',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data) {
-            return `<a href="javascript:;" <i id="${data.id_product_material != 0 ? data.id_product_material : data.id_composite_product}" class="bx bx-edit-alt ${data.id_product_material != 0 ? 'updateMaterials' : 'updateComposite'}" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
-                        <a href="javascript:;" <i id="${data.id_product_material != 0 ? data.id_product_material : data.id_composite_product}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red" onclick="deleteMaterial(${data.id_product_material != 0 ? '1' : '2'})"></i></a>`;
-          },
-        },
-      ],
-      headerCallback: function (thead, data, start, end, display) {
-        $(thead).find("th").css({
-          "background-color": "#386297",
-          color: "white",
-          "text-align": "center",
-          "font-weight": "bold",
-          padding: "10px",
-          border: "1px solid #ddd",
-        });
-      },
-      footerCallback: function (row, data, start, end, display) {
-        // let quantity = 0;
-        let waste = 0;
-        let cost = 0;
-        let participation = 0;
-
-        for (let i = 0; i < display.length; i++) {
-          // quantity += parseFloat(data[display[i]].quantity);
-          waste += parseFloat(data[display[i]].waste);
-
-          if (flag_currency_usd == '1' && op == 2)
-            cost += parseFloat(data[display[i]].cost_product_material_usd);
-          else
-            cost += parseFloat(data[display[i]].cost_product_material);
-
-          participation += parseFloat(data[display[i]].participation);
-        }
-
-        waste = waste / display.length;
-
-        // $(this.api().column(4).footer()).html(
-        //   quantity.toLocaleString('es-CO', {
-        //     minimumFractionDigits: 2,
-        //     maximumFractionDigits: 2,
-        //   })
-        // );
-
-        $(this.api().column(5).footer()).html(
-          `${waste.toLocaleString('es-CO', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })} %`
-        );
-
-        $(this.api().column(6).footer()).html(
-          `$ ${cost.toLocaleString('es-CO', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}`
-        );
-        $(this.api().column(7).footer()).html(
-          `${participation.toLocaleString('es-CO', {
-            maximumFractionDigits: 2,
-          })} %`
-        );
-      },
-    });
-  };
-
-  // Función para formatear los costos
-  renderCost = (data, op) => {
-    let cost;
-
-    if (flag_currency_usd == '1' && op == 2) {
-      cost = parseFloat(data);
-      if (Math.abs(cost) < 0.01) {
-        cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-      } else {
-        cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
-    } else {
-      cost = parseFloat(data);
-      if (Math.abs(cost) < 0.01) {
-        cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-      } else {
-        cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-      }
-    }
-    return `$ ${cost}`;
-  };
-
-  // loadAllDataMaterials(1);
+  $('.btnDownloadXlsx').show(800);
+  $('.cardAddNewProduct').hide(800);
+  $('.cardAddMaterials').hide(800);
+  loadAllDataMaterials(id);
 });
+
+$('#selectNameProduct').change(function (e) {
+  e.preventDefault();
+  let id = this.value;
+  let composite = parseInt($(this).find('option:selected').attr('class'));
+
+  if (composite == 0) {
+    $('#btnAddNewProduct').show();
+  } else
+    $('#btnAddNewProduct').hide();
+
+  $('#refProduct option').prop('selected', function () {
+    return $(this).val() == id;
+  });
+  $('.btnDownloadXlsx').show(800);
+  $('.cardAddNewProduct').hide(800);
+  $('.cardAddMaterials').hide(800);
+
+  loadAllDataMaterials(id);
+});
+
+/* Cargue tabla de Proyectos */
+loadTableMaterials = async (data, op) => {
+  // let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+  // let data = dataProductMaterials.filter(item => item.id_product == idProduct);
+
+  if (flag_composite_product == '1') {
+    let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
+    // let arr = dataCompositeProduct.filter(item => item.id_product == idProduct);
+
+    data = [...data, ...dataCompositeProduct];
+  }
+
+  let waste = 0;
+
+  data.forEach(item => {
+    waste += parseFloat(item.waste);
+  });
+
+  waste == 0 ? visible = false : visible = true;
+
+  // if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
+  //   var table = $("#tblConfigMaterials").DataTable();
+  //   var pageInfo = table.page.info(); // Guardar información de la página actual
+  //   table.clear();
+  //   table.rows.add(data).draw();
+  //   table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos 
+  //   $('#tblConfigMaterials').DataTable().column(5).visible(visible);
+  //   return;
+  // }
+
+  tblConfigMaterials = $('#tblConfigMaterials').dataTable({
+    destroy: true,
+    pageLength: 50,
+    data: data,
+    dom: '<"datatable-error-console">frtip',
+    language: {
+      url: '/assets/plugins/i18n/Spanish.json',
+    },
+    fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+      if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+        console.error(oSettings.json.error);
+      }
+    },
+    columns: [
+      {
+        title: 'No.',
+        data: null,
+        className: 'uniqueClassName',
+        render: function (data, type, full, meta) {
+          return meta.row + 1;
+        },
+      },
+      {
+        title: 'Referencia',
+        data: 'reference_material',
+        className: 'uniqueClassName',
+      },
+      {
+        title: 'Materia Prima',
+        data: 'material',
+        className: 'classCenter',
+      },
+      {
+        title: 'Unidad',
+        data: 'abbreviation',
+        className: 'classCenter',
+      },
+      {
+        title: 'Cantidad Usada',
+        data: 'quantity',
+        className: 'classCenter',
+        render: function (data) {
+          let quantity = parseFloat(data);
+
+          if (Math.abs(quantity) < 0.01) {
+            quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+          } else {
+            quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          }
+
+          return quantity;
+        },
+      },
+      {
+        title: 'Desperdicio',
+        data: 'waste',
+        className: 'classCenter',
+        visible: visible,
+        render: function (data) {
+          let waste = parseFloat(data);
+          if (Math.abs(waste) < 0.01) {
+            waste = waste.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+          } else {
+            waste = waste.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          }
+
+          return `${waste} %`;
+        },
+      },
+      {
+        title: 'Precio Unitario',
+        data: function (row, type, val, meta) {
+          if (flag_currency_usd == '1' && op == 2) {
+            return parseFloat(row.cost_product_material_usd);
+          } else {
+            return row.cost_product_material;
+          }
+        },
+        className: 'classCenter',
+        render: (data, type, row) => renderCost(data, op),
+      },
+      {
+        title: 'Participacion',
+        data: 'participation',
+        className: 'classCenter',
+        render: function (data) {
+          data = parseFloat(data);
+          return `${data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`;
+        },
+      },
+      {
+        title: 'Acciones',
+        data: null,
+        className: 'uniqueClassName',
+        render: function (data) {
+          return `<a href="javascript:;" <i id="${data.id_product_material != 0 ? data.id_product_material : data.id_composite_product}" class="bx bx-edit-alt ${data.id_product_material != 0 ? 'updateMaterials' : 'updateComposite'}" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
+                        <a href="javascript:;" <i id="${data.id_product_material != 0 ? data.id_product_material : data.id_composite_product}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red" onclick="deleteMaterial(${data.id_product_material != 0 ? '1' : '2'})"></i></a>`;
+        },
+      },
+    ],
+    headerCallback: function (thead, data, start, end, display) {
+      $(thead).find("th").css({
+        "background-color": "#386297",
+        color: "white",
+        "text-align": "center",
+        "font-weight": "bold",
+        padding: "10px",
+        border: "1px solid #ddd",
+      });
+    },
+    footerCallback: function (row, data, start, end, display) {
+      // let quantity = 0;
+      let waste = 0;
+      let cost = 0;
+      let participation = 0;
+
+      for (let i = 0; i < display.length; i++) {
+        // quantity += parseFloat(data[display[i]].quantity);
+        waste += parseFloat(data[display[i]].waste);
+
+        if (flag_currency_usd == '1' && op == 2)
+          cost += parseFloat(data[display[i]].cost_product_material_usd);
+        else
+          cost += parseFloat(data[display[i]].cost_product_material);
+
+        participation += parseFloat(data[display[i]].participation);
+      }
+
+      waste = waste / display.length;
+
+      // $(this.api().column(4).footer()).html(
+      //   quantity.toLocaleString('es-CO', {
+      //     minimumFractionDigits: 2,
+      //     maximumFractionDigits: 2,
+      //   })
+      // );
+
+      $(this.api().column(5).footer()).html(
+        `${waste.toLocaleString('es-CO', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })} %`
+      );
+
+      $(this.api().column(6).footer()).html(
+        `$ ${cost.toLocaleString('es-CO', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`
+      );
+      $(this.api().column(7).footer()).html(
+        `${participation.toLocaleString('es-CO', {
+          maximumFractionDigits: 2,
+        })} %`
+      );
+    },
+  });
+};
+
+// Función para formatear los costos
+renderCost = (data, op) => {
+  let cost;
+
+  if (flag_currency_usd == '1' && op == 2) {
+    cost = parseFloat(data);
+    if (Math.abs(cost) < 0.01) {
+      cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+    } else {
+      cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+  } else {
+    cost = parseFloat(data);
+    if (Math.abs(cost) < 0.01) {
+      cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+    } else {
+      cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+    }
+  }
+  return `$ ${cost}`;
+};
+
+

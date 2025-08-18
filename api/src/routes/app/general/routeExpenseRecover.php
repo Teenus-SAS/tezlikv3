@@ -4,9 +4,7 @@ namespace Tezlikv3\dao;
 
 use tezlikv3\dao\{
     CalcRecoveryExpensesDao,
-    CostMaterialsDao,
     ExpenseRecoverDao,
-    GeneralCompositeProductsDao,
     GeneralProductsDao,
     GeneralExpenseRecoverDao,
     PriceProductDao,
@@ -14,333 +12,329 @@ use tezlikv3\dao\{
     TotalExpenseDao
 };
 
-$expenseRecoverDao = new ExpenseRecoverDao();
-$generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
-$generalProductsDao = new GeneralProductsDao();
-$priceProductDao = new PriceProductDao();
-$pricesUSDDao = new PriceUSDDao();
-$generalCompositeProductsDao = new GeneralCompositeProductsDao();
-$costMaterialsDao = new CostMaterialsDao();
-$totalExpenseDao = new TotalExpenseDao();
-$calcRecoveryExpenses = new CalcRecoveryExpensesDao();
-
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
+use Slim\Routing\RouteCollectorProxy;
 use App\Helpers\ResponseHelper;
 use App\Middleware\SessionMiddleware;
 
-$app->get('/expensesRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
-    $id_company = $_SESSION['id_company'];
+$app->group('/recoveringExpenses', function (RouteCollectorProxy $group) use ($externalServicesDao) {
 
-    $expensesRecover = $expenseRecoverDao->findAllExpenseRecoverByCompany($id_company);
-    $response->getBody()->write(json_encode($expensesRecover));
-    return $response->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
+    $group->get('', function (Request $request, Response $response, $args) {
 
-$app->get('/expenseRecoverProducts', function (Request $request, Response $response, $args) use ($generalExpenseRecoverDao) {
-    // session_start();
-    $id_company = $_SESSION['id_company'];
+        $expenseRecoverDao = new ExpenseRecoverDao();
 
-    $products = $generalExpenseRecoverDao->findAllProductsNotInERecover($id_company);
-    $response->getBody()->write(json_encode($products));
-    return $response->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
-
-$app->post('/expenseRecoverDataValidation', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $generalProductsDao) {
-    $dataExpense = $request->getParsedBody();
-
-    if (isset($dataExpense)) {
-        // session_start();
         $id_company = $_SESSION['id_company'];
 
-        $insert = 0;
-        $update = 0;
+        $expensesRecover = $expenseRecoverDao->findAllExpenseRecoverByCompany($id_company);
+        $response->getBody()->write(json_encode($expensesRecover));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 
-        $expensesRecover = $dataExpense['importExpense'];
+    $group->get('/expenseRecoverProducts', function (Request $request, Response $response, $args) {
 
-        for ($i = 0; $i < sizeof($expensesRecover); $i++) {
-            // Obtener id producto
-            $findProduct = $generalProductsDao->findProduct($expensesRecover[$i], $id_company);
-            if (!$findProduct) {
-                $i = $i + 2;
-                $dataImportExpenseRecover = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila{$i}");
-                break;
-            } else $expensesRecover[$i]['idProduct'] = $findProduct['id_product'];
+        $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 
-            if (empty($expensesRecover[$i]['percentage'])) {
-                $i = $i + 2;
-                $dataImportExpenseRecover = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
+        $id_company = $_SESSION['id_company'];
+
+        $products = $generalExpenseRecoverDao->findAllProductsNotInERecover($id_company);
+        $response->getBody()->write(json_encode($products));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/expenseRecoverDataValidation', function (Request $request, Response $response, $args) {
+
+        $expenseRecoverDao = new ExpenseRecoverDao();
+        $generalProductsDao = new GeneralProductsDao();
+
+        $dataExpense = $request->getParsedBody();
+
+        if (isset($dataExpense)) {
+            // session_start();
+            $id_company = $_SESSION['id_company'];
+
+            $insert = 0;
+            $update = 0;
+
+            $expensesRecover = $dataExpense['importExpense'];
+
+            for ($i = 0; $i < sizeof($expensesRecover); $i++) {
+                // Obtener id producto
+                $findProduct = $generalProductsDao->findProduct($expensesRecover[$i], $id_company);
+                if (!$findProduct) {
+                    $i = $i + 2;
+                    $dataImportExpenseRecover = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila{$i}");
+                    break;
+                } else $expensesRecover[$i]['idProduct'] = $findProduct['id_product'];
+
+                if (empty($expensesRecover[$i]['percentage'])) {
+                    $i = $i + 2;
+                    $dataImportExpenseRecover = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                    break;
+                }
+
+                if (empty(trim($expensesRecover[$i]['percentage']))) {
+                    $i = $i + 2;
+                    $dataImportExpenseRecover = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                    break;
+                } else {
+                    $expenseRecover = $expenseRecoverDao->findExpenseRecover($expensesRecover[$i], $id_company);
+                    if (!$expenseRecover) $insert = $insert + 1;
+                    else $update = $update + 1;
+                    $dataImportExpenseRecover['insert'] = $insert;
+                    $dataImportExpenseRecover['update'] = $update;
+                }
+            }
+        } else
+            $dataImportExpenseRecover = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
+
+        $response->getBody()->write(json_encode($dataImportExpenseRecover, JSON_NUMERIC_CHECK));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/addExpenseRecover', function (Request $request, Response $response, $args) {
+
+        $expenseRecoverDao = new ExpenseRecoverDao();
+        $generalProductsDao = new GeneralProductsDao();
+        $priceProductDao = new PriceProductDao();
+        $pricesUSDDao = new PriceUSDDao();
+
+        $id_company = $_SESSION['id_company'];
+        $coverage_usd = $_SESSION['coverage_usd'];
+
+        $dataExpense = $request->getParsedBody();
+
+        $dataExpenses = sizeof($dataExpense);
+
+        if ($dataExpenses > 1) {
+            $expensesRecover = $expenseRecoverDao->insertRecoverExpenseByCompany($dataExpense, $id_company);
+
+            $data = [];
+            if ($expensesRecover == null)
+                $data = $priceProductDao->calcPrice($dataExpense['idProduct']);
+
+            if (isset($data['totalPrice']))
+                $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $data['totalPrice']);
+            if ($expensesRecover == null && isset($data['totalPrice']) && $_SESSION['flag_currency_usd'] == '1') {
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $dataExpense['idProduct'];
+
+                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
 
-            if (empty(trim($expensesRecover[$i]['percentage']))) {
-                $i = $i + 2;
-                $dataImportExpenseRecover = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
-            } else {
+            if ($expensesRecover == null)
+                $resp = array('success' => true, 'message' => 'Gasto guardado correctamente');
+            else if (isset($expensesRecover['info']))
+                $resp = array('info' => true, 'message' => $expensesRecover['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
+        } else {
+            $expensesRecover = $dataExpense['importExpense'];
+
+            for ($i = 0; $i < sizeof($expensesRecover); $i++) {
+                // Obtener id producto
+                $findProduct = $generalProductsDao->findProduct($expensesRecover[$i], $id_company);
+                $expensesRecover[$i]['idProduct'] = $findProduct['id_product'];
+
                 $expenseRecover = $expenseRecoverDao->findExpenseRecover($expensesRecover[$i], $id_company);
-                if (!$expenseRecover) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportExpenseRecover['insert'] = $insert;
-                $dataImportExpenseRecover['update'] = $update;
-            }
-        }
-    } else
-        $dataImportExpenseRecover = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
+                if (!$expenseRecover)
+                    $resolution = $expenseRecoverDao->insertRecoverExpenseByCompany($expensesRecover[$i], $id_company);
+                else {
+                    $expensesRecover[$i]['idExpenseRecover'] = $expenseRecover['id_expense_recover'];
+                    $resolution = $expenseRecoverDao->updateRecoverExpense($expensesRecover[$i]);
+                }
 
-    $response->getBody()->write(json_encode($dataImportExpenseRecover, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
+                $data = [];
+                $data = $priceProductDao->calcPrice($expenseRecover[$i]['idProduct']);
 
-$app->post('/addExpenseRecover', function (Request $request, Response $response, $args) use (
-    $expenseRecoverDao,
-    $generalProductsDao,
-    $priceProductDao,
-    $pricesUSDDao,
-    $generalCompositeProductsDao,
-    $costMaterialsDao
-) {
-    // session_start();
-    $id_company = $_SESSION['id_company'];
-    $coverage_usd = $_SESSION['coverage_usd'];
+                if (isset($data['totalPrice']))
+                    $resolution = $generalProductsDao->updatePrice($expenseRecover[$i]['idProduct'], $data['totalPrice']);
+                if (isset($resolution['info'])) break;
 
-    $dataExpense = $request->getParsedBody();
+                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $expenseRecover[$i]['idProduct'];
 
-    $dataExpenses = sizeof($dataExpense);
-
-    if ($dataExpenses > 1) {
-        $expensesRecover = $expenseRecoverDao->insertRecoverExpenseByCompany($dataExpense, $id_company);
-
-        $data = [];
-        if ($expensesRecover == null)
-            $data = $priceProductDao->calcPrice($dataExpense['idProduct']);
-
-        if (isset($data['totalPrice']))
-            $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $data['totalPrice']);
-        if ($expensesRecover == null && isset($data['totalPrice']) && $_SESSION['flag_currency_usd'] == '1') {
-            // Convertir a Dolares 
-            $k = [];
-            $k['price'] = $data['totalPrice'];
-            $k['sale_price'] = $data['sale_price'];
-            $k['id_product'] = $dataExpense['idProduct'];
-
-            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-        }
-
-        if ($expensesRecover == null)
-            $resp = array('success' => true, 'message' => 'Gasto guardado correctamente');
-        else if (isset($expensesRecover['info']))
-            $resp = array('info' => true, 'message' => $expensesRecover['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
-    } else {
-        $expensesRecover = $dataExpense['importExpense'];
-
-        for ($i = 0; $i < sizeof($expensesRecover); $i++) {
-            // Obtener id producto
-            $findProduct = $generalProductsDao->findProduct($expensesRecover[$i], $id_company);
-            $expensesRecover[$i]['idProduct'] = $findProduct['id_product'];
-
-            $expenseRecover = $expenseRecoverDao->findExpenseRecover($expensesRecover[$i], $id_company);
-            if (!$expenseRecover)
-                $resolution = $expenseRecoverDao->insertRecoverExpenseByCompany($expensesRecover[$i], $id_company);
-            else {
-                $expensesRecover[$i]['idExpenseRecover'] = $expenseRecover['id_expense_recover'];
-                $resolution = $expenseRecoverDao->updateRecoverExpense($expensesRecover[$i]);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                }
             }
 
-            $data = [];
-            $data = $priceProductDao->calcPrice($expenseRecover[$i]['idProduct']);
-
-            if (isset($data['totalPrice']))
-                $resolution = $generalProductsDao->updatePrice($expenseRecover[$i]['idProduct'], $data['totalPrice']);
-            if (isset($resolution['info'])) break;
-
-            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
-                $k = [];
-                $k['price'] = $data['totalPrice'];
-                $k['sale_price'] = $data['sale_price'];
-                $k['id_product'] = $expenseRecover[$i]['idProduct'];
-
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-            }
-        }
-
-        if ($resolution == null)
-            $resp = array('success' => true, 'message' => 'Recuperación de gasto importada correctamente');
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
-    }
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
-
-$app->post('/updateExpenseRecover', function (Request $request, Response $response, $args) use (
-    $expenseRecoverDao,
-    $priceProductDao,
-    $pricesUSDDao,
-    $generalProductsDao,
-    $generalCompositeProductsDao,
-    $costMaterialsDao
-) {
-    // session_start();
-    $id_company = $_SESSION['id_company'];
-    $coverage_usd = $_SESSION['coverage_usd'];
-    $dataExpense = $request->getParsedBody();
-
-    $dataExpenses = sizeof($dataExpense);
-
-    if ($dataExpenses > 1) {
-        $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
-
-        $data = [];
-        if ($expensesRecover == null)
-            $data = $priceProductDao->calcPrice($dataExpense['idProduct']);
-
-        if (isset($data['totalPrice']))
-            $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $data['totalPrice']);
-
-        if ($expensesRecover == null && isset($data['totalPrice']) && $_SESSION['flag_currency_usd'] == '1') {
-            // Convertir a Dolares 
-            $k = [];
-            $k['price'] = $data['totalPrice'];
-            $k['sale_price'] = $data['sale_price'];
-            $k['id_product'] = $dataExpense['idProduct'];
-
-            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-        }
-
-        if ($expensesRecover == null)
-            $resp = array('success' => true, 'message' => 'Gasto modificado correctamente');
-        else if (isset($expensesRecover['info']))
-            $resp = array('info' => true, 'message' => $expensesRecover['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
-    } else {
-        $expensesRecover = $dataExpense['data'];
-
-        $percentage = $expensesRecover[sizeof($expensesRecover) - 1];
-
-        unset($expensesRecover[sizeof($expensesRecover) - 1]);
-
-        for ($i = 0; $i < sizeof($expensesRecover); $i++) {
-            $expensesRecover[$i]['percentage'] = $percentage;
-            $resolution = $expenseRecoverDao->updateRecoverExpense($expensesRecover[$i]);
-
-            $data = [];
             if ($resolution == null)
-                $data = $priceProductDao->calcPrice($expensesRecover[$i]['idProduct']);
-            else break;
-            if (isset($data['totalPrice']))
-                $resolution = $generalProductsDao->updatePrice($expensesRecover[$i]['idProduct'], $data['totalPrice']);
+                $resp = array('success' => true, 'message' => 'Recuperación de gasto importada correctamente');
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
+        }
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 
-            if (isset($resolution['info'])) break;
-            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+    $group->post('/updateExpenseRecover', function (Request $request, Response $response, $args) {
+
+        $expenseRecoverDao = new ExpenseRecoverDao();
+        $generalProductsDao = new GeneralProductsDao();
+        $priceProductDao = new PriceProductDao();
+        $pricesUSDDao = new PriceUSDDao();
+
+        $id_company = $_SESSION['id_company'];
+        $coverage_usd = $_SESSION['coverage_usd'];
+        $dataExpense = $request->getParsedBody();
+
+        $dataExpenses = sizeof($dataExpense);
+
+        if ($dataExpenses > 1) {
+            $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
+
+            $data = [];
+            if ($expensesRecover == null)
+                $data = $priceProductDao->calcPrice($dataExpense['idProduct']);
+
+            if (isset($data['totalPrice']))
+                $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $data['totalPrice']);
+
+            if ($expensesRecover == null && isset($data['totalPrice']) && $_SESSION['flag_currency_usd'] == '1') {
+                // Convertir a Dolares 
                 $k = [];
                 $k['price'] = $data['totalPrice'];
                 $k['sale_price'] = $data['sale_price'];
-                $k['id_product'] = $expensesRecover[$i]['idProduct'];
+                $k['id_product'] = $dataExpense['idProduct'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
+
+            if ($expensesRecover == null)
+                $resp = array('success' => true, 'message' => 'Gasto modificado correctamente');
+            else if (isset($expensesRecover['info']))
+                $resp = array('info' => true, 'message' => $expensesRecover['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
+        } else {
+            $expensesRecover = $dataExpense['data'];
+
+            $percentage = $expensesRecover[sizeof($expensesRecover) - 1];
+
+            unset($expensesRecover[sizeof($expensesRecover) - 1]);
+
+            for ($i = 0; $i < sizeof($expensesRecover); $i++) {
+                $expensesRecover[$i]['percentage'] = $percentage;
+                $resolution = $expenseRecoverDao->updateRecoverExpense($expensesRecover[$i]);
+
+                $data = [];
+                if ($resolution == null)
+                    $data = $priceProductDao->calcPrice($expensesRecover[$i]['idProduct']);
+                else break;
+                if (isset($data['totalPrice']))
+                    $resolution = $generalProductsDao->updatePrice($expensesRecover[$i]['idProduct'], $data['totalPrice']);
+
+                if (isset($resolution['info'])) break;
+                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $expensesRecover[$i]['idProduct'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                }
+            }
+
+            if ($resolution == null)
+                $resp = array('success' => true, 'message' => 'Gastos modificados correctamente');
+            else if (isset($resolution['info']))
+                $resp = array('info' => true, 'message' => $resolution['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
+        }
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) {
+
+        $expenseRecoverDao = new ExpenseRecoverDao();
+        $generalProductsDao = new GeneralProductsDao();
+        $priceProductDao = new PriceProductDao();
+        $pricesUSDDao = new PriceUSDDao();
+
+        $id_company = $_SESSION['id_company'];
+        $coverage_usd = $_SESSION['coverage_usd'];
+        $dataExpense = $request->getParsedBody();
+
+        $expensesRecover = $expenseRecoverDao->deleteRecoverExpense($dataExpense['idExpenseRecover']);
+
+        if ($expensesRecover == null)
+            $data = $priceProductDao->calcPrice($dataExpense['idProduct']);
+
+        if (isset($data['totalPrice']))
+            $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $data['totalPrice']);
+
+        if ($expensesRecover == null && isset($data['totalPrice']) && $_SESSION['flag_currency_usd'] == '1') {
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $dataExpense['idProduct'];
+
+            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
         }
 
-        if ($resolution == null)
-            $resp = array('success' => true, 'message' => 'Gastos modificados correctamente');
-        else if (isset($resolution['info']))
-            $resp = array('info' => true, 'message' => $resolution['message']);
+        if ($expensesRecover == null)
+            $resp = array('success' => true, 'message' => 'Gasto eliminado correctamente');
+        else if (isset($expensesRecover['info']))
+            $resp = array('info' => true, 'message' => $expensesRecover['message']);
         else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
-    }
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras eliminaba la información. Intente nuevamente');
 
-$app->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) use (
-    $expenseRecoverDao,
-    $priceProductDao,
-    $pricesUSDDao,
-    $generalProductsDao,
-    $generalCompositeProductsDao,
-    $costMaterialsDao
-) {
-    // session_start();
-    $id_company = $_SESSION['id_company'];
-    $coverage_usd = $_SESSION['coverage_usd'];
-    $dataExpense = $request->getParsedBody();
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 
-    $expensesRecover = $expenseRecoverDao->deleteRecoverExpense($dataExpense['idExpenseRecover']);
+    $group->get('/changeManualRecovery/{id_recovery}/{id_product}', function (Request $request, Response $response, $args) {
 
-    if ($expensesRecover == null)
-        $data = $priceProductDao->calcPrice($dataExpense['idProduct']);
+        $expenseRecoverDao = new ExpenseRecoverDao();
+        $priceProductDao = new PriceProductDao();
+        $totalExpenseDao = new TotalExpenseDao();
+        $calcRecoveryExpenses = new CalcRecoveryExpensesDao();
 
-    if (isset($data['totalPrice']))
-        $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $data['totalPrice']);
+        $id_company = $_SESSION['id_company'];
+        $flag = $_SESSION['id_company'];
 
-    if ($expensesRecover == null && isset($data['totalPrice']) && $_SESSION['flag_currency_usd'] == '1') {
-        // Convertir a Dolares 
-        $k = [];
-        $k['price'] = $data['totalPrice'];
-        $k['sale_price'] = $data['sale_price'];
-        $k['id_product'] = $dataExpense['idProduct'];
+        $idExpenseRecovery = $args['id_recovery'];
+        $idProduct = $args['id_product'];
 
-        $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-    }
+        $connection = Connection::getInstance()->getConnection();
 
-    if ($expensesRecover == null)
-        $resp = array('success' => true, 'message' => 'Gasto eliminado correctamente');
-    else if (isset($expensesRecover['info']))
-        $resp = array('info' => true, 'message' => $expensesRecover['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras eliminaba la información. Intente nuevamente');
+        try {
+            // Iniciar transacción
+            $connection->beginTransaction();
 
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
+            //Modifica estado
+            $expenseRecoverDao->changeManualRecovery($idExpenseRecovery, $id_company);
 
-$app->get('/changeManualRecovery/{id_recovery}/{id_product}', function (Request $request, Response $response, $args) use (
-    $expenseRecoverDao,
-    $totalExpenseDao,
-    $calcRecoveryExpenses,
-    $priceProductDao
-) {
-    // session_start();
-    $id_company = $_SESSION['id_company'];
-    $flag = $_SESSION['id_company'];
+            //Calcula el porcentaje automaticamente basado en los gastos
+            if ($flag === 1 && $id_company === 1) { // Distribucion por recuperacion
+                $products = [['id_product' => $idProduct, 'created_at' => date('Y-m-d')]];
 
-    $idExpenseRecovery = $args['id_recovery'];
-    $idProduct = $args['id_product'];
+                $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
+                $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
+                $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
+                $priceProductDao->calcPriceByProduct($id_company, $products);
+                $products = null;
+            }
 
-    $connection = Connection::getInstance()->getConnection();
+            // Confirma transaccion
+            $connection->commit();
 
-    try {
-        // Iniciar transacción
-        $connection->beginTransaction();
+            return ResponseHelper::withJson($response, ['message' => 'Successful'], 200);
+        } catch (\Exception $e) {
+            if ($connection->inTransaction())
+                $connection->rollBack();
 
-        //Modifica estado
-        $expenseRecoverDao->changeManualRecovery($idExpenseRecovery, $id_company);
-
-        //Calcula el porcentaje automaticamente basado en los gastos
-        if ($flag === 1 && $id_company === 1) { // Distribucion por recuperacion
-            $products = [['id_product' => $idProduct, 'created_at' => date('Y-m-d')]];
-
-            $sales = $totalExpenseDao->findTotalRevenuesByCompany($id_company);
-            $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
-            $calcRecoveryExpenses->calculateAndStore($products, $sales['expenses_value'], $findExpense['total_expense'], $id_company);
-            $priceProductDao->calcPriceByProduct($id_company, $products);
-            $products = null;
+            error_log("Error en /changeManualRecovery: " . $e->getMessage());
+            return ResponseHelper::withJson($response, ['error' => 'Internal Server Error'], 500);
         }
-
-        // Confirma transaccion
-        $connection->commit();
-
-        return ResponseHelper::withJson($response, ['message' => 'Successful'], 200);
-    } catch (\Exception $e) {
-        if ($connection->inTransaction())
-            $connection->rollBack();
-
-        error_log("Error en /changeManualRecovery: " . $e->getMessage());
-        return ResponseHelper::withJson($response, ['error' => 'Internal Server Error'], 500);
-    }
+    });
 })->add(new SessionMiddleware());

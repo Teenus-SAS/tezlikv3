@@ -2,7 +2,7 @@ $(document).ready(function () {
     id_historic = localStorage.getItem('idHistoric');
 
     loadIndicatorsProducts = async (id_historic) => {
-        let data = await searchData(`/api/historical/${id_historic}`);
+        let data = await searchData(`/api/historicalData/historical/${id_historic}`);
         await generalIndicators(data);
         await UnitsVolSold(data);
         await totalCostData(data);

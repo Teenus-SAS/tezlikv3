@@ -16,12 +16,8 @@ $(document).ready(function () {
   loadTableCost = () => {
     tblUsers = $('#tblUsers').dataTable({
       pageLength: 50,
-      // ajax: {
-      //   url: '/api/costUsersAccess',
-      //   dataSrc: '',
-      // },
       ajax: function (data, callback, settings) {
-        fetch(`/api/costUsersAccess`)
+        fetch(`/api/accessUsers/costUsersAccess`)
           .then(response => response.json())
           .then(data => {
             // Si el servidor indica recargar la página

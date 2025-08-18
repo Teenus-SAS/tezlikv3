@@ -34,33 +34,6 @@ $(document).ready(function () {
       return false;
     }
 
-    // if (option == 1) {
-    // bootbox.dialog({
-    //   title: 'Importe',
-    //   message: 'Seleccione tipo de importe que desea realizar.',
-    //   backdrop: 'static', // Evita que el modal se cierre haciendo clic fuera de él
-    //   closeButton: false, // Oculta el botón de cierre del modal
-    //   size: 'small',
-    //   buttons: {
-    //     parcial: {
-    //       label: 'Parcial',
-    //       className: 'btn-success',
-    //       callback: function () {
-    //         sessionStorage.setItem('typeExpenseD', 1);
-    //         checkImportExpenseD();
-    //       }
-    //     },
-    //     total: {
-    //       label: 'Total',
-    //       className: 'btn-danger',
-    //       callback: function () {
-    //         sessionStorage.setItem('typeExpenseD', 2);
-    //         checkImportExpenseDA();
-    //       }
-    //     }
-    //   }
-    // });
-    // } else checkImportExpenseD();
     checkImportExpenseDA();
   });
 
@@ -96,10 +69,7 @@ $(document).ready(function () {
           "volumen_ventas",
           "referencia_producto",
           "producto",
-          // "centro_produccion",
         ];
-        // if (production_center == "0" || flag_production_center == "0")
-        //   expectedHeaders.splice(4, 1);
 
         const actualHeaders = data.actualHeaders;
 
@@ -117,31 +87,8 @@ $(document).ready(function () {
           );
           return false;
         }
-        // } else if (option == 2) {
-        //   const expectedHeaders = [
-        //     "referencia_producto",
-        //     "producto",
-        //     "porcentaje_recuperado",
-        //   ];
-        //   const actualHeaders = Object.keys(data[0]);
 
-        //   const missingHeaders = expectedHeaders.filter(
-        //     (header) => !actualHeaders.includes(header)
-        //   );
-
-        //   if (missingHeaders.length > 0) {
-        //     $(".cardLoading").remove();
-        //     $(".cardBottons").show(400);
-        //     $("#fileExpensesA").val("");
-
-        //     toastr.error(
-        //       "Archivo no corresponde a el formato. Verifique nuevamente"
-        //     );
-        //     return false;
-        //   }
-        // }
-
-        let url = "/api/expenseDistributionAnualDataValidation";
+        let url = "/api/annualDistribution/expenseDistributionAnualDataValidation";
         let expenseToImport = arr.map((item) => {
           // if (option == 1) {
           let unitsSold = "";
@@ -155,31 +102,14 @@ $(document).ready(function () {
             turnover = item.volumen_ventas.toString().replace(".", ",");
           else turnover = 0;
 
-          // if (production_center == "1" && flag_production_center == "1")
-          //   production = item.centro_produccion;
-          // else production = 0;
-
           return {
             referenceProduct: item.referencia_producto,
             product: item.producto,
             unitsSold: unitsSold,
             turnover: turnover,
-            // production: production,
           };
-          // } else if (option == 2) {
-          //   url = "/api/expenseRecoverDataValidation";
-          //   return {
-          //     referenceProduct: item.referencia_producto,
-          //     product: item.producto,
-          //     percentage: item.porcentaje_recuperado,
-          //   };
-          // }
-        });
 
-        // if (option == 1) {
-        // let type = sessionStorage.getItem("typeExpenseD");
-        // expenseToImport[0]["type"] = type;
-        // }
+        });
 
         checkExpenseDA(expenseToImport, url);
       })
@@ -222,7 +152,7 @@ $(document).ready(function () {
             },
           },
           callback: function (result) {
-            if (result == true) { 
+            if (result == true) {
               saveExpensesA(data, '/api/addExpensesDistributionAnual');
             } else {
               $(".cardLoading").remove();

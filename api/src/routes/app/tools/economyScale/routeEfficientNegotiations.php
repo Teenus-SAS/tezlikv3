@@ -5,65 +5,72 @@ use tezlikv3\dao\GeneralCompanyLicenseDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PricesDao;
 
-$generalProductsDao = new GeneralProductsDao();
-$economyScaleDao = new EfficientNegotiationsDao();
-
-$priceDao = new PricesDao();
-$generalCompanyLicenseDao = new GeneralCompanyLicenseDao();
-
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
+use Slim\Routing\RouteCollectorProxy;
 use App\Helpers\ResponseHelper;
 use App\Middleware\SessionMiddleware;
 
-$app->get('/ENegotiationsProducts', function (Request $request, Response $response, $args) use ($generalProductsDao) {
-    $id_company = $_SESSION['id_company'];
-    $products = $generalProductsDao->findAllEDAndERProducts($id_company);
-    $response->getBody()->write(json_encode($products));
-    return $response->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
+$app->group('/negotiations', function (RouteCollectorProxy $group) {
 
-$app->get('/calcEconomyScale', function (Request $request, Response $response, $args) use ($priceDao, $economyScaleDao) {
-    $id_company = $_SESSION['id_company'];
+    $group->get('/ENegotiationsProducts', function (Request $request, Response $response, $args) {
 
-    $price = $priceDao->findAllPricesByCompany($id_company);
-    $fixedCosts = $economyScaleDao->findAllFixedCostByCompany($id_company);
-    $variableCosts = $economyScaleDao->findAllVariableCostByCompany($id_company);
+        $generalProductsDao = new GeneralProductsDao();
 
-    if (is_array($fixedCosts) && is_array($variableCosts)) {
-        $combined = $economyScaleDao->combinedData($price, $fixedCosts, 'id_product');
-        $data = $economyScaleDao->combinedData($combined, $variableCosts, 'id_product');
-    } else {
-        $message = '';
+        $id_company = $_SESSION['id_company'];
+        $products = $generalProductsDao->findAllEDAndERProducts($id_company);
+        $response->getBody()->write(json_encode($products));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 
-        if (!is_array($fixedCosts) && !is_array($variableCosts)) {
-            $message = $fixedCosts . $variableCosts;
-        } else if (!is_array($fixedCosts) && is_array($variableCosts)) {
-            $message = $fixedCosts;
-        } else
-            $message = $variableCosts;
+    $group->get('/calcEconomyScale', function (Request $request, Response $response, $args) {
 
-        $data = array('info' => true, 'message' => $message);
-    }
+        $economyScaleDao = new EfficientNegotiationsDao();
+        $priceDao = new PricesDao();
 
-    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
+        $id_company = $_SESSION['id_company'];
 
-$app->get('/changeFlagPrice/{type_price}', function (Request $request, Response $response, $args) use ($generalCompanyLicenseDao) {
-    $id_company = $_SESSION['id_company'];
+        $price = $priceDao->findAllPricesByCompany($id_company);
+        $fixedCosts = $economyScaleDao->findAllFixedCostByCompany($id_company);
+        $variableCosts = $economyScaleDao->findAllVariableCostByCompany($id_company);
 
-    $flag = $generalCompanyLicenseDao->updateFlagPrice($args['type_price'], $id_company);
+        if (is_array($fixedCosts) && is_array($variableCosts)) {
+            $combined = $economyScaleDao->combinedData($price, $fixedCosts, 'id_product');
+            $data = $economyScaleDao->combinedData($combined, $variableCosts, 'id_product');
+        } else {
+            $message = '';
 
-    if ($flag == null) {
-        $resp = array('success' => true, 'message' => 'Tipo de precio ingresado correctamente');
-        $_SESSION['flag_type_price'] = $args['type_price'];
-    } else if (isset($flag['info']))
-        $resp = array('info' => true, 'message' => $flag['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error al ingresar la información. Intente nuevamente');
+            if (!is_array($fixedCosts) && !is_array($variableCosts)) {
+                $message = $fixedCosts . $variableCosts;
+            } else if (!is_array($fixedCosts) && is_array($variableCosts)) {
+                $message = $fixedCosts;
+            } else
+                $message = $variableCosts;
 
-    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
+            $data = array('info' => true, 'message' => $message);
+        }
+
+        $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->get('/changeFlagPrice/{type_price}', function (Request $request, Response $response, $args) {
+
+        $generalCompanyLicenseDao = new GeneralCompanyLicenseDao();
+
+        $id_company = $_SESSION['id_company'];
+
+        $flag = $generalCompanyLicenseDao->updateFlagPrice($args['type_price'], $id_company);
+
+        if ($flag == null) {
+            $resp = array('success' => true, 'message' => 'Tipo de precio ingresado correctamente');
+            $_SESSION['flag_type_price'] = $args['type_price'];
+        } else if (isset($flag['info']))
+            $resp = array('info' => true, 'message' => $flag['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error al ingresar la información. Intente nuevamente');
+
+        $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 })->add(new SessionMiddleware());

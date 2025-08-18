@@ -1,16 +1,16 @@
 $(document).ready(function () {
     loadUserAccess = async () => {
-        let data = await searchData('/api/costUserAccess');
+        let data = await searchData('/api/accessUsers/costUserAccess');
 
         let access = {
             aProducts: data.create_product,
             aMaterials: data.create_materials,
             aMachines: data.create_machines,
             aProcess: data.create_process,
-            aProductsMaterials: data.product_materials, 
+            aProductsMaterials: data.product_materials,
             aFactoryLoad: data.factory_load,
             aGServices: data.external_service,
-            aPayroll: data.payroll_load, 
+            aPayroll: data.payroll_load,
             aCustomPrices: data.custom_price,
             aBackup: data.backup,
             aGeneralCostReport: data.general_cost_report,
@@ -18,7 +18,7 @@ $(document).ready(function () {
             aPaymentMethods: data.quote_payment_method,
             aCompanies: data.quote_company,
             aContacts: data.quote_contact,
-            aPricesCOP: data.price, 
+            aPricesCOP: data.price,
             aAnalysisMaterials: data.analysis_material,
             aEconomyScale: data.economy_scale,
             aSaleObjectives: data.sale_objectives,
@@ -55,7 +55,7 @@ $(document).ready(function () {
             $('#navCostBasics').show();
 
         if (
-            access.aProductsMaterials == 0 && 
+            access.aProductsMaterials == 0 &&
             access.aFactoryLoad == 0 &&
             access.aGServices == 0
         ) {
@@ -65,8 +65,8 @@ $(document).ready(function () {
 
         if (
             access.aPayroll == 0 &&
-            access.aExpenses == 0 && 
-            access.aExpensesDistribution == 0 && 
+            access.aExpenses == 0 &&
+            access.aExpensesDistribution == 0 &&
             access.aCustomPrices == 0
         ) {
             $('#navCostGeneral').hide();
@@ -79,7 +79,7 @@ $(document).ready(function () {
             $('#navCostReport').hide();
         } else
             $('#navCostReport').show();
-        
+
         if (
             access.aBackup == 0 &&
             access.aUsers == 0
@@ -99,7 +99,7 @@ $(document).ready(function () {
 
         if (
             access.aCustomPrices == 0 &&
-            access.aPricesCOP == 0 
+            access.aPricesCOP == 0
         ) {
             $('#navPrices').hide();
         } else
@@ -117,10 +117,10 @@ $(document).ready(function () {
             $('#navTools').hide();
         } else
             $('#navTools').show();
-        
-        if ( 
+
+        if (
             access.aEconomyScale == 0 &&
-            access.aSaleObjectives == 0&&
+            access.aSaleObjectives == 0 &&
             access.aPriceObjectives == 0
         ) {
             $('#navbarEconomy').hide();

@@ -94,7 +94,7 @@ $(document).ready(function () {
 
       dataUser = setCheckBoxes(dataUser);
 
-      $.post('/api/addUser', dataUser, function (data, textStatus, jqXHR) {
+      $.post('/api/users/addUser', dataUser, function (data, textStatus, jqXHR) {
         message(data);
       });
     } else {
@@ -108,11 +108,11 @@ $(document).ready(function () {
     let idUser = this.id;
     sessionStorage.setItem('id_user', idUser);
 
-    $.get(`/api/generalUserAccess/${idUser}`, function (data) {
+    $.get(`/api/generalUser/generalUserAccess/${idUser}`, function (data) {
       if (data.reload) {
         location.reload();
       }
-      
+
       getUserAccess(data);
       $('#createUserAccess').modal('show');
       $('#btnCreateUserAndAccess').html('Actualizar Accesos');
@@ -200,7 +200,7 @@ $(document).ready(function () {
     dataUser = setCheckBoxes(dataUser);
 
     $.post(
-      '/api/updateUserAccess',
+      '/api/generalUser/updateUserAccess',
       dataUser,
       function (data, textStatus, jqXHR) {
         message(data);
@@ -298,12 +298,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '/api/deleteUser',
-            dataUser,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.post('/api/users/deleteUser', dataUser, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },

@@ -1,7 +1,7 @@
 
 loadExpensesRProducts = () => {
   $.ajax({
-    url: '/api/expenseRecoverProducts',
+    url: '/api/recoveringExpenses/expenseRecoverProducts',
     success: function (r) {
       if (r.reload) {
         location.reload();

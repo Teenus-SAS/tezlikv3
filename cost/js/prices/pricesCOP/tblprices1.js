@@ -7,10 +7,7 @@ $(document).ready(function () {
 
   loadAllData = async () => {
     try {
-      const [prices, actualTrm] = await Promise.all([
-        searchData("/api/prices"),
-        //searchData("/api/currentDollar"),
-      ]);
+      const [prices, actualTrm] = await Promise.all([searchData("/api/prices")]);
 
       allPrices = prices;
       currentDollar = actualTrm[0]["valor"];

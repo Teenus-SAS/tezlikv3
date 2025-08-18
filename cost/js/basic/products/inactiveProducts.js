@@ -1,65 +1,65 @@
-$(document).ready(function () {
-  /* Inactivar productos */
-  $(document).on("click", ".checkboxProduct", function () {
-    let idProduct = this.id;
 
-    bootbox.confirm({
-      title: "Inactivar producto",
-      message: "¿Esta seguro de inactivar este producto?",
-      buttons: {
-        confirm: {
-          label: "Si",
-          className: "btn-success",
-        },
-        cancel: {
-          label: "No",
-          className: "btn-danger",
-        },
+/* Inactivar productos */
+$(document).on("click", ".checkboxProduct", function () {
+  let idProduct = this.id;
+
+  bootbox.confirm({
+    title: "Inactivar producto",
+    message: "¿Esta seguro de inactivar este producto?",
+    buttons: {
+      confirm: {
+        label: "Si",
+        className: "btn-success",
       },
-      callback: function (result) {
-        if (result == true) {
-          changeStatusProduct(idProduct, 0);
-        } else {
-          $(".checkboxProduct").prop("checked", true);
-        }
+      cancel: {
+        label: "No",
+        className: "btn-danger",
       },
-    });
+    },
+    callback: function (result) {
+      if (result == true) {
+        changeStatusProduct(idProduct, 0);
+      } else {
+        $(".checkboxProduct").prop("checked", true);
+      }
+    },
   });
+});
 
-  const changeStatusProduct = (id, op) => {
-    $.ajax({
-      url: `/api/products/changeActiveProduct/${id}/${op}`,
-      success: function (data) {
-        if (data.reload) {
-          location.reload();
-        }
+const changeStatusProduct = (id, op) => {
+  $.ajax({
+    url: `/api/products/changeActiveProduct/${id}/${op}`,
+    success: function (data) {
+      if (data.reload) {
+        location.reload();
+      }
 
-        if (data.success == true) {
-          toastr.success(data.message);
-          loadAllData();
-        } else if (data.error == true) toastr.error(data.message);
-        else if (data.info == true) toastr.info(data.message);
-      },
-    });
-  };
-
-  /* Ocultar modal productos inactivos */
-  $("#btnCloseInactivesProducts").click(function (e) {
-    e.preventDefault();
-    $("#createInactivesProducts").modal("hide");
-    $("#tblInactiveProductsBody").empty();
+      if (data.success == true) {
+        toastr.success(data.message);
+        loadAllData();
+      } else if (data.error == true) toastr.error(data.message);
+      else if (data.info == true) toastr.info(data.message);
+    },
   });
+};
 
-  /* Mostrar productos inactivos */
-  $("#btnActiveProducts").click(function (e) {
-    e.preventDefault();
-    $("#tblInactiveProducts").empty();
+/* Ocultar modal productos inactivos */
+$("#btnCloseInactivesProducts").click(function (e) {
+  e.preventDefault();
+  $("#createInactivesProducts").modal("hide");
+  $("#tblInactiveProductsBody").empty();
+});
 
-    let tblInactiveProducts = document.getElementById("tblInactiveProducts");
+/* Mostrar productos inactivos */
+$("#btnActiveProducts").click(function (e) {
+  e.preventDefault();
+  $("#tblInactiveProducts").empty();
 
-    tblInactiveProducts.insertAdjacentHTML(
-      "beforeend",
-      `<thead>
+  let tblInactiveProducts = document.getElementById("tblInactiveProducts");
+
+  tblInactiveProducts.insertAdjacentHTML(
+    "beforeend",
+    `<thead>
         <tr>
         <th>No</th>
         <th>Referencia</th>
@@ -68,19 +68,19 @@ $(document).ready(function () {
         </tr>
       </thead>
       <tbody id="tblInactiveProductsBody"></tbody>`
-    );
+  );
 
-    setTblInactivesProducts();
-  });
+  setTblInactivesProducts();
+});
 
-  // Construir tabla con productos inactivos
-  const setTblInactivesProducts = async () => {
-    const data = JSON.parse(sessionStorage.getItem('dataInactiveProducts'));
-    const tblInactiveProductsBody = document.getElementById("tblInactiveProductsBody");
-    let html = '';
+// Construir tabla con productos inactivos
+const setTblInactivesProducts = async () => {
+  const data = JSON.parse(sessionStorage.getItem('dataInactiveProducts'));
+  const tblInactiveProductsBody = document.getElementById("tblInactiveProductsBody");
+  let html = '';
 
-    for (let i = 0; i < data.length; i++) {
-      html += `
+  for (let i = 0; i < data.length; i++) {
+    html += `
       <tr>
         <td>${i + 1}</td>
         <td>${data[i].reference}</td>
@@ -94,74 +94,74 @@ $(document).ready(function () {
           </a>
         </td>
       </tr>`;
-    }
+  }
 
-    tblInactiveProductsBody.innerHTML = html;
+  tblInactiveProductsBody.innerHTML = html;
 
-    // Mostrar modal
-    $("#createInactivesProducts").modal("show");
+  // Mostrar modal
+  $("#createInactivesProducts").modal("show");
 
-    // Destruir DataTable si ya existe
-    if ($.fn.DataTable.isDataTable('#tblInactiveProducts')) {
-      $('#tblInactiveProducts').DataTable().destroy();
-    }
+  // Destruir DataTable si ya existe
+  if ($.fn.DataTable.isDataTable('#tblInactiveProducts')) {
+    $('#tblInactiveProducts').DataTable().destroy();
+  }
 
-    // Inicializar DataTable
-    const newTable = $("#tblInactiveProducts").DataTable({
-      destroy: true,
-      scrollY: "150px",
-      scrollCollapse: true,
-      dom: '<"datatable-error-console">frtip',
-      data: data, // Configurar data como fuente de datos
-      columns: [
-        { title: "N°", data: null },
-        { title: "Referencia", data: "reference" },
-        { title: "Producto", data: "product" },
-        {
-          title: "Acciones",
-          data: null,
-          render: function (data, type, row, meta) {
-            return `
+  // Inicializar DataTable
+  const newTable = $("#tblInactiveProducts").DataTable({
+    destroy: true,
+    scrollY: "150px",
+    scrollCollapse: true,
+    dom: '<"datatable-error-console">frtip',
+    data: data, // Configurar data como fuente de datos
+    columns: [
+      { title: "N°", data: null },
+      { title: "Referencia", data: "reference" },
+      { title: "Producto", data: "product" },
+      {
+        title: "Acciones",
+        data: null,
+        render: function (data, type, row, meta) {
+          return `
             <a href="javascript:;">
               <span id="checkIn-${row.id_product}" class="badge badge-success checkInactiveProduct">Activar</span>
             </a>
             <a href="javascript:;">
               <i id="${row.id_product}" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px; color: red;"></i>
             </a>`;
-          }
-        }
-      ],
-      rowCallback: function (row, data, index) {
-        $('td:eq(0)', row).html(index + 1);
-      },
-      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-        if (oSettings.json && oSettings.json.hasOwnProperty("error")) {
-          console.error(oSettings.json.error);
         }
       }
-    });
-
-    // Ajustar el ancho de la tabla
-    const tables = document.getElementsByClassName("dataTables_scrollHeadInner");
-    if (tables.length > 0) {
-      tables[0].style.width = "100%";
-      if (tables[0].firstElementChild) {
-        tables[0].firstElementChild.style.width = "100%";
+    ],
+    rowCallback: function (row, data, index) {
+      $('td:eq(0)', row).html(index + 1);
+    },
+    fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+      if (oSettings.json && oSettings.json.hasOwnProperty("error")) {
+        console.error(oSettings.json.error);
       }
     }
-  };
-
-  /* Guardar productos a activar */
-  $(document).on("click", ".checkInactiveProduct", async function () {
-    let id = this.id;
-    let idProduct = id.slice(8, id.length);
-
-    await changeStatusProduct(idProduct, 1);
-
-    // $(this).closest("tr").remove();
-    var rowIndex = $(this).closest("tr").index();
-
-    // Eliminar la fila de la DataTable
-    $('#tblInactiveProducts').DataTable().row(rowIndex).remove().draw();
   });
+
+  // Ajustar el ancho de la tabla
+  const tables = document.getElementsByClassName("dataTables_scrollHeadInner");
+  if (tables.length > 0) {
+    tables[0].style.width = "100%";
+    if (tables[0].firstElementChild) {
+      tables[0].firstElementChild.style.width = "100%";
+    }
+  }
+};
+
+/* Guardar productos a activar */
+$(document).on("click", ".checkInactiveProduct", async function () {
+  let id = this.id;
+  let idProduct = id.slice(8, id.length);
+
+  await changeStatusProduct(idProduct, 1);
+
+  // $(this).closest("tr").remove();
+  var rowIndex = $(this).closest("tr").index();
+
+  // Eliminar la fila de la DataTable
+  $('#tblInactiveProducts').DataTable().row(rowIndex).remove().draw();
 });
+

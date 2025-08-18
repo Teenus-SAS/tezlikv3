@@ -75,10 +75,6 @@ $('#btnNewExpense').click(function (e) {
   let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
   loadPUC(dataExpenses);
 
-  /* var summarizedExpenses = sumAndGroupExpenses(dataExpenses);
-  summarizedExpenses.sort((a, b) => a.puc.localeCompare(b.puc)); */
-
-  //loadTblAssExpenses(summarizedExpenses, 1);
 });
 
 //Actualizar Gasto General
@@ -87,8 +83,8 @@ $('#btnCreateExpense').click(function (e) {
 
   const idExpense = sessionStorage.getItem('id_expense');
   const endpoint = (!idExpense)
-    ? '/api/addExpenses'
-    : '/api/updateExpenses';
+    ? '/api/expenses/addExpenses'
+    : '/api/expenses/updateExpenses';
 
   checkDataExpense(endpoint, idExpense || '');
 });
@@ -134,10 +130,10 @@ $(document).on('click', '.deleteExpenses', function (e) {
 
   if (op == 2) {
     id_expense = data.id_expense_product_center;
-    url = `/api/deleteExpenses/${id_expense}/2`;
+    url = `/api/expenses/deleteExpenses/${id_expense}/2`;
   } else {
     id_expense = data.id_expense;
-    url = `/api/deleteExpenses/${id_expense}/1`;
+    url = `/api/expenses/deleteExpenses/${id_expense}/1`;
   }
   let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
   let arr = dataExpenses.filter(item => item.id_expense == id_expense);
@@ -177,7 +173,7 @@ $(document).on('click', '.deleteExpenses', function (e) {
             return false;
           }
 
-          url = `/api/deleteExpenses/${id_expense}/2`;
+          url = `/api/expenses/deleteExpenses/${id_expense}/2`;
 
           $.get(url, function (data, textStatus, jqXHR) {
             messageExpense(data);

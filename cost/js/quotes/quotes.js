@@ -49,10 +49,10 @@ $(document).ready(function () {
 
     let idQuote = sessionStorage.getItem('id_quote');
 
-    if (!idQuote || idQuote == '') 
-      checkQuote('/api/addQuote', idQuote);
+    if (!idQuote || idQuote == '')
+      checkQuote('/api/quotes/addQuote', idQuote);
     else
-      checkQuote('/api/updateQuote', idQuote);
+      checkQuote('/api/quotes/updateQuote', idQuote);
   });
 
   /* Actualizar Cotizaciones */
@@ -79,7 +79,7 @@ $(document).ready(function () {
     $('#observation').val(data.observation);
 
     /* Obtener data de los productos cotizados */
-    products = await searchData(`/api/quotesProducts/${idQuote}`);
+    products = await searchData(`/api/quotes/quotesProducts/${idQuote}`);
 
     await addProducts();
 
@@ -94,7 +94,7 @@ $(document).ready(function () {
       },
       1000
     );
-  }); 
+  });
 
   checkQuote = async (url, idQuote) => {
     let company = $('#company').val();
@@ -122,7 +122,7 @@ $(document).ready(function () {
     if (products.length == 0) {
       toastr.error('Seleccione por lo menos un producto a adicionar');
       return false;
-    }  
+    }
 
     $.ajax({
       type: 'POST',
@@ -168,11 +168,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.get(
-            `/api/deleteQuote/${idQuote}`,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.get(`/api/quotes/deleteQuote/${idQuote}`, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },
@@ -195,7 +193,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       products.splice(0);
       $('#modalCreateQuote').modal('hide');

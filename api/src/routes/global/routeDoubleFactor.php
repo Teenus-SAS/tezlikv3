@@ -2,8 +2,6 @@
 
 use tezlikv3\dao\SendEmailDao;
 
-//$sendCodeDao = new SendCodeDao();
-
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

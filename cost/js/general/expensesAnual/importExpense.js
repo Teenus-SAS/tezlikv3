@@ -41,7 +41,7 @@ $(document).ready(function () {
       .then((data) => {
         let arr = data.rowObject;
 
-         if (arr.length == 0) {
+        if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileExpensesAssignationAnual').val('');
@@ -97,7 +97,7 @@ $(document).ready(function () {
   const checkExpenseA = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/expenseAnualDataValidation',
+      url: '/api/expensesAnual/expenseAnualDataValidation',
       data: { importExpense: data },
       success: function (resp) {
         if (resp.reload) {
@@ -142,7 +142,7 @@ $(document).ready(function () {
   const saveExpenseA = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addExpensesAnual',
+      url: '/api/expensesAnual/addExpensesAnual',
       data: { importExpense: data },
       success: function (r) {
         messageExpenseA(r);

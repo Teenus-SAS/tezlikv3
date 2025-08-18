@@ -1,537 +1,536 @@
-$(document).ready(function () {
-  let idProduct;
-  sessionStorage.removeItem('dataMaterials');
+let idProduct;
+sessionStorage.removeItem('dataMaterials');
 
-  $('.btnDownloadXlsx').hide();
+$('.btnDownloadXlsx').hide();
 
-  $('.selectNavigation').click(function (e) {
-    e.preventDefault();
+$('.selectNavigation').click(function (e) {
+  e.preventDefault();
 
-    $('.cardProducts').show();
+  $('.cardProducts').show();
 
-    if (this.id == 'materials') {
-      $('.cardProductsMaterials').show();
-      $('.cardProductsProcess').hide();
-      $('.cardAddProcess').hide();
-      $('.cardServices').hide();
-      $('.cardImportProductsProcess').hide();
-      $('.cardAddService').hide();
-      $('.cardImportExternalServices').hide();
-    } else if (this.id == 'process') {
-      $('.cardProductsProcess').show();
-      $('.cardProductsMaterials').hide();
-      $('.cardAddMaterials').hide();
-      $('.cardServices').hide();
-      $('.cardImportProductsMaterials').hide();
-      $('.cardAddNewProduct').hide();
-      $('.cardAddService').hide();
-      $('.cardImportExternalServices').hide();
-    } else {
-      $('.cardServices').show();
-      $('.cardProductsProcess').hide();
-      $('.cardAddProcess').hide();
-      $('.cardProductsMaterials').hide();
-      $('.cardAddMaterials').hide();
-      $('.cardImportProductsMaterials').hide();
-      $('.cardImportProductsProcess').hide();
-      $('.cardAddNewProduct').hide();
-      $('.cardAddService').hide();
-      $('.cardImportExternalServices').hide();
-    }
+  if (this.id == 'materials') {
+    $('.cardProductsMaterials').show();
+    $('.cardProductsProcess').hide();
+    $('.cardAddProcess').hide();
+    $('.cardServices').hide();
+    $('.cardImportProductsProcess').hide();
+    $('.cardAddService').hide();
+    $('.cardImportExternalServices').hide();
+  } else if (this.id == 'process') {
+    $('.cardProductsProcess').show();
+    $('.cardProductsMaterials').hide();
+    $('.cardAddMaterials').hide();
+    $('.cardServices').hide();
+    $('.cardImportProductsMaterials').hide();
+    $('.cardAddNewProduct').hide();
+    $('.cardAddService').hide();
+    $('.cardImportExternalServices').hide();
+  } else {
+    $('.cardServices').show();
+    $('.cardProductsProcess').hide();
+    $('.cardAddProcess').hide();
+    $('.cardProductsMaterials').hide();
+    $('.cardAddMaterials').hide();
+    $('.cardImportProductsMaterials').hide();
+    $('.cardImportProductsProcess').hide();
+    $('.cardAddNewProduct').hide();
+    $('.cardAddService').hide();
+    $('.cardImportExternalServices').hide();
+  }
 
-    let tables = document.getElementsByClassName('dataTable');
+  let tables = document.getElementsByClassName('dataTable');
 
-    for (let i = 0; i < tables.length; i++) {
-      let attr = tables[i];
-      attr.style.width = '100%';
-      attr = tables[i].firstElementChild;
-      attr.style.width = '100%';
-    }
-  });
+  for (let i = 0; i < tables.length; i++) {
+    let attr = tables[i];
+    attr.style.width = '100%';
+    attr = tables[i].firstElementChild;
+    attr.style.width = '100%';
+  }
+});
 
-  // Cambiar moneda
-  $('.selectPriceUSD').change(function (e) {
-    e.preventDefault();
+// Cambiar moneda
+$('.selectPriceUSD').change(function (e) {
+  e.preventDefault();
 
-    if ($('#selectNameProduct').val()) {
-      $('.cardAddMaterials').hide(800);
-      $('.cardImportProductsMaterials').hide(800);
-      $('.cardAddNewProduct').hide(800);
-
-      const selectPriceUSD = this.value;
-      $('.selectPriceUSD').val(this.value);
-      let op;
-
-      switch (selectPriceUSD) {
-        case '1': // Precios COP 
-          op = 1;
-          break;
-        case '2': // Precios USD
-          // titleText = 'Ingrese el valor de compra en USD';
-          op = 2;
-          break;
-      }
-
-      let dataMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
-      let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
-      let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
-
-      loadTableMaterials(dataMaterials, op);
-      loadTableProcess(dataProductProcess, op);
-      loadTableExternalServices(dataServices, op);
-    }
-  });
-
-  $('#categories').change(function (e) {
-    e.preventDefault();
-
-    let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
-
-    if (this.value != '0')
-      data = data.filter((item) => item.id_category == this.value);
-
-    addSelectsMaterials(data);
-  });
-
-  // Crear selects manualmente
-  const addSelectsMaterials = (data) => {
-    let ref = sortFunction(data, 'reference');
-
-    $select = $(`#refMaterial`);
-    $select.empty();
-    $select.append(`<option disabled selected value='0'>Seleccionar</option>`);
-    $.each(ref, function (i, value) {
-      $select.append(
-        `<option value = ${value.id_material}> ${value.reference} </option>`
-      );
-    });
-
-    let name = sortFunction(data, 'material');
-
-    $select1 = $(`#nameMaterial`);
-    $select1.empty();
-    $select1.append(`<option disabled selected value='0'>Seleccionar</option>`);
-    $.each(name, function (i, value) {
-      $select1.append(
-        `<option value = ${value.id_material}> ${value.material} </option>`
-      );
-    });
-  };
-
-  /* Ocultar panel crear producto */
-  $('.cardAddMaterials').hide();
-
-  /* Abrir panel crear producto */
-  $('#btnCreateProduct').click(async function (e) {
-    e.preventDefault();
-
+  if ($('#selectNameProduct').val()) {
+    $('.cardAddMaterials').hide(800);
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddNewProduct').hide(800);
-    $('#btnAddMaterials').html('Asignar');
-    $('#units').empty();
 
-    let display = $('.cardAddMaterials').css('display');
-    let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
+    const selectPriceUSD = this.value;
+    $('.selectPriceUSD').val(this.value);
+    let op;
 
-    if (display == 'none' && !dataMaterials) {
-      await loadDataMaterial(1, '/api/selectMaterials');
-      await getSelectCategories();
-    };
-
-    $('.cardAddMaterials').toggle(800);
-    let categories = JSON.parse(sessionStorage.getItem('dataCategories'));
-
-    if (categories.length == 0) $('.categories').hide();
-    else $('.categories').show(800);
-
-    $('.cardProducts').show(800);
-
-    sessionStorage.removeItem('id_product_material');
-
-    $('.inputs').css('border-color', '');
-    $('#formAddMaterials').trigger('reset');
-  });
-
-  /* Adicionar unidad de materia prima */
-  $('.material').change(async function (e) {
-    e.preventDefault();
-    let id = this.value;
-
-    let data = sessionStorage.getItem('dataMaterials');
-    if (data) {
-      dataMaterials = JSON.parse(data);
+    switch (selectPriceUSD) {
+      case '1': // Precios COP 
+        op = 1;
+        break;
+      case '2': // Precios USD
+        // titleText = 'Ingrese el valor de compra en USD';
+        op = 2;
+        break;
     }
 
-    for (i = 0; i < dataMaterials.length; i++) {
-      if (id == dataMaterials[i].id_material) {
-        loadUnitsByMagnitude(dataMaterials[i], 2);
-      }
-    }
-  });
+    let dataMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+    let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
 
-  /* Seleccionar producto */
-  $('#selectNameProduct').change(function (e) {
-    e.preventDefault();
-    idProduct = $('#selectNameProduct').val();
-  });
+    loadTableMaterials(dataMaterials, op);
+    loadTableProcess(dataProductProcess, op);
+    loadTableExternalServices(dataServices, op);
+  }
+});
 
-  // Calcular cantidad total
-  $(document).on('click keyup', '.quantityMP', function (e) {
-    let quantity = parseFloat($('#quantityMP').val());
-    let waste = parseFloat($('#wasteMP').val());
+$('#categories').change(function (e) {
+  e.preventDefault();
 
-    isNaN(quantity) ? (quantity = 0) : quantity;
-    isNaN(waste) ? (waste = 0) : waste;
+  let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
 
-    // total
-    let total = quantity * (1 + waste / 100);
+  if (this.value != '0')
+    data = data.filter((item) => item.id_category == this.value);
 
-    !isFinite(total) ? (total = 0) : total;
+  addSelectsMaterials(data);
+});
 
-    $('#quantityTotal').val(total);
-  });
+// Crear selects manualmente
+const addSelectsMaterials = (data) => {
+  let ref = sortFunction(data, 'reference');
 
-  /* Adicionar nueva materia prima */
-  $('#btnAddMaterials').click(function (e) {
-    e.preventDefault();
-
-    let idProductMaterial = sessionStorage.getItem('id_product_material');
-
-    if (idProductMaterial == '' || idProductMaterial == null) {
-      checkDataProductsMaterials(
-        '/api/dataSheetMaterials/addProductsMaterials',
-        idProductMaterial
-      );
-    } else {
-      checkDataProductsMaterials(
-        '/api/dataSheetMaterials/updateProductsMaterials',
-        idProductMaterial
-      );
-    }
-  });
-
-  /* Actualizar productos materials */
-
-  $(document).on('click', '.updateMaterials', async function (e) {
-    $('.cardImportProductsMaterials').hide(800);
-    $('.inputs').css('border-color', '');
-    $('.cardAddNewProduct').hide(800);
-    $('.categories').hide(800);
-
-    let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
-
-    if (!dataMaterials) {
-      await loadDataMaterial(1, '/api/selectMaterials');
-      await getSelectCategories();
-    };
-
-    $('.cardAddMaterials').show(800);
-    $('#btnAddMaterials').html('Actualizar');
-
-    let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
-    await addSelectsMaterials(data);
-
-    $('#units').empty();
-
-    let row = $(this).parent().parent()[0];
-    data = tblConfigMaterials.fnGetData(row);
-
-    sessionStorage.setItem('id_product_material', data.id_product_material);
-    $(`#refMaterial option[value=${data.id_material}]`).prop('selected', true);
-    $(`#nameMaterial option[value=${data.id_material}]`).prop('selected', true);
-
-    if (data.id_magnitude == 0 || data.id_unit == 0) {
-      let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
-
-      let arr = dataMaterials.find(item => item.id_material == data.id_material);
-
-      data.id_magnitude = arr.id_magnitude;
-      data.id_unit = arr.id_unit;
-    }
-
-    $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
-    loadUnitsByMagnitude(data, 2);
-    $(`#units option[value=${data.id_unit}]`).prop('selected', true);
-
-    $('#quantityMP').val(data.quantity);
-    $('#wasteMP').val(data.waste);
-
-    $('#wasteMP').click();
-
-    $('html, body').animate(
-      {
-        scrollTop: 0,
-      },
-      1000
+  $select = $(`#refMaterial`);
+  $select.empty();
+  $select.append(`<option disabled selected value='0'>Seleccionar</option>`);
+  $.each(ref, function (i, value) {
+    $select.append(
+      `<option value = ${value.id_material}> ${value.reference} </option>`
     );
   });
 
-  function validateForm() {
-    let emptyInputs = [];
-    let refMaterial = parseInt($('#refMaterial').val());
-    let units = parseInt($('#units').val());
-    let quantity = parseFloat($('#quantityMP').val());
+  let name = sortFunction(data, 'material');
 
-    // Verificar cada campo y agregar los vacíos a la lista
-    if (!refMaterial) {
-      emptyInputs.push('#refMaterial');
-      emptyInputs.push('#nameMaterial');
-    }
-    if (!units) {
-      emptyInputs.push('#units');
-    }
-    if (!quantity) {
-      emptyInputs.push('#quantityMP');
-    }
+  $select1 = $(`#nameMaterial`);
+  $select1.empty();
+  $select1.append(`<option disabled selected value='0'>Seleccionar</option>`);
+  $.each(name, function (i, value) {
+    $select1.append(
+      `<option value = ${value.id_material}> ${value.material} </option>`
+    );
+  });
+};
 
-    // Marcar los campos vacíos con borde rojo
-    emptyInputs.forEach(function (selector) {
-      $(selector).css('border-color', 'red');
-    });
+/* Ocultar panel crear producto */
+$('.cardAddMaterials').hide();
 
-    // Mostrar mensaje de error si hay campos vacíos
-    if (emptyInputs.length > 0) {
-      toastr.error('Ingrese todos los campos');
-      return false;
-    }
+/* Abrir panel crear producto */
+$('#btnCreateProduct').click(async function (e) {
+  e.preventDefault();
 
-    return true;
+  $('.cardImportProductsMaterials').hide(800);
+  $('.cardAddNewProduct').hide(800);
+  $('#btnAddMaterials').html('Asignar');
+  $('#units').empty();
+
+  let display = $('.cardAddMaterials').css('display');
+  let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
+
+  if (display == 'none' && !dataMaterials) {
+    await loadDataMaterial(1, '/api/selectMaterials');
+    await getSelectCategories();
   };
 
-  /* Revision data Productos materiales */
-  checkDataProductsMaterials = async (url, idProductMaterial) => {
-    if (!validateForm()) {
-      return false;
+  $('.cardAddMaterials').toggle(800);
+  let categories = JSON.parse(sessionStorage.getItem('dataCategories'));
+
+  if (categories.length == 0) $('.categories').hide();
+  else $('.categories').show(800);
+
+  $('.cardProducts').show(800);
+
+  sessionStorage.removeItem('id_product_material');
+
+  $('.inputs').css('border-color', '');
+  $('#formAddMaterials').trigger('reset');
+});
+
+/* Adicionar unidad de materia prima */
+$('.material').change(async function (e) {
+  e.preventDefault();
+  let id = this.value;
+
+  let data = sessionStorage.getItem('dataMaterials');
+  if (data) {
+    dataMaterials = JSON.parse(data);
+  }
+
+  for (i = 0; i < dataMaterials.length; i++) {
+    if (id == dataMaterials[i].id_material) {
+      loadUnitsByMagnitude(dataMaterials[i], 2);
     }
-    // let ref = parseInt($('#nameMaterial').val());
-    // let unit = parseInt($('#units').val());
-    let quan = parseFloat($('#quantityMP').val());
-    // // let waste = parseFloat($('#waste').val());/
-    let idProduct = parseInt($('#selectNameProduct').val());
+  }
+});
 
-    // let data = ref * unit * idProduct;
+/* Seleccionar producto */
+$('#selectNameProduct').change(function (e) {
+  e.preventDefault();
+  idProduct = $('#selectNameProduct').val();
+});
 
-    // if (!data || quan == '') {
-    //   toastr.error('Ingrese todos los campos');
-    //   return false;
-    // }
+// Calcular cantidad total
+$(document).on('click keyup', '.quantityMP', function (e) {
+  let quantity = parseFloat($('#quantityMP').val());
+  let waste = parseFloat($('#wasteMP').val());
 
-    quant = 1 * quan;
+  isNaN(quantity) ? (quantity = 0) : quantity;
+  isNaN(waste) ? (waste = 0) : waste;
 
-    if (quan <= 0 || isNaN(quan)) {
-      $('#quantityMP').css('border-color', 'red');
-      toastr.error('La cantidad debe ser mayor a cero (0)');
-      return false;
-    }
+  // total
+  let total = quantity * (1 + waste / 100);
 
-    let dataProductMaterial = new FormData(formAddMaterials);
-    dataProductMaterial.append('idProduct', idProduct);
+  !isFinite(total) ? (total = 0) : total;
 
-    if (idProductMaterial != '' || idProductMaterial != null)
-      dataProductMaterial.append('idProductMaterial', idProductMaterial);
+  $('#quantityTotal').val(total);
+});
 
-    let resp = await sendDataPOST(url, dataProductMaterial);
+/* Adicionar nueva materia prima */
+$('#btnAddMaterials').click(function (e) {
+  e.preventDefault();
 
-    // $('.inputs').css('border-color', '');
-    messageMaterials(resp);
+  let idProductMaterial = sessionStorage.getItem('id_product_material');
+
+  if (idProductMaterial == '' || idProductMaterial == null) {
+    checkDataProductsMaterials(
+      '/api/dataSheetMaterials/addProductsMaterials',
+      idProductMaterial
+    );
+  } else {
+    checkDataProductsMaterials(
+      '/api/dataSheetMaterials/updateProductsMaterials',
+      idProductMaterial
+    );
+  }
+});
+
+/* Actualizar productos materials */
+
+$(document).on('click', '.updateMaterials', async function (e) {
+  $('.cardImportProductsMaterials').hide(800);
+  $('.inputs').css('border-color', '');
+  $('.cardAddNewProduct').hide(800);
+  $('.categories').hide(800);
+
+  let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
+
+  if (!dataMaterials) {
+    await loadDataMaterial(1, '/api/selectMaterials');
+    await getSelectCategories();
   };
 
-  /* Eliminar materia prima */
+  $('.cardAddMaterials').show(800);
+  $('#btnAddMaterials').html('Actualizar');
 
-  deleteMaterial = (op) => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblConfigMaterials.fnGetData(row);
+  let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
+  await addSelectsMaterials(data);
 
-    let idProduct = $('#selectNameProduct').val();
-    let dataP = {};
-    dataP['idProduct'] = idProduct;
+  $('#units').empty();
 
-    if (op == '1') {
-      let idProductMaterial = data.id_product_material;
-      dataP['idProductMaterial'] = idProductMaterial;
-      url = '/api/dataSheetMaterials/deleteProductMaterial';
-    } else {
-      dataP['idCompositeProduct'] = data.id_composite_product;
-      url = '/api/subproducts/deleteCompositeProduct';
-    }
+  let row = $(this).parent().parent()[0];
+  data = tblConfigMaterials.fnGetData(row);
 
-    bootbox.confirm({
-      title: 'Eliminar',
-      message: `Está seguro de eliminar ${op == '1' ? 'esta Materia prima' : 'este Producto Compuesto'
-        }? Esta acción no se puede reversar.`,
-      buttons: {
-        confirm: {
-          label: 'Si',
-          className: 'btn-success',
-        },
-        cancel: {
-          label: 'No',
-          className: 'btn-danger',
-        },
+  sessionStorage.setItem('id_product_material', data.id_product_material);
+  $(`#refMaterial option[value=${data.id_material}]`).prop('selected', true);
+  $(`#nameMaterial option[value=${data.id_material}]`).prop('selected', true);
+
+  if (data.id_magnitude == 0 || data.id_unit == 0) {
+    let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
+
+    let arr = dataMaterials.find(item => item.id_material == data.id_material);
+
+    data.id_magnitude = arr.id_magnitude;
+    data.id_unit = arr.id_unit;
+  }
+
+  $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
+  loadUnitsByMagnitude(data, 2);
+  $(`#units option[value=${data.id_unit}]`).prop('selected', true);
+
+  $('#quantityMP').val(data.quantity);
+  $('#wasteMP').val(data.waste);
+
+  $('#wasteMP').click();
+
+  $('html, body').animate(
+    {
+      scrollTop: 0,
+    },
+    1000
+  );
+});
+
+function validateForm() {
+  let emptyInputs = [];
+  let refMaterial = parseInt($('#refMaterial').val());
+  let units = parseInt($('#units').val());
+  let quantity = parseFloat($('#quantityMP').val());
+
+  // Verificar cada campo y agregar los vacíos a la lista
+  if (!refMaterial) {
+    emptyInputs.push('#refMaterial');
+    emptyInputs.push('#nameMaterial');
+  }
+  if (!units) {
+    emptyInputs.push('#units');
+  }
+  if (!quantity) {
+    emptyInputs.push('#quantityMP');
+  }
+
+  // Marcar los campos vacíos con borde rojo
+  emptyInputs.forEach(function (selector) {
+    $(selector).css('border-color', 'red');
+  });
+
+  // Mostrar mensaje de error si hay campos vacíos
+  if (emptyInputs.length > 0) {
+    toastr.error('Ingrese todos los campos');
+    return false;
+  }
+
+  return true;
+};
+
+/* Revision data Productos materiales */
+checkDataProductsMaterials = async (url, idProductMaterial) => {
+  if (!validateForm()) {
+    return false;
+  }
+  // let ref = parseInt($('#nameMaterial').val());
+  // let unit = parseInt($('#units').val());
+  let quan = parseFloat($('#quantityMP').val());
+  // // let waste = parseFloat($('#waste').val());/
+  let idProduct = parseInt($('#selectNameProduct').val());
+
+  // let data = ref * unit * idProduct;
+
+  // if (!data || quan == '') {
+  //   toastr.error('Ingrese todos los campos');
+  //   return false;
+  // }
+
+  quant = 1 * quan;
+
+  if (quan <= 0 || isNaN(quan)) {
+    $('#quantityMP').css('border-color', 'red');
+    toastr.error('La cantidad debe ser mayor a cero (0)');
+    return false;
+  }
+
+  let dataProductMaterial = new FormData(formAddMaterials);
+  dataProductMaterial.append('idProduct', idProduct);
+
+  if (idProductMaterial != '' || idProductMaterial != null)
+    dataProductMaterial.append('idProductMaterial', idProductMaterial);
+
+  let resp = await sendDataPOST(url, dataProductMaterial);
+
+  // $('.inputs').css('border-color', '');
+  messageMaterials(resp);
+};
+
+/* Eliminar materia prima */
+
+deleteMaterial = (op) => {
+  let row = $(this.activeElement).parent().parent()[0];
+  let data = tblConfigMaterials.fnGetData(row);
+
+  let idProduct = $('#selectNameProduct').val();
+  let dataP = {};
+  dataP['idProduct'] = idProduct;
+
+  if (op == '1') {
+    let idProductMaterial = data.id_product_material;
+    dataP['idProductMaterial'] = idProductMaterial;
+    url = '/api/dataSheetMaterials/deleteProductMaterial';
+  } else {
+    dataP['idCompositeProduct'] = data.id_composite_product;
+    url = '/api/subproducts/deleteCompositeProduct';
+  }
+
+  bootbox.confirm({
+    title: 'Eliminar',
+    message: `Está seguro de eliminar ${op == '1' ? 'esta Materia prima' : 'este Producto Compuesto'
+      }? Esta acción no se puede reversar.`,
+    buttons: {
+      confirm: {
+        label: 'Si',
+        className: 'btn-success',
       },
-      callback: function (result) {
-        if (result == true) {
-          $.post(url, dataP, function (data, textStatus, jqXHR) {
-            messageMaterials(data);
-          });
-        }
+      cancel: {
+        label: 'No',
+        className: 'btn-danger',
       },
-    });
-  };
-
-  /* Mensaje de exito */
-
-  messageMaterials = (data) => {
-    if (data.reload) {
-      location.reload();
-    }
-
-    $('.cardLoading').remove();
-    $('.cardBottons').show(400);
-    $('#fileProductsMaterials').val('');
-
-    if (data.success) {
-      $('.cardImportProductsMaterials').hide(800);
-      $('#formImportProductMaterial').trigger('reset');
-      $('.cardAddMaterials').hide(800);
-      $('.cardAddNewProduct').hide(800);
-      $('.cardImportProductsMaterials').hide(800);
-      $('.cardProducts').show(800);
-
-      $('#formAddMaterials').trigger('reset');
-      let idProduct = $('#selectNameProduct').val();
-      if (idProduct)
-        loadAllDataMaterials(idProduct);
-
-      toastr.success(data.message);
-      return false;
-    } else if (data.error) toastr.error(data.message);
-    else if (data.info) toastr.info(data.message);
-  };
-
-  $('.btnDownloadXlsx').click(async function (e) {
-    e.preventDefault();
-
-    let wb = XLSX.utils.book_new();
-    let id_product = $('#refProduct').val();
-
-    /* Materiales */
-    let data = [];
-    let arr = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
-
-    if (flag_composite_product == '1') {
-      let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
-
-      let refProduct = $('#refProduct :selected').text().trim();
-      let nameProduct = $('#selectNameProduct :selected').text().trim();
-
-      dataCompositeProduct.forEach(item => {
-        item['reference_product'] = refProduct;
-        item['product'] = nameProduct;
-      });
-
-      arr = [...arr, ...dataCompositeProduct];
-    }
-
-    // let arr = dataProductMaterials.filter(
-    //   (item) => item.id_product == id_product
-    // );
-
-    if (arr.length > 0) {
-      for (i = 0; i < arr.length; i++) {
-        data.push({
-          referencia_producto: arr[i].reference_product,
-          producto: arr[i].product,
-          referencia_material: arr[i].reference_material,
-          material: arr[i].material,
-          magnitud: arr[i].magnitude,
-          unidad: arr[i].unit,
-          cantidad: arr[i].quantity,
-          desperdicio: arr[i].waste,
-          tipo: arr[i].type,
+    },
+    callback: function (result) {
+      if (result == true) {
+        $.post(url, dataP, function (data, textStatus, jqXHR) {
+          messageMaterials(data);
         });
       }
+    },
+  });
+};
 
-      let ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Productos Materias');
+/* Mensaje de exito */
+
+messageMaterials = (data) => {
+  if (data.reload) {
+    location.reload();
+  }
+
+  $('.cardLoading').remove();
+  $('.cardBottons').show(400);
+  $('#fileProductsMaterials').val('');
+
+  if (data.success) {
+    $('.cardImportProductsMaterials').hide(800);
+    $('#formImportProductMaterial').trigger('reset');
+    $('.cardAddMaterials').hide(800);
+    $('.cardAddNewProduct').hide(800);
+    $('.cardImportProductsMaterials').hide(800);
+    $('.cardProducts').show(800);
+
+    $('#formAddMaterials').trigger('reset');
+    let idProduct = $('#selectNameProduct').val();
+    if (idProduct)
+      loadAllDataMaterials(idProduct);
+
+    toastr.success(data.message);
+    return false;
+  } else if (data.error) toastr.error(data.message);
+  else if (data.info) toastr.info(data.message);
+};
+
+$('.btnDownloadXlsx').click(async function (e) {
+  e.preventDefault();
+
+  let wb = XLSX.utils.book_new();
+  let id_product = $('#refProduct').val();
+
+  /* Materiales */
+  let data = [];
+  let arr = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+
+  if (flag_composite_product == '1') {
+    let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
+
+    let refProduct = $('#refProduct :selected').text().trim();
+    let nameProduct = $('#selectNameProduct :selected').text().trim();
+
+    dataCompositeProduct.forEach(item => {
+      item['reference_product'] = refProduct;
+      item['product'] = nameProduct;
+    });
+
+    arr = [...arr, ...dataCompositeProduct];
+  }
+
+  // let arr = dataProductMaterials.filter(
+  //   (item) => item.id_product == id_product
+  // );
+
+  if (arr.length > 0) {
+    for (i = 0; i < arr.length; i++) {
+      data.push({
+        referencia_producto: arr[i].reference_product,
+        producto: arr[i].product,
+        referencia_material: arr[i].reference_material,
+        material: arr[i].material,
+        magnitud: arr[i].magnitude,
+        unidad: arr[i].unit,
+        cantidad: arr[i].quantity,
+        desperdicio: arr[i].waste,
+        tipo: arr[i].type,
+      });
     }
 
-    /* Procesos */
-    data = [];
-    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+    let ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, 'Productos Materias');
+  }
 
-    arr = dataProductProcess.filter((item) => item.id_product == id_product);
-    if (arr.length > 0) {
-      for (i = 0; i < arr.length; i++) {
-        if (flag_employee == '1' && arr[i].employee != '') {
-          let str_name_employees = '';
-          let dataPayroll = sessionStorage.getItem('dataPayroll');
+  /* Procesos */
+  data = [];
+  let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
 
-          if (!dataPayroll) {
-            dataPayroll = await searchData('/api/basicPayroll');
-            sessionStorage.setItem('dataPayroll', JSON.stringify(dataPayroll));
-          }
+  arr = dataProductProcess.filter((item) => item.id_product == id_product);
+  if (arr.length > 0) {
+    for (i = 0; i < arr.length; i++) {
+      if (flag_employee == '1' && arr[i].employee != '') {
+        let str_name_employees = '';
+        let dataPayroll = sessionStorage.getItem('dataPayroll');
 
-          let employees = arr[i].employee.toString().split(',');
-          let arr_name_employees = [];
-
-          employees.forEach(item => {
-            let k = dataPayroll.find(obj => obj.id_payroll == item);
-            arr_name_employees.push(k.employee);
-          });
-
-          str_name_employees = arr_name_employees.join(',');
-
-          data.push({
-            referencia_producto: arr[i].reference,
-            producto: arr[i].product,
-            proceso: arr[i].process,
-            maquina: arr[i].machine,
-            tiempo_enlistamiento: arr[i].enlistment_time,
-            tiempo_operacion: arr[i].operation_time,
-            eficiencia: arr[i].efficiency,
-            maquina_autonoma: arr[i].auto_machine,
-            empleados: str_name_employees
-          });
-        } else {
-          data.push({
-            referencia_producto: arr[i].reference,
-            producto: arr[i].product,
-            proceso: arr[i].process,
-            maquina: arr[i].machine,
-            tiempo_enlistamiento: arr[i].enlistment_time,
-            tiempo_operacion: arr[i].operation_time,
-            eficiencia: arr[i].efficiency,
-            maquina_autonoma: arr[i].auto_machine,
-          });
-
+        if (!dataPayroll) {
+          dataPayroll = await searchData('/api/payroll/basicPayroll');
+          sessionStorage.setItem('dataPayroll', JSON.stringify(dataPayroll));
         }
-      }
 
-      ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
-    }
+        let employees = arr[i].employee.toString().split(',');
+        let arr_name_employees = [];
 
-    /* Servicios */
-    data = [];
+        employees.forEach(item => {
+          let k = dataPayroll.find(obj => obj.id_payroll == item);
+          arr_name_employees.push(k.employee);
+        });
 
-    arr = JSON.parse(sessionStorage.getItem('dataServices'));
+        str_name_employees = arr_name_employees.join(',');
 
-    // arr = dataServices.filter((item) => item.id_product == id_product);
-    if (arr.length > 0) {
-      for (i = 0; i < arr.length; i++) {
         data.push({
           referencia_producto: arr[i].reference,
           producto: arr[i].product,
-          servicio: arr[i].name_service,
-          // costo: arr[i].cost,
+          proceso: arr[i].process,
+          maquina: arr[i].machine,
+          tiempo_enlistamiento: arr[i].enlistment_time,
+          tiempo_operacion: arr[i].operation_time,
+          eficiencia: arr[i].efficiency,
+          maquina_autonoma: arr[i].auto_machine,
+          empleados: str_name_employees
         });
-      }
+      } else {
+        data.push({
+          referencia_producto: arr[i].reference,
+          producto: arr[i].product,
+          proceso: arr[i].process,
+          maquina: arr[i].machine,
+          tiempo_enlistamiento: arr[i].enlistment_time,
+          tiempo_operacion: arr[i].operation_time,
+          eficiencia: arr[i].efficiency,
+          maquina_autonoma: arr[i].auto_machine,
+        });
 
-      ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
+      }
     }
 
-    XLSX.writeFile(wb, 'Ficha_Productos.xlsx');
-  });
+    ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
+  }
+
+  /* Servicios */
+  data = [];
+
+  arr = JSON.parse(sessionStorage.getItem('dataServices'));
+
+  // arr = dataServices.filter((item) => item.id_product == id_product);
+  if (arr.length > 0) {
+    for (i = 0; i < arr.length; i++) {
+      data.push({
+        referencia_producto: arr[i].reference,
+        producto: arr[i].product,
+        servicio: arr[i].name_service,
+        // costo: arr[i].cost,
+      });
+    }
+
+    ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
+  }
+
+  XLSX.writeFile(wb, 'Ficha_Productos.xlsx');
 });
+

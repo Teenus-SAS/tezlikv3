@@ -87,7 +87,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     method: "POST",
-                    url: "/api/deleteHistorical",
+                    url: "/api/historicalData/deleteHistorical",
                     data: data,
                     success: function (resp) {
                         toastr.success(resp.message);

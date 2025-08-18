@@ -153,7 +153,7 @@ $(document).ready(function () {
 
           $.ajax({
             type: 'POST',
-            url: '/api/addSimulator',
+            url: '/api/simulator/addSimulator',
             data: { simulator: dataSimulator },
             success: function (resp) {
               message(resp);
@@ -208,7 +208,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
 

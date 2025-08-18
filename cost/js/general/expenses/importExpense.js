@@ -41,7 +41,7 @@ $(document).ready(function () {
       .then((data) => {
         let arr = data.rowObject;
 
-         if (arr.length == 0) {
+        if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileExpensesAssignation').val('');
@@ -97,13 +97,13 @@ $(document).ready(function () {
   const checkExpense = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/expenseDataValidation',
+      url: '/api/expenses/expenseDataValidation',
       data: { importExpense: data },
       success: function (resp) {
         if (resp.reload) {
           location.reload();
         }
-        
+
         if (resp.error == true) {
           toastr.error(resp.message);
           $('.cardLoading').remove();
@@ -142,7 +142,7 @@ $(document).ready(function () {
   const saveExpense = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addExpenses',
+      url: '/api/expenses/addExpenses',
       data: { importExpense: data },
       success: function (r) {
         messageExpense(r);

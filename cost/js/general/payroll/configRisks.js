@@ -1,11 +1,11 @@
 $(document).ready(function () {
   $.ajax({
-    url: '/api/risks',
+    url: '/api/riskPayroll',
     success: function (r) {
       if (r.reload) {
         location.reload();
       }
-      
+
       sessionStorage.removeItem('dataRisks');
 
       let dataRisks = JSON.stringify(r);

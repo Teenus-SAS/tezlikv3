@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    url: '/api/benefits',
+    url: '/api/benefitsPayroll',
     success: function (r) {
       if (r.reload) {
         location.reload();

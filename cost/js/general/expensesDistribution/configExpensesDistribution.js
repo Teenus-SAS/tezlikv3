@@ -2,7 +2,7 @@
 window.getExpense = async () => {
   try {
     // Llamada directa con fetch
-    const response = await fetch('/api/expenseTotal');
+    const response = await fetch('/api/distribution/expenseTotal');
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
     const { total_expense = 0 } = await response.json();
 
@@ -43,7 +43,7 @@ $(document).ready(function () {
 
 const changeTypeExpense = async () => {
   try {
-    const resp = await searchData(`/api/changeTypeExpense/${option}`);
+    const resp = await searchData(`/api/expenses/changeTypeExpense/${option}`);
     toastr[resp.success ? 'success' : 'error'](resp.message);
     setDataExpense();
   } catch (error) {
@@ -56,7 +56,7 @@ const changeTypeExpenseDistribution = async () => {
     if (!option_distribution)
       option_distribution = flag_expense_distribution;
     else {
-      const resp = await searchData(`/api/changeTypeExpenseDistribution/${option_distribution}`);
+      const resp = await searchData(`/api/distributionByFamilies/changeTypeExpenseDistribution/${option_distribution}`);
       toastr[resp.success ? 'success' : 'error'](resp.message);
     }
 
@@ -177,7 +177,7 @@ $(document).on('change', '.typeExpense', function () {
     },
     callback: function (result) {
       if (result == true) {
-        $.get(`/api/changeTypeExpenseDistribution/${op}`, function (data, textStatus, jqXHR) {
+        $.get(`/api/distributionByFamilies/changeTypeExpenseDistribution/${op}`, function (data, textStatus, jqXHR) {
           if (data.success) {
             toastr.success(data.message);
             flag_expense_distribution = data.flag;

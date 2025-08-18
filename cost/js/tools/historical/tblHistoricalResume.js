@@ -13,7 +13,7 @@ $(document).ready(function () {
         pageLength: 50,
         dom: '<"datatable-error-console">frtip',
         ajax: {
-            url: "/api/historicalResume",
+            url: "/api/historicalData/historicalResume",
             dataSrc: "",
             complete: function () {
                 loadingModalLoad.modal('hide');

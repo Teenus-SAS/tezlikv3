@@ -8,6 +8,9 @@ class RouteDispatcher
 {
     private static $routeMap = [
         '/login' => '/login/routeLogin.php',
+        '/logoutByInactivity' => '/login/routeLogoutInactiveUser.php',
+        '/logout' => '/login/routeLogin.php',
+
         '/recentNotification' => '/admin/notifications/routeShowNotifications.php',
 
         '/panelGeneral' => '/app/dashboard/general/routePanelGeneral.php',
@@ -25,6 +28,8 @@ class RouteDispatcher
         '/selectProducts' => '/app/utils/routeSelectProducts.php',
         '/selectMachines' => '/app/utils/routeSelectMachines.php',
         '/selectMaterials' => '/app/utils/routeSelectMaterials.php',
+        '/benefitsPayroll' => '/app/utils/routeBenefitsPayroll.php',
+        '/riskPayroll' => '/app/utils/routeRiskPayroll.php',
         '/calculations' => '/app/calculations/routeCalc.php',
 
         // Masters
@@ -39,10 +44,30 @@ class RouteDispatcher
         '/dataSheetProcess' => '/app/config/routeProductsProcess.php',
         '/dataSheetServices' => '/app/config/routeExternalServices.php',
         '/subproducts' => '/app/config/routeCompositesProducts.php',
+        '/factoryLoad' => '/app/config/routeFactoryLoad.php',
+        '/generalServices' => '/app/config/routeGExternalServices.php',
 
+        // General
+        '/payroll' => '/app/general/routePayroll.php',
+        '/expenses' => '/app/general/routeExpenses.php',
+        '/recoveringExpenses'           => '/app/general/routeExpenseRecover.php',
+        '/distribution'              => '/app/general/expensesDistribution/routeExpensesDistribution.php',
+        '/annualDistribution'       => '/app/general/expensesDistribution/routeExpensesDistributionAnual.php',
+        '/distributionByFamilies'   => '/app/general/expensesDistribution/routeFamilies.php',
 
+        // Users
+        '/users' => '/users/routeUsers.php',
+        '/generalUser' => '/users/routeGeneralUserAccess.php',
+        '/quantityUsers' => '/users/routeQuantityUsers.php',
+        '/accessUsers' => '/users/routeUserAccess.php',
 
+        // Tools
+        '/negotiations' => '/app/tools/economyScale/routeEfficientNegotiations.php',
+        '/objetivesPrices' => '/app/tools/economyScale/routePriceObjectives.php',
+        '/saleObjectives' => '/app/tools/economyScale/routeSaleObjectives.php',
 
+        // Historic
+        '/historicalData' => '/app/tools/routeHistorical.php',
     ];
 
     public static function dispatch(App $app, string $path): void

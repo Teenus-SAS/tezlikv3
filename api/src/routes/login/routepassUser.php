@@ -1,14 +1,10 @@
 <?php
 
-use tezlikv3\dao\passUserDao;
-use tezlikv3\dao\SendMakeEmailDao;
-use tezlikv3\dao\SendEmailDao;
-
-
-$passUserDao = new passUserDao();
-
-$sendMakeEmailDao = new SendMakeEmailDao();
-$sendEmailDao = new SendEmailDao();
+use tezlikv3\dao\{
+    passUserDao,
+    SendMakeEmailDao,
+    SendEmailDao
+};
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,7 +14,10 @@ use App\Middleware\SessionMiddleware;
 
 /* Change Password */
 
-$app->post('/changePassword', function (Request $request, Response $response, $args) use ($passUserDao) {
+$app->post('/changePassword', function (Request $request, Response $response, $args) {
+
+    $passUserDao = new passUserDao();
+
     if (isset($_SESSION['idUser'])) {
         $id = $_SESSION['idUser'];
 
@@ -38,11 +37,12 @@ $app->post('/changePassword', function (Request $request, Response $response, $a
 
 /* Forgot Password */
 
-$app->post('/forgotPassword', function (Request $request, Response $response, $args) use (
-    $passUserDao,
-    $sendEmailDao,
-    $sendMakeEmailDao
-) {
+$app->post('/forgotPassword', function (Request $request, Response $response, $args) {
+
+    $passUserDao = new passUserDao();
+    $sendMakeEmailDao = new SendMakeEmailDao();
+    $sendEmailDao = new SendEmailDao();
+
     $parsedBody = $request->getParsedBody();
     $email = trim($parsedBody["data"]);
 

@@ -146,7 +146,7 @@ $(document).ready(function () {
 
         let expenseToImport = arr.map((item) => {
           if (option == 1) {
-            url = "/api/expenseDistributionDataValidation";
+            url = "/api'/distribution/expenseDistributionDataValidation";
             let unitsSold = "";
             let turnover = "";
 
@@ -170,7 +170,7 @@ $(document).ready(function () {
               production: production,
             };
           } else if (option == 2) {
-            url = "/api/expenseRecoverDataValidation";
+            url = "/api/recoveringExpenses/expenseRecoverDataValidation";
             return {
               referenceProduct: item.referencia_producto,
               product: item.producto,
@@ -227,8 +227,8 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               option == 1
-                ? (url = "/api/addExpensesDistribution")
-                : (url = "/api/addExpenseRecover");
+                ? (url = "/api/distribution/addExpensesDistribution")
+                : (url = "/api/recoveringExpenses/addExpenseRecover");
 
               saveExpenses(data, url);
             } else {
@@ -255,8 +255,8 @@ $(document).ready(function () {
 
   /* Descargar formato */
   $("#btnDownloadImportsExpenses").click(async function (e) {
-    e.preventDefault();  
-    
+    e.preventDefault();
+
     let wb = XLSX.utils.book_new();
     let data = [];
     let namexlsx, url, op;
@@ -266,11 +266,11 @@ $(document).ready(function () {
         namexlsx = (production_center == "1" && flag_production_center == "1")
           ? "Distribucion_Gastos(CP).xlsx"
           : "Distribucion_Gastos.xlsx";
-        url = "/api/allProductsDistribution";
+        url = "/api/distribution/allProductsDistribution";
         op = 1;
       } else {
         namexlsx = "Distribucion_Gastos_Familia.xlsx";
-        url = "/api/expensesDistributionFamilies";
+        url = "/api/distributionByFamilies/expensesDistributionFamilies";
         op = 2;
       }
     } else {
@@ -300,12 +300,12 @@ $(document).ready(function () {
           };
         } else {
           // if (flag_composite_product == '1' && item.composite == 0 || flag_composite_product == '0') {
-            return {
-              referencia_producto: item.reference,
-              producto: item.product,
-              unidades_vendidas: parseFloat(item.units_sold),
-              volumen_ventas: parseFloat(item.turnover),
-            };
+          return {
+            referencia_producto: item.reference,
+            producto: item.product,
+            unidades_vendidas: parseFloat(item.units_sold),
+            volumen_ventas: parseFloat(item.turnover),
+          };
           // }
         }
       }).filter(item => item !== undefined);

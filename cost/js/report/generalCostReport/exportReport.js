@@ -5,7 +5,7 @@ $(document).ready(function () {
       $(".loading").show(800);
       document.body.style.overflow = "hidden";
 
-      let dataCost = await searchData("/api/generalCostReport");
+      let dataCost = await searchData("/api/reports/generalCostReport");
 
       // Crear la hoja de cálculo
       const worksheet = XLSX.utils.json_to_sheet(dataCost);
@@ -31,7 +31,7 @@ $(document).ready(function () {
       $(".loading").show(800);
       document.body.style.overflow = "hidden";
 
-      let data = await searchData("/api/processCostReport");
+      let data = await searchData("/api/reports/processCostReport");
 
       // Paso 1: Obtener todos los procesos únicos
       const uniqueProcesses = [...new Set(data.map((item) => item.process))];

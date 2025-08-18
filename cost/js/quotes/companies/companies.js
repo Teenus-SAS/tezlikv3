@@ -49,7 +49,7 @@ $(document).ready(function () {
 
       $.ajax({
         type: 'POST',
-        url: '/api/addQCompany',
+        url: '/api/companies/addQCompany',
         data: company,
         contentType: false,
         cache: false,
@@ -104,7 +104,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: 'POST',
-      url: '/api/updateQCompany',
+      url: '/api/companies/updateQCompany',
       data: company,
       contentType: false,
       cache: false,
@@ -143,11 +143,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.get(
-            `/api/deleteQCompany/${idCompany}`,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.get(`/api/companies/deleteQCompany/${idCompany}`, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },
@@ -160,7 +158,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('#createQCompany').modal('hide');
       $('#formCreateQCompany').trigger('reset');

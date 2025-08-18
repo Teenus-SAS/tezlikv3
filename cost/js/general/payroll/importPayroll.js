@@ -41,7 +41,7 @@ $(document).ready(function () {
       .then(async (data) => {
         let arr = data.rowObject;
 
-         if (arr.length == 0) {
+        if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#filePayroll').val('');
@@ -63,7 +63,7 @@ $(document).ready(function () {
           return false;
         }
         let resp = await validateDataPy(arr);
- 
+
         if (resp.importStatus == true)
           checkPayroll(resp.payrollToImport, resp.insert, resp.update);
       })
@@ -108,8 +108,8 @@ $(document).ready(function () {
       if (
         !arr.nombres_y_apellidos || !arr.proceso || !arr.prestacional || !arr.horas_trabajo_x_dia ||
         !arr.dias_trabajo_x_mes || !arr.tipo_riesgo || !arr.tipo_nomina || !arr.factor ||
-        basicSalary.trim() == '' || transport.trim() == '' || endowment.trim() == ''||
-        extraTime.trim() == '' || bonification.trim() == '' 
+        basicSalary.trim() == '' || transport.trim() == '' || endowment.trim() == '' ||
+        extraTime.trim() == '' || bonification.trim() == ''
       ) {
         $('.cardLoading').remove();
         $('.cardBottons').show(400);
@@ -160,11 +160,11 @@ $(document).ready(function () {
         break;
       }
 
-      payrollToImport.push({ idProcess: process.id_process }); 
+      payrollToImport.push({ idProcess: process.id_process });
 
       // Obtener Data Prestaciones
       // let dataBenefits = JSON.parse(sessionStorage.getItem('dataBenefits'));
-      
+
       // Obtener data segun el nivel de riesgo
       let dataRisks = JSON.parse(sessionStorage.getItem('dataRisks'));
       let risk = dataRisks.find(item => item.risk_level == arr.tipo_riesgo.toString().toUpperCase().trim());
@@ -178,7 +178,7 @@ $(document).ready(function () {
       let dataPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
       let payroll = dataPayroll.find(item => item.employee == arr.nombres_y_apellidos.toString().toUpperCase().trim() &&
         item.id_process == process.id_process);
-      
+
       !payroll ? insert += 1 : update += 1;
 
       payrollToImport[i].employee = arr.nombres_y_apellidos;
@@ -196,11 +196,11 @@ $(document).ready(function () {
       payrollToImport[i].factor = arr.factor;
     }
 
-    return { importStatus, payrollToImport, insert, update};
+    return { importStatus, payrollToImport, insert, update };
   };
 
   /* Mensaje de advertencia */
-  const checkPayroll = (data, insert, update) => { 
+  const checkPayroll = (data, insert, update) => {
     bootbox.confirm({
       title: '¿Desea continuar con la importación?',
       message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${insert} <br>Datos a actualizar: ${update}`,
@@ -223,13 +223,13 @@ $(document).ready(function () {
           $('#filePayroll').val('');
         }
       },
-    }); 
+    });
   };
 
   const savePayroll = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addPayroll',
+      url: '/api/payroll/addPayroll',
       data: { importPayroll: data },
       success: function (r) {
         message(r);

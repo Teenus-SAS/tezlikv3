@@ -4,7 +4,7 @@ $(document).ready(function () {
   let idQuote = localStorage.getItem('idQuote');
 
   fetchindataQuote = async () => {
-    let data = await searchData(`/api/quote/${idQuote}`);
+    let data = await searchData(`/api/quotes/quote/${idQuote}`);
 
     loadDataQuote(data.quote);
     loadDataQuoteProducts(data.quotesProducts);
@@ -36,7 +36,7 @@ $(document).ready(function () {
   loadDataQuoteProducts = (data) => {
     // console.log(data);
     let subtotal = 0;
-    
+
     $('#tblQuotesProductsBody').empty();
     let tblQuotesProductsBody = document.getElementById('tblQuotesProductsBody');
 
@@ -56,7 +56,7 @@ $(document).ready(function () {
           <td class="text-center" id ="discount1">${data[i].discount} %</td>
           <td class="text-center" id ="total1">${data[i].totalPrice}</td>
         </tr>`;
-        
+
         if (
           data[i].id_quote === previousIdQuote &&
           data[i].id_material != 0
@@ -104,11 +104,11 @@ $(document).ready(function () {
       let price = strReplaceNumber(data[i].price);
       price = parseInt(price.replace('$ ', ''));
       subtotalPrice1 += (data[i].quantity * price) / (1 - (data[i].profitability / 100));
-      
+
       let totalPrice = strReplaceNumber(data[i].totalPrice);
-      totalPrice = parseInt(totalPrice.replace('$ ', '')); 
+      totalPrice = parseInt(totalPrice.replace('$ ', ''));
       subtotal = subtotal + totalPrice;
-    } 
+    }
 
     $('#subtotal').html(`$ ${parseInt(subtotal).toLocaleString('es-CO')}`);
     $('#iva').html(

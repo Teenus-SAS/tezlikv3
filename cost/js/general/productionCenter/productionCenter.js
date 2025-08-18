@@ -22,9 +22,9 @@ $(document).ready(function () {
         let id_production_center = sessionStorage.getItem('id_production_center');
 
         if (id_production_center == '' || id_production_center == null) {
-            checkDataPCenter('/api/addPCenter', id_production_center);
+            checkDataPCenter('/api/productionCenter/addPCenter', id_production_center);
         } else {
-            checkDataPCenter('/api/updatePCenter', id_production_center);
+            checkDataPCenter('/api/productionCenter/updatePCenter', id_production_center);
         }
     });
 
@@ -72,7 +72,7 @@ $(document).ready(function () {
     deletePCenter = () => {
         let row = $(this.activeElement).parent().parent()[0];
         let data = tblPCenter.fnGetData(row);
-      
+
         let status = parseInt(data.status);
 
         if (status != 0) {
@@ -98,11 +98,9 @@ $(document).ready(function () {
             },
             callback: function (result) {
                 if (result == true) {
-                    $.get(
-                        `../../api/deletePCenter/${id_production_center}`,
-                        function (data, textStatus, jqXHR) {
-                            messagePCenter(data);
-                        }
+                    $.get(`/api/productionCenter/deletePCenter/${id_production_center}`, function (data, textStatus, jqXHR) {
+                        messagePCenter(data);
+                    }
                     );
                 }
             },
@@ -120,7 +118,7 @@ $(document).ready(function () {
             // $('#formImportProcess').trigger('reset');
             $('.cardAddNewProductionCenter').hide(800);
             $('#formAddPCenter').trigger('reset');
-      
+
             loadAllDataPCenter();
             toastr.success(data.message);
             return false;

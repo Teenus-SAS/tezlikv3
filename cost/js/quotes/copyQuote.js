@@ -26,20 +26,18 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.get(
-            `/api/copyQuote/${idQuote}`,
-            function (data, textStatus, jqXHR) {
-              if (data.reload) {
-                location.reload();
-              }
-              
-              if (data.success == true) {
-                toastr.success(data.message);
-                if (tblQuotes == null || !tblQuotes) return false;
-                $('#tblQuotes').DataTable().clear();
-                $('#tblQuotes').DataTable().ajax.reload();
-              } else if (data.error == true) toastr.error(data.message);
+          $.get(`/api/quotes/copyQuote/${idQuote}`, function (data, textStatus, jqXHR) {
+            if (data.reload) {
+              location.reload();
             }
+
+            if (data.success == true) {
+              toastr.success(data.message);
+              if (tblQuotes == null || !tblQuotes) return false;
+              $('#tblQuotes').DataTable().clear();
+              $('#tblQuotes').DataTable().ajax.reload();
+            } else if (data.error == true) toastr.error(data.message);
+          }
           );
         }
       },

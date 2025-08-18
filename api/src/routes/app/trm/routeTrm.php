@@ -1,19 +1,18 @@
 <?php
 
-use tezlikv3\dao\CompaniesDao;
-use tezlikv3\dao\CostWorkforceDao;
-use tezlikv3\dao\IndirectCostDao;
-use tezlikv3\dao\MachinesDao;
-use tezlikv3\Dao\TrmDao;
+use tezlikv3\dao\{
+    CompaniesDao,
+    CostWorkforceDao,
+    IndirectCostDao,
+    MachinesDao,
+    TrmDao
+};
 
 $trmDao = new TrmDao();
 $machinesDao = new MachinesDao();
 $IndirectCostDao = new IndirectCostDao();
 $CostWorkforceDao = new CostWorkforceDao();
 $CompaniesDao = new CompaniesDao();
-
-// use Psr\Http\Message\ResponseInterface as Response;
-// use Psr\Http\Message\ServerRequestInterface as Request;
 
 // Modificar TRM historico Diario 
 function updateLastTrm($trmDao, $today)

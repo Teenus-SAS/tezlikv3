@@ -99,7 +99,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     method: "POST",
-                    url: "/api/saveHistorical",
+                    url: "/api/historicalData/saveHistorical",
                     data: data,
                     success: function (resp) {
                         if (resp.success) {

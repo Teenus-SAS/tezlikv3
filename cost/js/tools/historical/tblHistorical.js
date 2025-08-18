@@ -15,7 +15,7 @@ $(document).ready(function () {
             }
 
             const formattedPeriod = period.replace(/\//g, '-');
-            const apiUrl = `/api/historicalProducts/${formattedPeriod}`;
+            const apiUrl = `/api/historicalData/historicalProducts/${formattedPeriod}`;
             //console.log('🔗 Solicitando:', apiUrl);
 
             // Pre-validación del endpoint antes de llamar a DataTable

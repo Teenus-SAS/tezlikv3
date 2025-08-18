@@ -170,14 +170,14 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
         });
     </script>
     <script src="/cost/js/general/payroll/tblPayroll.js"></script>
-    <script src="/admin/js/benefits/configBenefits.js"></script>
-    <script src="/admin/js/risks/configRisks.js"></script>
+    <script src="/cost/js/general/payroll/importPayroll.js"></script>
     <script src="/cost/js/general/payroll/payroll.js"></script>
+    <script src="/cost/js/general/payroll/configBenefits.js"></script>
+    <script src="/cost/js/general/payroll/configRisks.js"></script>
     <script src="/public/js/general/calcPayroll.js"></script>
     <script src="/public/js/components/orderData.js"></script>
-    <script src="../public/js/import/import.js"></script>
-    <script src="/cost/js/general/payroll/importPayroll.js"></script>
-    <script src="../public/js/import/file.js"></script>
+    <script src="/public/js/import/import.js"></script>
+    <script src="/public/js/import/file.js"></script>
 </body>
 
 </html>

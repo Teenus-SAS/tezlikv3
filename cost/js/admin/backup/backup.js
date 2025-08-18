@@ -339,10 +339,10 @@ $(document).ready(function () {
 
       if (flag_expense == '1') {
         if (flag_expense_distribution == '1') {
-          url = '/api/expensesDistribution';
+          url = '/api/distribution/expensesDistribution';
           op = 1;
         } else {
-          url = '/api/expensesDistributionFamilies';
+          url = '/api/distributionByFamilies/expensesDistributionFamilies';
           op = 2;
         }
       } else {
@@ -423,7 +423,7 @@ $(document).ready(function () {
 
         if (execute == false) return false;
         // Distribucion Anuales
-        let dataExpensesDistributionA = await searchData('/api/expensesDistributionAnual');
+        let dataExpensesDistributionA = await searchData('/api/annualDistribution/expensesDistributionAnual');
         if (dataExpensesDistributionA.length > 0) {
           data = [];
 
