@@ -29,6 +29,7 @@ class RouteDispatcher
         '/selectMaterials' => '/app/utils/routeSelectMaterials.php',
         '/benefitsPayroll' => '/app/utils/routeBenefitsPayroll.php',
         '/riskPayroll' => '/app/utils/routeRiskPayroll.php',
+        '/rawMaterials' => '/app/utils/routeMaterialsBatch.php',
         '/calculations' => '/app/calculations/routeCalc.php',
 
         // Masters
@@ -64,6 +65,9 @@ class RouteDispatcher
         '/negotiations' => '/app/tools/economyScale/routeEfficientNegotiations.php',
         '/objetivesPrices' => '/app/tools/economyScale/routePriceObjectives.php',
         '/saleObjectives' => '/app/tools/economyScale/routeSaleObjectives.php',
+
+        '/rawMaterialsLots' => '/app/tools/analysisMaterials/routeLots.php',
+
 
         // Historic
         '/historicalData' => '/app/tools/routeHistorical.php',
