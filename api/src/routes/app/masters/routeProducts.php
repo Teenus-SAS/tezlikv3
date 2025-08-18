@@ -119,100 +119,223 @@ $app->group('/products', function (RouteCollectorProxy $group) {
 
     /* Consultar productos importados */
     $group->post('/productsDataValidation', function (Request $request, Response $response, $args) {
+
         $generalProductsDao = new GeneralProductsDao();
         $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 
+        // Inicialización y validación básica
         $dataProduct = $request->getParsedBody();
+        $result = ['error' => false, 'message' => '', 'insert' => 0, 'update' => 0];
 
-        if (isset($dataProduct)) {
-            $id_company = $_SESSION['id_company'];
-            $id_user = $_SESSION['idUser'];
-            $products = $dataProduct['importProducts'];
+        if (!isset($dataProduct) || empty($dataProduct['importProducts'])) {
+            $result = ['error' => true, 'message' => 'El archivo se encuentra vacío. Intente nuevamente'];
+            $response->getBody()->write(json_encode($result, JSON_NUMERIC_CHECK));
+            return $response->withHeader('Content-Type', 'application/json');
+        }
 
-            // Verificar duplicados
+        $id_company = $_SESSION['id_company'];
+        $products = json_decode($dataProduct['importProducts'], true);
+
+        // Función para validar campos obligatorios
+        $validateRequiredFields = function ($product, $rowIndex) {
+            $requiredFields = ['referenceProduct', 'product', 'active', 'composite'];
+
+            foreach ($requiredFields as $field) {
+                if (!isset($product[$field]) || trim($product[$field]) === '') {
+                    return "Campo '$field' vacío en la fila: " . ($rowIndex + 2);
+                }
+            }
+
+            // salePrice es obligatorio y debe tener valor
+            if (!isset($product['salePrice']) || trim($product['salePrice']) === '') {
+                return "Campo 'salePrice' vacío en la fila: " . ($rowIndex + 2);
+            }
+
+            return null;
+        };
+
+        // Función para validar duplicados en el array de importación
+        $validateDuplicatesInArray = function ($products) {
             $duplicateTracker = [];
-            $dataImportProduct = [];
 
             for ($i = 0; $i < count($products); $i++) {
-                if (
-                    empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) ||
-                    empty($products[$i]['active']) || $products[$i]['commissionSale'] == ''
-                ) {
-                    $i = $i + 2;
-                    $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
-                    break;
-                }
-                if (
-                    empty(trim($products[$i]['referenceProduct'])) || empty(trim($products[$i]['product'])) ||
-                    empty(trim($products[$i]['active'])) || trim($products[$i]['commissionSale']) == ''
-                ) {
-                    $i = $i + 2;
-                    $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
-                    break;
+                $refProduct = trim($products[$i]['referenceProduct']);
+                $nameProduct = trim($products[$i]['product']);
+
+                if (isset($duplicateTracker[$refProduct])) {
+                    return "Referencia duplicada '$refProduct' en la fila: " . ($i + 2);
                 }
 
-                $item = $products[$i];
-                $refProduct = trim($item['referenceProduct']);
-                $nameProduct = trim($item['product']);
+                if (isset($duplicateTracker[$nameProduct])) {
+                    return "Producto duplicado '$nameProduct' en la fila: " . ($i + 2);
+                }
 
-                if (isset($duplicateTracker[$refProduct]) || isset($duplicateTracker[$nameProduct])) {
-                    $i = $i + 2;
-                    $dataImportProduct =  array('error' => true, 'message' => "Duplicación encontrada en la fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
-                    break;
+                $duplicateTracker[$refProduct] = true;
+                $duplicateTracker[$nameProduct] = true;
+            }
+
+            return null;
+        };
+
+        // Función para validar rangos de porcentajes
+        $validatePercentages = function ($product, $rowIndex) {
+            // Validar profitability
+            if (isset($product['profitability']) && trim($product['profitability']) !== '') {
+                $profitability = floatval(str_replace(',', '.', $product['profitability']));
+                if (is_nan($profitability) || $profitability < 0 || $profitability > 100) {
+                    return "La rentabilidad debe estar entre 0% y 100% en la fila: " . ($rowIndex + 2);
+                }
+            }
+
+            // Validar commissionSale
+            if (isset($product['commissionSale']) && trim($product['commissionSale']) !== '') {
+                $commissionSale = floatval(str_replace(',', '.', $product['commissionSale']));
+                if (is_nan($commissionSale) || $commissionSale < 0 || $commissionSale > 100) {
+                    return "La comisión de venta debe estar entre 0% y 100% en la fila: " . ($rowIndex + 2);
+                }
+            }
+
+            return null;
+        };
+
+        // Función para validar consistencia de referencia y nombre del producto
+        $validateProductConsistency = function ($currentProduct, $productsByReference, $productsByName, $rowIndex) {
+            $refProduct = strtolower(trim($currentProduct['referenceProduct']));
+            $nameProduct = strtolower(trim($currentProduct['product']));
+
+            $existsByReference = isset($productsByReference[$refProduct]);
+            $existsByName = isset($productsByName[$nameProduct]);
+
+            // Caso 1: Ninguno existe - INSERCIÓN
+            if (!$existsByReference && !$existsByName) {
+                return ['action' => 'insert', 'product' => null, 'error' => null];
+            }
+
+            // Caso 2: Ambos existen - verificar que sean el mismo producto
+            if ($existsByReference && $existsByName) {
+                $productByRef = $productsByReference[$refProduct];
+                $productByName = $productsByName[$nameProduct];
+
+                // Verificar que ambos índices apunten al mismo producto
+                if ($productByRef['id_product'] == $productByName['id_product']) {
+                    return ['action' => 'update', 'product' => $productByRef, 'error' => null];
                 } else {
-                    $duplicateTracker[$refProduct] = true;
-                    $duplicateTracker[$nameProduct] = true;
+                    return [
+                        'action' => 'error',
+                        'product' => null,
+                        'error' => "Inconsistencia: La referencia '{$currentProduct['referenceProduct']}' y el nombre '{$currentProduct['product']}' pertenecen a productos diferentes en la fila: " . ($rowIndex + 2)
+                    ];
                 }
             }
 
-            // session_start();
+            // Caso 3: Solo existe la referencia pero no el nombre - ERROR
+            if ($existsByReference && !$existsByName) {
+                return [
+                    'action' => 'error',
+                    'product' => null,
+                    'error' => "La referencia '{$currentProduct['referenceProduct']}' existe pero el nombre '{$currentProduct['product']}' no coincide en la fila: " . ($rowIndex + 2)
+                ];
+            }
 
-            $insert = 0;
-            $update = 0;
-            if (sizeof($dataImportProduct) == 0) {
-                for ($i = 0; $i < sizeof($products); $i++) {
-                    $profitability = floatval(str_replace(',', '.', $products[$i]['profitability']));
-                    $commissionSale = floatval(str_replace(',', '.', $products[$i]['commissionSale']));
+            // Caso 4: Solo existe el nombre pero no la referencia - ERROR
+            if (!$existsByReference && $existsByName) {
+                return [
+                    'action' => 'error',
+                    'product' => null,
+                    'error' => "El nombre '{$currentProduct['product']}' existe pero la referencia '{$currentProduct['referenceProduct']}' no coincide en la fila: " . ($rowIndex + 2)
+                ];
+            }
+        };
 
-                    if ($profitability > 100 || $commissionSale > 100 || is_nan($profitability) || is_nan($commissionSale)) {
-                        $i = $i + 2;
-                        $dataImportProduct = array('error' => true, 'message' => "La rentabilidad y comision debe ser menor al 100%, fila: $i");
-                        break;
-                    }
+        // FASE 1: Validación de campos obligatorios y duplicados en el array
+        for ($i = 0; $i < count($products); $i++) {
+            // Validar campos obligatorios
+            $fieldError = $validateRequiredFields($products[$i], $i);
+            if ($fieldError) {
+                $result = ['error' => true, 'message' => $fieldError];
+                break;
+            }
 
-                    if ($id_user == '1') {
-                        $findProduct = $generalProductsDao->findProductById($products[$i]['id']);
-                    } else {
-                        $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
+            // Validar rangos de porcentajes
+            $percentageError = $validatePercentages($products[$i], $i);
+            if ($percentageError) {
+                $result = ['error' => true, 'message' => $percentageError];
+                break;
+            }
+        }
 
-                        if ($_SESSION['flag_composite_product'] == '1') {
-                            if (empty(trim($products[$i]['composite'])) || trim($products[$i]['composite']) == '') {
-                                $i = $i + 2;
-                                $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
-                                break;
-                            }
+        // Validar duplicados en el array de importación
+        if (!$result['error']) {
+            $duplicateError = $validateDuplicatesInArray($products);
+            if ($duplicateError) {
+                $result = ['error' => true, 'message' => $duplicateError];
+            }
+        }
 
-                            if ($findProduct && strtoupper(trim($products[$i]['composite'] == 'NO'))) {
-                                $product = $generalCompositeProductsDao->findCompositeProductByChild($findProduct['id_product']);
+        // FASE 2: Validación contra base de datos (solo si pasó la fase 1)
+        if (!$result['error']) {
+            // Obtener todos los productos de la BD y crear índices para búsqueda eficiente
+            $allProducts = $generalProductsDao->findAllCompleteProducts($id_company);
+            $productsByReference = [];
+            $productsByName = [];
 
-                                if (sizeof($product) > 0) {
-                                    $dataImportProduct = array('error' => true, 'message' => "No se puede desactivar el producto. Tiene datos relacionados a él, fila: $i");
-                                    break;
-                                }
-                            }
-                        }
-                    }
+            foreach ($allProducts as $dbProduct) {
+                // Crear índice por referencia
+                if (isset($dbProduct['reference']) && !empty($dbProduct['reference'])) {
+                    $productsByReference[strtolower(trim($dbProduct['reference']))] = $dbProduct;
+                }
 
-                    if (!$findProduct) $insert = $insert + 1;
-                    else $update = $update + 1;
-                    $dataImportProduct['insert'] = $insert;
-                    $dataImportProduct['update'] = $update;
+                // Crear índice por nombre
+                if (isset($dbProduct['product']) && !empty($dbProduct['product'])) {
+                    $productsByName[strtolower(trim($dbProduct['product']))] = $dbProduct;
                 }
             }
-        } else
-            $dataImportProduct = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
 
-        $response->getBody()->write(json_encode($dataImportProduct, JSON_NUMERIC_CHECK));
+            $insertCount = 0;
+            $updateCount = 0;
+
+            // Validar cada producto contra la BD
+            for ($i = 0; $i < count($products); $i++) {
+                $currentProduct = $products[$i];
+
+                // Validar consistencia de referencia y nombre
+                $validationResult = $validateProductConsistency($currentProduct, $productsByReference, $productsByName, $i);
+
+                if ($validationResult['action'] == 'error') {
+                    $result = ['error' => true, 'message' => $validationResult['error']];
+                    break;
+                }
+
+                if ($validationResult['action'] == 'insert') {
+                    $insertCount++;
+                } elseif ($validationResult['action'] == 'update') {
+                    $updateCount++;
+
+                    // Validar estado del producto y activarlo si está inactivo
+                    $existingProduct = $validationResult['product'];
+                    if (isset($existingProduct['active']) && $existingProduct['active'] == 0) {
+                        // Activar el producto automáticamente
+                        $generalProductsDao->updateStatusProduct($existingProduct['id_product'], $id_company);
+
+                        // Debug temporal - remover después de verificar
+                        error_log("DEBUG: Activando producto ID: " . $existingProduct['id_product'] . " - " . $existingProduct['product']);
+                    }
+                }
+            }
+
+            // Si no hay errores, establecer los contadores
+            if (!$result['error']) {
+                $result['insert'] = $insertCount;
+                $result['update'] = $updateCount;
+
+                // Debug temporal - remover después de verificar
+                error_log("DEBUG: Total productos procesados: " . count($products));
+                error_log("DEBUG: Insertions: $insertCount, Updates: $updateCount");
+                error_log("DEBUG: Productos en BD: " . count($allProducts));
+            }
+        }
+
+        $response->getBody()->write(json_encode($result, JSON_NUMERIC_CHECK));
         return $response->withHeader('Content-Type', 'application/json');
     });
 
