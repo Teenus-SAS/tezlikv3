@@ -51,6 +51,8 @@ class RouteDispatcher
         '/payroll' => '/app/general/routePayroll.php',
         '/expenses' => '/app/general/routeExpenses.php',
         '/recoveringExpenses' => '/app/general/routeExpenseRecover.php',
+        '/expensesAnual' => '/app/general/routeExpensesAnual.php',
+
         '/distribution' => '/app/general/expensesDistribution/routeExpensesDistribution.php',
         '/annualDistribution' => '/app/general/expensesDistribution/routeExpensesDistributionAnual.php',
         '/distributionByFamilies' => '/app/general/expensesDistribution/routeFamilies.php',
@@ -83,8 +85,6 @@ class RouteDispatcher
         // Profile
         '/company' => '/global/routeCompany.php',
         '/updateProfile' => '/global/routeProfile.php',
-
-
     ];
 
     public static function dispatch(App $app, string $path): void
