@@ -11,6 +11,7 @@ class RouteDispatcher
         '/logoutByInactivity' => '/login/routeLogoutInactiveUser.php',
 
         '/recentNotification' => '/admin/notifications/routeShowNotifications.php',
+        '/updatesNotice' => '/global/routeUpdatesNotices.php',
 
         '/panelGeneral' => '/app/dashboard/general/routePanelGeneral.php',
         '/panelProducts' => '/app/dashboard/products/routePanelProducts.php',
