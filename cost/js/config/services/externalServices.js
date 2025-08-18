@@ -1,4 +1,3 @@
-let idProduct;
 let dataExternalService = {};
 sessionStorage.removeItem('dataGServices');
 

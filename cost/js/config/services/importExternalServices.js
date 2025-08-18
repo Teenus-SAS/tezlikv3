@@ -1,5 +1,3 @@
-let selectedFile;
-
 $('.cardImportExternalServices').hide();
 
 $('#btnImportNewExternalServices').click(function (e) {
