@@ -134,7 +134,7 @@ $app->group('/products', function (RouteCollectorProxy $group) {
         }
 
         $id_company = $_SESSION['id_company'];
-        $products = json_decode($dataProduct['importProducts'], true);
+        $products = $dataProduct['importProducts'];
 
         // Función para validar campos obligatorios
         $validateRequiredFields = function ($product, $rowIndex) {
