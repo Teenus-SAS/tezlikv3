@@ -50,10 +50,10 @@ class RouteDispatcher
         // General
         '/payroll' => '/app/general/routePayroll.php',
         '/expenses' => '/app/general/routeExpenses.php',
-        '/recoveringExpenses'           => '/app/general/routeExpenseRecover.php',
-        '/distribution'              => '/app/general/expensesDistribution/routeExpensesDistribution.php',
-        '/annualDistribution'       => '/app/general/expensesDistribution/routeExpensesDistributionAnual.php',
-        '/distributionByFamilies'   => '/app/general/expensesDistribution/routeFamilies.php',
+        '/recoveringExpenses' => '/app/general/routeExpenseRecover.php',
+        '/distribution' => '/app/general/expensesDistribution/routeExpensesDistribution.php',
+        '/annualDistribution' => '/app/general/expensesDistribution/routeExpensesDistributionAnual.php',
+        '/distributionByFamilies' => '/app/general/expensesDistribution/routeFamilies.php',
 
         // Users
         '/users' => '/users/routeUsers.php',
@@ -68,9 +68,23 @@ class RouteDispatcher
 
         '/rawMaterialsLots' => '/app/tools/analysisMaterials/routeLots.php',
 
-
         // Historic
         '/historicalData' => '/app/tools/routeHistorical.php',
+
+        // Reports
+        '/reports' => '/app/report/routeReport.php',
+
+        // Quotations 
+        '/companies' => '/app/quotes/routeCompanies.php',
+        '/contacts' => '/app/quotes/routeContact.php',
+        '/paymentMethods' => '/app/quotes/routePaymentMethods.php',
+        '/quotes' => '/app/quotes/routeQuotes.php',
+
+        // Profile
+        '/company' => '/global/routeCompany.php',
+        '/updateProfile' => '/global/routeProfile.php',
+
+
     ];
 
     public static function dispatch(App $app, string $path): void

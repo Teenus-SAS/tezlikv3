@@ -13,8 +13,9 @@ $(document).ready(function () {
     $('#email').val(data.email);
     if (data.avatar) avatar.src = data.avatar;
 
-    /* Cargar data compañia */
-    data = await searchData('/api/company');
+    // Enviar datos al servidor
+    const response = await fetch('/api/company');
+    data = await response.json();
 
     $('#idCompany').val(data[0].id_company);
     $('#state').val(data[0].state);

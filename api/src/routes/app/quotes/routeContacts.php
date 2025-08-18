@@ -10,8 +10,8 @@ use Slim\Routing\RouteCollectorProxy;
 use App\Helpers\ResponseHelper;
 use App\Middleware\SessionMiddleware;
 
-$app->group('/companies', function (RouteCollectorProxy $group) use ($contactsDao) {
-    $group->get('/contacts', function (Request $request, Response $response, $args) use ($contactsDao) {
+$app->group('/contacts', function (RouteCollectorProxy $group) use ($contactsDao) {
+    $group->get('', function (Request $request, Response $response, $args) use ($contactsDao) {
 
         $id_company = $_SESSION['id_company'];
         $contacts = $contactsDao->findAllContacts($id_company);

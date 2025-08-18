@@ -1,8 +1,10 @@
 <?php
 
-use tezlikv3\dao\CompaniesLicenseDao;
-use tezlikv3\dao\CompanyDao;
-use tezlikv3\dao\GeneralCompanyLicenseDao;
+use tezlikv3\dao\{
+    CompaniesLicenseDao,
+    CompanyDao,
+    GeneralCompanyLicenseDao
+};
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
