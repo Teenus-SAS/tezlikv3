@@ -1,7 +1,6 @@
 let title3 = `${inyection == 1 ? "Tiempo/Und" : "Tiempo Alistamiento (min)"}`;
 let value3 = `${inyection == 1 ? "unity_time" : "enlistment_time"}`;
 let title4 = `${inyection == 1 ? "% Eficiencia" : "Tiempo Operación (min)"}`;
-let visible;
 
 // Variables para rastrear si los tiempos están en minutos o segundos
 let isAlistmentMinutes = true;

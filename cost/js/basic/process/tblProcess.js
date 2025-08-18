@@ -1,4 +1,3 @@
-
 dataProcess = [];
 
 loadTblProcess = async () => {

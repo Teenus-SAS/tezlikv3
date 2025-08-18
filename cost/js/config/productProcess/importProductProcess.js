@@ -1,4 +1,3 @@
-let selectedFile;
 
 $(".cardImportProductsProcess").hide();
 

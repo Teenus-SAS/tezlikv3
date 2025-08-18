@@ -1,4 +1,3 @@
-let idProduct;
 let checkBoxEmployees = [''];
 sessionStorage.removeItem('dataMachines');
 
