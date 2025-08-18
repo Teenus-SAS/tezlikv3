@@ -3,7 +3,9 @@ let id_product = sessionStorage.getItem('idProduct');
 
 loadIndicatorsProducts = async (id_product) => {
   try {
-    const data = await searchData(`/api/panelProducts/${id_product}`);
+    // Enviar datos al servidor
+    const response = await fetch(`/api/panelProducts/${id_product}`);
+    const data = await response.json();
 
     sessionStorage.removeItem('imageProduct');
     $('.social-bar').hide(800);
