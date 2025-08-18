@@ -9,7 +9,6 @@ class RouteDispatcher
     private static $routeMap = [
         '/login' => '/login/routeLogin.php',
         '/logoutByInactivity' => '/login/routeLogoutInactiveUser.php',
-        '/logout' => '/login/routeLogin.php',
 
         '/recentNotification' => '/admin/notifications/routeShowNotifications.php',
 

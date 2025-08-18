@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    checkFirstLogin = () => { 
+    checkFirstLogin = () => {
         modalActive = true;
-        $('#modalFirstLogin').modal('show'); 
+        $('#modalFirstLogin').modal('show');
     }
 
     if (modalActive == false)
@@ -20,8 +20,8 @@ $(document).ready(function () {
 
         let data = new FormData(formFirstLogin);
 
-        let resp = await sendDataPOST('/api/saveFirstLogin', data);
-    
+        let resp = await sendDataPOST('/api/login/saveFirstLogin', data);
+
         if (resp.success == true) {
             $('#modalFirstLogin').modal('hide');
             modalActive = false;
