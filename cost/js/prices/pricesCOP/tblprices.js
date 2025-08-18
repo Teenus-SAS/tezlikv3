@@ -5,15 +5,16 @@ $(document).ready(function () {
 
   const loadAllData = async () => {
     try {
-      const [prices, actualTrm] = await Promise.all([
-        searchData("/api/prices"),
-        searchData("/api/currentDollar"),
-      ]);
+      const [prices, actualTrm] = await Promise.all([searchData("/api/prices")]);
 
       allPrices = prices;
-      currentDollar = parseFloat(actualTrm[0]["valor"]);
 
       if (flag_currency_usd === "1") {
+
+        const [prices, actualTrm] = await Promise.all([searchData("/api/trm/currentDollar")]);
+
+        currentDollar = parseFloat(actualTrm[0]["valor"]);
+
         $("#exchangeCoverageUSD").val(
           `$ ${(currentDollar - parseFloat(coverage_usd)).toLocaleString(
             "es-CO",

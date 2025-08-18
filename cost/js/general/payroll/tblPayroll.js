@@ -6,9 +6,9 @@ $(document).ready(function () {
     try {
       const [payroll, dataCost, dataProcess, dataProductProcess] = await Promise.all([
         searchData('/api/payroll'),
-        searchData('/api/salarynet'),
+        searchData('/api/payroll/salarynet'),
         searchData('/api/process'),
-        searchData('/api/allProductsProcess'),
+        searchData('/api/dataSheetProcess/allProductsProcess'),
       ]);
 
       sessionStorage.setItem('dataCost', JSON.stringify(dataCost));
@@ -211,7 +211,7 @@ $(document).ready(function () {
 
         $.ajax({
           type: "POST",
-          url: "/api/saveRoutePayroll",
+          url: "/api/payroll/saveRoutePayroll",
           data: { data: copy },
           success: function (resp) {
             message(resp);

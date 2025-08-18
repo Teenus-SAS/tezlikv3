@@ -51,7 +51,7 @@ $(document).ready(function () {
   const login = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/userAutentication',
+      url: '/api/login/userAutentication',
       data: data,
       success: function (response, textStatus, xhr) {
         if (response.error) {

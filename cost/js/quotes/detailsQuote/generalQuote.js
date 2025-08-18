@@ -75,7 +75,7 @@ $(document).ready(function () {
 
       data.append('pdf', blob, `Cotizacion-${idQuote}.pdf`);
 
-      let resp = await sendDataPOST('/api/sendQuote', data);
+      let resp = await sendDataPOST('/api/quotes/sendQuote', data);
 
       message(resp);
     } catch (error) {

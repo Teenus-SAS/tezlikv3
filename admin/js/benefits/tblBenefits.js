@@ -2,10 +2,6 @@ $(document).ready(function () {
   tblBenefits = $('#tblBenefits').dataTable({
     destroy: true,
     pageLength: 50,
-    // ajax: {
-    //   url: `/api/benefits`,
-    //   dataSrc: '',
-    // },
     ajax: function (data, callback, settings) {
       fetch(`/api/benefits`)
         .then(response => response.json())

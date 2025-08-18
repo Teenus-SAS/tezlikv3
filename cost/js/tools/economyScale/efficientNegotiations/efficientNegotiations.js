@@ -1,156 +1,160 @@
-$(document).ready(function () {
-  let economyScale = [];
-  cant = 1;
+let economyScale = [];
+cant = 1;
 
-  const loadAllData = async () => {
-    try {
-      const data = await searchData('/api/calcEconomyScale');
+const loadAllData = async () => {
 
-      if (data.reload) {
-        location.reload();
-      }
+  try {
+    // Enviar datos al servidor
+    const response = await fetch('/api/negotiations/calcEconomyScale');
+    const data = await response.json();
 
-      if (data.info) {
-        toastr.info(data.message);
-        return false;
-      }
-
-      economyScale = data; 
-    } catch (error) {
-      console.error('Error loading data:', error);
+    if (data.reload) {
+      location.reload();
     }
-  };
 
-  loadAllData();
+    if (data.info) {
+      toastr.info(data.message);
+      return false;
+    }
 
-  function syncSelects(changedSelect, targetSelect) {
-    let id = changedSelect.value;
-    $(`${targetSelect} option`).removeAttr('selected');
-    $(`${targetSelect} option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id, 1);
+    economyScale = data;
+  } catch (error) {
+    console.error('Error loading data:', error);
+  }
+};
+
+
+function syncSelects(changedSelect, targetSelect) {
+  let id = changedSelect.value;
+  $(`${targetSelect} option`).removeAttr('selected');
+  $(`${targetSelect} option[value=${id}]`).prop('selected', true);
+  loadDataProduct(id, 1);
+}
+
+$('#refProduct').change(function (e) {
+  e.preventDefault();
+  syncSelects(this, '#selectNameProduct');
+});
+
+$('#selectNameProduct').change(function (e) {
+  e.preventDefault();
+  syncSelects(this, '#refProduct');
+});
+
+loadDataProduct = async (id, op) => {
+  let costFixed = 0, variableCost1 = 0, max = 0, typeCurrency = '1';
+
+  $('#sugered, #actual, #real').show();
+  $('.general').val('').html('');
+
+  const data = economyScale.find(item => item.id_product == id);
+  let { turnover, units_sold, turnover_anual, units_sold_anual,
+    price, sale_price, costFixed: dataCostFixed, commission } = data;
+
+  variableCost = data.variableCost;
+  profitability = data.profitability;
+
+  sugered_price = Math.ceil(price);
+  actual_price = Math.ceil(sale_price);
+  real_price = typeExpense === '1' ? turnover / units_sold : turnover_anual / units_sold_anual;
+
+  if (op === 1 && real_price) {
+    $('#labelDescription').html('Descripción (Precio Real)');
+    ['real', 'actual', 'sugered'].forEach(id =>
+      document.getElementById(id).className =
+      id === 'real' ? 'btn btn-sm btn-primary typePrice cardBottons' :
+        'btn btn-sm btn-outline-primary typePrice cardBottons'
+    );
   }
 
-  $('#refProduct').change(function (e) {
-    e.preventDefault();
-    syncSelects(this, '#selectNameProduct');
-  });
-
-  $('#selectNameProduct').change(function (e) {
-    e.preventDefault();
-    syncSelects(this, '#refProduct');
-  });
- 
-  loadDataProduct = async (id, op) => {
-    let costFixed = 0, variableCost1 = 0, max = 0, typeCurrency = '1';
-    
-    $('#sugered, #actual, #real').show();
-    $('.general').val('').html('');
-    
-    const data = economyScale.find(item => item.id_product == id);
-    let { turnover, units_sold, turnover_anual, units_sold_anual,
-      price, sale_price, costFixed: dataCostFixed, commission } = data;
-    
-    variableCost = data.variableCost;
-    profitability = data.profitability;
-
-    sugered_price = Math.ceil(price);
-    actual_price = Math.ceil(sale_price);
-    real_price = typeExpense === '1' ? turnover / units_sold : turnover_anual / units_sold_anual;
-    
-    if (op === 1 && real_price) {
-      $('#labelDescription').html('Descripción (Precio Real)');
-      ['real', 'actual', 'sugered'].forEach(id =>
-        document.getElementById(id).className =
-        id === 'real' ? 'btn btn-sm btn-primary typePrice cardBottons' :
-          'btn btn-sm btn-outline-primary typePrice cardBottons'
-      );
-    }
-
-    $('.cardBottons').hide();
-    $('#spinnerLoading').empty().append(`
+  $('.cardBottons').hide();
+  $('#spinnerLoading').empty().append(`
       <div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
         <div class="spinner-border text-secondary" role="status">
             <span class="sr-only">Loading...</span>
+            </div>
         </div>
-      </div>
-    `);
+        `);
 
-    const activeTypePrice = document.querySelector('.btn-primary.typePrice').id;
-    let selected_price = activeTypePrice === 'sugered' ? sugered_price :
-      activeTypePrice === 'actual' ? actual_price : real_price;
+  const activeTypePrice = document.querySelector('.btn-primary.typePrice').id;
+  let selected_price = activeTypePrice === 'sugered' ? sugered_price :
+    activeTypePrice === 'actual' ? actual_price : real_price;
 
-    if ((flag_currency_usd === '1' || flag_currency_eur === '1') && sessionStorage.getItem('typeCurrency')) {
-      typeCurrency = sessionStorage.getItem('typeCurrency');
-    }
+  if ((flag_currency_usd === '1' || flag_currency_eur === '1') && sessionStorage.getItem('typeCurrency')) {
+    typeCurrency = sessionStorage.getItem('typeCurrency');
+  }
 
-    if (typeCurrency !== '1') {
-      const coverage = typeCurrency === '2' ? coverage_usd : coverage_eur;
-      selected_price /= parseFloat(coverage);
-      costFixed = dataCostFixed / parseFloat(coverage);
-      variableCost1 = variableCost / parseFloat(coverage);
-      max = 2;
-    } else {
-      $('.selectTypeExpense').show();
-      costFixed = typeExpense === '1' ? dataCostFixed : data.costFixedAnual;
-      variableCost1 = variableCost;
-    }
+  if (typeCurrency !== '1') {
+    const coverage = typeCurrency === '2' ? coverage_usd : coverage_eur;
+    selected_price /= parseFloat(coverage);
+    costFixed = dataCostFixed / parseFloat(coverage);
+    variableCost1 = variableCost / parseFloat(coverage);
+    max = 2;
+  } else {
+    $('.selectTypeExpense').show();
+    costFixed = typeExpense === '1' ? dataCostFixed : data.costFixedAnual;
+    variableCost1 = variableCost;
+  }
 
-    $('#unity-0').val(1);
-    unitys = [1];
+  $('#unity-0').val(1);
+  unitys = [1];
 
-    $('.price').val(selected_price.toFixed(max));
-    $('#price-0').val(selected_price.toLocaleString('es-CO', { maximumFractionDigits: max }));
-    prices = Array(6).fill({ original_price: selected_price, partial_price: selected_price });
+  $('.price').val(selected_price.toFixed(max));
+  $('#price-0').val(selected_price.toLocaleString('es-CO', { maximumFractionDigits: max }));
+  prices = Array(6).fill({ original_price: selected_price, partial_price: selected_price });
 
-    fixedCost = costFixed;
-    variableCost = variableCost1;
+  fixedCost = costFixed;
+  variableCost = variableCost1;
 
-    $('.fixedCosts').html(`$ ${fixedCost.toLocaleString('es-CO', { maximumFractionDigits: max })}`);
-    $('.totalCostsAndExpenses').html(`$ ${(fixedCost + variableCost).toLocaleString('es-CO')}`);
+  $('.fixedCosts').html(`$ ${fixedCost.toLocaleString('es-CO', { maximumFractionDigits: max })}`);
+  $('.totalCostsAndExpenses').html(`$ ${(fixedCost + variableCost).toLocaleString('es-CO')}`);
 
-    commission, cant = commission, 1;
-    profitability = (selected_price * profitability) / selected_price;
+  commission, cant = commission, 1;
+  profitability = (selected_price * profitability) / selected_price;
 
-    generalCalc(0, 0);
-  };
-  
-  $(document).on('change', '#selectCurrency', function () {
-    let currency = this.value;
- 
-    sessionStorage.setItem('typeCurrency', currency);
-    $('.cardUSD').hide();
-    $('.cardEUR').hide();
+  generalCalc(0, 0);
+};
 
-    switch (currency) {
-      case '1': // Pesos
-        break;
-      case '2': // Dolares
+$(document).on('change', '#selectCurrency', function () {
+  let currency = this.value;
+
+  sessionStorage.setItem('typeCurrency', currency);
+  $('.cardUSD').hide();
+  $('.cardEUR').hide();
+
+  switch (currency) {
+    case '1': // Pesos
+      break;
+    case '2': // Dolares
       $('.cardUSD').show(800);
       break;
-      case '3': // Euros
+    case '3': // Euros
       $('.cardEUR').show(800);
       break;
-    
-      default:
-        break;
-    }
- 
-    let id_product = $('#refProduct').val();
 
-    if (id_product)
-      loadDataProduct(id_product, 2);
-  }); 
+    default:
+      break;
+  }
 
-  // Seleccionar tipo de gasto
-  $('#selectTypeExpense').change(function (e) {
-    e.preventDefault();
+  let id_product = $('#refProduct').val();
 
-    typeExpense = this.value;
+  if (id_product)
+    loadDataProduct(id_product, 2);
+});
 
-    let id_product = $('#refProduct').val();
+// Seleccionar tipo de gasto
+$('#selectTypeExpense').change(function (e) {
+  e.preventDefault();
 
-    if (id_product) { 
-      loadDataProduct(id_product, 2);
-    }
-  });
+  typeExpense = this.value;
+
+  let id_product = $('#refProduct').val();
+
+  if (id_product) {
+    loadDataProduct(id_product, 2);
+  }
+});
+
+$(document).ready(function () {
+  loadAllData();
 });

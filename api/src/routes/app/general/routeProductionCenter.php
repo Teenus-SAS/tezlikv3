@@ -1,0 +1,158 @@
+<?php
+
+use tezlikv3\dao\GeneralPCenterDao;
+use tezlikv3\dao\ProductionCenterDao;
+
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Routing\RouteCollectorProxy;
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
+$app->group('/productionCenter', function (RouteCollectorProxy $group) {
+
+    $group->get('', function (Request $request, Response $response, $args) {
+
+        $productionCenterDao = new ProductionCenterDao();
+
+        $id_company = $_SESSION['id_company'];
+        $productions = $productionCenterDao->findAllPCenterByCompany($id_company);
+        $response->getBody()->write(json_encode($productions, JSON_NUMERIC_CHECK));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/productionDataValidation', function (Request $request, Response $response, $args) {
+
+        $generalPCenterDao = new GeneralPCenterDao();
+
+        $dataPCenter = $request->getParsedBody();
+
+        if (isset($dataPCenter)) {
+            // session_start();
+            $id_company = $_SESSION['id_company'];
+
+            $insert = 0;
+            $update = 0;
+
+            $production = $dataPCenter['importProduction'];
+
+            for ($i = 0; $i < sizeof($production); $i++) {
+                if (empty($production[$i]['production'])) {
+                    $i = $i + 2;
+                    $dataimportProduction = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
+                    break;
+                }
+                if (empty(trim($production[$i]['production']))) {
+                    $i = $i + 2;
+                    $dataimportProduction = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
+                    break;
+                } else {
+                    $findProduction = $generalPCenterDao->findPCenter($production[$i], $id_company);
+                    if (!$findProduction) $insert = $insert + 1;
+                    else $update = $update + 1;
+                    $dataimportProduction['insert'] = $insert;
+                    $dataimportProduction['update'] = $update;
+                }
+            }
+        } else
+            $dataimportProduction = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
+
+        $response->getBody()->write(json_encode($dataimportProduction, JSON_NUMERIC_CHECK));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/addPCenter', function (Request $request, Response $response, $args) {
+
+        $productionCenterDao = new ProductionCenterDao();
+        $generalPCenterDao = new GeneralPCenterDao();
+
+        $dataPCenter = $request->getParsedBody();
+        $id_company = $_SESSION['id_company'];
+
+        if (empty($dataPCenter['importProduction'])) {
+
+            $production = $generalPCenterDao->findPCenter($dataPCenter, $id_company);
+
+            if (!$production) {
+                $production = $productionCenterDao->insertPCenterByCompany($dataPCenter, $id_company);
+
+                if ($production == null)
+                    $resp = array('success' => true, 'message' => 'Centro de produccion creado correctamente');
+                else if (isset($production['info']))
+                    $resp = array('info' => true, 'message' => $production['message']);
+                else
+                    $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+            } else
+                $resp = array('info' => true, 'message' => 'Centro de produccion duplicado. Ingrese una nuevo centro de produccion');
+        } else {
+            $production = $dataPCenter['importProduction'];
+
+            for ($i = 0; $i < sizeof($production); $i++) {
+                if (isset($resolution['info'])) break;
+
+                $findproduction = $generalPCenterDao->findPCenter($production[$i], $id_company);
+                if (!$findproduction) {
+                    $resolution = $productionCenterDao->insertPCenterByCompany($production[$i], $id_company);
+                } else {
+                    $production[$i]['idProductionCenter'] = $findproduction['id_production_center'];
+                    $resolution = $productionCenterDao->updatePCenter($production[$i]);
+                }
+            }
+            if ($resolution == null)
+                $resp = array('success' => true, 'message' => 'Centro de produccion importado correctamente');
+            else if (isset($resolution['info']))
+                $resp = array('info' => true, 'message' => $resolution['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
+        }
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/updatePCenter', function (Request $request, Response $response, $args) {
+
+        $productionCenterDao = new ProductionCenterDao();
+        $generalPCenterDao = new GeneralPCenterDao();
+
+        $dataPCenter = $request->getParsedBody();
+        $id_company = $_SESSION['id_company'];
+
+        $data = [];
+
+        $production = $generalPCenterDao->findPCenter($dataPCenter, $id_company);
+
+        !is_array($production) ? $data['id_production_center'] = 0 : $data = $production;
+
+        if ($data['id_production_center'] == $dataPCenter['idProductionCenter'] || $data['id_production_center'] == 0) {
+            $production = $productionCenterDao->updatePCenter($dataPCenter);
+
+            if ($production == null)
+                $resp = array('success' => true, 'message' => 'Centro de produccion actualizado correctamente');
+            else if (isset($production['info']))
+                $resp = array('info' => true, 'message' => $production['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        } else
+            $resp = array('info' => true, 'message' => 'Centro de produccion duplicado. Ingrese una nuevo centro de produccion');
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->get('/deletePCenter/{id_production_center}', function (Request $request, Response $response, $args) {
+
+        $productionCenterDao = new ProductionCenterDao();
+
+        $production = $productionCenterDao->deletePCenter($args['id_production_center']);
+
+        if ($production == null)
+            $resp = array('success' => true, 'message' => 'Centro de produccion eliminado correctamente');
+
+        if ($production != null)
+            $resp = array('error' => true, 'message' => 'No es posible eliminar el Centro de produccion, existe información asociada a él');
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+})->add(new SessionMiddleware());

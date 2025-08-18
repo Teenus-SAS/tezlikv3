@@ -3,14 +3,11 @@ $(document).ready(function () {
 
   currentDollar = 0;
   allPrices = [];
-  parents = []; 
+  parents = [];
 
   loadAllData = async () => {
     try {
-      const [prices, actualTrm] = await Promise.all([
-        searchData("/api/prices"),
-        searchData("/api/currentDollar"),
-      ]);
+      const [prices, actualTrm] = await Promise.all([searchData("/api/prices")]);
 
       allPrices = prices;
       currentDollar = actualTrm[0]["valor"];
@@ -54,7 +51,7 @@ $(document).ready(function () {
     }
 
     acumulated == 0 ? (visible = false) : (visible = true);
- 
+
     title = "Margen";
 
     tblPrices = $("#tblPrices").DataTable({
@@ -129,7 +126,7 @@ $(document).ready(function () {
           },
           className: "classCenter",
           visible: visible,
-          render: (data, type, row) => renderCost(data, op), 
+          render: (data, type, row) => renderCost(data, op),
         },
         {
           title: "Precio (Lista) Simulación",

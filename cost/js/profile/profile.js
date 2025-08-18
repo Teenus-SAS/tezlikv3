@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   /* Cargar Perfil de usuario */
   loadProfile = async () => {
-    let data = await searchData('/api/user');
+    let data = await searchData('/api/users/user');
 
     $('#profileName').html(data.firstname);
     $('#idUser').val(data.id_user);
@@ -13,8 +13,9 @@ $(document).ready(function () {
     $('#email').val(data.email);
     if (data.avatar) avatar.src = data.avatar;
 
-    /* Cargar data compañia */
-    data = await searchData('/api/company');
+    // Enviar datos al servidor
+    const response = await fetch('/api/company');
+    data = await response.json();
 
     $('#idCompany').val(data[0].id_company);
     $('#state').val(data[0].state);
@@ -57,7 +58,7 @@ $(document).ready(function () {
       city.trim() == '' ||
       country.trim() == '' ||
       phone.trim() == '' ||
-      address.trim() == ''||
+      address.trim() == '' ||
       position.trim() == ''
     ) {
       let generalInputs = document.getElementsByClassName('general');
@@ -83,7 +84,7 @@ $(document).ready(function () {
 
     sessionStorage.setItem('name', firstname);
     sessionStorage.setItem('lastname', lastname);
-    
+
     dataProfile.append('avatar', imageProd);
     dataProfile.append('logo', imageCompany);
     dataProfile.append('admin', 0);
@@ -101,7 +102,7 @@ $(document).ready(function () {
     });
   });
 
-  $('#btnShowModalContract').click(async function (e) { 
+  $('#btnShowModalContract').click(async function (e) {
     e.preventDefault();
 
     let data = await searchData('/api/contracts');
@@ -112,23 +113,23 @@ $(document).ready(function () {
     divContract.insertAdjacentHTML('beforeend', data.content);
 
     $('#modalContract').modal('show');
-  }); 
+  });
 
-  $('#btnCloseContract').click(function (e) { 
+  $('#btnCloseContract').click(function (e) {
     e.preventDefault();
-    $('#modalContract').modal('hide'); 
+    $('#modalContract').modal('hide');
   });
 
   /* Exportar pdf */
   $('#btnPrintPDF').click(function (e) {
     e.preventDefault();
-     
+
     try {
       invoice = document.getElementById('rootwizard');
       let copy_invoice = invoice.cloneNode(true);
 
-      copy_invoice.style.width = '1200px'; 
- 
+      copy_invoice.style.width = '1200px';
+
       let opt = {
         margin: [10, 30, 30, 30],
         filename: `contrato.pdf`,
@@ -161,7 +162,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('.general').css('border', '');
       toastr.success(data.message);

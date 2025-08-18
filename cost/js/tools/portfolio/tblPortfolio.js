@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // Portafolio de Rentabilidades
     const loadAllPortfolio = async () => {
-        const data = await searchData('/api/calcEconomyScale');
+        const data = await searchData('/api/negotiations/calcEconomyScale');
 
         if (data.reload) return location.reload();
         if (data.info) return toastr.info(data.message), false;

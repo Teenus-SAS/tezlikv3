@@ -86,17 +86,6 @@ class HistoricalProductsDao
         return $products;
     }
 
-    // public function findHistorical($id_product)
-    // {
-    //     $connection = Connection::getInstance()->getConnection1();
-
-    //     $stmt = $connection->prepare("SELECT * FROM historical_products WHERE id_product = :id_product");
-    //     $stmt->execute(['id_product' => $id_product]);
-
-
-    //     $products = $stmt->fetch($connection::FETCH_ASSOC);
-    //     return $products;
-    // }
 
     public function findLastHistorical($id_company)
     {

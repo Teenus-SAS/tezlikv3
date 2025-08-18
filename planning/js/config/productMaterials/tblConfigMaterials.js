@@ -28,7 +28,7 @@ $(document).ready(function () {
       destroy: true,
       pageLength: 50,
       ajax: {
-        url: `/api/productsMaterials/${idProduct}`,
+        url: `/api/dataSheetMaterials/productsMaterials/${idProduct}`,
         dataSrc: '',
       },
       language: {

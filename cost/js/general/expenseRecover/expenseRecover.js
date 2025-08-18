@@ -41,8 +41,8 @@ $('#btnExpenseRecover').click(function (e) {
   const id_expense_recover = $(this).data('expense-id');
 
   if (id_expense_recover == '' || !id_expense_recover) {
-    handleCheckDataExpenseRecover('/api/addExpenseRecover', id_expense_recover);
-  } else handleCheckDataExpenseRecover('/api/updateExpenseRecover', id_expense_recover);
+    handleCheckDataExpenseRecover('/api/recoveringExpenses/addExpenseRecover', id_expense_recover);
+  } else handleCheckDataExpenseRecover('/api/recoveringExpenses/updateExpenseRecover', id_expense_recover);
 });
 
 /* Eliminar recuperacion de gasto */
@@ -78,7 +78,7 @@ $(document).on('click', '.deleteExpenseRecover', function () {
     callback: function (result) {
       if (result == true) {
         $.post(
-          '/api/deleteExpenseRecover',
+          '/api/recoveringExpenses/deleteExpenseRecover',
           dataExpenseRecover,
           function (data, textStatus, jqXHR) {
             messageDistribution(data, 2);

@@ -1,7 +1,3 @@
-<?php require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMiddleware.php'; ?>
-<?php require_once dirname(dirname(dirname(__DIR__))) . '/modals/manualHistorical.php'; ?>
-<?php require_once dirname(dirname(dirname(__DIR__))) . '/modals/weekHistorical.php'; ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,11 +8,94 @@
     <meta name="keywords" content="">
     <meta name="author" content="Teenus SAS">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TezlikSoftware Cost | Historical</title>
+    <title>TezlikSoftware | Historical</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
-    <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" /> -->
+
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsCSS.php'; ?>
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <!-- Estilos modernos para el dashboard -->
+    <style>
+        /* Estilos para los selectores modernos */
+        .modern-select {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+            padding: 8px 12px;
+        }
+
+        .modern-select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        .form-label-modern {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* Contenedor de controles de análisis */
+        #analysisControls {
+            border-left: 3px solid #3b82f6;
+            padding-left: 20px;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Botones de tipo de gráfico */
+        .btn-chart-type {
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #6b7280;
+        }
+
+        .btn-chart-type:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .btn-chart-type.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Animación suave para mostrar/ocultar controles */
+        .slide-in {
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Icono de carga en el select */
+        .select-loading::after {
+            content: "⏳";
+            margin-left: 8px;
+        }
+    </style>
 </head>
 
 <body class="horizontal-navbar">
@@ -38,112 +117,113 @@
 
             <!-- Content -->
             <div class="page-content">
-                <?php if ($_SESSION['license_days'] <= 30) { ?>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="alert alert-danger alert-dismissible fade show text-center" style="margin-bottom: 0px;" role="alert">
-                                <strong>¡Pronto se acabara tu licencia (<?php echo $_SESSION['license_days']; ?> días)! .</strong> Comunícate con tu administrador para mas información.
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                <?php } ?>
-                <?php if ($_SESSION['license_days'] > 30 && $_SESSION['license_days'] < 40) { ?>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="alert alert-warning alert-dismissible fade show text-center" style="margin-bottom: 0px;" role="alert">
-                                <strong>¡Pronto se acabara tu licencia (<?php echo $_SESSION['license_days']; ?> días)! .</strong> Comunícate con tu administrador para mas información.
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                <?php } ?>
                 <!-- Page header -->
                 <div class="page-title-box" style="padding-bottom: 45px;">
                     <div class="container-fluid">
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-5">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Historico de Costos y Precios</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark">Histórico de Costos y Precios</h3>
                                 </div>
                             </div>
-                            <!-- <div class="col-sm-7 col-xl-7">
-                                <div class="row">
-                                    <div class="col-md-6 col-xl-4" style="padding-right: 0px;">
-                                        <div class="card bg-success shadow-lg">
-                                            <div class="card-body" style="padding: 10px;">
-                                                <div class="media text-white">
-                                                    <div class="media-body" style="text-align: center;">
-                                                        <a href="javascript:void(0);" class="btnsProfit text-white" id="max" title="Maximize profitability" aria-label="Maximize profitability">
-                                                            <span class="font-size-12 font-weight-bold">
-                                                                <i class="fas fa-arrow-circle-up mr-1" id="lblMaxProfitability"></i>Maximize
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-xl-4" style="padding-right: 0px;">
-                                        <div class="card bg-danger shadow-lg">
-                                            <div class="card-body" style="padding: 10px;">
-                                                <div class="media text-white">
-                                                    <div class="media-body" style="text-align: center;">
-                                                        <a href="javascript:void(0);" class="btnsProfit text-white" id="min" title="Minimize profitability" aria-label="Minimize profitability" role="button">
-                                                            <span class="font-size-12 font-weight-bold">
-                                                                <i class="fas fa-arrow-circle-down mr-1" id="lblMinProfitability"></i>
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 col-xl-4" style="padding-right: 0px;">
-                                        <div class="card bg-warning shadow-lg">
-                                            <div class="card-body" style="padding: 10px;">
-                                                <div class="media text-white">
-                                                    <div class="media-body" style="text-align: center;">
-                                                        <span class="font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-right mr-1" id="lblAverageProfitability"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
 
+                <!-- Card con botones principales y controles del dashboard -->
                 <div class="page-content-wrapper mt--45" style="margin-bottom: 60px;">
                     <div class="container-fluid">
-                        <div class="card">
+                        <div class="card shadow-sm">
                             <div class="card-body">
-                                <div class="row align-items-center justify-content-sm-end">
-                                    <div class="col-sm-3 col-xl-3 form-inline">
-                                        <!-- <div class="mb-1 mr-3 d-flex align-items-center floating-label enable-floating-label show-label">
-                                            <label class="font-weight-bold text-dark">Mes</label>
-                                            <select id="month" class="form-control">
-                                            </select>
-                                        </div>
-                                        <div class="mb-1 mr-3 d-flex align-items-center floating-label enable-floating-label show-label">
-                                            <label class="font-weight-bold text-dark">Año</label>
-                                            <select id="year" class="form-control">
-                                            </select>
-                                        </div> -->
-                                        <div class="mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
-                                            <button class="btn btn-warning mr-1 shadow-lg historicalResume" data-bs-toggle="tooltip" data-bs-placement="top" title="Lista" id="btnList"><i class="fas fa-list-ul"></i></button>
-                                            <button class="btn btn-success mr-1 shadow-lg typeHistorical" data-bs-toggle="tooltip" data-bs-placement="top" title="Graficos" id="btnGraphic"><i class="fas fa-chart-line"></i></button>
-                                            <p style="font-size:40px; margin-bottom:0px; line-height:0px">|</p>
-                                            <button class="btn btn-primary ml-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Guardar historico de la información de costos" id="btnNewHistorical" name="btnNewHistorical" class="btn btn-secondary"><i class="fas fa-save"></i></button>
-                                        </div>
+                                <div class="row align-items-center">
+                                    <!-- Botones principales -->
+                                    <div class="col-sm-3 col-xl-3">
+                                        <div class="mb-1 d-flex align-items-center">
+                                            <button class="btn btn-warning mr-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Lista de Históricos" id="btnList">
+                                                <i class="fas fa-list-ul"></i>
+                                            </button>
 
+                                            <button class="btn btn-success mr-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Gráficos y Dashboard" id="btnGraphic">
+                                                <i class="fas fa-chart-line"></i>
+                                            </button>
+
+                                            <div class="mx-2 text-muted" style="font-size: 24px;">|</div>
+
+                                            <button class="btn btn-primary ml-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Guardar Histórico de Costos" id="btnNewHistorical">
+                                                <i class="fas fa-save"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Controles del Dashboard (ocultos por defecto) -->
+                                    <div class="col-sm-9 col-xl-9" id="analysisControls" style="display: none;">
+                                        <div class="row align-items-end">
+                                            <!-- Selector de Semana -->
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-2">
+                                                    <label for="weekSelector" class="form-label-modern">
+                                                        <i class="fas fa-calendar-week mr-1"></i>
+                                                        Período de Análisis
+                                                    </label>
+                                                    <select class="form-control modern-select" id="weekSelector">
+                                                        <option value="all">📊 Todas las Semanas</option>
+                                                        <!-- Las opciones se llenan dinámicamente -->
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Selector de Producto (oculto inicialmente) -->
+                                            <div class="col-md-3" id="productSelectorGroup" style="display: none;">
+                                                <div class="form-group mb-2">
+                                                    <label for="productSelector" class="form-label-modern">
+                                                        <i class="fas fa-box mr-1"></i>Producto Específico
+                                                    </label>
+                                                    <select class="form-control modern-select" id="productSelector">
+                                                        <option value="all">📦 Todos los Productos</option>
+                                                        <!-- Las opciones se llenan dinámicamente -->
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Tipo de Gráfico -->
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-2">
+                                                    <label class="form-label-modern">
+                                                        <i class="fas fa-chart-bar mr-1"></i>
+                                                        Tipo de Vista
+                                                    </label>
+                                                    <div class="btn-group btn-group-sm d-flex" role="group">
+                                                        <button type="button" class="btn btn-chart-type active" data-chart="line" title="Gráfico de Líneas">
+                                                            <i class="fas fa-chart-line"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-chart-type" data-chart="bar" title="Gráfico de Barras">
+                                                            <i class="fas fa-chart-bar"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-chart-type" data-chart="area" title="Gráfico de Área">
+                                                            <i class="fas fa-chart-area"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Acciones -->
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-2">
+                                                    <label class="form-label-modern">
+                                                        <i class="fas fa-tools mr-1"></i>
+                                                        Acciones
+                                                    </label>
+                                                    <div class="btn-group btn-group-sm d-flex" role="group">
+                                                        <button type="button" class="btn btn-outline-success" id="btnRefreshData" title="Actualizar Datos">
+                                                            <i class="fas fa-sync"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-info" id="btnExportData" title="Exportar a CSV">
+                                                            <i class="fas fa-download"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -151,18 +231,16 @@
                     </div>
                 </div>
 
-
-                <!-- page content -->
+                <!-- Lista Histórica (vista por defecto) -->
                 <div class="page-content-wrapper mt--45 cardHistoricalResume">
                     <div class="container-fluid">
-                        <!-- Row 5 -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="card disable-select">
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblHistoricalResume">
-
+                                                <!-- Tabla se llena dinámicamente -->
                                             </table>
                                         </div>
                                     </div>
@@ -172,16 +250,16 @@
                     </div>
                 </div>
 
+                <!-- Productos Históricos -->
                 <div class="page-content-wrapper mt--45 cardHistoricalProducts" style="display: none;">
                     <div class="container-fluid">
-                        <!-- Row 5 -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="card disable-select">
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblHistoricalProducts">
-
+                                                <!-- Tabla se llena dinámicamente -->
                                             </table>
                                         </div>
                                     </div>
@@ -191,17 +269,20 @@
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 cardDashboard">
+                <!-- Dashboard de Ganancias (oculto por defecto) -->
+                <div class="page-content-wrapper mt--45 cardDashboard" style="display: none;">
                     <div class="container-fluid">
-                        <!-- Row 5 -->
+                        <!-- Aquí irá el contenido del dashboard -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="card disable-select">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Dashboard</h5>
-                                    </div>
-                                    <div class="card-body">
-
+                                <div class="card">
+                                    <div class="card-body text-center py-5">
+                                        <h4 class="text-muted">
+                                            <i class="fas fa-chart-line fa-3x mb-3 d-block"></i>
+                                            Dashboard de Ganancias
+                                        </h4>
+                                        <canvas id="weeklyChart" height="400"></canvas>
+                                        <canvas id="productChart" height="300"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -218,19 +299,19 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/public/partials/scriptsJS.php'; ?>
-    <!-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script> -->
 
     <script src="/public/js/components/orderData.js"></script>
+
+    <!-- Variables PHP para JavaScript -->
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
-
-        // price_usd = 
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         type = 'manual';
         sessionStorage.removeItem('typePrice');
     </script>
+
+    <!-- Scripts originales del sistema -->
     <script src="/cost/js/tools/historical/historicalConfig.js"></script>
     <script src="/cost/js/tools/historical/saveHistorical.js"></script>
     <script src="/cost/js/tools/historical/historicalUtils.js"></script>
@@ -239,68 +320,89 @@
     <script src="/cost/js/tools/historical/historicalEvents.js"></script>
     <script src="/cost/js/tools/historical/tblHistoricalResume.js"></script>
     <script src="/cost/js/tools/historical/tblHistorical.js"></script>
+    <script src="/cost/js/tools/historical/historicalIndicators.js"></script>
 
-    <!-- Script optimizado mes-->
+    <!-- Script básico para mostrar/ocultar controles -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('compactHistoricalForm');
-            const btnSave = document.getElementById('btnCompactSave');
+            // Botón para mostrar gráficos y controles
+            document.getElementById('btnGraphic').addEventListener('click', function() {
+                console.log('Botón Gráficos clickeado');
 
-            btnSave.addEventListener('click', function() {
-                if (form.checkValidity()) {
-                    // Lógica para consultar histórico
-                    console.log('Consulta:', document.getElementById('compactDate').value);
+                // Ocultar otras secciones
+                document.querySelector('.cardHistoricalResume').style.display = 'none';
+                document.querySelector('.cardHistoricalProducts').style.display = 'none';
+
+                // Mostrar dashboard
+                document.querySelector('.cardDashboard').style.display = 'block';
+
+                // Mostrar controles con animación
+                const controls = document.getElementById('analysisControls');
+                controls.style.display = 'block';
+                controls.classList.add('slide-in');
+
+                // Aquí se inicializará el dashboard
+                console.log('Dashboard y controles mostrados');
+            });
+
+            // Botón para mostrar lista
+            document.getElementById('btnList').addEventListener('click', function() {
+                console.log('Botón Lista clickeado');
+
+                // Ocultar dashboard y controles
+                document.querySelector('.cardDashboard').style.display = 'none';
+                document.querySelector('.cardHistoricalProducts').style.display = 'none';
+                document.getElementById('analysisControls').style.display = 'none';
+
+                // Mostrar lista
+                document.querySelector('.cardHistoricalResume').style.display = 'block';
+
+                console.log('Lista mostrada, controles ocultos');
+            });
+
+            // Event listeners para los selectores (preparados para funcionalidad futura)
+            document.getElementById('weekSelector').addEventListener('change', function() {
+                console.log('Semana seleccionada:', this.value);
+
+                // Mostrar/ocultar selector de productos según la selección
+                const productGroup = document.getElementById('productSelectorGroup');
+                if (this.value !== 'all') {
+                    productGroup.style.display = 'block';
                 } else {
-                    form.classList.add('was-validated');
+                    productGroup.style.display = 'none';
+                    document.getElementById('productSelector').value = 'all';
                 }
             });
-        });
-    </script>
 
-    <!-- Script de validación Semana-->
-    <script>
-        function validateWeekInput(input) {
-            // Asegura que el valor sea una semana válida que comienza en lunes
-            const value = input.value;
-            if (!value) return;
+            document.getElementById('productSelector').addEventListener('change', function() {
+                console.log('Producto seleccionado:', this.value);
+            });
 
-            // Convertir a fecha para verificar que sea lunes
-            const [year, week] = value.split('-W');
-            const date = getDateOfWeek(parseInt(week), parseInt(year));
+            // Event listeners para botones de tipo de gráfico
+            document.querySelectorAll('.btn-chart-type').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remover active de todos
+                    document.querySelectorAll('.btn-chart-type').forEach(b => b.classList.remove('active'));
+                    // Agregar active al clickeado
+                    this.classList.add('active');
 
-            if (date.getDay() !== 1) { // 1 = Lunes
-                input.setCustomValidity('Debe seleccionar una semana que comience en lunes');
-            } else {
-                input.setCustomValidity('');
-            }
-        }
+                    console.log('Tipo de gráfico seleccionado:', this.dataset.chart);
+                });
+            });
 
-        // Función auxiliar para obtener fecha del primer día de la semana ISO
-        function getDateOfWeek(week, year) {
-            const simple = new Date(year, 0, 1 + (week - 1) * 7);
-            const dow = simple.getDay();
-            const ISOweekStart = simple;
-            if (dow <= 4) {
-                ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
-            } else {
-                ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
-            }
-            return ISOweekStart;
-        }
+            // Event listeners para botones de acción
+            document.getElementById('btnRefreshData').addEventListener('click', function() {
+                console.log('Actualizando datos...');
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('weeklyForm');
-            const btnSave = document.getElementById('btnSaveHistorical');
+                // Simular carga
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-sync"></i>';
+                }, 1000);
+            });
 
-            btnSave.addEventListener('click', function() {
-                if (form.checkValidity()) {
-                    const weekValue = document.getElementById('btnSaveHistorical').value;
-                    const [year, week] = weekValue.split('-W');
-                    console.log(`Semana seleccionada: Año ${year}, Semana ${week}`);
-                    // Aquí tu lógica para guardar/procesar
-                } else {
-                    form.classList.add('was-validated');
-                }
+            document.getElementById('btnExportData').addEventListener('click', function() {
+                console.log('Exportando datos...');
             });
         });
     </script>

@@ -58,12 +58,12 @@ $(document).ready(function () {
 
     if (idExpensesDistribution == '' || idExpensesDistribution == null) {
       checkDataExpenseDistribution(
-        '/api/addExpensesDistribution',
+        '/api/distribution/addExpensesDistribution',
         idExpensesDistribution
       );
     } else {
       checkDataExpenseDistribution(
-        '/api/updateExpensesDistribution',
+        '/api/distribution/updateExpensesDistribution',
         idExpensesDistribution
       );
     }
@@ -106,10 +106,10 @@ $(document).ready(function () {
     $('#undVendidas').val(data.units_sold);
     $('#volVendidas').val(data.turnover);
 
-    
+
     if (production_center == '1' && flag_production_center == '1') {
       if (data.id_production_center == 0) {
-        var selectElement = document.getElementById("selectProductionCenterED"); 
+        var selectElement = document.getElementById("selectProductionCenterED");
         selectElement.selectedIndex = 0;
       } else
         $(`#selectProductionCenterED option[value=${data.id_production_center}]`).prop("selected", true);
@@ -147,28 +147,28 @@ $(document).ready(function () {
     let productionCenter = 0;
 
     let data = refProduct * nameProduct * unitExp * volExp;
-    
-    if (production_center == '1' && flag_production_center == '1'){
+
+    if (production_center == '1' && flag_production_center == '1') {
       productionCenter = parseFloat($('#selectProductionCenterED').val());
       data = data * productionCenter;
     }
-    
+
     if (flag_expense_distribution == 2) data = family //* unitExp * volExp;
-    
+
     if (isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
-    
+
     let dataExpense = new FormData(formExpensesDistribution);
-    
+
     if (idExpense != '' || idExpense != null) {
       dataExpense.append('expense', expense);
       dataExpense.append('idExpensesDistribution', idExpense);
       dataExpense.append('newProduct', sessionStorage.getItem('newProduct'));
-    } 
+    }
     dataExpense.append('production', productionCenter);
-    
+
     let resp = await sendDataPOST(url, dataExpense);
     let op = 1;
     if (flag_expense_distribution == 2) op = 3;
@@ -208,12 +208,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '../../api/deleteExpensesDistribution',
-            dataExpensesDistribution,
-            function (data, textStatus, jqXHR) {
-              messageDistribution(data, 1);
-            }
+          $.post('/api/distribution/deleteExpensesDistribution', dataExpensesDistribution, function (data, textStatus, jqXHR) {
+            messageDistribution(data, 1);
+          }
           );
         }
       },
@@ -226,11 +223,11 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('#fileExpenses').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
-    
+
     if (data.success == true) {
       $('.cardImportExpenses').hide(800);
       $('#formImportExpenses').trigger('reset');
@@ -256,7 +253,7 @@ $(document).ready(function () {
         await loadExpensesDProducts();
         await loadFamilies(2);
         await loadTblMultiproducts();
-        
+
         setTimeout(() => {
           $('.loading').hide(800);
           document.body.style.overflow = '';

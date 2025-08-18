@@ -18,12 +18,11 @@ $(document).ready(function () {
 
   /* Cargar datos de proyectos */
   getDataMaterials = async (id) => {
-    let data = await searchData(`/api/rawMaterials/${id}`);
+    //let data = await searchData(`/api/rawMaterials/${id}`);
+    // Enviar datos al servidor
+    const response = await fetch(`/api/rawMaterials/${id}`);
+    const data = await response.json();
 
-    // if ($.fn.dataTable.isDataTable('#tblMaterials')) {
-    //   $('#tblMaterials').DataTable().destroy();
-    //   $('#tblMaterials').empty();
-    // }
 
     $('.colMaterials').empty();
 

@@ -1,0 +1,294 @@
+<?php
+
+use tezlikv3\dao\{
+    TotalExpenseDao,
+    AssignableExpenseDao,
+    CostMaterialsDao,
+    ExpensesDistributionAnualDao,
+    FamiliesDao,
+    GeneralCompositeProductsDao,
+    GeneralExpenseDistributionAnualDao,
+    GeneralPCenterDao,
+    GeneralProductsDao,
+    MultiproductsDao,
+    PriceProductDao,
+    PriceUSDDao,
+    ProductsDao
+};
+
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Routing\RouteCollectorProxy;
+use App\Helpers\ResponseHelper;
+use App\Middleware\SessionMiddleware;
+
+$app->group('/annualDistribution', function (RouteCollectorProxy $group) {
+
+    $group->get('/expensesDistributionAnual', function (Request $request, Response $response, $args) {
+
+        $expensesDistributionAnualDao = new ExpensesDistributionAnualDao();
+
+        $id_company = $_SESSION['id_company'];
+        $expensesDistribution = $expensesDistributionAnualDao->findAllExpensesDistributionAnualByCompany($id_company);
+        $response->getBody()->write(json_encode($expensesDistribution));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->get('/expensesDistributionAnualProducts', function (Request $request, Response $response, $args) {
+
+        $generalExpenseDistributionAnualDao = new GeneralExpenseDistributionAnualDao();
+
+        $id_company = $_SESSION['id_company'];
+
+        $products = $generalExpenseDistributionAnualDao->findAllProductsNotInEDistribution($id_company);
+        $response->getBody()->write(json_encode($products));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/expenseDistributionAnualDataValidation', function (Request $request, Response $response, $args) {
+        $expensesDistributionAnualDao = new ExpensesDistributionAnualDao();
+        $generalProductsDao = new GeneralProductsDao();
+        $totalExpenseDao = new TotalExpenseDao();
+        $generalProductsDao = new GeneralProductsDao();
+
+        $dataExpensesDistribution = $request->getParsedBody();
+
+        if (isset($dataExpensesDistribution)) {
+            // session_start();
+            $id_company = $_SESSION['id_company'];
+
+            $insert = 0;
+            $update = 0;
+
+            $expensesDistribution = $dataExpensesDistribution['importExpense'];
+
+            for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
+                if (
+                    empty($expensesDistribution[$i]['referenceProduct']) || empty($expensesDistribution[$i]['product']) ||
+                    $expensesDistribution[$i]['unitsSold'] == '' || $expensesDistribution[$i]['turnover'] == ''
+                ) {
+                    $i = $i + 2;
+                    $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                    break;
+                }
+
+                if (
+                    empty(trim($expensesDistribution[$i]['referenceProduct'])) || empty(trim($expensesDistribution[$i]['product'])) ||
+                    trim($expensesDistribution[$i]['unitsSold']) == '' || trim($expensesDistribution[$i]['turnover']) == ''
+                ) {
+                    $i = $i + 2;
+                    $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                    break;
+                }
+
+                $expenseTotal = $totalExpenseDao->calcTotalExpenseAnualByCompany($id_company);
+
+                if (empty($expenseTotal) || !$expenseTotal) {
+                    $dataImportExpenseDistribution = array('error' => true, 'message' => 'Asigne un gasto primero antes de distribuir');
+                    break;
+                }
+
+                // Obtener id producto
+                $findProduct = $generalProductsDao->findProduct($expensesDistribution[$i], $id_company);
+                if (!$findProduct) {
+                    $i = $i + 2;
+                    $dataImportExpenseDistribution = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
+                    break;
+                } else $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];
+
+                $findExpenseDistribution = $expensesDistributionAnualDao->findExpenseDistributionAnual($expensesDistribution[$i], $id_company);
+                if (!$findExpenseDistribution) $insert = $insert + 1;
+                else $update = $update + 1;
+                $dataImportExpenseDistribution['insert'] = $insert;
+                $dataImportExpenseDistribution['update'] = $update;
+            }
+        } else
+            $dataImportExpenseDistribution = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
+
+        $response->getBody()->write(json_encode($dataImportExpenseDistribution, JSON_NUMERIC_CHECK));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/addExpensesDistributionAnual', function (Request $request, Response $response, $args) {
+        $expensesDistributionAnualDao = new ExpensesDistributionAnualDao();
+        $generalProductsDao = new GeneralProductsDao();
+        $totalExpenseDao = new TotalExpenseDao();
+        $assignableExpenseDao = new AssignableExpenseDao();
+        $generalProductsDao = new GeneralProductsDao();
+
+        $id_company = $_SESSION['id_company'];
+        $coverage_usd = $_SESSION['coverage_usd'];
+        $flag = $_SESSION['flag_expense_distribution'];
+        $products = false;
+        $dataExpensesDistribution = $request->getParsedBody();
+
+        $dataExpensesDistributions = sizeof($dataExpensesDistribution);
+        $resolution = null;
+
+        if ($dataExpensesDistributions > 1) {
+
+            $findExpenseDistribution = $expensesDistributionAnualDao->findExpenseDistributionAnual($dataExpensesDistribution, $id_company);
+
+            if (!$findExpenseDistribution)
+                $resolution = $expensesDistributionAnualDao->insertExpensesDistributionAnualByCompany($dataExpensesDistribution, $id_company);
+            else {
+                $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expense_distribution_anual'];
+                $resolution = $expensesDistributionAnualDao->updateExpensesDistributionAnual($dataExpensesDistribution, $id_company);
+            }
+
+            if ($resolution == null)
+                $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
+            else if (isset($resolution['info']))
+                $resp = array('info' => true, 'message' => $resolution['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+        } else {
+            $expensesDistribution = $dataExpensesDistribution['importExpense'];
+
+            $arrProducts = [];
+
+            for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
+                // Obtener id producto
+                $findProduct = $generalProductsDao->findProduct($expensesDistribution[$i], $id_company);
+                $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];
+
+                $findExpenseDistribution = $expensesDistributionAnualDao->findExpenseDistributionAnual($expensesDistribution[$i], $id_company);
+
+                if (!$findExpenseDistribution)
+                    $resolution = $expensesDistributionAnualDao->insertExpensesDistributionAnualByCompany($expensesDistribution[$i], $id_company);
+                else {
+                    $expensesDistribution[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expense_distribution_anual'];
+                    $resolution = $expensesDistributionAnualDao->updateExpensesDistributionAnual($expensesDistribution[$i]);
+                }
+                if ($resolution != null) break;
+
+                // Activar Productos
+                $resolution = $generalProductsDao->activeOrInactiveProducts($expensesDistribution[$i]['selectNameProduct'], 1);
+
+                $arrProducts[$i] = $expensesDistribution[$i]['selectNameProduct'];
+            }
+
+            if ($resolution == null)
+                $resp = array('success' => true, 'message' => 'Distribución de gasto importada correctamente');
+            else if (isset($resolution['info']))
+                $resp = array('info' => true, 'message' => $resolution['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
+        }
+
+        if ($resolution == null) {
+            // Consulta unidades vendidades y volumenes de venta por producto
+            $unitVol = $assignableExpenseDao->findAllExpensesDistributionAnual($id_company);
+            // Calcular el total de unidades vendidas y volumen de ventas
+            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolAnual($id_company);
+            // Obtener el total de gastos
+            $totalExpense = $totalExpenseDao->calcTotalExpenseAnualByCompany($id_company);
+            $totalExpense['total_expense'] = $totalExpense['expenses_value'];
+
+            foreach ($unitVol as $arr) {
+                if (isset($resolution['info'])) break;
+                // Calcular gasto asignable
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                // Actualizar gasto asignable
+                $resolution = $assignableExpenseDao->updateAssignableExpenseAnual($arr['id_product'], $expense['assignableExpense']);
+            }
+        }
+
+        if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
+        else if ($resolution != null)
+            $resp = array('error' => true, 'message' => 'Ocurrio un error guardaba la información. Intente nuevamente');
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/updateExpensesDistributionAnual', function (Request $request, Response $response, $args) {
+        $expensesDistributionAnualDao = new ExpensesDistributionAnualDao();
+        $totalExpenseDao = new TotalExpenseDao();
+        $assignableExpenseDao = new AssignableExpenseDao();
+
+        $id_company = $_SESSION['id_company'];
+        $coverage_usd = $_SESSION['coverage_usd'];
+        $flag = $_SESSION['flag_expense_distribution'];
+        $products = false;
+        $dataExpensesDistribution = $request->getParsedBody();
+        $findExpenseDistribution = $expensesDistributionAnualDao->findExpenseDistributionAnual($dataExpensesDistribution, $id_company);
+
+        $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expense_distribution_anual'];
+        $expensesDistribution = $expensesDistributionAnualDao->updateExpensesDistributionAnual($dataExpensesDistribution, $id_company);
+
+        /* Calcular gasto asignable */
+        if ($expensesDistribution == null) {
+            // Consulta unidades vendidades y volumenes de venta por producto
+            $unitVol = $assignableExpenseDao->findAllExpensesDistributionAnual($id_company);
+            // Calcular el total de unidades vendidas y volumen de ventas
+            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolAnual($id_company);
+            // Obtener el total de gastos
+            $totalExpense = $totalExpenseDao->calcTotalExpenseAnualByCompany($id_company);
+            $totalExpense['total_expense'] = $totalExpense['expenses_value'];
+
+            foreach ($unitVol as $arr) {
+                if (isset($resolution['info'])) break;
+                // Calcular gasto asignable
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                // Actualizar gasto asignable
+                $resolution = $assignableExpenseDao->updateAssignableExpenseAnual($arr['id_product'], $expense['assignableExpense']);
+            }
+        }
+
+        if ($expensesDistribution == null)
+            $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
+        else if (isset($expensesDistribution['info']))
+            $resp = array('info' => true, 'message' => $expensesDistribution['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('/deleteExpensesDistributionAnual', function (Request $request, Response $response, $args) {
+
+        $expensesDistributionAnualDao = new ExpensesDistributionAnualDao();
+        $totalExpenseDao = new TotalExpenseDao();
+        $assignableExpenseDao = new AssignableExpenseDao();
+
+        $id_company = $_SESSION['id_company'];
+        // $coverage_usd = $_SESSION['coverage_usd'];
+        $dataExpensesDistribution = $request->getParsedBody();
+
+        $expensesDistribution = $expensesDistributionAnualDao->deleteExpensesDistributionAnual($dataExpensesDistribution);
+
+        // Calcular gasto asignable
+        if ($expensesDistribution == null) {
+            // Consulta unidades vendidades y volumenes de venta por producto
+            $unitVol = $assignableExpenseDao->findAllExpensesDistributionAnual($id_company);
+
+            // Calcular el total de unidades vendidas y volumen de ventas
+            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolAnual($id_company);
+
+            // Obtener el total de gastos 
+            $totalExpense = $totalExpenseDao->calcTotalExpenseAnualByCompany($id_company);
+            $totalExpense['total_expense'] = $totalExpense['expenses_value'];
+
+            foreach ($unitVol as $arr) {
+                if (isset($resolution['info'])) break;
+                // Calcular gasto asignable
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                // Actualizar gasto asignable
+                $resolution = $assignableExpenseDao->updateAssignableExpenseAnual($arr['id_product'], $expense['assignableExpense']);
+            }
+        }
+
+        if ($expensesDistribution == null)
+            $resp = array('success' => true, 'message' => 'Distribucion de gasto eliminado correctamente');
+        else if (isset($expensesDistribution['info']))
+            $resp = array('info' => true, 'message' => $expensesDistribution['message']);
+        else
+            $resp = array('error' => true, 'message' => 'No es posible eliminar el gasto, existe información asociada a él');
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+})->add(new SessionMiddleware());

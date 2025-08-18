@@ -1,14 +1,14 @@
 $(document).ready(function () {
   $('#email').prop('disabled', true);
 
-  fetch(`/api/user`)
+  fetch(`/api/users/user`)
     .then((response) => response.text())
     .then((data) => {
       data = JSON.parse(data);
       if (data.reload) {
         location.reload();
       }
-      
+
       loadProfile(data);
     });
 

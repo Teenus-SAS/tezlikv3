@@ -1,127 +1,124 @@
-$(document).ready(function () {
-  /* Ocultar panel crear producto */
-  $('.cardCreateProduct').hide();
-  /* Abrir panel crear producto */
 
-  $('#btnNewProduct').click(function (e) {
-    e.preventDefault();
+/* Ocultar panel crear producto */
+$('.cardCreateProduct').hide();
+/* Abrir panel crear producto */
 
-    $('.cardCreateProduct').toggle(800);
-    $('.cardImportProducts').hide(800);
-    $('#btnCreateProduct').html('Crear Producto');
+$('#btnNewProduct').click(function (e) {
+  e.preventDefault();
 
-    sessionStorage.removeItem('id_product');
+  $('.cardCreateProduct').toggle(800);
+  $('.cardImportProducts').hide(800);
+  $('#btnCreateProduct').html('Crear Producto');
 
-    $('#formCreateProduct').trigger('reset');
-  });
+  sessionStorage.removeItem('id_product');
 
-  /* Crear producto */
+  $('#formCreateProduct').trigger('reset');
+});
 
-  $('#btnCreateProduct').click(function (e) {
-    e.preventDefault();
-    let idProduct = sessionStorage.getItem('id_product');
+/* Crear producto */
 
-    if (idProduct == '' || idProduct == null) {
-      checkDataProducts('/api/addProducts', idProduct);
-    } else {
-      checkDataProducts('/api/updateProducts', idProduct);
-    }
-  });
+$('#btnCreateProduct').click(function (e) {
+  e.preventDefault();
+  let idProduct = sessionStorage.getItem('id_product');
 
-  /* Actualizar productos */
+  if (idProduct == '' || idProduct == null) {
+    checkDataProducts('/api/products/addProducts', idProduct);
+  } else {
+    checkDataProducts('/api/products/updateProducts', idProduct);
+  }
+});
 
-  $(document).on('click', '.updateProducts', function (e) {
-    $('.cardImportProducts').hide(800);
-    $('.cardCreateProduct').show(800);
-    $('#btnCreateProduct').html('Actualizar Producto');
+/* Actualizar productos */
 
-    let idProduct = this.id;
-    sessionStorage.setItem('id_product', idProduct);
+$(document).on('click', '.updateProducts', function (e) {
+  $('.cardImportProducts').hide(800);
+  $('.cardCreateProduct').show(800);
+  $('#btnCreateProduct').html('Actualizar Producto');
 
-    let row = $(this).parent().parent()[0];
-    let data = tblProducts.fnGetData(row);
+  let idProduct = this.id;
+  sessionStorage.setItem('id_product', idProduct);
 
-    $('#referenceProduct').val(data.reference);
-    $('#product').val(data.product);
-    $('#profitability').val(data.profitability);
-    $('#commisionSale').val(data.commission_sale);
-    $('#salePrice').val(data.sale_price);
+  let row = $(this).parent().parent()[0];
+  let data = tblProducts.fnGetData(row);
 
-    $('html, body').animate({ scrollTop: 0 }, 1000);
-  });
+  $('#referenceProduct').val(data.reference);
+  $('#product').val(data.product);
+  $('#profitability').val(data.profitability);
+  $('#commisionSale').val(data.commission_sale);
+  $('#salePrice').val(data.sale_price);
 
-  /* Revisar datos */
-  const checkDataProducts = async (url, idProduct) => {
-    let ref = $('#referenceProduct').val();
-    let prod = $('#product').val();
-    let prof = parseFloat($('#profitability').val());
-    let comission = parseFloat($('#commisionSale').val());
+  $('html, body').animate({ scrollTop: 0 }, 1000);
+});
 
-    if (ref.trim() == '' || !ref.trim() || prod.trim() == '' || !prod.trim()) {
-      toastr.error('Ingrese todos los campos');
-      return false;
-    }
+/* Revisar datos */
+const checkDataProducts = async (url, idProduct) => {
+  let ref = $('#referenceProduct').val();
+  let prod = $('#product').val();
+  let prof = parseFloat($('#profitability').val());
+  let comission = parseFloat($('#commisionSale').val());
 
-    if (prof > 100 || comission > 100) {
-      toastr.error('La rentabilidad y comision debe ser menor al 100%');
-      return false;
-    }
+  if (ref.trim() == '' || !ref.trim() || prod.trim() == '' || !prod.trim()) {
+    toastr.error('Ingrese todos los campos');
+    return false;
+  }
 
-    let imageProd = $('#formFile')[0].files[0];
+  if (prof > 100 || comission > 100) {
+    toastr.error('La rentabilidad y comision debe ser menor al 100%');
+    return false;
+  }
 
-    let dataProduct = new FormData(formCreateProduct);
-    dataProduct.append('img', imageProd);
+  let imageProd = $('#formFile')[0].files[0];
 
-    if (idProduct != '' || idProduct != null) {
-      dataProduct.append('idProduct', idProduct);
-    }
+  let dataProduct = new FormData(formCreateProduct);
+  dataProduct.append('img', imageProd);
 
-    let resp = await sendDataPOST(url, dataProduct);
+  if (idProduct != '' || idProduct != null) {
+    dataProduct.append('idProduct', idProduct);
+  }
 
-    message(resp);
-  };
+  let resp = await sendDataPOST(url, dataProduct);
 
-  /* Eliminar productos */
-  $(document).on('click', '.deleteProduct', function () {
-    let dataProduct = {};
-    dataProduct['idProduct'] = this.id;
+  message(resp);
+};
 
-    bootbox.confirm({
-      title: 'Eliminar',
-      message:
-        'Está seguro de eliminar este producto? Esta acción no se puede reversar.',
-      buttons: {
-        confirm: {
-          label: 'Si',
-          className: 'btn-success',
-        },
-        cancel: {
-          label: 'No',
-          className: 'btn-danger',
-        },
+/* Eliminar productos */
+$(document).on('click', '.deleteProduct', function () {
+  let dataProduct = {};
+  dataProduct['idProduct'] = this.id;
+
+  bootbox.confirm({
+    title: 'Eliminar',
+    message:
+      'Está seguro de eliminar este producto? Esta acción no se puede reversar.',
+    buttons: {
+      confirm: {
+        label: 'Si',
+        className: 'btn-success',
       },
-      callback: function (result) {
-        if (result == true) {
-          $.post(
-            '/api/deleteProduct',
-            dataProduct,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
-          );
+      cancel: {
+        label: 'No',
+        className: 'btn-danger',
+      },
+    },
+    callback: function (result) {
+      if (result == true) {
+        $.post('/api/products/deleteProduct', dataProduct, function (data, textStatus, jqXHR) {
+          message(data);
         }
-      },
-    });
+        );
+      }
+    },
   });
+});
 
-  /* Copiar Producto */
-  copyFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblProducts.fnGetData(row);
+/* Copiar Producto */
+copyFunction = () => {
+  let row = $(this.activeElement).parent().parent()[0];
+  let data = tblProducts.fnGetData(row);
 
-    bootbox.confirm({
-      title: 'Clonar producto',
-      message: `<div class="row">
+  bootbox.confirm({
+    title: 'Clonar producto',
+    message: `<div class="row">
                   <div class="col-12">
                     <label for="referenceNewProduct">Referencia</label>
                     <input type="text" class="form-control mb-2" name="referenceNewProduct" id="referenceNewProduct">
@@ -135,128 +132,97 @@ $(document).ready(function () {
                     <input type="number" class="form-control text-center" name="newSalePrice" id="newSalePrice">
                   </div>
                 </div>`,
-      buttons: {
-        confirm: {
-          label: 'Ok',
-          className: 'btn-success',
-        },
-        cancel: {
-          label: 'Cancel',
-          className: 'btn-danger',
-        },
+    buttons: {
+      confirm: {
+        label: 'Ok',
+        className: 'btn-success',
       },
-      callback: function (result) {
-        if (result == true) {
-          let ref = $('#referenceNewProduct').val();
-          let prod = $('#newProduct').val();
-          let sale_price = $('#newSalePrice').val();
+      cancel: {
+        label: 'Cancel',
+        className: 'btn-danger',
+      },
+    },
+    callback: function (result) {
+      if (result == true) {
+        let ref = $('#referenceNewProduct').val();
+        let prod = $('#newProduct').val();
+        let sale_price = $('#newSalePrice').val();
 
-          if (!ref.trim() || ref.trim() == '' || !prod.trim() || prod.trim() == '') {
-            toastr.error('Ingrese todos los campos');
-            return false;
-          }
-
-          let dataProduct = {};
-          dataProduct['idOldProduct'] = data.id_product;
-          dataProduct['referenceProduct'] = ref;
-          dataProduct['product'] = prod;
-          dataProduct['profitability'] = data.profitability;
-          dataProduct['commissionSale'] = data.commission_sale;
-          dataProduct['salePrice'] = sale_price;
-          dataProduct['idFamily'] = data.id_family;
-
-          $.post(
-            '/api/copyProduct',
-            dataProduct,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
-          );
+        if (!ref.trim() || ref.trim() == '' || !prod.trim() || prod.trim() == '') {
+          toastr.error('Ingrese todos los campos');
+          return false;
         }
-      },
-    });
-  };
 
-  $(document).on('click', '.composite', function () {
-    let row = $(this).parent().parent()[0];
-    let data = tblProducts.fnGetData(row);
+        let dataProduct = {};
+        dataProduct['idOldProduct'] = data.id_product;
+        dataProduct['referenceProduct'] = ref;
+        dataProduct['product'] = prod;
+        dataProduct['profitability'] = data.profitability;
+        dataProduct['commissionSale'] = data.commission_sale;
+        dataProduct['salePrice'] = sale_price;
+        dataProduct['idFamily'] = data.id_family;
 
-    bootbox.confirm({
-      title: 'Producto Compuesto',
-      message:
-        `Está seguro de que este producto ${data.composite == '0' ? 'se <b>convierta en un subproducto</b> para ser agregado a un producto compuesto' : 'se <b>Elimine</b> como subproducto'}?`,
-      buttons: {
-        confirm: {
-          label: 'Si',
-          className: 'btn-success',
-        },
-        cancel: {
-          label: 'No',
-          className: 'btn-danger',
-        },
-      },
-      callback: function (result) {
-        if (result == true) {
-          $.get(
-            `/api/changeComposite/${data.id_product}/${data.composite == '0' ? '1' : '0'}`,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
-          );
+        $.post('/api/products/copyProduct', dataProduct, function (data, textStatus, jqXHR) {
+          message(data);
         }
-      },
-    });
-  });
-
-  /* Mensaje de exito */
-  message = (data) => {
-    if (data.reload) {
-      location.reload();
-    }
-
-    $('#fileProducts').val('');
-    $('.cardLoading').remove();
-    $('.cardBottons').show(400);
-
-    if (data.success == true) {
-      $('.cardImportProducts').hide(800);
-      $('#formImportProduct').trigger('reset');
-      $('#createInactivesProducts').modal('hide');
-      $('.cardCreateProduct').hide(800);
-      $('#formCreateProduct').trigger('reset');
-      toastr.success(data.message);
-      loadAllData();
-      return false;
-    } else if (data.error == true) toastr.error(data.message);
-    else if (data.info == true) toastr.info(data.message);
-  };
-
-
-  /* // Interceptor para manejar tokens en las solicitudes
-  axios.interceptors.request.use(config => {
-    const token = localStorage.getItem('auth_token') || getCookie('auth_token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  });
-
-  // Interceptor para manejar respuestas 401
-  axios.interceptors.response.use(
-    response => response,
-    error => {
-      if (error.response.status === 401) {
-        localStorage.removeItem('auth_token');
-        window.location.reload(); // Forzar recarga para limpiar estado
+        );
       }
-      return Promise.reject(error);
-    }
-  );
+    },
+  });
+};
 
-  // Función auxiliar para obtener cookies
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  } */
+$(document).on('click', '.composite', function () {
+  let row = $(this).parent().parent()[0];
+  let data = tblProducts.fnGetData(row);
+
+  bootbox.confirm({
+    title: 'Producto Compuesto',
+    message:
+      `Está seguro de que este producto ${data.composite == '0' ? 'se <b>convierta en un subproducto</b> para ser agregado a un producto compuesto' : 'se <b>Elimine</b> como subproducto'}?`,
+    buttons: {
+      confirm: {
+        label: 'Si',
+        className: 'btn-success',
+      },
+      cancel: {
+        label: 'No',
+        className: 'btn-danger',
+      },
+    },
+    callback: function (result) {
+      if (result == true) {
+        $.get(
+          `/api/products/changeComposite/${data.id_product}/${data.composite == '0' ? '1' : '0'}`,
+          function (data, textStatus, jqXHR) {
+            message(data);
+          }
+        );
+      }
+    },
+  });
 });
+
+/* Mensaje de exito */
+message = (data) => {
+  if (data.reload) {
+    location.reload();
+  }
+
+  $('#fileProducts').val('');
+  $('.cardLoading').remove();
+  $('.cardBottons').show(400);
+
+  if (data.success == true) {
+    $('.cardImportProducts').hide(800);
+    $('#formImportProduct').trigger('reset');
+    $('#createInactivesProducts').modal('hide');
+    $('.cardCreateProduct').hide(800);
+    $('#formCreateProduct').trigger('reset');
+    toastr.success(data.message);
+    loadAllData();
+    return false;
+  } else if (data.error == true) toastr.error(data.message);
+  else if (data.info == true) toastr.info(data.message);
+};
+
+

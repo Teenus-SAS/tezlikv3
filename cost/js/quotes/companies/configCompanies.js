@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    url: '/api/quotesCompanies',
+    url: '/api/companies/quotesCompanies',
     success: function (r) {
       if (r.reload) {
         location.reload();

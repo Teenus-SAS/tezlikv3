@@ -1,9 +1,9 @@
 $(document).ready(function () {
     $('.cardNewProduct').hide();
-    
+
     $('#btnNewProducts').click(function (e) {
         e.preventDefault();
-        
+
         $('.cardImportExpenses').hide(800);
         $('.cardExpensesDistribution').hide(800);
         $('.cardNewProduct').toggle(800);
@@ -37,7 +37,7 @@ $(document).ready(function () {
     // $('#newRefProduct').change(function (e) {
     //     e.preventDefault(); 
     //     let id = this.value;
-        
+
     //     $('#newNameProduct option').prop('selected', function () {
     //         return $(this).val() == id;
     //     }); 
@@ -46,7 +46,7 @@ $(document).ready(function () {
     // $('#newNameProduct').change(function (e) {
     //     e.preventDefault(); 
     //     let id = this.value;
-        
+
     //     $('#newRefProduct option').prop('selected', function () {
     //         return $(this).val() == id;
     //     }); 
@@ -93,10 +93,10 @@ $(document).ready(function () {
             toastr.error('Ingrese todos los campos');
             return false;
         }
-        
+
         let dataExpense = $('#formNewProduct').serialize();
 
-        $.post('/api/saveNewProduct', dataExpense,
+        $.post('/api/distribution/saveNewProduct', dataExpense,
             function (data, textStatus, jqXHR) {
                 messageDistribution(data, 1);
             },

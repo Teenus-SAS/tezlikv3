@@ -6,18 +6,18 @@ $(document).ready(function () {
   $('#btnNewUser').click(function (e) {
     e.preventDefault();
     $('#btnCreateUser').html('Crear Usuario');
-    
+
     sessionStorage.removeItem('id_user');
     $('#email').prop('disabled', false);
     $('#company').prop('disabled', false);
-    
+
     $('#formCreateUser').trigger('reset');
-    
+
     let display = $('.cardCreateUser').css('display');
-    
+
     if (display == 'block')
       loadTblUsers(allUsers);
-    
+
     $('.cardCreateUser').toggle(800);
   });
 
@@ -30,7 +30,7 @@ $(document).ready(function () {
       company = $('#company').val();
       firstname = $('#firstname').val();
       lastname = $('#lastname').val();
-      email = $('#email').val(); 
+      email = $('#email').val();
       $(`#principalUser`).val() == '1' ? check = 1 : check = 0;
 
       if (
@@ -45,7 +45,7 @@ $(document).ready(function () {
       ) {
         toastr.error('Ingrese nombre, apellido y/o email');
         return false;
-      } 
+      }
 
       let dataUser = {};
       dataUser['nameUser'] = firstname;
@@ -81,14 +81,14 @@ $(document).ready(function () {
     $('#email').prop('disabled', true);
     $(`#company option[value=${data.id_company}]`).prop('selected', true);
     $('#company').prop('disabled', true);
-    
+
     data.contract == '1' ? op = 1 : op = 2;
 
     $(`#principalUser option[value=${op}]`).prop('selected', true);
 
     data = allUsers.filter(item => item.id_company == data.id_company);
 
-    loadTblUsers(data);  
+    loadTblUsers(data);
 
     $('html, body').animate(
       {
@@ -99,7 +99,7 @@ $(document).ready(function () {
   });
 
   updateUser = () => {
-    if ($(`#principalUser`).val() == '2') { 
+    if ($(`#principalUser`).val() == '2') {
       toastr.error('Debe haber por lo menos un usuario principal por empresa');
       return false;
     }
@@ -109,10 +109,10 @@ $(document).ready(function () {
 
     $('#company').prop('disabled', false);
     dataUser = $('#formCreateUser').serialize();
-    
+
     dataUser = `${dataUser}&id_user=${id_user}&check=${check}`;
-    
-    $.post('/api/updateUser', dataUser, function (data, textStatus, jqXHR) {
+
+    $.post('/api/users/updateUser', dataUser, function (data, textStatus, jqXHR) {
       $('#email').prop('disabled', false);
 
       message(data);
@@ -124,7 +124,7 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    if (data.contract == '1') { 
+    if (data.contract == '1') {
       toastr.error('Debe haber por lo menos un usuario principal por empresa');
       return false;
     }
@@ -151,12 +151,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '/api/deleteUser',
-            dataUser,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.post('/api/users/deleteUser', dataUser, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },
@@ -178,7 +175,7 @@ $(document).ready(function () {
     dataUser['quotePaymentMethod'] = 1;
     dataUser['quoteCompany'] = 1;
     dataUser['quoteContact'] = 1;
-    dataUser['price'] = 1; 
+    dataUser['price'] = 1;
     dataUser['customPrices'] = 1;
     dataUser['analysisMaterial'] = 1;
     dataUser['economyScale'] = 1;
@@ -202,7 +199,7 @@ $(document).ready(function () {
     return dataUser;
   };
 
-  $(document).on('click', '.checkUser', function () { 
+  $(document).on('click', '.checkUser', function () {
 
     let row = $(this).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
@@ -227,10 +224,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(`/api/changePrincipalUser`,dataUser,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            },
+          $.post(`/api/users/changePrincipalUser`, dataUser, function (data, textStatus, jqXHR) {
+            message(data);
+          },
           );
         }
       },
@@ -242,7 +238,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('.cardCreateUser').hide(800);
       $('#formCreateUser').trigger('reset');
@@ -252,5 +248,5 @@ $(document).ready(function () {
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
-  }; 
+  };
 });

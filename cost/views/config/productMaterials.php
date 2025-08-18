@@ -617,7 +617,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
 
         $(document).ready(function() {
             const generalCalcWrkf = async () => {
-                let resp = await searchData('/api/calcGeneralWorkforce');
+                let resp = await searchData('/api/calculations/calcGeneralWorkforce');
                 console.log(resp);
             }
             getDataProducts('/api/selectProducts');

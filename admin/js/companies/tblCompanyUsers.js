@@ -5,10 +5,6 @@ $(document).ready(function () {
 
   tblCompanyUsers = $('#tblCompanyUsers').dataTable({
     pageLength: 50,
-    // ajax: {
-    //   url: `/api/companyUsers/${idCompany}`,
-    //   dataSrc: '',
-    // },
     ajax: function (data, callback, settings) {
       fetch(`/api/companyUsers/${idCompany}`)
         .then(response => response.json())

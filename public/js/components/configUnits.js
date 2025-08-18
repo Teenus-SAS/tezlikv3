@@ -29,7 +29,7 @@ $(document).ready(function () {
 
   // Inicializar datos
   const init = async () => {
-    await loadData('/api/units', 'dataUnits'); // Cargar y almacenar unidades
+    await loadData('/api/measurements/units', 'dataUnits'); // Cargar y almacenar unidades
   };
 
   // Llamar a la función de inicialización

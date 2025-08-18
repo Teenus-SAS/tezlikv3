@@ -10,7 +10,7 @@ $(document).ready(function () {
     // else await loadFamilies(2);
 
     let display = $('.cardExpensesDistributionAnual').css('display');
-    if(display == 'none')
+    if (display == 'none')
       await loadExpensesDAProducts();
 
     $('.selectNameProduct option').removeAttr('selected');
@@ -58,12 +58,12 @@ $(document).ready(function () {
 
     if (idExpensesDistribution == '' || idExpensesDistribution == null) {
       checkDataExpenseDistributionA(
-        '/api/addExpensesDistributionAnual',
+        '/api/annualDistribution/addExpensesDistributionAnual',
         idExpensesDistribution
       );
     } else {
       checkDataExpenseDistributionA(
-        '/api/updateExpensesDistributionAnual',
+        '/api/annualDistribution/updateExpensesDistributionAnual',
         idExpensesDistribution
       );
     }
@@ -146,28 +146,28 @@ $(document).ready(function () {
     // let productionCenter = 0;
 
     let data = refProduct * nameProduct;
-    
+
     // if (production_center == '1' && flag_production_center == '1'){
     //   productionCenter = parseFloat($('#selectProductionCenterED').val());
     //   data = data * productionCenter;
     // }
-    
+
     // if (flag_expense_distribution == 2) data = family //* unitExp * volExp;
-    
+
     if (isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
-    
+
     let dataExpense = new FormData(formExpensesDistributionAnual);
-    
+
     if (idExpense != '' || idExpense != null) {
       dataExpense.append('expense', expense);
       dataExpense.append('idExpensesDistribution', idExpense);
       // dataExpense.append('newProduct', sessionStorage.getItem('newProduct'));
-    } 
+    }
     // dataExpense.append('production', productionCenter);
-    
+
     let resp = await sendDataPOST(url, dataExpense);
     // let op = 1;
     // if (flag_expense_distribution == 2) op = 3;
@@ -207,9 +207,7 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '../../api/deleteExpensesDistributionAnual',
-            dataExpensesDistribution,
+          $.post('/api/annualDistribution/deleteExpensesDistributionAnual', dataExpensesDistribution,
             function (data, textStatus, jqXHR) {
               messageDistributionA(data, 1);
             }
@@ -225,11 +223,11 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('#fileExpenses').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
-    
+
     if (data.success == true) {
       $('.cardImportExpensesAnual').hide(800);
       $('#formImportExpensesAnual').trigger('reset');
@@ -253,7 +251,7 @@ $(document).ready(function () {
       document.body.style.overflow = 'hidden';
 
       await loadExpensesDAProducts();
-        
+
       setTimeout(() => {
         $('.loading').hide(800);
         document.body.style.overflow = '';

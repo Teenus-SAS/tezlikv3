@@ -20,9 +20,9 @@ $(document).ready(function () {
                   <label class="font-weight-bold text-dark">Dolar Hoy</label>
                   <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" style="background-color: aliceblue;"
                     value="$ ${currentDollar.toLocaleString("es-CO", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}" readonly>
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}" readonly>
                 </div>
                 <div class="col-xs-2 form-group floating-label enable-floating-label mr-2 USDInputs">
                   <label class="font-weight-bold text-dark">Dolar con Cobertura</label>
@@ -46,11 +46,11 @@ $(document).ready(function () {
                   <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
                   <input type="text" class="form-control text-center" name="exchangeCoverageUSD" id="exchangeCoverageUSD" style="background-color: aliceblue;"
                     value="$ ${(
-                      currentDollar - parseFloat(coverage_usd)
-                    ).toLocaleString("es-CO", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}" readonly>
+            currentDollar - parseFloat(coverage_usd)
+          ).toLocaleString("es-CO", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}" readonly>
                 </div>
                 <div class="col-xs-2 form-group floating-label enable-floating-label USDInputs">
                   <button class="btn btn-warning" id="btnSimulation">Simular</button>
@@ -61,14 +61,14 @@ $(document).ready(function () {
         // if (flag_composite_product == "1") {
         //   loadTblPrices(parents, 4);
         // } else {
-          loadTblPrices(allPrices, 4);
+        loadTblPrices(allPrices, 4);
         // }
       } else {
         op = 1;
 
         document.getElementById("USDHeader").className =
-          "col-xl-8 form-inline justify-content-sm-end"; 
-        
+          "col-xl-8 form-inline justify-content-sm-end";
+
         // Agrega el nuevo contenido con animación después de vaciar el contenido
         USDHeader.append(`
                 <div class="col-xs-2 mr-2 mb-4 USDInputs">
@@ -92,18 +92,18 @@ $(document).ready(function () {
                   <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
                   <input type="text" class="form-control text-center inputsValue" name="exchangeCoverageUSD" id="exchangeCoverageUSD" style="background-color: aliceblue;"
                     value="$ ${(
-                      currentDollar - parseFloat(coverage_usd)
-                    ).toLocaleString("es-CO", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}" readonly>
+            currentDollar - parseFloat(coverage_usd)
+          ).toLocaleString("es-CO", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}" readonly>
                 </div>
             `);
         // Realiza cualquier acción adicional después de agregar el contenido
         // if (flag_composite_product == "1") {
         //   loadTblPrices(parents, 2);
         // } else {
-          loadTblPrices(allPrices, 2);
+        loadTblPrices(allPrices, 2);
         // }
       }
 
@@ -164,7 +164,7 @@ $(document).ready(function () {
     );
 
     if (op == 1) {
-      let data = await searchData(`/api/priceUSD/${valueCoverage}`);
+      let data = await searchData(`/api/trm/priceUSD/${valueCoverage}`);
 
       if (data.success) {
         coverage_usd = valueCoverage;
@@ -181,7 +181,7 @@ $(document).ready(function () {
       data["coverage_usd"] = valueCoverage;
       data["id"] = id;
 
-      $.post("/api/simPriceUSD", data, function (resp, textStatus, jqXHR) {
+      $.post("/api/trm/simPriceUSD", data, function (resp, textStatus, jqXHR) {
         if (resp.reload) {
           location.reload();
         }
@@ -204,7 +204,7 @@ $(document).ready(function () {
           // if (flag_composite_product == "1") {
           //   loadTblPrices(parents, 4, resp.coverage_usd);
           // } else
-            loadTblPrices(allPrices, 4, resp.coverage_usd);
+          loadTblPrices(allPrices, 4, resp.coverage_usd);
         }
       });
     }

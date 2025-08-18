@@ -1,40 +1,40 @@
 $(document).ready(function () {
     $('.cardNewProduct').hide();
-    
-    $('#btnNewProducts').click(function (e) { 
+
+    $('#btnNewProducts').click(function (e) {
         e.preventDefault();
-        
+
         $('.cardImportExpenses').hide(800);
-        $('.cardExpensesDistribution').hide(800); 
+        $('.cardExpensesDistribution').hide(800);
         $('.cardNewProduct').toggle(800);
         $('#formNewProduct').trigger('reset');
     });
 
     $('#newRefProduct').change(function (e) {
-        e.preventDefault(); 
+        e.preventDefault();
         let id = this.value;
-        
+
         $('#newNameProduct option').prop('selected', function () {
             return $(this).val() == id;
-        }); 
+        });
     });
 
     $('#newNameProduct').change(function (e) {
-        e.preventDefault(); 
+        e.preventDefault();
         let id = this.value;
-        
+
         $('#newRefProduct option').prop('selected', function () {
             return $(this).val() == id;
-        }); 
+        });
     });
 
     $('#refOldProduct').change(function (e) {
-        e.preventDefault(); 
+        e.preventDefault();
         let id = this.value;
-        
+
         $('#nameOldProduct option').prop('selected', function () {
             return $(this).val() == id;
-        }); 
+        });
 
         let data = JSON.parse(sessionStorage.getItem('dataProducts'));
 
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
         $('#refOldProduct option').prop('selected', function () {
             return $(this).val() == id;
-        }); 
+        });
 
         let data = JSON.parse(sessionStorage.getItem('dataProducts'));
 
@@ -58,7 +58,7 @@ $(document).ready(function () {
         $('#pAssignableExpense').val((parseFloat(data.assignable_expense)).toFixed(2));
     });
 
-    $('#btnAddNewProduct').click(function (e) { 
+    $('#btnAddNewProduct').click(function (e) {
         e.preventDefault();
 
         let newProduct = $('#newNameProduct').val();
@@ -70,10 +70,10 @@ $(document).ready(function () {
             toastr.error('Ingrese todos los campos');
             return false;
         }
-        
+
         let dataExpense = $('#formNewProduct').serialize();
 
-        $.post('/api/saveNewProduct', dataExpense,
+        $.post('/api/distribution/saveNewProduct', dataExpense,
             function (data, textStatus, jqXHR) {
                 messageDistribution(data, 1);
             },

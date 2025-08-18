@@ -36,7 +36,7 @@ $(document).ready(function () {
       category = $('#formCreateCategory').serialize();
 
       $.post(
-        '../../api/addCategory',
+        '/api/categories/addCategory',
         category,
         function (data, textStatus, jqXHR) {
           message(data);

@@ -20,7 +20,7 @@ $(document).ready(function () {
 
   loadAllDataDistributionA = async () => {
     try {
-      const dataExpensesDistribution = await searchData('/api/expensesDistributionAnual');
+      const dataExpensesDistribution = await searchData('/api/annualDistribution/expensesDistributionAnual');
 
       sessionStorage.setItem('dataExpensesDistributionA', JSON.stringify(dataExpensesDistribution));
 

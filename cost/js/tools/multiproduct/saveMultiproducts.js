@@ -3,7 +3,7 @@ $(document).ready(function () {
   saveMultiproducts = async (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addMultiproduct',
+      url: '/api/multiproducts/addMultiproduct',
       data: { data: data },
       success: function (resp) {
         if (resp.reload) {

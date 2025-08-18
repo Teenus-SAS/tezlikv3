@@ -1,4 +1,3 @@
-
 let expensesRecover = [];
 
 /* Modificar porcentaje masivo */

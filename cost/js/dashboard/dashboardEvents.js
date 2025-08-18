@@ -31,7 +31,7 @@ $(document).on('click', '#saveChanges', function () {
         $('#saveText').addClass('d-none');
 
         $.ajax({
-            url: '/api/updateCosts',
+            url: '/api/panelGeneral/updateCosts',
             method: 'POST',
             data,
             success: function (response) {

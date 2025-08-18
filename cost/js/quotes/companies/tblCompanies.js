@@ -3,12 +3,8 @@ $(document).ready(function () {
 
   tblCompanies = $('#tblCompanies').dataTable({
     pageLength: 50,
-    // ajax: {
-    //   url: '/api/quotesCompanies',
-    //   dataSrc: '',
-    // },
     ajax: function (data, callback, settings) {
-      fetch(`/api/quotesCompanies`)
+      fetch(`/api/companies/quotesCompanies`)
         .then(response => response.json())
         .then(data => {
           // Si el servidor indica recargar la página

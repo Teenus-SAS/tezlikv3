@@ -2,7 +2,7 @@ $(document).ready(function () {
   findInactiveUsers = async () => {
     try {
       result = await $.ajax({
-        url: '/api/checkLastLoginUsers',
+        url: '/api/userSession/checkLastLoginUsers',
       });
 
       if (result.reload) {

@@ -58,7 +58,7 @@ $(document).ready(function () {
 
       dataUser = setCheckBoxes(dataUser);
 
-      $.post('/api/addUser', dataUser, function (data, textStatus, jqXHR) {
+      $.post('/api/users/addUser', dataUser, function (data, textStatus, jqXHR) {
         message(data);
       });
     } else {
@@ -212,12 +212,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '/api/deleteUser',
-            dataUser,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.post('/api/users/deleteUser', dataUser, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },

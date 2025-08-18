@@ -33,12 +33,9 @@ $(document).ready(function () {
 
       let data = $('#formCreateMethod').serialize();
 
-      $.post(
-        '../../api/addPaymentMethod',
-        data,
-        function (data, textStatus, jqXHR) {
-          message(data);
-        }
+      $.post('/api/paymentMethods/addPaymentMethod', data, function (data, textStatus, jqXHR) {
+        message(data);
+      }
       );
     } else {
       updatePaymentMethod();
@@ -70,12 +67,9 @@ $(document).ready(function () {
     let idMethod = sessionStorage.getItem('id_method');
     data = data + '&idMethod=' + idMethod;
 
-    $.post(
-      '../../api/updatePaymentMethod',
-      data,
-      function (data, textStatus, jqXHR) {
-        message(data);
-      }
+    $.post('/api/paymentMethods/updatePaymentMethod', data, function (data, textStatus, jqXHR) {
+      message(data);
+    }
     );
   };
 
@@ -103,11 +97,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.get(
-            `../../api/deletePaymentMethod/${id_method}`,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.get(`/api/paymentMethods/deletePaymentMethod/${id_method}`, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },
@@ -120,7 +112,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('.cardCreateMethod').hide(800);
       $('#formCreateMethod').trigger('reset');

@@ -1,7 +1,7 @@
 loadAllData = async () => {
   const [dataAllProducts, dataLimit] = await Promise.all([
     searchData('/api/products'),
-    searchData('/api/productsLimit')
+    searchData('/api/products/productsLimit')
   ]);
 
   let dataProducts = dataAllProducts.filter(item => item.active == 1);

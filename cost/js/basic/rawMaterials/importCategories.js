@@ -142,7 +142,7 @@ const checkCategories = (data, insert, update) => {
 const saveCategoriesTable = (data) => {
   $.ajax({
     type: 'POST',
-    url: '../../api/addCategory',
+    url: '/api/categories/addCategory',
     data: { importCategories: data },
     success: function (r) {
       messageCategories(r, 3);

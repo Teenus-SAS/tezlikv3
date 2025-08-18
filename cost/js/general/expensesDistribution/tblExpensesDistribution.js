@@ -20,7 +20,7 @@ $(document).ready(function () {
 
   loadAllDataDistribution = async () => {
     try {
-      let dataExpensesDistribution = await searchData('/api/expensesDistribution');
+      let dataExpensesDistribution = await searchData('/api/distribution/expensesDistribution');
 
       // if (flag_composite_product == '1')
       //   dataExpensesDistribution = dataExpensesDistribution.filter(item => item.composite == 0);

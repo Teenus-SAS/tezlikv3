@@ -1,15 +1,20 @@
 /* Carga los gastos y calcula automáticamente la participación (%) */
 loadAllDataExpenses = async () => {
   try {
-    const dataExpenses = await searchData('/api/expenses');
-    sessionStorage.setItem('dataExpenses', JSON.stringify(dataExpenses));
+    // Enviar datos al servidor
+    const response = await fetch('/api/expenses');
+    const data = await response.json();
+
+    if (!data) throw new Error(data.message || 'Error en el servidor');
+
+    sessionStorage.setItem('dataExpenses', JSON.stringify(data));
 
     let summarizedExpenses;
     if (production_center == '1' && flag_production_center == '1') {
-      summarizedExpenses = sumAndGroupExpenses(dataExpenses);
+      summarizedExpenses = sumAndGroupExpenses(data);
       summarizedExpenses.sort((a, b) => a.puc.localeCompare(b.puc));
     } else {
-      summarizedExpenses = calculateParticipation(dataExpenses);
+      summarizedExpenses = calculateParticipation(data);
     }
 
     loadTblAssExpenses(summarizedExpenses, 1);

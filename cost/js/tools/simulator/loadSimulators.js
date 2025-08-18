@@ -4,7 +4,7 @@ $(document).ready(function () {
     e.preventDefault();
     $('.cardAddSimulator').hide(800);
 
-    let data = await searchData(`/api/dashboardPricesSimulator/${this.value}`);
+    let data = await searchData(`/api/simulator/dashboardPricesSimulator/${this.value}`);
 
     dataSimulator = data;
     dataBDSimulator = data;

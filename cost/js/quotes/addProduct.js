@@ -8,9 +8,9 @@ $(document).ready(function () {
     e.preventDefault();
     $('.addProd').toggle(800);
     sessionStorage.removeItem('actualizar');
-    
+
     $('.imgProduct').empty();
-    
+
     $('.inputProf').hide();
 
     $('#quantity').val('');
@@ -32,7 +32,7 @@ $(document).ready(function () {
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
 
     $('.inputProf').hide();
-    
+
     let op = 1;
     if (custom_price == 1)
       op = await loadPriceListByProduct(id);
@@ -62,7 +62,7 @@ $(document).ready(function () {
   });
 
   loadDataProduct = async (id, op) => {
-    let data = await searchData(`/api/productCost/${id}`);
+    let data = await searchData(`/api/products/productCost/${id}`);
 
     data.sale_price == '0' ? price = parseFloat(data.price).toFixed() : price = parseFloat(data.sale_price).toFixed();
 
@@ -108,7 +108,7 @@ $(document).ready(function () {
   $(document).on('blur', '#price', function (e) {
     let idProduct = $('#refProduct').val();
     if (idProduct > 0) {
-      let price = this.value; 
+      let price = this.value;
 
       if (price < oldPrice) {
         $('#price').val(oldPrice);
@@ -127,7 +127,7 @@ $(document).ready(function () {
     quantity == '' || isNaN(quantity) ? (quantity = 0) : quantity;
     // quantity = strReplaceNumber(quantity);
 
-    price == '' || isNaN(price)? (price = 0) : price;
+    price == '' || isNaN(price) ? (price = 0) : price;
     // price = strReplaceNumber(price);
 
     if (price >= parseInt(oldPrice)) {
@@ -138,7 +138,7 @@ $(document).ready(function () {
 
       if (indirect == 1 && profitability > 0 && flag_indirect == '1')
         val = val / (1 - (profitability / 100));
-      
+
 
       $('#totalPrice').val(parseFloat(val).toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     }
@@ -216,11 +216,11 @@ $(document).ready(function () {
       products[op].discount = discount;
       products[op].totalPrice = `$ ${totalPrice}`;
     }
-    
+
     $('.addProd').hide();
     $('.inputProf').hide();
     addProducts();
-    
+
     $('#profitability').val('');
     $('#refProduct').prop('selectedIndex', 0);
     $('#selectNameProduct').prop('selectedIndex', 0);
@@ -238,7 +238,7 @@ $(document).ready(function () {
     let id = this.id;
     let data = products[id];
     $('.addMaterial').hide();
-    
+
     // $(`#refProduct option:contains(${data.ref})`).prop('selected', true);
     // $(`#selectNameProduct option:contains(${data.nameProduct})`).prop(
     //   'selected',
@@ -297,8 +297,8 @@ $(document).ready(function () {
   /* Cargar cada producto seleccionado a la tabla */
 
   addProducts = () => {
-    $('#tableProductsQuoteBody').empty(); 
-    $('#tableProductsQuote').empty(); 
+    $('#tableProductsQuoteBody').empty();
+    $('#tableProductsQuote').empty();
 
     let tableProductsQuote = document.getElementById(
       'tableProductsQuote'
@@ -318,8 +318,8 @@ $(document).ready(function () {
         </tr>
       </thead>
       <tbody id="tableProductsQuoteBody"></tbody>`);
-    
-    
+
+
 
     let tableProductsQuoteBody = document.getElementById(
       'tableProductsQuoteBody'
@@ -334,7 +334,7 @@ $(document).ready(function () {
       else if (products[i].indirect == 0)
         action = `<a href="javascript:;" id="${i}" <i class="bx bx-edit updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 18px"></i></a>
         <a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a>`;
-      
+
       tableProductsQuoteBody.insertAdjacentHTML(
         'beforeend',
         `
@@ -351,7 +351,7 @@ $(document).ready(function () {
             </td>
         </tr>`
       );
-    }    
+    }
 
     $('#tableProductsQuote').DataTable({
       destroy: true,

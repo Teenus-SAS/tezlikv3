@@ -382,7 +382,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
         flag_expense_anual = "<?= $_SESSION['flag_expense_anual'] ?>";
 
         $(document).ready(function() {
-            getDataProducts('/api/ENegotiationsProducts');
+            getDataProducts('/api/negotiations/ENegotiationsProducts');
             // Validar que precio estaba anteriormente seleccionado
             let session_flag = sessionStorage.getItem('flag_type_price');
 
@@ -439,8 +439,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <script src="/public/js/components/orderData.js"></script>
     <script src="/cost/js/tools/economyScale/efficientNegotiations/efficientNegotiations.js"></script>
     <script src="/cost/js/tools/economyScale/efficientNegotiations/calcEfficientNegotiations.js"></script>
-    <!-- <script src="/cost/js/tools/portfolio/portfolio.js"></script>
-    <script src="/cost/js/tools/portfolio/tblPortfolio.js"></script> -->
+
 </body>
 
 </html>

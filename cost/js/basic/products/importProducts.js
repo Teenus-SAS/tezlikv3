@@ -1,134 +1,130 @@
-$(document).ready(function () {
-  let selectedFile;
 
-  $('.cardImportProducts').hide();
+let selectedFile;
 
-  $('#btnImportNewProducts').click(function (e) {
-    e.preventDefault();
-    $('.cardCreateProduct').hide(800);
-    $('.cardImportProducts').toggle(800);
-  });
+$('.cardImportProducts').hide();
 
-  $('#fileProducts').change(function (e) {
-    e.preventDefault();
-    selectedFile = e.target.files[0];
-  });
+$('#btnImportNewProducts').click(function (e) {
+  e.preventDefault();
+  $('.cardCreateProduct').hide(800);
+  $('.cardImportProducts').toggle(800);
+});
 
-  $('#btnImportProducts').click(function (e) {
-    e.preventDefault();
+$('#fileProducts').change(function (e) {
+  e.preventDefault();
+  selectedFile = e.target.files[0];
+});
 
-    let file = $('#fileProducts').val();
+$('#btnImportProducts').click(function (e) {
+  e.preventDefault();
 
-    if (!file) {
-      toastr.error('Seleccione un archivo');
-      return false;
-    }
+  let file = $('#fileProducts').val();
 
-    $('.cardBottons').hide();
+  if (!file) {
+    toastr.error('Seleccione un archivo');
+    return false;
+  }
 
+  $('.cardBottons').hide();
 
-    importFile(selectedFile)
-      .then((data) => {
-        let arr = data.rowObject;
+  let form = document.getElementById('formProducts');
 
-        if (arr.length == 0) {
-          $('.cardLoading').remove();
-          $('.cardBottons').show(400);
-          $('#fileProducts').val('');
-          toastr.error('Archivo vacio. Verifique nuevamente');
-          return false;
-        }
+  form.insertAdjacentHTML(
+    'beforeend',
+    `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+  );
 
-        let expectedHeaders = ['id', 'referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas', 'sub_producto'];
+  importFile(selectedFile)
+    .then((data) => {
+      let arr = data.rowObject;
 
-        if (flag_composite_product == '0')
-          expectedHeaders.splice(expectedHeaders.length - 1, 1);
-        if (idUser != '1')
-          expectedHeaders.splice(0, 1);
+      if (arr.length == 0) {
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
+        $('#fileProducts').val('');
+        toastr.error('Archivo vacio. Verifique nuevamente');
+        return false;
+      }
 
-        const actualHeaders = data.actualHeaders;
+      let expectedHeaders = ['id', 'referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas', 'sub_producto'];
 
-        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+      if (flag_composite_product == '0')
+        // expectedHeaders = ['referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas', ];
+        expectedHeaders.splice(expectedHeaders.length - 1, 1);
+      if (idUser != '1')
+        expectedHeaders.splice(0, 1);
 
-        if (missingHeaders.length > 0) {
-          $('.cardLoading').remove();
-          $('.cardBottons').show(400);
-          $('#fileProducts').val('');
-          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
-          return false;
-        }
+      const actualHeaders = data.actualHeaders;
 
-        let productsToImport = arr.map((item) => {
-          let salePrice = '';
+      const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
 
-          if (item.precio_venta)
-            salePrice = item.precio_venta.toString().replace('.', ',');
+      if (missingHeaders.length > 0) {
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
+        $('#fileProducts').val('');
+        toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+        return false;
+      }
 
-          let dataImport = {
+      let productsToImport = arr.map((item) => {
+        let salePrice = '';
+
+        if (item.precio_venta)
+          salePrice = item.precio_venta.toString().replace('.', ',');
+
+        let dataImport = {
+          referenceProduct: item.referencia,
+          product: item.producto,
+          salePrice: salePrice,
+          profitability: item.rentabilidad,
+          commissionSale: item.comision_ventas,
+          composite: item.sub_producto,
+          active: item.activo
+        };
+
+        if (idUser == '1') {
+          let id = '';
+
+          if (item.id)
+            id = item.id;
+
+          dataImport = {
+            id: id,
             referenceProduct: item.referencia,
             product: item.producto,
             salePrice: salePrice,
             profitability: item.rentabilidad,
             commissionSale: item.comision_ventas,
             composite: item.sub_producto,
-            active: item.activo
+            active: item.activo,
           };
+        }
 
-          if (idUser == '1') {
-            let id = '';
-
-            if (item.id)
-              id = item.id;
-
-            dataImport = {
-              id: id,
-              referenceProduct: item.referencia,
-              product: item.producto,
-              salePrice: salePrice,
-              profitability: item.rentabilidad,
-              commissionSale: item.comision_ventas,
-              composite: item.sub_producto,
-              active: item.activo,
-            };
-          }
-
-          return dataImport;
-        });
-
-        checkProduct(productsToImport);
-      })
-      .catch(() => {
-        console.log('Ocurrio un error. Intente Nuevamente');
-      });
-  });
-
-  /* Mensaje de advertencia */
-  const checkProduct = async (data) => {
-    try {
-      const params = new URLSearchParams();
-      params.append('importProducts', JSON.stringify(data));
-
-      PricingSpinner.show("Verificando Data");
-
-      const response = await fetch('/api/productsDataValidation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: params
+        return dataImport;
       });
 
-      const resp = await response.json();
+      checkProduct(productsToImport);
+    })
+    .catch(() => {
+      console.log('Ocurrio un error. Intente Nuevamente');
+    });
+});
 
-      PricingSpinner.hide();
-
+/* Mensaje de advertencia */
+const checkProduct = (data) => {
+  $.ajax({
+    type: 'POST',
+    url: '/api/products/productsDataValidation',
+    data: { importProducts: data },
+    success: function (resp) {
       if (resp.reload) {
         location.reload();
-        return;
       }
 
-      if (resp.error === true) {
+      if (resp.error == true) {
         $('.cardLoading').remove();
         $('.cardBottons').show(400);
         $('#fileProducts').val('');
@@ -137,7 +133,6 @@ $(document).ready(function () {
         toastr.error(resp.message);
         return false;
       }
-
       bootbox.confirm({
         title: '¿Desea continuar con la importación?',
         message: `Se encontraron los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
@@ -152,7 +147,7 @@ $(document).ready(function () {
           },
         },
         callback: function (result) {
-          if (result === true) {
+          if (result == true) {
             saveProductTable(data);
           } else {
             $('#fileProducts').val('');
@@ -161,77 +156,47 @@ $(document).ready(function () {
           }
         },
       });
-
-    } catch (error) {
-      console.error('Error en checkProduct:', error);
-      $('.cardLoading').remove();
-      $('.cardBottons').show(400);
-      $('#fileProducts').val('');
-      toastr.error('Error al validar los datos. Intente nuevamente.');
-    }
-  };
-
-  /* Guardar Importacion */
-  const saveProductTable = async (data) => {
-    try {
-      const params = new URLSearchParams();
-      params.append('importProducts', JSON.stringify(data));
-
-      PricingSpinner.show("Importando Datos");
-
-      const response = await fetch('/api/addProducts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: params
-      });
-
-      const result = await response.json();
-
-      PricingSpinner.hide();
-
-      message(result);
-
-    } catch (error) {
-      console.error('Error en saveProductTable:', error);
-      PricingSpinner.hide();
-      $('.cardLoading').remove();
-      $('.cardBottons').show(400);
-      toastr.error('Error al guardar los productos. Intente nuevamente.');
-    }
-  };
-
-  /* Descargar formato */
-  $('#btnDownloadImportsProducts').click(function (e) {
-    e.preventDefault();
-
-    let url = idUser == '1'
-      ? 'assets/formatsXlsx/Productos(Admin).xlsx'
-      : 'assets/formatsXlsx/Productos.xlsx';
-
-    if (flag_composite_product == '1') {
-      url = idUser == '1'
-        ? 'assets/formatsXlsx/Productos(Compuesto-Admin).xlsx'
-        : 'assets/formatsXlsx/Productos(Compuesto).xlsx';
-    }
-
-    let newFileName = 'Productos.xlsx';
-
-    fetch(url)
-      .then(response => response.blob())
-      .then(blob => {
-        let link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = newFileName;
-
-        document.body.appendChild(link);
-        link.click();
-
-        document.body.removeChild(link);
-        URL.revokeObjectURL(link.href);
-      })
-      .catch(console.error);
+    },
   });
+};
+
+/* Guardar Importacion */
+const saveProductTable = (data) => {
+  $.ajax({
+    type: 'POST',
+    url: '/api/products/addProducts',
+    data: { importProducts: data },
+    success: function (r) {
+      message(r);
+    },
+  });
+};
+
+/* Descargar formato */
+$('#btnDownloadImportsProducts').click(function (e) {
+  e.preventDefault();
+
+  let url = idUser == '1' ? 'assets/formatsXlsx/Productos(Admin).xlsx' : 'assets/formatsXlsx/Productos.xlsx';
+
+  if (flag_composite_product == '1') {
+    url = idUser == '1' ? 'assets/formatsXlsx/Productos(Compuesto-Admin).xlsx' : 'assets/formatsXlsx/Productos(Compuesto).xlsx';
+  }
+
+  let newFileName = 'Productos.xlsx';
+
+  fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = newFileName;
+
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href); // liberar memoria
+    })
+    .catch(console.error);
 });
+

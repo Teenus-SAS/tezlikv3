@@ -1,4 +1,3 @@
-
 getDataCost = (data) => {
   let {
     assignable_expense: expense,
