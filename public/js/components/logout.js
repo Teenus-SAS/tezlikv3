@@ -3,7 +3,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     $.ajax({
-      url: '/api/logout',
+      url: '/api/login/logout',
       success: function (data, textStatus, xhr) {
         location.href = '../../../';
       },
