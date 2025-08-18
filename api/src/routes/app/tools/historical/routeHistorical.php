@@ -18,7 +18,7 @@ use Slim\Routing\RouteCollectorProxy;
 use App\Helpers\ResponseHelper;
 use App\Middleware\SessionMiddleware;
 
-$app->group('/historicalData', function (RouteCollectorProxy $group) {
+$app->group('/historical', function (RouteCollectorProxy $group) {
 
     $group->get('/historicalResume', function (Request $request, Response $response, $args) {
 

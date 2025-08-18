@@ -71,7 +71,8 @@ class RouteDispatcher
         '/rawMaterialsLots' => '/app/tools/analysisMaterials/routeLots.php',
 
         // Historic
-        '/historicalData' => '/app/tools/routeHistorical.php',
+        '/historical' => '/app/tools/historical/routeHistorical.php',
+        '/dataHistorical' => '/app/tools/historical/routeDataHistorical.php',
 
         // Reports
         '/reports' => '/app/report/routeReport.php',
