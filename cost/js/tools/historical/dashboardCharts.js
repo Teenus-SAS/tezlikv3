@@ -71,15 +71,17 @@ function processWeeklyData(data) {
         const productId = item.id_product;
         const productName = item.product_name || item.product || `Producto ${productId}`;
 
-        // Calcular costos y ganancia
-        const costs = (parseFloat(item.cost_material) || 0) +
+        // Calcular costos TOTALES (costos unitarios * unidades vendidas)
+        const units = parseInt(item.units_sold) || 0;
+        const unitCosts = (parseFloat(item.cost_material) || 0) +
             (parseFloat(item.cost_workforce) || 0) +
             (parseFloat(item.cost_indirect) || 0) +
             (parseFloat(item.assignable_expense) || 0);
 
+        const costs = unitCosts * units;
+
         const revenue = parseFloat(item.turnover) || 0;
         const profit = revenue - costs;
-        const units = parseInt(item.units_sold) || 0;
 
         // Agrupar por semana
         if (!weeklyData[week]) {
