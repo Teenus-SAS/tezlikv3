@@ -1,3 +1,9 @@
+/**
+ * ARCHIVO: dashboard-charts.js
+ * PROPÓSITO: Dashboard de ganancias semanales - ARCHIVO INDEPENDIENTE
+ * INCLUIR EN HTML: <script src="dashboard-charts.js"></script>
+ */
+
 // Variables globales
 let dashboardData = null;
 let weeklyChart = null;
@@ -167,22 +173,7 @@ function showAllWeeksChart() {
     container.innerHTML = '';
 
     container.innerHTML = `
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">📈 Análisis Financiero por Semana</h5>
-                        <small class="text-muted">Evolución de Ventas, Costos y Ganancias</small>
-                    </div>
-                    <div class="card-body">
-                        <div style="position: relative; height: 450px; width: 100%;">
-                            <canvas id="weeklyChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+        <!-- CARDS DE INDICADORES EN LA PARTE SUPERIOR -->
         <div class="row mb-4">
             <div class="col-md-3">
                 <div class="card text-center">
@@ -217,6 +208,23 @@ function showAllWeeksChart() {
                 </div>
             </div>
         </div>
+        
+        <!-- GRÁFICO PRINCIPAL DEBAJO -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📈 Análisis Financiero por Semana</h5>
+                        <small class="text-muted">Evolución de Ventas, Costos y Ganancias</small>
+                    </div>
+                    <div class="card-body">
+                        <div style="position: relative; height: 450px; width: 100%;">
+                            <canvas id="weeklyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     `;
 
     createTripleMetricsChart();
@@ -234,34 +242,8 @@ function showWeekChart(weekId) {
     container.innerHTML = '';
 
     container.innerHTML = `
+        <!-- CARDS DE INDICADORES DE LA SEMANA EN LA PARTE SUPERIOR -->
         <div class="row mb-4">
-            <div class="col-xl-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">📊 Productos de la ${weekId}</h5>
-                        <small class="text-muted">Ventas, Costos y Ganancias por Producto</small>
-                    </div>
-                    <div class="card-body">
-                        <div style="position: relative; height: 400px; width: 100%;">
-                            <canvas id="productChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">📋 Top Productos - ${weekId}</h5>
-                    </div>
-                    <div class="card-body">
-                        <div id="weekProductsList" style="max-height: 380px; overflow-y: auto;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
             <div class="col-md-3">
                 <div class="card text-center">
                     <div class="card-body">
@@ -295,10 +277,350 @@ function showWeekChart(weekId) {
                 </div>
             </div>
         </div>
+        
+        <!-- GRÁFICO Y LISTA DEBAJO -->
+        <div class="row mb-4">
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📊 Productos de la ${weekId}</h5>
+                        <small class="text-muted">Ventas, Costos y Ganancias por Producto</small>
+                    </div>
+                    <div class="card-body">
+                        <div style="position: relative; height: 400px; width: 100%;">
+                            <canvas id="productChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📋 Top Productos - ${weekId}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="weekProductsList" style="max-height: 380px; overflow-y: auto;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     `;
 
     createProductsMetricsChart(weekData);
     fillWeekProductsList(weekData);
+}
+
+/**
+ * NUEVO: Mostrar análisis de un producto específico a través de las semanas
+ */
+function showProductAnalysis(productId) {
+    console.log(`🔍 Analizando producto: ${productId}`);
+
+    // Obtener datos del producto a través de todas las semanas
+    const productData = getProductDataAcrossWeeks(productId);
+    if (!productData) {
+        console.error('❌ No se encontraron datos para el producto');
+        return;
+    }
+
+    const container = document.querySelector('.cardDashboard .container-fluid');
+    container.innerHTML = '';
+
+    container.innerHTML = `
+        <!-- CARDS DE INDICADORES DEL PRODUCTO EN LA PARTE SUPERIOR -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h4 class="text-success">${formatCurrency(productData.totalRevenue)}</h4>
+                        <p class="mb-0">💰 Ventas Totales</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h4 class="text-danger">${formatCurrency(productData.totalCosts)}</h4>
+                        <p class="mb-0">📊 Costos Totales</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h4 class="text-primary">${formatCurrency(productData.totalProfit)}</h4>
+                        <p class="mb-0">⭐ Ganancias Totales</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h4 class="text-info">${productData.averageMargin}%</h4>
+                        <p class="mb-0">📈 Margen Promedio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- GRÁFICO Y RESUMEN DEBAJO -->
+        <div class="row mb-4">
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📈 Evolución del ${productData.name}</h5>
+                        <small class="text-muted">Análisis temporal de ventas, costos y ganancias</small>
+                    </div>
+                    <div class="card-body">
+                        <div style="position: relative; height: 400px; width: 100%;">
+                            <canvas id="productEvolutionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📊 Resumen del Producto</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="productSummary">
+                            <!-- Resumen se llena dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Crear gráfico de evolución del producto
+    createProductEvolutionChart(productData);
+
+    // Llenar resumen del producto
+    fillProductSummary(productData);
+}
+
+/**
+ * NUEVO: Obtener datos de un producto a través de todas las semanas
+ */
+function getProductDataAcrossWeeks(productId) {
+    const productWeeks = [];
+    let totalRevenue = 0;
+    let totalCosts = 0;
+    let totalProfit = 0;
+    let totalUnits = 0;
+    let productName = '';
+
+    // Buscar el producto en todas las semanas
+    dashboardData.weeks.forEach(week => {
+        if (week.products[productId]) {
+            const product = week.products[productId];
+            const costs = product.revenue - product.profit;
+
+            productWeeks.push({
+                week: week.week,
+                revenue: product.revenue,
+                costs: costs,
+                profit: product.profit,
+                units: product.units,
+                margin: product.revenue > 0 ? ((product.profit / product.revenue) * 100).toFixed(1) : 0
+            });
+
+            totalRevenue += product.revenue;
+            totalCosts += costs;
+            totalProfit += product.profit;
+            totalUnits += product.units;
+            productName = product.name;
+        }
+    });
+
+    if (productWeeks.length === 0) {
+        return null;
+    }
+
+    // Calcular estadísticas
+    const averageMargin = totalRevenue > 0 ? ((totalProfit / totalRevenue) * 100).toFixed(1) : 0;
+    const bestWeek = productWeeks.reduce((max, week) => week.profit > max.profit ? week : max, productWeeks[0]);
+    const worstWeek = productWeeks.reduce((min, week) => week.profit < min.profit ? week : min, productWeeks[0]);
+
+    return {
+        id: productId,
+        name: productName,
+        weeks: productWeeks.sort((a, b) => a.week.localeCompare(b.week)),
+        totalRevenue,
+        totalCosts,
+        totalProfit,
+        totalUnits,
+        averageMargin,
+        bestWeek,
+        worstWeek,
+        weeksActive: productWeeks.length
+    };
+}
+
+/**
+ * NUEVO: Crear gráfico de evolución del producto
+ */
+function createProductEvolutionChart(productData) {
+    // IMPORTANTE: Destruir gráfico anterior
+    if (productChart) {
+        productChart.destroy();
+        productChart = null;
+    }
+
+    const canvas = document.getElementById('productEvolutionChart');
+    if (!canvas) return;
+
+    // Establecer tamaño fijo del canvas
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 400;
+    canvas.style.width = '100%';
+    canvas.style.height = '400px';
+
+    const chartType = getSelectedChartType();
+
+    productChart = new Chart(canvas, {
+        type: chartType,
+        data: {
+            labels: productData.weeks.map(w => w.week),
+            datasets: [
+                {
+                    label: '💰 Ventas',
+                    data: productData.weeks.map(w => w.revenue),
+                    borderColor: '#10b981',
+                    backgroundColor: chartType === 'line' ? 'rgba(16, 185, 129, 0.1)' : '#10b981',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4
+                },
+                {
+                    label: '📊 Costos',
+                    data: productData.weeks.map(w => w.costs),
+                    borderColor: '#ef4444',
+                    backgroundColor: chartType === 'line' ? 'rgba(239, 68, 68, 0.1)' : '#ef4444',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4
+                },
+                {
+                    label: '⭐ Ganancias',
+                    data: productData.weeks.map(w => w.profit),
+                    borderColor: '#3b82f6',
+                    backgroundColor: chartType === 'line' ? 'rgba(59, 130, 246, 0.1)' : '#3b82f6',
+                    borderWidth: 4,
+                    fill: chartType === 'area',
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Evolución Temporal - ${productData.name}`
+                },
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function (context) {
+                            return `${productData.name} - ${context[0].label}`;
+                        },
+                        label: function (context) {
+                            return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function (value) {
+                            return formatCurrency(value);
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    console.log(`📈 Gráfico de evolución creado para ${productData.name}`);
+}
+
+/**
+ * NUEVO: Llenar resumen del producto
+ */
+function fillProductSummary(productData) {
+    const container = document.getElementById('productSummary');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="mb-4">
+            <h6 class="text-primary mb-3">📋 Información General</h6>
+            <div class="row text-center">
+                <div class="col-6">
+                    <div class="border rounded p-2 mb-2">
+                        <div class="font-weight-bold text-success">${productData.weeksActive}</div>
+                        <small class="text-muted">Semanas Activas</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="border rounded p-2 mb-2">
+                        <div class="font-weight-bold text-info">${productData.totalUnits}</div>
+                        <small class="text-muted">Unidades Totales</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <h6 class="text-success mb-3">🏆 Mejor Semana</h6>
+            <div class="bg-light rounded p-3">
+                <div class="d-flex justify-content-between">
+                    <strong>${productData.bestWeek.week}</strong>
+                    <span class="badge badge-success">${productData.bestWeek.margin}%</span>
+                </div>
+                <div class="small mt-2">
+                    <div>💰 Ventas: ${formatCurrency(productData.bestWeek.revenue)}</div>
+                    <div>⭐ Ganancia: ${formatCurrency(productData.bestWeek.profit)}</div>
+                    <div>📦 Unidades: ${productData.bestWeek.units}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <h6 class="text-danger mb-3">📉 Peor Semana</h6>
+            <div class="bg-light rounded p-3">
+                <div class="d-flex justify-content-between">
+                    <strong>${productData.worstWeek.week}</strong>
+                    <span class="badge badge-warning">${productData.worstWeek.margin}%</span>
+                </div>
+                <div class="small mt-2">
+                    <div>💰 Ventas: ${formatCurrency(productData.worstWeek.revenue)}</div>
+                    <div>⭐ Ganancia: ${formatCurrency(productData.worstWeek.profit)}</div>
+                    <div>📦 Unidades: ${productData.worstWeek.units}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <h6 class="text-info mb-3">📊 Promedios</h6>
+            <div class="bg-light rounded p-3">
+                <div class="small">
+                    <div>💰 Venta promedio: ${formatCurrency(productData.totalRevenue / productData.weeksActive)}</div>
+                    <div>📊 Costo promedio: ${formatCurrency(productData.totalCosts / productData.weeksActive)}</div>
+                    <div>⭐ Ganancia promedio: ${formatCurrency(productData.totalProfit / productData.weeksActive)}</div>
+                    <div>📦 Unidades promedio: ${Math.round(productData.totalUnits / productData.weeksActive)}</div>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 /**
@@ -581,16 +903,45 @@ document.addEventListener('DOMContentLoaded', function () {
         currentProduct = 'all';
     });
 
-    // Cambio de tipo de gráfico
+    // NUEVO: Cambio de producto (CORREGIDO)
+    document.getElementById('productSelector').addEventListener('change', function () {
+        if (!dashboardData) return;
+
+        const selectedProduct = this.value;
+        console.log(`🔄 Producto seleccionado: ${selectedProduct}`);
+
+        currentProduct = selectedProduct;
+
+        if (selectedProduct === 'all') {
+            // Si estamos en una semana específica, mostrar productos de esa semana
+            if (currentWeek !== 'all') {
+                showWeekChart(currentWeek);
+            } else {
+                // Si estamos en vista general, mostrar vista general
+                showAllWeeksChart();
+            }
+        } else {
+            // Mostrar análisis del producto específico
+            showProductAnalysis(selectedProduct);
+        }
+    });
+
+    // Cambio de tipo de gráfico (CORREGIDO)
     document.querySelectorAll('.btn-chart-type').forEach(btn => {
         btn.addEventListener('click', function () {
             if (!dashboardData) return;
 
             console.log(`🎨 Cambiando a: ${this.dataset.chart}`);
 
-            if (currentWeek === 'all') {
+            // Recrear gráfico según la vista actual
+            if (currentProduct !== 'all') {
+                // Vista de producto específico
+                showProductAnalysis(currentProduct);
+            } else if (currentWeek === 'all') {
+                // Vista general de semanas
                 showAllWeeksChart();
             } else {
+                // Vista de semana específica
                 showWeekChart(currentWeek);
             }
         });
