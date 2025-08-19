@@ -28,7 +28,6 @@ async function loadDashboardData() {
 
         // Obtener datos del servidor
         const response = await fetch('/api/dataHistorical');
-        console.log(response);
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
@@ -171,6 +170,7 @@ function fillProductSelector() {
 
 /**
  * SOLUCIÓN 2: Crear gráfico con tamaño FIJO y controlado
+ * ACTUALIZADO: Mostrar COSTOS, VENTAS y GANANCIAS
  */
 function showAllWeeksChart() {
     const container = document.querySelector('.cardDashboard .container-fluid');
@@ -184,24 +184,64 @@ function showAllWeeksChart() {
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">📈 Evolución de Ganancias por Semana</h5>
+                        <h5 class="mb-0">📈 Análisis Financiero por Semana</h5>
+                        <small class="text-muted">Evolución de Ventas, Costos y Ganancias</small>
                     </div>
                     <div class="card-body">
-                        <div style="position: relative; height: 400px; width: 100%;">
+                        <div style="position: relative; height: 450px; width: 100%;">
                             <canvas id="weeklyChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Resumen de métricas -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-success" id="totalSales">$0</h3>
+                        <p class="mb-0">💰 Total Ventas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-danger" id="totalCosts">$0</h3>
+                        <p class="mb-0">📊 Total Costos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-primary" id="totalProfits">$0</h3>
+                        <p class="mb-0">⭐ Total Ganancias</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3 class="text-info" id="totalMargin">0%</h3>
+                        <p class="mb-0">📈 Margen Promedio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     `;
 
-    // Crear gráfico
-    createFixedSizeChart();
+    // Crear gráfico con las tres métricas
+    createTripleMetricsChart();
+
+    // Actualizar métricas de resumen
+    updateSummaryMetrics();
 }
 
 /**
- * Crear gráfico de semana específica
+ * Crear gráfico de semana específica con métricas completas
  */
 function showWeekChart(weekId) {
     const weekData = dashboardData.weeklyData[weekId];
@@ -212,32 +252,84 @@ function showWeekChart(weekId) {
     // Limpiar contenedor
     container.innerHTML = '';
 
-    // Crear estructura para productos de la semana
+    // Crear estructura para productos de la semana con métricas
     container.innerHTML = `
         <div class="row mb-4">
-            <div class="col-12">
+            <div class="col-xl-8">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0">📊 Productos de la ${weekId}</h5>
+                        <small class="text-muted">Ventas, Costos y Ganancias por Producto</small>
                     </div>
                     <div class="card-body">
-                        <div style="position: relative; height: 350px; width: 100%;">
+                        <div style="position: relative; height: 400px; width: 100%;">
                             <canvas id="productChart"></canvas>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📋 Top Productos - ${weekId}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="weekProductsList" style="max-height: 380px; overflow-y: auto;">
+                            <!-- Lista se llena dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Métricas de la semana -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h4 class="text-success">${formatCurrency(weekData.totalRevenue)}</h4>
+                        <p class="mb-0">💰 Ventas ${weekId}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h4 class="text-danger">${formatCurrency(weekData.totalCosts)}</h4>
+                        <p class="mb-0">📊 Costos ${weekId}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h4 class="text-primary">${formatCurrency(weekData.totalProfit)}</h4>
+                        <p class="mb-0">⭐ Ganancias ${weekId}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h4 class="text-info">${((weekData.totalProfit / weekData.totalRevenue) * 100).toFixed(1)}%</h4>
+                        <p class="mb-0">📈 Margen ${weekId}</p>
                     </div>
                 </div>
             </div>
         </div>
     `;
 
-    // Crear gráfico de productos
-    createProductsChart(weekData);
+    // Crear gráfico de productos con métricas
+    createProductsMetricsChart(weekData);
+
+    // Llenar lista de productos
+    fillWeekProductsList(weekData);
 }
 
 /**
- * SOLUCIÓN 2: Gráfico con tamaño completamente controlado
+ * NUEVO: Gráfico con VENTAS, COSTOS y GANANCIAS
  */
-function createFixedSizeChart() {
+function createTripleMetricsChart() {
     // IMPORTANTE: Destruir gráfico anterior
     if (weeklyChart) {
         weeklyChart.destroy();
@@ -249,9 +341,9 @@ function createFixedSizeChart() {
 
     // SOLUCIÓN: Establecer tamaño fijo del canvas
     canvas.width = canvas.offsetWidth;
-    canvas.height = 400;
+    canvas.height = 450;
     canvas.style.width = '100%';
-    canvas.style.height = '400px';
+    canvas.style.height = '450px';
 
     const chartType = getSelectedChartType();
 
@@ -259,28 +351,94 @@ function createFixedSizeChart() {
         type: chartType,
         data: {
             labels: dashboardData.weeks.map(w => w.week),
-            datasets: [{
-                label: 'Ganancia Semanal',
-                data: dashboardData.weeks.map(w => w.totalProfit),
-                borderColor: '#3b82f6',
-                backgroundColor: chartType === 'line' ? 'rgba(59, 130, 246, 0.1)' : '#3b82f6',
-                borderWidth: 3,
-                fill: chartType === 'area',
-                tension: 0.4
-            }]
+            datasets: [
+                {
+                    label: '💰 Ventas',
+                    data: dashboardData.weeks.map(w => w.totalRevenue),
+                    borderColor: '#10b981', // Verde
+                    backgroundColor: chartType === 'line' ? 'rgba(16, 185, 129, 0.1)' : '#10b981',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4,
+                    pointBackgroundColor: '#10b981',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                },
+                {
+                    label: '📊 Costos',
+                    data: dashboardData.weeks.map(w => w.totalCosts),
+                    borderColor: '#ef4444', // Rojo
+                    backgroundColor: chartType === 'line' ? 'rgba(239, 68, 68, 0.1)' : '#ef4444',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4,
+                    pointBackgroundColor: '#ef4444',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                },
+                {
+                    label: '⭐ Ganancias',
+                    data: dashboardData.weeks.map(w => w.totalProfit),
+                    borderColor: '#3b82f6', // Azul
+                    backgroundColor: chartType === 'line' ? 'rgba(59, 130, 246, 0.1)' : '#3b82f6',
+                    borderWidth: 4, // Línea más gruesa para destacar
+                    fill: chartType === 'area',
+                    tension: 0.4,
+                    pointBackgroundColor: '#3b82f6',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 3,
+                    pointRadius: 6
+                }
+            ]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false, // CLAVE: No mantener aspecto
+            maintainAspectRatio: false,
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
             plugins: {
                 title: {
                     display: true,
-                    text: 'Evolución de Ganancias Semanales'
+                    text: 'Análisis Financiero Completo por Semana',
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20
+                    }
                 },
                 tooltip: {
                     callbacks: {
+                        title: function (context) {
+                            return `Semana: ${context[0].label}`;
+                        },
                         label: function (context) {
-                            return `Ganancia: ${formatCurrency(context.parsed.y)}`;
+                            const week = dashboardData.weeks[context.dataIndex];
+                            const dataset = context.dataset.label;
+                            const value = formatCurrency(context.parsed.y);
+
+                            if (dataset.includes('Ventas')) {
+                                return `💰 Ventas: ${value}`;
+                            } else if (dataset.includes('Costos')) {
+                                return `📊 Costos: ${value}`;
+                            } else if (dataset.includes('Ganancias')) {
+                                const margin = ((week.totalProfit / week.totalRevenue) * 100).toFixed(1);
+                                return [`⭐ Ganancias: ${value}`, `📈 Margen: ${margin}%`];
+                            }
+                        },
+                        footer: function (context) {
+                            const week = dashboardData.weeks[context[0].dataIndex];
+                            return `🏭 Productos: ${Object.keys(week.products).length}`;
                         }
                     }
                 }
@@ -292,19 +450,29 @@ function createFixedSizeChart() {
                         callback: function (value) {
                             return formatCurrency(value);
                         }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Valor ($)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Semanas'
                     }
                 }
             }
         }
     });
 
-    console.log('📈 Gráfico semanal creado con tamaño fijo');
+    console.log('📈 Gráfico financiero completo creado (Ventas, Costos, Ganancias)');
 }
 
 /**
- * Crear gráfico de productos con tamaño controlado
+ * NUEVO: Gráfico de productos con métricas completas
  */
-function createProductsChart(weekData) {
+function createProductsMetricsChart(weekData) {
     // IMPORTANTE: Destruir gráfico anterior
     if (productChart) {
         productChart.destroy();
@@ -316,9 +484,9 @@ function createProductsChart(weekData) {
 
     // SOLUCIÓN: Establecer tamaño fijo del canvas
     canvas.width = canvas.offsetWidth;
-    canvas.height = 350;
+    canvas.height = 400;
     canvas.style.width = '100%';
-    canvas.style.height = '350px';
+    canvas.style.height = '400px';
 
     // Top productos de la semana
     const products = Object.values(weekData.products)
@@ -328,19 +496,54 @@ function createProductsChart(weekData) {
     productChart = new Chart(canvas, {
         type: 'bar',
         data: {
-            labels: products.map(p => p.name.length > 15 ? p.name.substring(0, 15) + '...' : p.name),
-            datasets: [{
-                label: 'Ganancia',
-                data: products.map(p => p.profit),
-                backgroundColor: products.map((_, i) => getProductColor(i)),
-                maxBarThickness: 50 // Limitar grosor
-            }]
+            labels: products.map(p => p.name.length > 12 ? p.name.substring(0, 12) + '...' : p.name),
+            datasets: [
+                {
+                    label: '💰 Ventas',
+                    data: products.map(p => p.revenue),
+                    backgroundColor: '#10b981',
+                    borderColor: '#059669',
+                    borderWidth: 1,
+                    maxBarThickness: 40
+                },
+                {
+                    label: '📊 Costos',
+                    data: products.map(p => p.revenue - p.profit), // Costos = Ventas - Ganancias
+                    backgroundColor: '#ef4444',
+                    borderColor: '#dc2626',
+                    borderWidth: 1,
+                    maxBarThickness: 40
+                },
+                {
+                    label: '⭐ Ganancias',
+                    data: products.map(p => p.profit),
+                    backgroundColor: '#3b82f6',
+                    borderColor: '#2563eb',
+                    borderWidth: 1,
+                    maxBarThickness: 40
+                }
+            ]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false, // CLAVE: No mantener aspecto
+            maintainAspectRatio: false,
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
             plugins: {
-                legend: { display: false },
+                title: {
+                    display: true,
+                    text: `Análisis por Producto - ${weekData.week}`,
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
                 tooltip: {
                     callbacks: {
                         title: function (context) {
@@ -348,10 +551,20 @@ function createProductsChart(weekData) {
                         },
                         label: function (context) {
                             const product = products[context.dataIndex];
-                            return [
-                                `Ganancia: ${formatCurrency(product.profit)}`,
-                                `Unidades: ${product.units}`
-                            ];
+                            const costs = product.revenue - product.profit;
+                            const margin = product.revenue > 0 ? ((product.profit / product.revenue) * 100).toFixed(1) : 0;
+
+                            if (context.dataset.label.includes('Ventas')) {
+                                return `💰 Ventas: ${formatCurrency(product.revenue)}`;
+                            } else if (context.dataset.label.includes('Costos')) {
+                                return `📊 Costos: ${formatCurrency(costs)}`;
+                            } else if (context.dataset.label.includes('Ganancias')) {
+                                return [`⭐ Ganancias: ${formatCurrency(product.profit)}`, `📈 Margen: ${margin}%`];
+                            }
+                        },
+                        footer: function (context) {
+                            const product = products[context[0].dataIndex];
+                            return `📦 Unidades: ${product.units}`;
                         }
                     }
                 }
@@ -363,13 +576,85 @@ function createProductsChart(weekData) {
                         callback: function (value) {
                             return formatCurrency(value);
                         }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Valor ($)'
+                    }
+                },
+                x: {
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 0
                     }
                 }
             }
         }
     });
 
-    console.log('📊 Gráfico de productos creado con tamaño fijo');
+    console.log('📊 Gráfico de productos con métricas completas creado');
+}
+
+/**
+ * NUEVO: Actualizar métricas de resumen
+ */
+function updateSummaryMetrics() {
+    const totalSales = dashboardData.weeks.reduce((sum, week) => sum + week.totalRevenue, 0);
+    const totalCosts = dashboardData.weeks.reduce((sum, week) => sum + week.totalCosts, 0);
+    const totalProfits = dashboardData.weeks.reduce((sum, week) => sum + week.totalProfit, 0);
+    const totalMargin = totalSales > 0 ? ((totalProfits / totalSales) * 100).toFixed(1) : 0;
+
+    document.getElementById('totalSales').textContent = formatCurrency(totalSales);
+    document.getElementById('totalCosts').textContent = formatCurrency(totalCosts);
+    document.getElementById('totalProfits').textContent = formatCurrency(totalProfits);
+    document.getElementById('totalMargin').textContent = totalMargin + '%';
+}
+
+/**
+ * NUEVO: Llenar lista de productos de la semana
+ */
+function fillWeekProductsList(weekData) {
+    const container = document.getElementById('weekProductsList');
+    if (!container) return;
+
+    const products = Object.values(weekData.products)
+        .sort((a, b) => b.profit - a.profit)
+        .slice(0, 10);
+
+    container.innerHTML = products.map((product, index) => {
+        const costs = product.revenue - product.profit;
+        const margin = product.revenue > 0 ? ((product.profit / product.revenue) * 100).toFixed(1) : 0;
+        const color = getProductColor(index);
+
+        return `
+            <div class="mb-3 p-3 border rounded" style="border-left: 4px solid ${color};">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <strong class="text-truncate" style="max-width: 150px;" title="${product.name}">
+                        ${product.name}
+                    </strong>
+                    <span class="badge badge-primary">${margin}%</span>
+                </div>
+                <div class="small">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-success">💰 Ventas:</span>
+                        <strong>${formatCurrency(product.revenue)}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-danger">📊 Costos:</span>
+                        <strong>${formatCurrency(costs)}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-primary">⭐ Ganancia:</span>
+                        <strong>${formatCurrency(product.profit)}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">📦 Unidades:</span>
+                        <span>${product.units}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 /**
