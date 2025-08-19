@@ -126,9 +126,13 @@ function processWeeklyData(data) {
 
     // Convertir a arrays
     const weeks = Object.values(weeklyData).sort((a, b) => a.week.localeCompare(b.week));
+
+    // CAMBIO PRINCIPAL: Remover .slice(0, 10) para cargar TODOS los productos
     const topProducts = Object.values(productTotals)
-        .sort((a, b) => b.totalProfit - a.totalProfit)
-        .slice(0, 10);
+        .sort((a, b) => b.totalProfit - a.totalProfit);
+    // .slice(0, 10); ← ESTA LÍNEA SE ELIMINA
+
+    console.log(`✅ Procesados ${weeks.length} semanas y ${topProducts.length} productos (sin límite)`);
 
     return { weeks, topProducts, weeklyData };
 }
@@ -157,12 +161,20 @@ function fillProductSelector() {
     const select = document.getElementById('productSelector');
     select.innerHTML = '<option value="all">📦 Todos los Productos</option>';
 
-    dashboardData.topProducts.forEach(product => {
+    console.log(`📝 Cargando ${dashboardData.topProducts.length} productos en el selector...`);
+
+    dashboardData.topProducts.forEach((product, index) => {
         const option = document.createElement('option');
         option.value = product.id;
-        option.textContent = `${product.name} - ${formatCurrency(product.totalProfit)}`;
+
+        // Mostrar posición, nombre y ganancia
+        const position = (index + 1).toString().padStart(2, '0');
+        option.textContent = `${position}. ${product.name} - ${formatCurrency(product.totalProfit)}`;
+
         select.appendChild(option);
     });
+
+    console.log(`✅ ${dashboardData.topProducts.length} productos cargados en el selector`);
 }
 
 /**
