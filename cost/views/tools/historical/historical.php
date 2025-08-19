@@ -1,3 +1,7 @@
+<?php require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMiddleware.php'; ?>
+<?php require_once dirname(dirname(dirname(__DIR__))) . '/modals/manualHistorical.php'; ?>
+<?php require_once dirname(dirname(dirname(__DIR__))) . '/modals/weekHistorical.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
