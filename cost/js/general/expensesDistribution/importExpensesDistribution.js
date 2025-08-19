@@ -146,7 +146,7 @@ $(document).ready(function () {
 
         let expenseToImport = arr.map((item) => {
           if (option == 1) {
-            url = "/api'/distribution/expenseDistributionDataValidation";
+            url = "/api/distribution/expenseDistributionDataValidation";
             let unitsSold = "";
             let turnover = "";
 
