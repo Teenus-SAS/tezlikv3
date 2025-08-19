@@ -96,6 +96,331 @@
             margin-left: 8px;
         }
     </style>
+
+    <!-- CSS Moderno para Header Profesional -->
+    <style>
+        /* Variables CSS para consistencia */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --warning-gradient: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);
+            --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow-modern: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Card principal con diseño moderno */
+        .modern-dashboard-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-modern);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modern-dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        /* Sección de botones principales */
+        .navigation-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .navigation-section::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 15%;
+            bottom: 15%;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, #e2e8f0, transparent);
+        }
+
+        /* Botones principales rediseñados */
+        .nav-btn {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            border: none;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: var(--transition);
+            overflow: hidden;
+            margin: 0 8px;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover::before {
+            opacity: 1;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-2px);
+        }
+
+        /* Estilos específicos para cada botón */
+        .nav-btn.btn-list {
+            background: var(--warning-gradient);
+            box-shadow: 0 8px 20px rgba(252, 74, 26, 0.3);
+        }
+
+        .nav-btn.btn-chart {
+            background: var(--success-gradient);
+            box-shadow: 0 8px 20px rgba(17, 153, 142, 0.3);
+        }
+
+        .nav-btn.btn-save {
+            background: var(--primary-gradient);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Separador moderno */
+        .nav-separator {
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, #cbd5e0, transparent);
+            margin: 0 15px;
+            border-radius: 1px;
+        }
+
+        /* Etiquetas de los botones */
+        .nav-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover+.nav-label {
+            color: #334155;
+            transform: translateY(-2px);
+        }
+
+        /* Sección de controles de análisis */
+        .analysis-controls {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-left: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .analysis-controls::before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 20%;
+            bottom: 20%;
+            width: 4px;
+            background: var(--info-gradient);
+            border-radius: 2px;
+        }
+
+        /* Labels modernos */
+        .form-label-modern {
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-label-modern i {
+            color: #6366f1;
+            margin-right: 6px;
+            font-size: 0.9rem;
+        }
+
+        /* Selectores modernos */
+        .modern-select {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            background: white;
+            font-size: 0.9rem;
+            color: #334155;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .modern-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            outline: none;
+            transform: translateY(-1px);
+        }
+
+        .modern-select:hover {
+            border-color: #c7d2fe;
+            transform: translateY(-1px);
+        }
+
+        /* Grupos de botones modernos */
+        .btn-group-modern {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 4px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-chart-type {
+            border: none;
+            background: transparent;
+            color: #64748b;
+            padding: 10px 12px;
+            border-radius: 8px;
+            transition: var(--transition);
+            font-size: 1rem;
+            margin: 0 2px;
+        }
+
+        .btn-chart-type:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            transform: translateY(-1px);
+        }
+
+        .btn-chart-type.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Botones de acción */
+        .action-btn {
+            border: 2px solid transparent;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: white;
+            color: #64748b;
+            transition: var(--transition);
+            font-size: 1rem;
+            margin: 0 2px;
+        }
+
+        .action-btn.btn-refresh {
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .action-btn.btn-refresh:hover {
+            background: #10b981;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .action-btn.btn-export {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .action-btn.btn-export:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Animación slide-in mejorada */
+        .slide-in {
+            animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .navigation-section {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .nav-btn {
+                width: 60px;
+                height: 60px;
+                margin: 0 5px;
+            }
+
+            .analysis-controls {
+                margin-left: 0;
+                margin-top: 20px;
+            }
+
+            .nav-separator {
+                display: none;
+            }
+        }
+
+        /* Efectos adicionales */
+        .nav-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .modern-tooltip {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+    </style>
 </head>
 
 <body class="horizontal-navbar">
@@ -133,98 +458,147 @@
                 <!-- Card con botones principales y controles del dashboard -->
                 <div class="page-content-wrapper mt--45" style="margin-bottom: 60px;">
                     <div class="container-fluid">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
+                        <div class="card modern-dashboard-header">
+                            <div class="card-body p-4">
                                 <div class="row align-items-center">
-                                    <!-- Botones principales -->
-                                    <div class="col-sm-3 col-xl-3">
-                                        <div class="mb-1 d-flex align-items-center">
-                                            <button class="btn btn-warning mr-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Lista de Históricos" id="btnList">
-                                                <i class="fas fa-list-ul"></i>
-                                            </button>
 
-                                            <button class="btn btn-success mr-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Gráficos y Dashboard" id="btnGraphic">
-                                                <i class="fas fa-chart-line"></i>
-                                            </button>
+                                    <!-- Sección de Navegación Principal -->
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="navigation-section">
+                                            <div class="d-flex align-items-center justify-content-center justify-content-lg-start">
 
-                                            <div class="mx-2 text-muted" style="font-size: 24px;">|</div>
+                                                <!-- Botón Lista -->
+                                                <div class="text-center">
+                                                    <button class="nav-btn btn-list"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Ver Lista de Históricos"
+                                                        id="btnList">
+                                                        <i class="fas fa-list-ul"></i>
+                                                    </button>
+                                                    <div class="nav-label">Lista</div>
+                                                </div>
 
-                                            <button class="btn btn-primary ml-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Guardar Histórico de Costos" id="btnNewHistorical">
-                                                <i class="fas fa-save"></i>
-                                            </button>
+                                                <!-- Botón Dashboard -->
+                                                <div class="text-center">
+                                                    <button class="nav-btn btn-chart"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Ver Dashboard Analítico"
+                                                        id="btnGraphic">
+                                                        <i class="fas fa-chart-line"></i>
+                                                    </button>
+                                                    <div class="nav-label">Dashboard</div>
+                                                </div>
+
+                                                <!-- Separador -->
+                                                <div class="nav-separator"></div>
+
+                                                <!-- Botón Guardar -->
+                                                <div class="text-center">
+                                                    <button class="nav-btn btn-save"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Crear Nuevo Histórico"
+                                                        id="btnNewHistorical">
+                                                        <i class="fas fa-save"></i>
+                                                    </button>
+                                                    <div class="nav-label">Nuevo</div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <!-- Controles del Dashboard (ocultos por defecto) -->
-                                    <div class="col-sm-9 col-xl-9" id="analysisControls" style="display: none;">
-                                        <div class="row align-items-end">
-                                            <!-- Selector de Semana -->
-                                            <div class="col-md-3">
-                                                <div class="form-group mb-2">
-                                                    <label for="weekSelector" class="form-label-modern">
-                                                        <i class="fas fa-calendar-week mr-1"></i>
-                                                        Período de Análisis
-                                                    </label>
-                                                    <select class="form-control modern-select" id="weekSelector">
-                                                        <option value="all">📊 Todas las Semanas</option>
-                                                        <!-- Las opciones se llenan dinámicamente -->
-                                                    </select>
-                                                </div>
-                                            </div>
+                                    <!-- Controles de Análisis (ocultos por defecto) -->
+                                    <div class="col-lg-8 col-md-12" id="analysisControls" style="display: none;">
+                                        <div class="analysis-controls">
+                                            <div class="row g-3">
 
-                                            <!-- Selector de Producto (oculto inicialmente) -->
-                                            <div class="col-md-3" id="productSelectorGroup" style="display: none;">
-                                                <div class="form-group mb-2">
-                                                    <label for="productSelector" class="form-label-modern">
-                                                        <i class="fas fa-box mr-1"></i>Producto Específico
-                                                    </label>
-                                                    <select class="form-control modern-select" id="productSelector">
-                                                        <option value="all">📦 Todos los Productos</option>
-                                                        <!-- Las opciones se llenan dinámicamente -->
-                                                    </select>
+                                                <!-- Selector de Período -->
+                                                <div class="col-lg-3 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="weekSelector" class="form-label-modern">
+                                                            <i class="fas fa-calendar-alt"></i>
+                                                            Período de Análisis
+                                                        </label>
+                                                        <select class="form-control modern-select" id="weekSelector">
+                                                            <option value="all">📊 Todas las Semanas</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <!-- Tipo de Gráfico -->
-                                            <div class="col-md-3">
-                                                <div class="form-group mb-2">
-                                                    <label class="form-label-modern">
-                                                        <i class="fas fa-chart-bar mr-1"></i>
-                                                        Tipo de Vista
-                                                    </label>
-                                                    <div class="btn-group btn-group-sm d-flex" role="group">
-                                                        <button type="button" class="btn btn-chart-type active" data-chart="line" title="Gráfico de Líneas">
-                                                            <i class="fas fa-chart-line"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-chart-type" data-chart="bar" title="Gráfico de Barras">
+                                                <!-- Selector de Producto -->
+                                                <div class="col-lg-3 col-md-6" id="productSelectorGroup" style="display: none;">
+                                                    <div class="form-group">
+                                                        <label for="productSelector" class="form-label-modern">
+                                                            <i class="fas fa-cube"></i>
+                                                            Producto Específico
+                                                        </label>
+                                                        <select class="form-control modern-select" id="productSelector">
+                                                            <option value="all">📦 Todos los Productos</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Tipo de Visualización -->
+                                                <div class="col-lg-3 col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label-modern">
                                                             <i class="fas fa-chart-bar"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-chart-type" data-chart="area" title="Gráfico de Área">
-                                                            <i class="fas fa-chart-area"></i>
-                                                        </button>
+                                                            Tipo de Visualización
+                                                        </label>
+                                                        <div class="btn-group-modern d-flex">
+                                                            <button type="button"
+                                                                class="btn-chart-type active"
+                                                                data-chart="line"
+                                                                title="Gráfico de Líneas">
+                                                                <i class="fas fa-chart-line"></i>
+                                                            </button>
+                                                            <button type="button"
+                                                                class="btn-chart-type"
+                                                                data-chart="bar"
+                                                                title="Gráfico de Barras">
+                                                                <i class="fas fa-chart-bar"></i>
+                                                            </button>
+                                                            <button type="button"
+                                                                class="btn-chart-type"
+                                                                data-chart="area"
+                                                                title="Gráfico de Área">
+                                                                <i class="fas fa-chart-area"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <!-- Acciones -->
-                                            <div class="col-md-3">
-                                                <div class="form-group mb-2">
-                                                    <label class="form-label-modern">
-                                                        <i class="fas fa-tools mr-1"></i>
-                                                        Acciones
-                                                    </label>
-                                                    <div class="btn-group btn-group-sm d-flex" role="group">
-                                                        <button type="button" class="btn btn-outline-success" id="btnRefreshData" title="Actualizar Datos">
-                                                            <i class="fas fa-sync"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-outline-info" id="btnExportData" title="Exportar a CSV">
-                                                            <i class="fas fa-download"></i>
-                                                        </button>
+                                                <!-- Acciones Rápidas -->
+                                                <div class="col-lg-3 col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label-modern">
+                                                            <i class="fas fa-tools"></i>
+                                                            Acciones Rápidas
+                                                        </label>
+                                                        <div class="d-flex">
+                                                            <button type="button"
+                                                                class="action-btn btn-refresh flex-fill"
+                                                                id="btnRefreshData"
+                                                                title="Actualizar Datos">
+                                                                <i class="fas fa-sync-alt"></i>
+                                                            </button>
+                                                            <button type="button"
+                                                                class="action-btn btn-export flex-fill"
+                                                                id="btnExportData"
+                                                                title="Exportar Datos">
+                                                                <i class="fas fa-download"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
