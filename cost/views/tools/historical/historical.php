@@ -320,6 +320,7 @@
     <script src="/cost/js/tools/historical/historicalEvents.js"></script>
     <script src="/cost/js/tools/historical/tblHistoricalResume.js"></script>
     <script src="/cost/js/tools/historical/tblHistorical.js"></script>
+    <script src="/cost/js/tools/historical/dashboardCharts.js"></script>
     <script src="/cost/js/tools/historical/historicalIndicators.js"></script>
 
     <!-- Script básico para mostrar/ocultar controles -->

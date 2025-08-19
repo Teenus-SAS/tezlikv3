@@ -1,4 +1,4 @@
-$(document).ready(function () { 
+$(document).ready(function () {
   $('.cardAddBenefit').hide();
 
   $(document).on('click', '.updateBenefit', function () {
@@ -36,7 +36,7 @@ $(document).ready(function () {
 
     let data = $('#formAddBenefit').serialize();
 
-    $.post('/api/updateBenefit', data, function (data, textStatus, jqXHR) {
+    $.post('/api/benefits/updateBenefit', data, function (data, textStatus, jqXHR) {
       message(data);
     });
   });
@@ -47,7 +47,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('.cardAddBenefit').hide(800);
       $('#formAddBenefit').trigger('reset');
