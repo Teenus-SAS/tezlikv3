@@ -71,7 +71,7 @@ function processWeeklyData(data) {
         const productId = item.id_product;
         const productName = item.product_name || item.product || `Producto ${productId}`;
 
-        // Calcular costos TOTALES (costos unitarios * unidades vendidas)
+        // CAMBIO: Calcular costos TOTALES (costos unitarios * unidades vendidas)
         const units = parseInt(item.units_sold) || 0;
         const unitCosts = (parseFloat(item.cost_material) || 0) +
             (parseFloat(item.cost_workforce) || 0) +
@@ -129,7 +129,7 @@ function processWeeklyData(data) {
     // Convertir a arrays
     const weeks = Object.values(weeklyData).sort((a, b) => a.week.localeCompare(b.week));
 
-    // CAMBIO PRINCIPAL: Remover .slice(0, 10) para cargar TODOS los productos
+    // CAMBIO: Remover .slice(0, 10) para cargar TODOS los productos
     const topProducts = Object.values(productTotals)
         .sort((a, b) => b.totalProfit - a.totalProfit);
     // .slice(0, 10); ← ESTA LÍNEA SE ELIMINA
@@ -161,22 +161,134 @@ function fillWeekSelector() {
  */
 function fillProductSelector() {
     const select = document.getElementById('productSelector');
+
+    // Verificar si Select2 está disponible
+    if (typeof $.fn.select2 !== 'function') {
+        console.warn('⚠️ Select2 no está disponible, usando selector normal');
+        fillProductSelectorNormal();
+        return;
+    }
+
+    // Destruir Select2 existente si existe
+    if ($(select).hasClass('select2-hidden-accessible')) {
+        $(select).select2('destroy');
+    }
+
     select.innerHTML = '<option value="all">📦 Todos los Productos</option>';
 
     console.log(`📝 Cargando ${dashboardData.topProducts.length} productos en el selector...`);
 
-    dashboardData.topProducts.forEach((product, index) => {
+    // Ordenar productos alfabéticamente por nombre
+    const sortedProducts = [...dashboardData.topProducts].sort((a, b) =>
+        a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
+    );
+
+    sortedProducts.forEach((product) => {
         const option = document.createElement('option');
         option.value = product.id;
 
-        // Mostrar posición, nombre y ganancia
-        const position = (index + 1).toString().padStart(2, '0');
-        option.textContent = `${position}. ${product.name} - ${formatCurrency(product.totalProfit)}`;
+        // Solo mostrar nombre y ganancia (sin numeración)
+        option.textContent = `${product.name} - ${formatCurrency(product.totalProfit)}`;
+        option.setAttribute('data-profit', product.totalProfit);
 
         select.appendChild(option);
     });
 
-    console.log(`✅ ${dashboardData.topProducts.length} productos cargados en el selector`);
+    // Inicializar Select2 con configuración personalizada
+    $(select).select2({
+        placeholder: '🔍 Buscar producto...',
+        allowClear: true,
+        width: '100%',
+        language: {
+            noResults: function () {
+                return "No se encontraron productos";
+            },
+            searching: function () {
+                return "Buscando...";
+            }
+        },
+        templateResult: function (data) {
+            if (data.loading) {
+                return data.text;
+            }
+
+            if (data.id === 'all') {
+                return $('<span><i class="fas fa-chart-bar"></i> ' + data.text + '</span>');
+            }
+
+            const profit = $(data.element).attr('data-profit');
+            if (profit) {
+                return $(`
+                    <div class="select2-product-result">
+                        <div class="product-name">${data.text.split(' - ')[0]}</div>
+                        <div class="product-profit text-muted small">${formatCurrency(profit)}</div>
+                    </div>
+                `);
+            }
+
+            return data.text;
+        },
+        templateSelection: function (data) {
+            if (data.id === 'all') {
+                return '📦 Todos los Productos';
+            }
+            return data.text.split(' - ')[0];
+        }
+    });
+
+    // Agregar estilos CSS para Select2
+    if (!document.getElementById('select2-custom-styles')) {
+        const style = document.createElement('style');
+        style.id = 'select2-custom-styles';
+        style.textContent = `
+            .select2-product-result { padding: 4px 0; }
+            .product-name { font-weight: 500; color: #333; }
+            .product-profit { color: #28a745 !important; font-size: 0.85em; }
+            .select2-container--default .select2-selection--single {
+                height: 38px; border: 1px solid #ced4da; border-radius: 0.375rem;
+            }
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 36px; padding-left: 12px;
+            }
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 36px;
+            }
+            .select2-dropdown { border: 1px solid #ced4da; border-radius: 0.375rem; }
+            .select2-search--dropdown .select2-search__field {
+                border: 1px solid #ced4da; border-radius: 0.375rem;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    console.log(`✅ ${sortedProducts.length} productos cargados alfabéticamente con Select2`);
+}
+
+/**
+ * SOLUCIÓN 2: FUNCIÓN DE RESPALDO SIN SELECT2
+ */
+function fillProductSelectorNormal() {
+    const select = document.getElementById('productSelector');
+    select.innerHTML = '<option value="all">📦 Todos los Productos</option>';
+
+    console.log(`📝 Cargando ${dashboardData.topProducts.length} productos en el selector (sin Select2)...`);
+
+    // Ordenar productos alfabéticamente por nombre
+    const sortedProducts = [...dashboardData.topProducts].sort((a, b) =>
+        a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
+    );
+
+    sortedProducts.forEach((product) => {
+        const option = document.createElement('option');
+        option.value = product.id;
+
+        // Solo mostrar nombre y ganancia (sin numeración)
+        option.textContent = `${product.name} - ${formatCurrency(product.totalProfit)}`;
+
+        select.appendChild(option);
+    });
+
+    console.log(`✅ ${sortedProducts.length} productos cargados alfabéticamente`);
 }
 /**
  * Mostrar vista de todas las semanas
@@ -885,9 +997,150 @@ function formatCurrency(value) {
     return new Intl.NumberFormat('es-CO', {
         style: 'currency',
         currency: 'COP',
-        minimumFractionDigits: 0
-    }).format(value || 0);
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0  // CAMBIO: Agregar esta línea
+    }).format(Math.round(value || 0));  // CAMBIO: Agregar Math.round()
 }
+
+/**
+ * 4. EVENT LISTENERS - CAMBIO PARA SELECT2
+ */
+// CAMBIO: Usar $('#productSelector').on('change') en lugar de addEventListener
+$('#productSelector').on('change', function () {
+    if (!dashboardData) return;
+
+    const selectedProduct = this.value;
+    console.log(`🔄 Producto seleccionado: ${selectedProduct}`);
+
+    currentProduct = selectedProduct;
+
+    if (selectedProduct === 'all') {
+        if (currentWeek !== 'all') {
+            showWeekChart(currentWeek);
+        } else {
+            showAllWeeksChart();
+        }
+    } else {
+        showProductAnalysis(selectedProduct);
+    }
+});
+
+/**
+ * SOLUCIÓN 3: EVENT LISTENERS COMPATIBLES
+ */
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Cambio de semana
+    document.getElementById('weekSelector').addEventListener('change', function () {
+        if (!dashboardData) return;
+
+        const selectedWeek = this.value;
+        console.log(`🔄 Cambiando a: ${selectedWeek}`);
+
+        // Resetear selector de productos (compatible con y sin Select2)
+        const productSelector = document.getElementById('productSelector');
+        if (typeof $.fn.select2 === 'function' && $(productSelector).hasClass('select2-hidden-accessible')) {
+            $('#productSelector').val('all').trigger('change');
+        } else {
+            productSelector.value = 'all';
+            // Disparar evento manualmente
+            productSelector.dispatchEvent(new Event('change'));
+        }
+
+        if (selectedWeek === 'all') {
+            showAllWeeksChart();
+            document.getElementById('productSelectorGroup').style.display = 'none';
+        } else {
+            showWeekChart(selectedWeek);
+            document.getElementById('productSelectorGroup').style.display = 'block';
+        }
+
+        currentWeek = selectedWeek;
+        currentProduct = 'all';
+    });
+
+    // Cambio de producto (compatible con y sin Select2)
+    function handleProductChange() {
+        if (!dashboardData) return;
+
+        const selectedProduct = document.getElementById('productSelector').value;
+        console.log(`🔄 Producto seleccionado: ${selectedProduct}`);
+
+        currentProduct = selectedProduct;
+
+        if (selectedProduct === 'all') {
+            if (currentWeek !== 'all') {
+                showWeekChart(currentWeek);
+            } else {
+                showAllWeeksChart();
+            }
+        } else {
+            showProductAnalysis(selectedProduct);
+        }
+    }
+
+    // Agregar event listener para productos
+    if (typeof $.fn.select2 === 'function') {
+        // Con Select2
+        $('#productSelector').on('change', handleProductChange);
+    } else {
+        // Sin Select2
+        document.getElementById('productSelector').addEventListener('change', handleProductChange);
+    }
+
+    // Resto de event listeners...
+    document.querySelectorAll('.btn-chart-type').forEach(btn => {
+        btn.addEventListener('click', function () {
+            if (!dashboardData) return;
+
+            console.log(`🎨 Cambiando a: ${this.dataset.chart}`);
+
+            if (currentProduct !== 'all') {
+                showProductAnalysis(currentProduct);
+            } else if (currentWeek === 'all') {
+                showAllWeeksChart();
+            } else {
+                showWeekChart(currentWeek);
+            }
+        });
+    });
+
+    document.getElementById('btnRefreshData').addEventListener('click', function () {
+        console.log('🔄 Actualizando...');
+
+        this.disabled = true;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+        if (weeklyChart) weeklyChart.destroy();
+        if (productChart) productChart.destroy();
+        weeklyChart = null;
+        productChart = null;
+
+        loadDashboardData().finally(() => {
+            this.innerHTML = '<i class="fas fa-sync"></i>';
+            this.disabled = false;
+        });
+    });
+});
+
+/**
+ * 5. AGREGAR AL FINAL DEL ARCHIVO - VARIABLES GLOBALES
+ */
+// Exponer variables de charts globalmente para otros archivos
+window.dashboardCharts = {
+    weeklyChart: null,
+    productChart: null,
+    destroy: function () {
+        if (this.weeklyChart) {
+            this.weeklyChart.destroy();
+            this.weeklyChart = null;
+        }
+        if (this.productChart) {
+            this.productChart.destroy();
+            this.productChart = null;
+        }
+    }
+};
 
 /**
  * Event listeners del dashboard
