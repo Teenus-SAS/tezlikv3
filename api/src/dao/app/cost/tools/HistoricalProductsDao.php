@@ -115,8 +115,8 @@ class HistoricalProductsDao
             $connection = Connection::getInstance()->getConnection();
 
         try {
-            $sql = "UPDATE tezlikso_HistProduccion.historical_products SET deleted_at = :deleted_at, deleted_by = :deleted_by 
-                    WHERE id_company = :id_company AND year = :year AND month = :month AND deleted_at IS NULL";
+            $sql = "DELETE tezlikso_HistProduccion.historical_products 
+                    WHERE id_company = :id_company AND year = :year AND month = :month";
             $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_company' => $id_company,

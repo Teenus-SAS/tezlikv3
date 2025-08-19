@@ -100,7 +100,7 @@ $app->group('/historical', function (RouteCollectorProxy $group) {
         $connection->beginTransaction();
 
         try {
-            //Borrado suave historicos
+            //Borrado historicos
             $historicalProductsDao->deleteSoftPeriodHistorical($id_company, $id_user, $dataHistorical, $connection);
             $historicalExpensesDao->deleteSoftHistoricalExpense($id_company, $id_user, $dataHistorical, $connection);
             $historicalEDDao->deleteSoftHistoricalExpenseDistribution($id_company, $id_user, $dataHistorical, $connection);

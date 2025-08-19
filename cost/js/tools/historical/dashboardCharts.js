@@ -178,7 +178,6 @@ function fillProductSelector() {
 
     console.log(`✅ ${dashboardData.topProducts.length} productos cargados en el selector`);
 }
-
 /**
  * Mostrar vista de todas las semanas
  */
