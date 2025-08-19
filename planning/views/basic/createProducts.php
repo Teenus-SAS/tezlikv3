@@ -45,7 +45,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                             <div class="col-sm-4 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
                                     <button class="btn btn-warning" id="btnNewProduct">Nuevo Producto</button>
-                                    <button class="btn btn-info ml-3" id="btnImportNewProducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Productos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                    <button class="btn btn-info ml-3" id="btnImportNewProducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Productos"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                     <button type="text" class="btn btn-success" id="btnImportProducts">Importar</button>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsProducts">Descarga Formato</button>
+                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsProducts"><i class="fas fa-download"></i> Descargar Formato</button>
                                                 </div>
                                             </div>
                                         </div>

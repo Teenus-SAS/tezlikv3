@@ -603,7 +603,7 @@
                                                                 class="action-btn btn-export flex-fill"
                                                                 id="btnExportData"
                                                                 title="Exportar Datos">
-                                                                <i class="fas fa-download"></i>
+                                                                <i class="fas fa-upload"></i>
                                                             </button>
                                                         </div>
                                                     </div>

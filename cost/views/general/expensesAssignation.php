@@ -86,7 +86,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                             <button class="btn btn-warning" id="btnNewExpense">Nuevo Gasto</button>
                                         </div>
                                         <div class="col-xs-2 py-2 mr-2">
-                                            <button class="btn btn-info" id="btnImportNewAssExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                            <button class="btn btn-info" id="btnImportNewAssExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                         </div>
                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
                                             <div class="col-xs-2 py-2 mr-2 mb-0 first-two-selectors floating-label enable-floating-label show-label">
@@ -124,7 +124,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                             <button class="btn btn-warning" id="btnNewExpenseAnual">Nuevo Gasto</button>
                                         </div>
                                         <div class="col-xs-2 py-2 mr-2">
-                                            <button class="btn btn-info" id="btnImportNewAssExpensesAnual" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                            <button class="btn btn-info" id="btnImportNewAssExpensesAnual" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                         </div>
                                         <!-- if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
                                         <div class="col-xs-2 py-2 mr-2 mb-0 first-two-selectors floating-label enable-floating-label show-label">
@@ -222,7 +222,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                     <button class="btn btn-warning" id="btnNewProductionCenter">Nuevo Und Produccion</button>
                                                 </div>
                                                 <div class="col-xs-2 py-2 mr-2">
-                                                    <button class="btn btn-info" id="btnImportNewAssExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                                    <button class="btn btn-info" id="btnImportNewAssExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                                 </div>
                                                 <?php if ($_SESSION['anual_expense'] == 1) { ?>
                                                     <div class="col-xs-2 mb-0 floating-label enable-floating-label show-label">
@@ -254,7 +254,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                     <button class="btn btn-warning" id="btnExpensesDistributionAnual">Distribuir Gastos</button>
                                                 </div>
                                                 <div class="col-xs-2 py-2 mr-2 cardBtnImportExpensesAnual">
-                                                    <button class="btn btn-info" id="btnImportNewExpensesAnual" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                                    <button class="btn btn-info" id="btnImportNewExpensesAnual" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                                 </div>
                                                 <!-- if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
                                                 <div class="col-xs-2 py-2 mr-2 mb-0 first-two-selectors floating-label enable-floating-label show-label">
@@ -338,7 +338,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                             <button type="text" class="btn btn-success" id="btnImportExpensesAssignation">Importar</button>
                                                         </div>
                                                         <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesAssignation">Descarga Formato</button>
+                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesAssignation"><i class="fas fa-download"></i> Descargar Formato</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -406,7 +406,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                             <button type="text" class="btn btn-success" id="btnImportExpensesAssignationAnual">Importar</button>
                                                         </div>
                                                         <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesAssignationAnual">Descarga Formato</button>
+                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesAssignationAnual"><i class="fas fa-download"></i> Descargar Formato</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -635,7 +635,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                             <button type="text" class="btn btn-success" id="btnImportExpenses">Importar</button>
                                                         </div>
                                                         <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpenses">Descarga Formato</button>
+                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpenses"><i class="fas fa-download"></i> Descargar Formato</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -730,7 +730,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                             <button type="text" class="btn btn-success" id="btnImportExpensesA">Importar</button>
                                                         </div>
                                                         <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesA">Descarga Formato</button>
+                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesA"><i class="fas fa-download"></i> Descargar Formato</button>
                                                         </div>
                                                     </div>
                                                 </div>

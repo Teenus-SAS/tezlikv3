@@ -87,7 +87,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                         </div>
                                     <?php } ?>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewProductsMaterials" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materia Prima"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                        <button class="btn btn-info" id="btnImportNewProductsMaterials" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materia Prima"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-secondary btnDownloadXlsx" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exportar Ficha Técnica"><i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i></button>
@@ -123,7 +123,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                         <button class="btn btn-warning" id="btnCreateProcess">Asignar Tiempos y Procesos</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewProductProcess" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Procesos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                        <button class="btn btn-info" id="btnImportNewProductProcess" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Procesos"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-secondary btnDownloadXlsx" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exportar Ficha Técnica"><i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i></button>
@@ -159,7 +159,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                         <button class="btn btn-warning" id="btnNewService">Asignar Servicios Externos</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewExternalServices" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Servicios Externos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                        <button class="btn btn-info" id="btnImportNewExternalServices" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Servicios Externos"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-secondary btnDownloadXlsx" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exportar Ficha Técnica"><i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i></button>
@@ -271,7 +271,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                 <button type="text" class="btn btn-success" id="btnImportProductsMaterials">Importar</button>
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                <button type="text" class="btn btn-info" id="btnDownloadImportsProductsMaterials">Descarga Formato</button>
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsProductsMaterials"><i class="fas fa-download"></i> Descargar Formato</button>
                                             </div>
                                         </div>
                                     </div>
@@ -414,7 +414,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                 <button type="text" class="btn btn-success" id="btnImportProductsProcess">Importar</button>
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                <button type="text" class="btn btn-info" id="btnDownloadImportsProductsProcess">Descarga Formato</button>
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsProductsProcess"><i class="fas fa-download"></i> Descargar Formato</button>
                                             </div>
                                         </div>
                                         <!-- <div class="alert alert-warning mt-2" role="alert">
@@ -480,7 +480,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                     <button type="text" class="btn btn-success" id="btnImportExternalServices">Importar</button>
                                                 </div>
                                                 <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExternalServices">Descarga Formato</button>
+                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExternalServices"><i class="fas fa-download"></i> Descargar Formato</button>
                                                 </div>
                                             </div>
                                         </div>

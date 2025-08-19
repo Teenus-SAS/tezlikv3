@@ -282,7 +282,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                     <button type="text" class="btn btn-success" id="btnImportExpenses">Importar</button>
                                                 </div>
                                                 <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExpenses">Descarga Formato</button>
+                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExpenses"><i class="fas fa-download"></i> Descargar Formato</button>
                                                 </div>
                                             </div>
                                         </div>

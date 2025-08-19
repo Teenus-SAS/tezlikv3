@@ -38,7 +38,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCloseImportProducts">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="btnImportProducts">Importar</button>
+                <button type="button" class="btn btn-primary" id="btnImportProducts"><i class="fas fa-sync-alt"></i> Importar</button>
             </div>
         </div>
     </div>

@@ -53,7 +53,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                     <button class="btn btn-warning" id="btnNewService">Nuevo Servicio</button>
                                 </div>
                                 <div class="col-xs-2 py-2 mr-2">
-                                    <button class="btn btn-info" id="btnImportNewExternalServices" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Servicios Externos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                    <button class="btn btn-info" id="btnImportNewExternalServices" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Servicios Externos"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                                     <button type="text" class="btn btn-success" id="btnImportExternalServices">Importar</button>
                                                 </div>
                                                 <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExternalServices">Descarga Formato</button>
+                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExternalServices"><i class="fas fa-download"></i> Descargar Formato</button>
                                                 </div>
                                             </div>
                                         </div>

@@ -80,7 +80,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
                                     </div>
                                 <?php } ?>
                                 <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-info" id="btnNewImportCustom" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Lista de Precios Personalizados"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                    <button class="btn btn-info" id="btnNewImportCustom" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Lista de Precios Personalizados"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                 </div>
                                 <div class="col-xs-2 mr-2">
                                     <button class="btn btn-success" id="btnExportCustomPrice" data-toggle="tooltip" title="Exportar" style="height: 39px"><i class="fas fa-file-excel fa-lg"></i></button>
@@ -177,10 +177,10 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
                                                 <button type="text" class="btn btn-success" id="btnImportCustom">Importar</button>
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCustomPrices">Descarga Formato (Precios)</button>
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCustomPrices"><i class="fas fa-download"></i> Descargar Formato (Precios)</button>
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCustomPercentage">Descarga Formato (Porcentaje)</button>
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCustomPercentage"><i class="fas fa-download"></i> Descargar Formato (Porcentaje)</button>
                                             </div>
                                         </div>
                                     </div>

@@ -84,7 +84,7 @@ require_once dirname(dirname(__DIR__)) . '/modals/inactiveProducts.php';
                                     <button class="btn btn-warning" id="btnNewProduct">Nuevo Producto</button>
                                 </div>
                                 <div class="col-xs-2 py-2 mr-2">
-                                    <button class="btn btn-info" id="btnImportNewProducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Productos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                    <button class="btn btn-info" id="btnImportNewProducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Productos"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                 </div>
                                 <div class="col-xs-2">
                                     <button class="btn btn btn-primary" id="btnActiveProducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Activar Productos"><i class="fas fa-power-off" style="font-size: 20px;"></i></button>
@@ -160,7 +160,7 @@ require_once dirname(dirname(__DIR__)) . '/modals/inactiveProducts.php';
                                                 <button type="text" class="btn btn-success" id="btnImportProducts">Importar</button>
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                <button type="text" class="btn btn-info" id="btnDownloadImportsProducts">Descarga Formato</button>
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsProducts"><i class="fas fa-download"></i> Descargar Formato</button>
                                             </div>
                                         </div>
                                     </div>

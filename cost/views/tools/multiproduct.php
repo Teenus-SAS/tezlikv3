@@ -82,7 +82,7 @@ require_once dirname(dirname(dirname(__DIR__))) . '/api/src/Auth/authMiddleware.
                                     <button class="btn btn-secondary" id="btnShowGraphic">Grafica</button>
                                 </div>
                                 <div class="col-xs-2 py-2">
-                                    <button class="btn btn-info" id="btnImportNewMultiproducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Multiproductos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                    <button class="btn btn-info" id="btnImportNewMultiproducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Multiproductos"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                 </div>
                             </div>
                         </div>

@@ -79,7 +79,7 @@ require_once dirname(dirname(__DIR__)) . '/modals/productsByMaterial.php'; ?>
                                         <button class="btn btn-warning" id="btnNewMaterial" name="btnNewMaterial">Nueva Materia Prima</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewMaterials" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materias Primas"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                        <button class="btn btn-info" id="btnImportNewMaterials" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materias Primas"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                     </div>
                                     <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
                                         <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label mt-4">
@@ -109,7 +109,7 @@ require_once dirname(dirname(__DIR__)) . '/modals/productsByMaterial.php'; ?>
                                         <button class="btn btn-warning" id="btnNewCategory" name="btnNewCategory">Nueva Categoria</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewCategory" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Categoria"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                        <button class="btn btn-info" id="btnImportNewCategory" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Categoria"><i class="fas fa-upload" style="font-size: 20px;"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@ require_once dirname(dirname(__DIR__)) . '/modals/productsByMaterial.php'; ?>
                                                 <button type="text" class="btn btn-success" id="btnImportMaterials">Importar</button>
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                <button type="text" class="btn btn-info" id="btnDownloadImportsMaterials">Descarga Formato</button>
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsMaterials"><i class="fas fa-download"></i> Descargar Formato</button>
                                             </div>
                                         </div>
                                     </div>
@@ -251,7 +251,7 @@ require_once dirname(dirname(__DIR__)) . '/modals/productsByMaterial.php'; ?>
                                                 <button type="text" class="btn btn-success" id="btnImportCategory">Importar</button>
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCategories">Descarga Formato</button>
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCategories"><i class="fas fa-download"></i> Descargar Formato</button>
                                             </div>
                                         </div>
                                     </div>
