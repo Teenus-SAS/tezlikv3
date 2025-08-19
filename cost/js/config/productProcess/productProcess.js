@@ -266,7 +266,7 @@ $(document).on('click', '.updateProcess', async function (e) {
   );
 });
 
-function validateForm() {
+function validateFormProcess() {
   let emptyInputs = [];
 
   let refP = parseInt($('#idProcess').val());
@@ -297,7 +297,7 @@ function validateForm() {
 
 /* Revision data productos procesos */
 checkDataProductsProcess = async (url, idProductProcess) => {
-  if (!validateForm()) {
+  if (!validateFormProcess()) {
     return false;
   }
   let idProduct = parseInt($('#selectNameProduct').val());

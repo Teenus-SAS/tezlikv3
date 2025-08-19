@@ -197,15 +197,9 @@ $('#btnAddMaterials').click(function (e) {
   let idProductMaterial = sessionStorage.getItem('id_product_material');
 
   if (idProductMaterial == '' || idProductMaterial == null) {
-    checkDataProductsMaterials(
-      '/api/dataSheetMaterials/addProductsMaterials',
-      idProductMaterial
-    );
+    checkDataProductsMaterials('/api/dataSheetMaterials/addProductsMaterials', idProductMaterial);
   } else {
-    checkDataProductsMaterials(
-      '/api/dataSheetMaterials/updateProductsMaterials',
-      idProductMaterial
-    );
+    checkDataProductsMaterials('/api/dataSheetMaterials/updateProductsMaterials', idProductMaterial);
   }
 });
 
@@ -265,7 +259,7 @@ $(document).on('click', '.updateMaterials', async function (e) {
   );
 });
 
-function validateForm() {
+validateFormMaterials = () => {
   let emptyInputs = [];
   let refMaterial = parseInt($('#refMaterial').val());
   let units = parseInt($('#units').val());
@@ -299,7 +293,7 @@ function validateForm() {
 
 /* Revision data Productos materiales */
 checkDataProductsMaterials = async (url, idProductMaterial) => {
-  if (!validateForm()) {
+  if (!validateFormMaterials()) {
     return false;
   }
   // let ref = parseInt($('#nameMaterial').val());

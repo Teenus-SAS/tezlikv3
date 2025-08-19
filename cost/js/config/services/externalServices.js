@@ -86,7 +86,7 @@ $(document).on('click', '.updateExternalService', async function (e) {
   );
 });
 
-function validateForm() {
+function validateFormExternals() {
   let emptyInputs = [];
 
   let service = $('#service').val();
@@ -117,7 +117,7 @@ function validateForm() {
 /* Revision data servicio */
 checkDataServices = async (url, idService) => {
 
-  if (!validateForm()) {
+  if (!validateFormExternals()) {
     return false;
   }
 
