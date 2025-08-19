@@ -530,7 +530,7 @@
                                                     <div class="form-group">
                                                         <label for="weekSelector" class="form-label-modern">
                                                             <i class="fas fa-calendar-alt"></i>
-                                                            Período de Análisis
+                                                            Período
                                                         </label>
                                                         <select class="form-control modern-select" id="weekSelector">
                                                             <option value="all">📊 Todas las Semanas</option>
@@ -543,7 +543,7 @@
                                                     <div class="form-group">
                                                         <label for="productSelector" class="form-label-modern">
                                                             <i class="fas fa-cube"></i>
-                                                            Producto Específico
+                                                            Producto
                                                         </label>
                                                         <select class="form-control modern-select" id="productSelector">
                                                             <option value="all">📦 Todos los Productos</option>
@@ -556,7 +556,7 @@
                                                     <div class="form-group">
                                                         <label class="form-label-modern">
                                                             <i class="fas fa-chart-bar"></i>
-                                                            Tipo de Visualización
+                                                            Visualización
                                                         </label>
                                                         <div class="btn-group-modern d-flex">
                                                             <button type="button"
