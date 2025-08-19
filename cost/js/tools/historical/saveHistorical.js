@@ -114,13 +114,11 @@ $('#btnSaveHistorical').click(function (e) {
 });
 
 
-
 $('#btnCloseHistorical').click(function (e) {
     e.preventDefault();
 
     $('#modalHistorical').modal('hide');
 });
-
 
 /**
 * Verifica si ya existe un registro histórico para el año y mes especificados

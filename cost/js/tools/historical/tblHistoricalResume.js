@@ -3,9 +3,6 @@ if (typeof historicalConfig === 'undefined') {
     console.error('Configuración histórica no definida');
 }
 
-// Mostrar spinner solo para esta tabla
-//loadingModalLoad = showLoadingModal('Cargando Historico...');
-
 tblHistoricalResume = $('#tblHistoricalResume').DataTable({
     destroy: true,
     pageLength: 50,
