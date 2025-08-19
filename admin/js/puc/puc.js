@@ -29,7 +29,7 @@ $(document).ready(function () {
     } else {
       $.ajax({
         type: 'POST',
-        url: '/api/createPUC',
+        url: '/api/puc/add',
         data: dataPuc,
         contentType: false,
         cache: false,
@@ -74,7 +74,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: 'POST',
-      url: `/api/updatePUC`,
+      url: `/api/puc/update`,
       data: dataProduct,
       contentType: false,
       cache: false,
@@ -92,7 +92,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('.createPUC').toggle(800);
       $('#formCreatePuc').trigger('reset');

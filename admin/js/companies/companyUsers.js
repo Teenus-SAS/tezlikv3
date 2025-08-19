@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: 'POST',
-      url: `/api/updateCompanyUsersStatus/${id_user}`,
+      url: `/api/customersUsers/${id_user}`,
       success: function (resp) {
         message(resp);
       },
@@ -20,8 +20,8 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
-    if (data.success == true) { 
+
+    if (data.success == true) {
       updateTable();
       toastr.success(data.message);
       return false;

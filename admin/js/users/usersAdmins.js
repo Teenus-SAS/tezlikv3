@@ -37,7 +37,7 @@ $(document).ready(function () {
 
       dataUser = $('#formCreateUser').serialize();
 
-      $.post('/api/addUserAdmin', dataUser, function (data, textStatus, jqXHR) {
+      $.post('/api/userAdmins/add', dataUser, function (data, textStatus, jqXHR) {
         message(data);
       });
     } else {
@@ -76,12 +76,9 @@ $(document).ready(function () {
 
     dataUser = `${dataUser}&idAdmin=${idAdmin}`;
 
-    $.post(
-      '/api/updateUserAdmin',
-      dataUser,
-      function (data, textStatus, jqXHR) {
-        message(data);
-      }
+    $.post('/api/userAdmins/update', dataUser, function (data, textStatus, jqXHR) {
+      message(data);
+    }
     );
   };
 
@@ -110,12 +107,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '/api/deleteUserAdmin',
-            dataAdmin,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.post('/api/userAdmins/delete', dataAdmin, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },
@@ -127,7 +121,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('.cardCreateUser').hide(800);
       $('#formCreateUser').trigger('reset');

@@ -6,7 +6,7 @@ $(document).ready(function () {
   tblCompanyUsers = $('#tblCompanyUsers').dataTable({
     pageLength: 50,
     ajax: function (data, callback, settings) {
-      fetch(`/api/companyUsers/${idCompany}`)
+      fetch(`/api/customersUsers/${idCompany}`)
         .then(response => response.json())
         .then(data => {
           // Si el servidor indica recargar la página

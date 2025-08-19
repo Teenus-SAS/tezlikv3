@@ -29,7 +29,7 @@ $(document).ready(function () {
 
       let data = $('#formCreateUnit').serialize();
 
-      $.post('/api/addUnit', data, function (data, textStatus, jqXHR) {
+      $.post('/api/units/add', data, function (data, textStatus, jqXHR) {
         message(data);
       });
     } else updateUnit();
@@ -75,7 +75,7 @@ $(document).ready(function () {
 
     data = `${data}&idUnit=${idUnit}`;
 
-    $.post('/api/updateUnit', data, function (data, textStatus, jqXHR) {
+    $.post('/api/units/update', data, function (data, textStatus, jqXHR) {
       message(data);
     });
   };
@@ -105,7 +105,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `/api/deleteUnit/${idUnit}`,
+            `/api/units/delete/${idUnit}`,
             data,
             function (data, textStatus, jqXHR) {
               message(data);
@@ -120,7 +120,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('.cardCreateUnit').hide(800);
       $('#formCreateUnit').trigger('reset');

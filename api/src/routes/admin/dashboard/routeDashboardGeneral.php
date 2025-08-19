@@ -12,7 +12,7 @@ use App\Middleware\SessionMiddleware;
 
 /* Consulta todos */
 
-$app->get('/dashboardCountsGeneral', function (Request $request, Response $response, $args) use ($dashboardGeneralsDao) {
+$app->get('/panelAdmin', function (Request $request, Response $response, $args) use ($dashboardGeneralsDao) {
     // Obtener Cantidad de Productos
     $products = $dashboardGeneralsDao->findAllProducts();
 

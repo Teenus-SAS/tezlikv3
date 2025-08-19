@@ -36,11 +36,6 @@ $(document).ready(function () {
       companyCountry = $('#companyCountry').val();
       companyAddress = $('#companyAddress').val();
       companyTel = $('#companyTel').val();
-      // // Licencia
-      // companyLicStart = $('#companyLic_start').val();
-      // companyLicEnd = $('#companyLic_end').val();
-      // companyUsers = $('#companyUsers').val();
-      // companyStatus = $('#companyStatus').val();
 
       if (
         company === '' ||
@@ -62,7 +57,7 @@ $(document).ready(function () {
 
       $.ajax({
         type: 'POST',
-        url: '/api/addNewCompany',
+        url: '/api/customers/addNewCompany',
         data: dataCompany,
         contentType: false,
         cache: false,
@@ -110,7 +105,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: 'POST',
-      url: '/api/updateDataCompany',
+      url: '/api/customers/updateDataCompany',
       data: dataCompany,
       contentType: false,
       cache: false,
@@ -128,7 +123,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('#createCompany').modal('hide');
       $('#formCreateCompany').trigger('reset');

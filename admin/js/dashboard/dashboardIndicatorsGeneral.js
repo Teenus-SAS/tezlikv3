@@ -1,4 +1,4 @@
-fetch(`/api/dashboardCountsGeneral`)
+fetch(`/api/panelAdmin`)
   .then((response) => response.text())
   .then((data) => {
     if (data.reload) {

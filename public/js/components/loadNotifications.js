@@ -105,7 +105,7 @@ $(document).ready(function () {
 
   /* Limpiar notificaciones */
   clearNotification = () => {
-    $.get('/api/updateCheckNotification', function (data, textStatus, jqXHR) {
+    $.get('/api/notifications/check', function (data, textStatus, jqXHR) {
       msgNotification(data);
     });
   };
@@ -114,7 +114,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       loadNotification();
       toastr.success(data.message);

@@ -8,12 +8,9 @@ $(document).ready(function () {
     tblCompanies = $('#tblCompanies').dataTable({
       destroy: true,
       pageLength: 50,
-      // ajax: {
-      //   url: `/api/companies/${stat}`,
-      //   dataSrc: '',
-      // },
+
       ajax: function (data, callback, settings) {
-        fetch(`/api/companies/${stat}`)
+        fetch(`/api/customers/${stat}`)
           .then(response => response.json())
           .then(data => {
             // Si el servidor indica recargar la página

@@ -28,12 +28,9 @@ $(document).ready(function () {
 
       dataNotification = $('#formCreateNotification').serialize();
 
-      $.post(
-        '/api/addNotification',
-        dataNotification,
-        function (data, textStatus, jqXHR) {
-          message(data);
-        }
+      $.post('/api/notifications/add', dataNotification, function (data, textStatus, jqXHR) {
+        message(data);
+      }
       );
     } else updateNotification();
   });
@@ -67,12 +64,9 @@ $(document).ready(function () {
 
     dataNotification = `${dataNotification}&idNotification=${id_notification}`;
 
-    $.post(
-      '/api/updateNotification',
-      dataNotification,
-      function (data, textStatus, jqXHR) {
-        message(data);
-      }
+    $.post('/api/notifications/update', dataNotification, function (data, textStatus, jqXHR) {
+      message(data);
+    }
     );
   };
 
@@ -100,11 +94,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.get(
-            `/api/deleteNotification/${id_notification}`,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
+          $.get(`/api/notifications/delete/${id_notification}`, function (data, textStatus, jqXHR) {
+            message(data);
+          }
           );
         }
       },
@@ -116,7 +108,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success) {
       $('.cardCreateNotification').hide(800);
       $('#formCreateNotification').trigger('reset');

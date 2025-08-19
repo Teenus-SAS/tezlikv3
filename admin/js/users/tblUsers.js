@@ -4,7 +4,7 @@ $(document).ready(function () {
 
   loadAllData = async () => {
     try {
-      const users = await searchData('/api/usersCompany');
+      const users = await searchData('/api/userAdmins/usersCompany');
 
       loadTblUsers(users);
 

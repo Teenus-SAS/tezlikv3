@@ -15,7 +15,7 @@ $(document).ready(function () {
 
 
   // Revisar tipo de plan tenga economia de escala
-  $('#plan').change(function (e) { 
+  $('#plan').change(function (e) {
     e.preventDefault();
     let id_plan = this.value;
 
@@ -36,10 +36,10 @@ $(document).ready(function () {
 
     idCompany = sessionStorage.getItem('id_company');
     if (!idCompany || idCompany == null) {
-      checkLicences('/api/addLicense', idCompany); 
+      checkLicences('/api/licenses/addLicense', idCompany);
     } else {
       $('#company').prop('disabled', false);
-      checkLicences('/api/updateLicense', idCompany);
+      checkLicences('/api/licenses/updateLicense', idCompany);
     }
   });
 
@@ -70,9 +70,9 @@ $(document).ready(function () {
     data.flag_production_center == '1' ? (production = '1') : (production = '2');
     data.flag_expense_anual == '1' ? (anualExpenses = '1') : (anualExpenses = '2');
     data.cost_historical == '1' ? (historical = '1') : (historical = '2');
-    data.flag_indirect == '1' ? (indirect = '1') : (indirect = '2'); 
-    data.flag_export_import == '1' ? (exportImport = '1') : (exportImport = '2'); 
-    data.inyection == '1' ? (inyection = '1') : (inyection = '2'); 
+    data.flag_indirect == '1' ? (indirect = '1') : (indirect = '2');
+    data.flag_export_import == '1' ? (exportImport = '1') : (exportImport = '2');
+    data.inyection == '1' ? (inyection = '1') : (inyection = '2');
 
     $(`#currencyUSD option[value=${currencyUSD}]`).prop('selected', true);
     $(`#currencyEUR option[value=${currencyEUR}]`).prop('selected', true);
@@ -87,18 +87,18 @@ $(document).ready(function () {
     $(`#indirect option[value=${indirect}]`).prop('selected', true);
     $(`#exportImport option[value=${exportImport}]`).prop('selected', true);
     $(`#inyection option[value=${inyection}]`).prop('selected', true);
- 
+
     if (data.cost_economy_scale == 1 && data.cost_sale_objectives == 1) {
       $('.economyScale').hide(800);
     } else {
       $('.economyScale').show(800);
     }
-      
+
     $('#company').prop('disabled', true);
     $('html, body').animate({ scrollTop: 0 }, 1000);
-  }); 
+  });
 
-  const checkLicences = async(url, idCompany) => {
+  const checkLicences = async (url, idCompany) => {
     let company = parseFloat($('#company').val());
     let license_start = $('#license_start').val();
     let license_end = $('#license_end').val();
@@ -130,7 +130,7 @@ $(document).ready(function () {
       toastr.error('La fecha inicial no debe ser mayor a la final');
       return false;
     }
- 
+
     currencyUSD == 1 ? (currencyUSD = 1) : (currencyUSD = 0);
     currencyEUR == 1 ? (currencyEUR = 1) : (currencyEUR = 0);
     payrollEmployee == 1 ? (payrollEmployee = 1) : (payrollEmployee = 0);
@@ -144,7 +144,7 @@ $(document).ready(function () {
     indirect == 1 ? (indirect = 1) : (indirect = 0);
     exportImport == 1 ? (exportImport = 1) : (exportImport = 0);
     inyection == 1 ? (inyection = 1) : (inyection = 0);
-    
+
     let dataCompany = new FormData(formAddLicense);
     dataCompany.append('currencyUSD', currencyUSD);
     dataCompany.append('currencyEUR', currencyEUR);
@@ -167,23 +167,23 @@ $(document).ready(function () {
 
     message(resp);
   }
-  
+
   /* Cambiar Estado Licencia */
   $(document).on('click', '.licenseStatus', function (e) {
     e.preventDefault();
     // Obtener el ID del elemento
     let id = $(this).attr('id');
     // Obtener la parte después del guion '-'
-    let id_company = id.split('-')[1]; 
+    let id_company = id.split('-')[1];
 
     $.ajax({
       type: 'POST',
-      url: `/api/changeStatusCompany/${id_company}`,
+      url: `/api/licenses/changeStatusCompany/${id_company}`,
       success: function (resp) {
         if (resp.reload) {
           location.reload();
         }
-        
+
         if (resp.success == true) {
           updateTable();
           toastr.success(resp.message);

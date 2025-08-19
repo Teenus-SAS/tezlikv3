@@ -3,10 +3,7 @@ $(document).ready(function () {
     order: [1, 'desc'],
     destroy: true,
     pageLength: 50,
-    // ajax: {
-    //   url: `/api/historicalTrm`,
-    //   dataSrc: '',
-    // },
+
     ajax: function (data, callback, settings) {
       fetch(`/api/historicalTrm`)
         .then(response => response.json())

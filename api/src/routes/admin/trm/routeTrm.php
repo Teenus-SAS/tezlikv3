@@ -6,61 +6,64 @@ $trmDao = new TrmDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
+use Slim\Routing\RouteCollectorProxy;
 use App\Helpers\ResponseHelper;
 use App\Middleware\SessionMiddleware;
 
-$app->get('/historicalTrm', function (Request $request, Response $response, $args) use ($trmDao) {
-    $trm = $trmDao->findAllHistoricalTrm();
-    $response->getBody()->write(json_encode($trm));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-})->add(new SessionMiddleware());
+$app->group('/historicalTrm', function (RouteCollectorProxy $group) use ($trmDao) {
 
-$app->get('/loadLastsTrm', function (Request $request, Response $response, $args) use ($trmDao) {
-    $resp = $trmDao->deleteAllHistoricalTrm();
-    $today = date('Y-m-d');
+    $group->get('', function (Request $request, Response $response, $args) use ($trmDao) {
+        $trm = $trmDao->findAllHistoricalTrm();
+        $response->getBody()->write(json_encode($trm));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 
-    if ($resp == null) {
-        $historicalTrm = $trmDao->getAllHistoricalTrm();
+    $group->get('/loadLastsTrm', function (Request $request, Response $response, $args) use ($trmDao) {
+        $resp = $trmDao->deleteAllHistoricalTrm();
+        $today = date('Y-m-d');
 
-        if ($historicalTrm == 1) {
-            $resp = ['error' => true, 'message' => 'Error al cargar la información. Intente mas tarde'];
+        if ($resp == null) {
+            $historicalTrm = $trmDao->getAllHistoricalTrm();
 
-            $response->getBody()->write(json_encode($resp));
-            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-        }
+            if ($historicalTrm == 1) {
+                $resp = ['error' => true, 'message' => 'Error al cargar la información. Intente mas tarde'];
 
-        $status = true;
+                $response->getBody()->write(json_encode($resp));
+                return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+            }
 
-        foreach ($historicalTrm as $arr) {
-            if ($status == false) break;
+            $status = true;
 
-            $first_date = $arr['vigenciadesde'];
-            $last_date = $arr['vigenciahasta'];
-
-            for ($date = $first_date; $date <= $last_date;) {
+            foreach ($historicalTrm as $arr) {
                 if ($status == false) break;
 
-                $trm_date = date('Y-m-d', strtotime($date . ' +2 years'));
+                $first_date = $arr['vigenciadesde'];
+                $last_date = $arr['vigenciahasta'];
 
-                if ($trm_date == $today) $status = false;
+                for ($date = $first_date; $date <= $last_date;) {
+                    if ($status == false) break;
 
-                $resp = $trmDao->insertTrm($date, $arr['valor']);
+                    $trm_date = date('Y-m-d', strtotime($date . ' +2 years'));
 
-                if (isset($resp['info'])) break;
+                    if ($trm_date == $today) $status = false;
 
-                $date = date('Y-m-d', strtotime($date . ' +1 day'));
+                    $resp = $trmDao->insertTrm($date, $arr['valor']);
+
+                    if (isset($resp['info'])) break;
+
+                    $date = date('Y-m-d', strtotime($date . ' +1 day'));
+                }
             }
+
+            $trmDao->deleteTrm();
         }
 
-        $trmDao->deleteTrm();
-    }
+        if (isset($price['info']))
+            $resp = array('info' => true, 'message' => $price['message']);
+        else
+            $resp = array('success' => true, 'message' => 'Trm cargado correctamente');
 
-    if (isset($price['info']))
-        $resp = array('info' => true, 'message' => $price['message']);
-    else
-        $resp = array('success' => true, 'message' => 'Trm cargado correctamente');
-
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 })->add(new SessionMiddleware());

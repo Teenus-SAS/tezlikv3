@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#navChangeCompany').click(function (e) { 
+    $('#navChangeCompany').click(function (e) {
         e.preventDefault();
         $('#formChangeCompany').trigger('reset');
         $('#modalChangeCompany').modal('show');
@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     $('#btnCloseChangeCompany').click(function (e) {
         e.preventDefault();
-        $('#modalChangeCompany').modal('hide'); 
+        $('#modalChangeCompany').modal('hide');
     });
 
     $('#btnChangeCompany').click(function (e) {
@@ -26,12 +26,12 @@ $(document).ready(function () {
 
         let data = $('#formChangeCompany').serialize();
 
-        $.post("/api/changeCompany", data,
+        $.post("/api/userAdmins/changeCompany", data,
             function (data, textStatus, jqXHR) {
                 if (data.reload) {
                     location.reload();
                 }
-                
+
                 if (data.success == true) {
                     $('#user').prop('disabled', true);
 

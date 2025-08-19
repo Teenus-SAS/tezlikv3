@@ -17,7 +17,7 @@ $(document).ready(function () {
       </div>`
     );
 
-    await $.get('/api/loadLastsTrm', function (data, textStatus, jqXHR) {
+    await $.get('/api/historicalTrm/loadLastsTrm', function (data, textStatus, jqXHR) {
       message(data);
     });
   });
@@ -26,7 +26,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     $('#title').attr('class', 'col-sm-5 col-xl-6');
 
     $('.cardLoading').remove();

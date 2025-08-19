@@ -17,12 +17,9 @@ $(document).ready(function () {
 
     dataPlan = setCheckBoxes(dataPlan);
 
-    $.post(
-      '/api/updatePlansAccess',
-      dataPlan,
-      function (data, textStatus, jqXHR) {
-        message(data); 
-      }
+    $.post('/api/plansAccess/update', dataPlan, function (data, textStatus, jqXHR) {
+      message(data);
+    }
     );
   });
 
@@ -46,7 +43,7 @@ $(document).ready(function () {
       salesObjective: data.cost_sale_objectives,
       priceObjective: data.cost_price_objectives,
       multiproduct: data.cost_multiproduct,
-      simulator: data.cost_simulator, 
+      simulator: data.cost_simulator,
       quotes: data.cost_quote,
       support: data.cost_support,
     };
@@ -97,7 +94,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('#createPlansAccess').modal('hide');
       $('#formCreatePlan').trigger('reset');

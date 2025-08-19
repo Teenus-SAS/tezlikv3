@@ -13,15 +13,6 @@ use App\Middleware\SessionMiddleware;
 //Cerra Sesión usuarios
 $app->post('/closeSessionUser/{id}', function (Request $request, Response $response, $args) use ($closeSessionUser) {
 
-
-
-
-
-
-
-
-
-    // $dataUser = $request->getParsedBody();
     $session = $closeSessionUser->closeSessionUsers($args);
 
     if ($session == null) {

@@ -4,10 +4,7 @@ $(document).ready(function () {
   tblMagnitudes = $('#tblMagnitudes').dataTable({
     destroy: true,
     pageLength: 50,
-    // ajax: {
-    //   url: `/api/magnitudes`,
-    //   dataSrc: '',
-    // },
+
     ajax: function (data, callback, settings) {
       fetch(`/api/measurements/magnitudes`)
         .then(response => response.json())

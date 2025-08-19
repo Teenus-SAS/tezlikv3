@@ -1,12 +1,12 @@
 $(document).ready(function () {
   /* ACCESOS DE USUARIO */
   $.ajax({
-    url: '/api/planAccess',
+    url: '/api/plansAccess/plan',
     success: function (resp) {
       if (resp.reload) {
         location.reload();
       }
-      
+
       let acces = {
         // prices: resp.cost_price,
         analysisMaterials: resp.cost_analysis_material,

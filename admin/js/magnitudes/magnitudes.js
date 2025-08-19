@@ -28,7 +28,7 @@ $(document).ready(function () {
 
       let data = $('#formCreateMagnitude').serialize();
 
-      $.post('/api/addMagnitudes', data, function (data, textStatus, jqXHR) {
+      $.post('/api/magnitudes/add', data, function (data, textStatus, jqXHR) {
         message(data);
       });
     } else updateMagnitude();
@@ -70,7 +70,7 @@ $(document).ready(function () {
 
     data = `${data}&idMagnitude=${idMagnitude}`;
 
-    $.post('/api/updateMagnitude', data, function (data, textStatus, jqXHR) {
+    $.post('/api/magnitudes/update', data, function (data, textStatus, jqXHR) {
       message(data);
     });
   };
@@ -100,7 +100,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `/api/deleteMagnitude/${idMagnitude}`,
+            `/api/magnitudes/delete/${idMagnitude}`,
             data,
             function (data, textStatus, jqXHR) {
               message(data);

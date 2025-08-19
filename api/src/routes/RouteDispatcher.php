@@ -7,17 +7,44 @@ use Slim\App;
 class RouteDispatcher
 {
     private static $routeMap = [
+        //Admin
+        '/benefits' => '/admin/benefits/routeBenefits.php',
+        '/binnacle' => '/admin/binnacle/routeBinnacle.php',
+        '/binnacle' => '/admin/contract/routeContract.php',
+        '/customers' => '/admin/customers/routeCustomers.php',
+        '/customersUsers' => '/admin/customers/routeCustomersUsers.php',
+        '/licenses' => '/admin/customers/routeLicense.php',
+        '/usersAllowedByCompany' => '/admin/customers/routeUsersAllowed.php',
+        '/panelAdmin' => '/admin/dashboard/routeDashboardGeneral.php',
+        '/lastLogins' => '/admin/login/routeLastLoginsUsers.php',
+        '/magnitudes' => '/admin/measurements/routeMagnitude.php',
+        '/units' => '/admin/measurements/routeUnits.php',
+        '/notifications' => '/admin/notifications/routeNotifications.php',
+        '/plansAccess' => '/admin/plans/routePlanAccess.php',
+        '/plans' => '/admin/plans/routePlans.php',
+        '/quantityProductsGeneral' => '/admin/products/routeQuantityProducts.php',
+        '/puc' => '/admin/puc/routePucs.php',
+        '/updateRisk' => '/admin/risk/routeRisk.php',
+        '/historicalTrm' => '/admin/trm/routeTrm.php',
+        '/lastLoginUsers' => '/admin/users/routeActiveUsers.php',
+        '/closeSessionUser' => '/admin/users/routeCloseSessionUsers.php',
+        '/userAdmins' => '/admin/users/routeUserAdmin.php',
+
+        // Login
         '/login' => '/login/routeLogin.php',
         '/logoutByInactivity' => '/login/routeLogoutInactiveUser.php',
 
+        // Notifications Users
         '/recentNotification' => '/admin/notifications/routeShowNotifications.php',
         '/updatesNotice' => '/global/routeUpdatesNotices.php',
 
+        // Dashboard App
         '/panelGeneral' => '/app/dashboard/general/routePanelGeneral.php',
         '/panelProducts' => '/app/dashboard/products/routePanelProducts.php',
 
         '/multiproducts' => '/app/tools/routeMultiproducts.php',
 
+        // Prices
         '/prices' => '/app/prices/routePrices.php',
         '/customPrices' => '/app/prices/customPrices/routeCustomPrices.php',
         '/priceList' => '/app/general/routePriceList.php',
