@@ -91,10 +91,10 @@ $('#btnSaveHistorical').click(function (e) {
             confirmDialog.modal('hide');
 
             // Mostrar spinner durante el guardado
-            const loadingDialog = bootbox.dialog({
+            /* const loadingDialog = bootbox.dialog({
                 message: '<p class="text-center mb-0"><i class="fas fa-spinner fa-spin"></i> Guardando datos...</p>',
                 closeButton: false
-            });
+            }); */
 
             $.ajax({
                 method: "POST",
