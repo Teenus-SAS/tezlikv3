@@ -105,21 +105,22 @@
             --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             --warning-gradient: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);
             --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --shadow-modern: 0 10px 25px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
-            --border-radius: 12px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-modern: 0 6px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.12);
+            --border-radius: 8px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Card principal con diseño moderno */
+        /* Card principal compacto */
         .modern-dashboard-header {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             border: none;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-modern);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
             position: relative;
             overflow: hidden;
+            margin-bottom: 15px;
         }
 
         .modern-dashboard-header::before {
@@ -128,16 +129,21 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 3px;
             background: var(--primary-gradient);
         }
 
-        /* Sección de botones principales */
+        /* Card body compacto */
+        .modern-dashboard-header .card-body {
+            padding: 12px 20px !important;
+        }
+
+        /* Sección de botones principales compacta */
         .navigation-section {
             background: white;
             border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             position: relative;
         }
 
@@ -145,27 +151,27 @@
             content: '';
             position: absolute;
             right: 0;
-            top: 15%;
-            bottom: 15%;
+            top: 20%;
+            bottom: 20%;
             width: 1px;
             background: linear-gradient(to bottom, transparent, #e2e8f0, transparent);
         }
 
-        /* Botones principales rediseñados */
+        /* Botones principales más pequeños */
         .nav-btn {
             position: relative;
-            width: 70px;
-            height: 70px;
+            width: 45px;
+            height: 45px;
             border: none;
-            border-radius: 16px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             color: white;
             transition: var(--transition);
             overflow: hidden;
-            margin: 0 8px;
+            margin: 0 6px;
         }
 
         .nav-btn::before {
@@ -185,62 +191,62 @@
         }
 
         .nav-btn:hover {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-hover);
         }
 
         .nav-btn:active {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         /* Estilos específicos para cada botón */
         .nav-btn.btn-list {
             background: var(--warning-gradient);
-            box-shadow: 0 8px 20px rgba(252, 74, 26, 0.3);
+            box-shadow: 0 4px 12px rgba(252, 74, 26, 0.25);
         }
 
         .nav-btn.btn-chart {
             background: var(--success-gradient);
-            box-shadow: 0 8px 20px rgba(17, 153, 142, 0.3);
+            box-shadow: 0 4px 12px rgba(17, 153, 142, 0.25);
         }
 
         .nav-btn.btn-save {
             background: var(--primary-gradient);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
         }
 
-        /* Separador moderno */
+        /* Separador más pequeño */
         .nav-separator {
-            width: 2px;
-            height: 50px;
+            width: 1px;
+            height: 30px;
             background: linear-gradient(to bottom, transparent, #cbd5e0, transparent);
-            margin: 0 15px;
+            margin: 0 12px;
             border-radius: 1px;
         }
 
-        /* Etiquetas de los botones */
+        /* Etiquetas más compactas */
         .nav-label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: 600;
             color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 8px;
+            letter-spacing: 0.3px;
+            margin-top: 4px;
             transition: var(--transition);
         }
 
         .nav-btn:hover+.nav-label {
             color: #334155;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
-        /* Sección de controles de análisis */
+        /* Sección de controles más compacta */
         .analysis-controls {
             background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
             border-radius: var(--border-radius);
-            padding: 25px;
-            margin-left: 30px;
+            padding: 12px 16px;
+            margin-left: 20px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
         }
@@ -249,46 +255,47 @@
             content: '';
             position: absolute;
             left: -2px;
-            top: 20%;
-            bottom: 20%;
-            width: 4px;
+            top: 25%;
+            bottom: 25%;
+            width: 3px;
             background: var(--info-gradient);
             border-radius: 2px;
         }
 
-        /* Labels modernos */
+        /* Labels más pequeños */
         .form-label-modern {
-            font-weight: 700;
-            font-size: 0.75rem;
+            font-weight: 600;
+            font-size: 0.7rem;
             color: #475569;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
         }
 
         .form-label-modern i {
             color: #6366f1;
-            margin-right: 6px;
-            font-size: 0.9rem;
+            margin-right: 4px;
+            font-size: 0.75rem;
         }
 
-        /* Selectores modernos */
+        /* Selectores más compactos */
         .modern-select {
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 8px 12px;
             background: white;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #334155;
             transition: var(--transition);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+            height: 36px;
         }
 
         .modern-select:focus {
             border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
             outline: none;
             transform: translateY(-1px);
         }
@@ -298,23 +305,28 @@
             transform: translateY(-1px);
         }
 
-        /* Grupos de botones modernos */
+        /* Grupos de botones más compactos */
         .btn-group-modern {
             background: #f8fafc;
-            border-radius: 10px;
-            padding: 4px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+            border-radius: 6px;
+            padding: 2px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
         }
 
         .btn-chart-type {
             border: none;
             background: transparent;
             color: #64748b;
-            padding: 10px 12px;
-            border-radius: 8px;
+            padding: 6px 8px;
+            border-radius: 4px;
             transition: var(--transition);
-            font-size: 1rem;
-            margin: 0 2px;
+            font-size: 0.85rem;
+            margin: 0 1px;
+            height: 32px;
+            width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-chart-type:hover {
@@ -326,20 +338,25 @@
         .btn-chart-type.active {
             background: var(--primary-gradient);
             color: white;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            transform: translateY(-1px);
         }
 
-        /* Botones de acción */
+        /* Botones de acción más pequeños */
         .action-btn {
-            border: 2px solid transparent;
-            padding: 10px 12px;
-            border-radius: 8px;
+            border: 1px solid transparent;
+            padding: 6px 8px;
+            border-radius: 4px;
             background: white;
             color: #64748b;
             transition: var(--transition);
-            font-size: 1rem;
-            margin: 0 2px;
+            font-size: 0.85rem;
+            margin: 0 1px;
+            height: 32px;
+            width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .action-btn.btn-refresh {
@@ -350,8 +367,8 @@
         .action-btn.btn-refresh:hover {
             background: #10b981;
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
         }
 
         .action-btn.btn-export {
@@ -362,19 +379,19 @@
         .action-btn.btn-export:hover {
             background: #3b82f6;
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
         }
 
-        /* Animación slide-in mejorada */
+        /* Animación slide-in más rápida */
         .slide-in {
-            animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes slideInRight {
             from {
                 opacity: 0;
-                transform: translateX(30px);
+                transform: translateX(20px);
             }
 
             to {
@@ -383,42 +400,35 @@
             }
         }
 
-        /* Responsive design */
+        /* Responsive design compacto */
         @media (max-width: 768px) {
             .navigation-section {
                 text-align: center;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
+                padding: 8px 12px;
             }
 
             .nav-btn {
-                width: 60px;
-                height: 60px;
-                margin: 0 5px;
+                width: 40px;
+                height: 40px;
+                margin: 0 4px;
+                font-size: 1rem;
             }
 
             .analysis-controls {
                 margin-left: 0;
-                margin-top: 20px;
+                margin-top: 10px;
+                padding: 10px 12px;
             }
 
             .nav-separator {
                 display: none;
             }
-        }
 
-        /* Efectos adicionales */
-        .nav-btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
-        }
-
-        .modern-tooltip {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            .nav-label {
+                font-size: 0.6rem;
+                margin-top: 2px;
+            }
         }
     </style>
 </head>
