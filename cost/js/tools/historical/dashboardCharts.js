@@ -71,17 +71,24 @@ function processWeeklyData(data) {
         const productId = item.id_product;
         const productName = item.product_name || item.product || `Producto ${productId}`;
 
-        // CAMBIO: Calcular costos TOTALES (costos unitarios * unidades vendidas)
+        // Calcular costos TOTALES por tipo (costos unitarios * unidades vendidas)
         const units = parseInt(item.units_sold) || 0;
-        const unitCosts = (parseFloat(item.cost_material) || 0) +
-            (parseFloat(item.cost_workforce) || 0) +
-            (parseFloat(item.cost_indirect) || 0) +
-            (parseFloat(item.assignable_expense) || 0);
 
-        const costs = unitCosts * units;
+        const materialUnitCost = parseFloat(item.cost_material) || 0;
+        const workforceUnitCost = parseFloat(item.cost_workforce) || 0;
+        const indirectUnitCost = parseFloat(item.cost_indirect) || 0;
+        const assignableUnitCost = parseFloat(item.assignable_expense) || 0;
+
+        // Costos totales por tipo
+        const materialCosts = materialUnitCost * units;
+        const workforceCosts = workforceUnitCost * units;
+        const indirectCosts = indirectUnitCost * units;
+        const assignableCosts = assignableUnitCost * units;
+
+        const totalCosts = materialCosts + workforceCosts + indirectCosts + assignableCosts;
 
         const revenue = parseFloat(item.turnover) || 0;
-        const profit = revenue - costs;
+        const profit = revenue - totalCosts;
 
         // Agrupar por semana
         if (!weeklyData[week]) {
@@ -91,14 +98,25 @@ function processWeeklyData(data) {
                 totalRevenue: 0,
                 totalCosts: 0,
                 totalUnits: 0,
+                // Totales por tipo de costo por semana
+                totalMaterialCosts: 0,
+                totalWorkforceCosts: 0,
+                totalIndirectCosts: 0,
+                totalAssignableCosts: 0,
                 products: {}
             };
         }
 
         weeklyData[week].totalProfit += profit;
         weeklyData[week].totalRevenue += revenue;
-        weeklyData[week].totalCosts += costs;
+        weeklyData[week].totalCosts += totalCosts;
         weeklyData[week].totalUnits += units;
+
+        // Sumar costos por tipo en la semana
+        weeklyData[week].totalMaterialCosts += materialCosts;
+        weeklyData[week].totalWorkforceCosts += workforceCosts;
+        weeklyData[week].totalIndirectCosts += indirectCosts;
+        weeklyData[week].totalAssignableCosts += assignableCosts;
 
         // Productos por semana
         if (!weeklyData[week].products[productId]) {
@@ -107,7 +125,12 @@ function processWeeklyData(data) {
                 name: productName,
                 profit: 0,
                 revenue: 0,
-                units: 0
+                units: 0,
+                // NUEVO: Costos por tipo por producto
+                materialCosts: 0,
+                workforceCosts: 0,
+                indirectCosts: 0,
+                assignableCosts: 0
             };
         }
 
@@ -115,26 +138,38 @@ function processWeeklyData(data) {
         weeklyData[week].products[productId].revenue += revenue;
         weeklyData[week].products[productId].units += units;
 
-        // Totales por producto
+        // NUEVO: Acumular costos por tipo por producto
+        weeklyData[week].products[productId].materialCosts += materialCosts;
+        weeklyData[week].products[productId].workforceCosts += workforceCosts;
+        weeklyData[week].products[productId].indirectCosts += indirectCosts;
+        weeklyData[week].products[productId].assignableCosts += assignableCosts;
+
+        // Totales por producto (para análisis global de productos)
         if (!productTotals[productId]) {
             productTotals[productId] = {
                 id: productId,
                 name: productName,
-                totalProfit: 0
+                totalProfit: 0,
+                // NUEVO: Totales por tipo de costo por producto
+                totalMaterialCosts: 0,
+                totalWorkforceCosts: 0,
+                totalIndirectCosts: 0,
+                totalAssignableCosts: 0
             };
         }
         productTotals[productId].totalProfit += profit;
+        productTotals[productId].totalMaterialCosts += materialCosts;
+        productTotals[productId].totalWorkforceCosts += workforceCosts;
+        productTotals[productId].totalIndirectCosts += indirectCosts;
+        productTotals[productId].totalAssignableCosts += assignableCosts;
     });
 
     // Convertir a arrays
     const weeks = Object.values(weeklyData).sort((a, b) => a.week.localeCompare(b.week));
-
-    // CAMBIO: Remover .slice(0, 10) para cargar TODOS los productos
     const topProducts = Object.values(productTotals)
         .sort((a, b) => b.totalProfit - a.totalProfit);
-    // .slice(0, 10); ← ESTA LÍNEA SE ELIMINA
 
-    console.log(`✅ Procesados ${weeks.length} semanas y ${topProducts.length} productos (sin límite)`);
+    console.log(`✅ Procesados ${weeks.length} semanas y ${topProducts.length} productos (con costos por tipo)`);
 
     return { weeks, topProducts, weeklyData };
 }
@@ -298,7 +333,7 @@ function showAllWeeksChart() {
     container.innerHTML = '';
 
     container.innerHTML = `
-        <!-- CARDS DE INDICADORES EN LA PARTE SUPERIOR -->
+        <!-- CARDS PRINCIPALES EN LA PARTE SUPERIOR -->
         <div class="row mb-4">
             <div class="col-md-3">
                 <div class="card text-center">
@@ -333,6 +368,54 @@ function showAllWeeksChart() {
                 </div>
             </div>
         </div>
+
+        <!-- CARDS MODERNOS DE COSTOS POR TIPO -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="modern-cost-card material-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value" id="totalMaterial">$0</h4>
+                        <p class="cost-label">Materia Prima</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="modern-cost-card workforce-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value" id="totalWorkforce">$0</h4>
+                        <p class="cost-label">Mano de Obra</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="modern-cost-card indirect-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value" id="totalIndirect">$0</h4>
+                        <p class="cost-label">Costos Indirectos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="modern-cost-card assignable-card">
+                    <div class="card-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value" id="totalAssignable">$0</h4>
+                        <p class="cost-label">Gastos Asignables</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- GRÁFICO PRINCIPAL DEBAJO -->
         <div class="row mb-4">
@@ -352,12 +435,15 @@ function showAllWeeksChart() {
         </div>
     `;
 
+    // Agregar estilos CSS modernos si no existen
+    addModernCostCardStyles();
+
     createTripleMetricsChart();
     updateSummaryMetrics();
 }
 
 /**
- * Mostrar vista de semana específica
+  * Mostrar vista de semana específica
  */
 function showWeekChart(weekId) {
     const weekData = dashboardData.weeklyData[weekId];
@@ -367,7 +453,7 @@ function showWeekChart(weekId) {
     container.innerHTML = '';
 
     container.innerHTML = `
-        <!-- CARDS DE INDICADORES DE LA SEMANA EN LA PARTE SUPERIOR -->
+        <!-- CARDS PRINCIPALES DE LA SEMANA -->
         <div class="row mb-4">
             <div class="col-md-3">
                 <div class="card text-center">
@@ -402,6 +488,54 @@ function showWeekChart(weekId) {
                 </div>
             </div>
         </div>
+
+        <!-- CARDS MODERNOS DE COSTOS DE LA SEMANA -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="modern-cost-card material-card week-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value">${formatCurrency(weekData.totalMaterialCosts || 0)}</h4>
+                        <p class="cost-label">Materia Prima</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="modern-cost-card workforce-card week-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value">${formatCurrency(weekData.totalWorkforceCosts || 0)}</h4>
+                        <p class="cost-label">Mano de Obra</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="modern-cost-card indirect-card week-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value">${formatCurrency(weekData.totalIndirectCosts || 0)}</h4>
+                        <p class="cost-label">Costos Indirectos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="modern-cost-card assignable-card week-card">
+                    <div class="card-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value">${formatCurrency(weekData.totalAssignableCosts || 0)}</h4>
+                        <p class="cost-label">Gastos Asignables</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- GRÁFICO Y LISTA DEBAJO -->
         <div class="row mb-4">
@@ -432,17 +566,18 @@ function showWeekChart(weekId) {
         </div>
     `;
 
+    // Agregar estilos CSS modernos si no existen
+    addModernCostCardStyles();
+
     createProductsMetricsChart(weekData);
     fillWeekProductsList(weekData);
 }
-
 /**
- * NUEVO: Mostrar análisis de un producto específico a través de las semanas
+ * Mostrar análisis de un producto específico a través de las semanas
  */
 function showProductAnalysis(productId) {
     console.log(`🔍 Analizando producto: ${productId}`);
 
-    // Obtener datos del producto a través de todas las semanas
     const productData = getProductDataAcrossWeeks(productId);
     if (!productData) {
         console.error('❌ No se encontraron datos para el producto');
@@ -453,7 +588,7 @@ function showProductAnalysis(productId) {
     container.innerHTML = '';
 
     container.innerHTML = `
-        <!-- CARDS DE INDICADORES DEL PRODUCTO EN LA PARTE SUPERIOR -->
+        <!-- CARDS PRINCIPALES DEL PRODUCTO -->
         <div class="row mb-4">
             <div class="col-md-3">
                 <div class="card text-center">
@@ -484,6 +619,54 @@ function showProductAnalysis(productId) {
                     <div class="card-body">
                         <h4 class="text-info">${productData.averageMargin}%</h4>
                         <p class="mb-0">📈 Margen Promedio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARDS MODERNOS DE COSTOS DEL PRODUCTO -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="modern-cost-card material-card product-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value">${formatCurrency(productData.totalMaterialCosts)}</h4>
+                        <p class="cost-label">Materia Prima</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="modern-cost-card workforce-card product-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value">${formatCurrency(productData.totalWorkforceCosts)}</h4>
+                        <p class="cost-label">Mano de Obra</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="modern-cost-card indirect-card product-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value">${formatCurrency(productData.totalIndirectCosts)}</h4>
+                        <p class="cost-label">Costos Indirectos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="modern-cost-card assignable-card product-card">
+                    <div class="card-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="cost-value">${formatCurrency(productData.totalAssignableCosts)}</h4>
+                        <p class="cost-label">Gastos Asignables</p>
                     </div>
                 </div>
             </div>
@@ -519,15 +702,15 @@ function showProductAnalysis(productId) {
         </div>
     `;
 
-    // Crear gráfico de evolución del producto
-    createProductEvolutionChart(productData);
+    // Agregar estilos CSS modernos si no existen
+    addModernCostCardStyles();
 
-    // Llenar resumen del producto
+    createProductEvolutionChart(productData);
     fillProductSummary(productData);
 }
 
 /**
- * NUEVO: Obtener datos de un producto a través de todas las semanas
+ * Obtener datos de un producto a través de todas las semanas
  */
 function getProductDataAcrossWeeks(productId) {
     const productWeeks = [];
@@ -536,6 +719,12 @@ function getProductDataAcrossWeeks(productId) {
     let totalProfit = 0;
     let totalUnits = 0;
     let productName = '';
+
+    // NUEVO: Variables para costos por tipo
+    let totalMaterialCosts = 0;
+    let totalWorkforceCosts = 0;
+    let totalIndirectCosts = 0;
+    let totalAssignableCosts = 0;
 
     // Buscar el producto en todas las semanas
     dashboardData.weeks.forEach(week => {
@@ -549,7 +738,12 @@ function getProductDataAcrossWeeks(productId) {
                 costs: costs,
                 profit: product.profit,
                 units: product.units,
-                margin: product.revenue > 0 ? ((product.profit / product.revenue) * 100).toFixed(1) : 0
+                margin: product.revenue > 0 ? ((product.profit / product.revenue) * 100).toFixed(1) : 0,
+                // NUEVO: Costos por tipo por semana para este producto
+                materialCosts: product.materialCosts || 0,
+                workforceCosts: product.workforceCosts || 0,
+                indirectCosts: product.indirectCosts || 0,
+                assignableCosts: product.assignableCosts || 0
             });
 
             totalRevenue += product.revenue;
@@ -557,6 +751,12 @@ function getProductDataAcrossWeeks(productId) {
             totalProfit += product.profit;
             totalUnits += product.units;
             productName = product.name;
+
+            // NUEVO: Acumular costos por tipo
+            totalMaterialCosts += product.materialCosts || 0;
+            totalWorkforceCosts += product.workforceCosts || 0;
+            totalIndirectCosts += product.indirectCosts || 0;
+            totalAssignableCosts += product.assignableCosts || 0;
         }
     });
 
@@ -580,12 +780,17 @@ function getProductDataAcrossWeeks(productId) {
         averageMargin,
         bestWeek,
         worstWeek,
-        weeksActive: productWeeks.length
+        weeksActive: productWeeks.length,
+        // NUEVO: Totales por tipo de costo
+        totalMaterialCosts,
+        totalWorkforceCosts,
+        totalIndirectCosts,
+        totalAssignableCosts
     };
 }
 
 /**
- * NUEVO: Crear gráfico de evolución del producto
+ * Crear gráfico de evolución del producto
  */
 function createProductEvolutionChart(productData) {
     // IMPORTANTE: Destruir gráfico anterior
@@ -679,11 +884,18 @@ function createProductEvolutionChart(productData) {
 }
 
 /**
- * NUEVO: Llenar resumen del producto
+ * Llenar resumen del producto
  */
 function fillProductSummary(productData) {
     const container = document.getElementById('productSummary');
     if (!container) return;
+
+    // Calcular porcentajes de cada tipo de costo
+    const totalCosts = productData.totalCosts;
+    const materialPercent = totalCosts > 0 ? ((productData.totalMaterialCosts / totalCosts) * 100).toFixed(1) : 0;
+    const workforcePercent = totalCosts > 0 ? ((productData.totalWorkforceCosts / totalCosts) * 100).toFixed(1) : 0;
+    const indirectPercent = totalCosts > 0 ? ((productData.totalIndirectCosts / totalCosts) * 100).toFixed(1) : 0;
+    const assignablePercent = totalCosts > 0 ? ((productData.totalAssignableCosts / totalCosts) * 100).toFixed(1) : 0;
 
     container.innerHTML = `
         <div class="mb-4">
@@ -699,6 +911,57 @@ function fillProductSummary(productData) {
                     <div class="border rounded p-2 mb-2">
                         <div class="font-weight-bold text-info">${productData.totalUnits}</div>
                         <small class="text-muted">Unidades Totales</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NUEVO: Desglose de costos por tipo -->
+        <div class="mb-4">
+            <h6 class="text-danger mb-3">💰 Desglose de Costos</h6>
+            <div class="bg-light rounded p-3">
+                <div class="row small">
+                    <div class="col-6">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-warning">🧱 Materia Prima:</span>
+                            <span class="font-weight-bold">${materialPercent}%</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 6px;">
+                            <div class="progress-bar bg-warning" style="width: ${materialPercent}%"></div>
+                        </div>
+                        <small class="text-muted">${formatCurrency(productData.totalMaterialCosts)}</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-info">👷 Mano de Obra:</span>
+                            <span class="font-weight-bold">${workforcePercent}%</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 6px;">
+                            <div class="progress-bar bg-info" style="width: ${workforcePercent}%"></div>
+                        </div>
+                        <small class="text-muted">${formatCurrency(productData.totalWorkforceCosts)}</small>
+                    </div>
+                </div>
+                <div class="row small">
+                    <div class="col-6">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-secondary">⚙️ Indirectos:</span>
+                            <span class="font-weight-bold">${indirectPercent}%</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 6px;">
+                            <div class="progress-bar bg-secondary" style="width: ${indirectPercent}%"></div>
+                        </div>
+                        <small class="text-muted">${formatCurrency(productData.totalIndirectCosts)}</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-dark">📋 Asignables:</span>
+                            <span class="font-weight-bold">${assignablePercent}%</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 6px;">
+                            <div class="progress-bar bg-dark" style="width: ${assignablePercent}%"></div>
+                        </div>
+                        <small class="text-muted">${formatCurrency(productData.totalAssignableCosts)}</small>
                     </div>
                 </div>
             </div>
@@ -974,12 +1237,36 @@ function updateSummaryMetrics() {
     const totalProfits = dashboardData.weeks.reduce((sum, week) => sum + week.totalProfit, 0);
     const totalMargin = totalSales > 0 ? ((totalProfits / totalSales) * 100).toFixed(1) : 0;
 
-    document.getElementById('totalSales').textContent = formatCurrency(totalSales);
-    document.getElementById('totalCosts').textContent = formatCurrency(totalCosts);
-    document.getElementById('totalProfits').textContent = formatCurrency(totalProfits);
-    document.getElementById('totalMargin').textContent = totalMargin + '%';
-}
+    // Calcular totales por tipo de costo
+    const totalMaterial = dashboardData.weeks.reduce((sum, week) => sum + (week.totalMaterialCosts || 0), 0);
+    const totalWorkforce = dashboardData.weeks.reduce((sum, week) => sum + (week.totalWorkforceCosts || 0), 0);
+    const totalIndirect = dashboardData.weeks.reduce((sum, week) => sum + (week.totalIndirectCosts || 0), 0);
+    const totalAssignable = dashboardData.weeks.reduce((sum, week) => sum + (week.totalAssignableCosts || 0), 0);
 
+    // Actualizar cards principales
+    const salesElement = document.getElementById('totalSales');
+    const costsElement = document.getElementById('totalCosts');
+    const profitsElement = document.getElementById('totalProfits');
+    const marginElement = document.getElementById('totalMargin');
+
+    if (salesElement) salesElement.textContent = formatCurrency(totalSales);
+    if (costsElement) costsElement.textContent = formatCurrency(totalCosts);
+    if (profitsElement) profitsElement.textContent = formatCurrency(totalProfits);
+    if (marginElement) marginElement.textContent = totalMargin + '%';
+
+    // Actualizar cards de costos por tipo
+    const materialElement = document.getElementById('totalMaterial');
+    const workforceElement = document.getElementById('totalWorkforce');
+    const indirectElement = document.getElementById('totalIndirect');
+    const assignableElement = document.getElementById('totalAssignable');
+
+    if (materialElement) materialElement.textContent = formatCurrency(totalMaterial);
+    if (workforceElement) workforceElement.textContent = formatCurrency(totalWorkforce);
+    if (indirectElement) indirectElement.textContent = formatCurrency(totalIndirect);
+    if (assignableElement) assignableElement.textContent = formatCurrency(totalAssignable);
+
+    console.log(`📊 Métricas actualizadas - Material: ${formatCurrency(totalMaterial)}, Mano de obra: ${formatCurrency(totalWorkforce)}, Indirectos: ${formatCurrency(totalIndirect)}, Asignables: ${formatCurrency(totalAssignable)}`);
+}
 /**
  * Funciones auxiliares
  */
@@ -1231,6 +1518,204 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+/**
+ * 4. FUNCIÓN PARA AGREGAR ESTILOS CSS MODERNOS
+ */
+function addModernCostCardStyles() {
+    if (document.getElementById('modern-cost-card-styles')) return;
+
+    const style = document.createElement('style');
+    style.id = 'modern-cost-card-styles';
+    style.textContent = `
+        /* Estilos para cards modernos de costos */
+        .modern-cost-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .modern-cost-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .modern-cost-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--card-gradient));
+        }
+
+        /* Gradientes específicos por tipo */
+        .material-card {
+            --card-gradient: #ff6b6b, #ffa726;
+        }
+        .material-card::before {
+            background: linear-gradient(90deg, #ff6b6b, #ffa726);
+        }
+
+        .workforce-card {
+            --card-gradient: #4fc3f7, #29b6f6;
+        }
+        .workforce-card::before {
+            background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+        }
+
+        .indirect-card {
+            --card-gradient: #9575cd, #7e57c2;
+        }
+        .indirect-card::before {
+            background: linear-gradient(90deg, #9575cd, #7e57c2);
+        }
+
+        .assignable-card {
+            --card-gradient: #66bb6a, #4caf50;
+        }
+        .assignable-card::before {
+            background: linear-gradient(90deg, #66bb6a, #4caf50);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .material-card .card-icon {
+            background: linear-gradient(135deg, #ff6b6b20, #ffa72620);
+            color: #ff6b6b;
+        }
+
+        .workforce-card .card-icon {
+            background: linear-gradient(135deg, #4fc3f720, #29b6f620);
+            color: #29b6f6;
+        }
+
+        .indirect-card .card-icon {
+            background: linear-gradient(135deg, #9575cd20, #7e57c220);
+            color: #7e57c2;
+        }
+
+        .assignable-card .card-icon {
+            background: linear-gradient(135deg, #66bb6a20, #4caf5020);
+            color: #4caf50;
+        }
+
+        .card-icon i {
+            font-size: 24px;
+        }
+
+        .card-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cost-value {
+            margin: 0 0 8px 0;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+
+        .cost-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #5a6c7d;
+            margin: 0 0 12px 0;
+            line-height: 1.2;
+        }
+
+        .cost-trend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cost-trend i {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .trend-text {
+            font-size: 0.8rem;
+            color: #8892a0;
+            font-weight: 500;
+        }
+
+        /* Variaciones para diferentes contextos */
+        .week-card {
+            border-left: 4px solid var(--card-accent);
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .modern-cost-card {
+                height: 120px;
+                padding: 16px;
+            }
+
+            .card-icon {
+                width: 48px;
+                height: 48px;
+                margin-right: 12px;
+            }
+
+            .card-icon i {
+                font-size: 20px;
+            }
+
+            .cost-value {
+                font-size: 1.4rem;
+            }
+
+            .cost-label {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Animaciones sutiles */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modern-cost-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .modern-cost-card:nth-child(1) { animation-delay: 0.1s; }
+        .modern-cost-card:nth-child(2) { animation-delay: 0.2s; }
+        .modern-cost-card:nth-child(3) { animation-delay: 0.3s; }
+        .modern-cost-card:nth-child(4) { animation-delay: 0.4s; }
+    `;
+
+    document.head.appendChild(style);
+}
 
 // Funciones globales
 window.loadDashboardData = loadDashboardData;
