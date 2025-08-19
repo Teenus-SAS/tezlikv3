@@ -29,7 +29,7 @@ document.getElementById('btnList').addEventListener('click', function () {
 
     // Limpiar dashboard
     if (window.weeklyChart) {
-        window.weeklyChart.destroy();
+        window.dashboardCharts.destroy();
         window.weeklyChart = null;
     }
     if (window.productChart) {
