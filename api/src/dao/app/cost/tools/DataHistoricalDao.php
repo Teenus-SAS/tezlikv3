@@ -26,7 +26,8 @@ class DataHistoricalDao
 
         try {
 
-            $sql = "SELECT * FROM tezlikso_HistProduccion.historical_expenses 
+            $sql = "SELECT *
+                    FROM tezlikso_HistProduccion.historical_expenses
                     WHERE id_company = :id_company;";
 
             $stmt = $connection->prepare($sql);
@@ -80,8 +81,9 @@ class DataHistoricalDao
 
         try {
 
-            $sql = "SELECT * FROM tezlikso_HistProduccion.historical_products 
-                    WHERE id_company = :id_company;";
+            $sql = "SELECT hp.*, p.product FROM tezlikso_HistProduccion.historical_products hp
+                    JOIN tezlikso_tezlikProduccion.products p ON p.id_product = hp.id_product 
+                    WHERE hp.id_company = :id_company;";
 
             $stmt = $connection->prepare($sql);
             $stmt->execute(['id_company' => $id_company]);

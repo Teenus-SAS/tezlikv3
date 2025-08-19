@@ -25,7 +25,7 @@
 
             <!-- Pie -->
             <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary btn-sm" id="btnSaveHistorical">Guardar</button>
             </div>
         </div>
