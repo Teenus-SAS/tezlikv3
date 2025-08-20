@@ -18,7 +18,7 @@ use Slim\Routing\RouteCollectorProxy;
 use App\Helpers\ResponseHelper;
 use App\Middleware\SessionMiddleware;
 
-$app->group('/recoveringExpenses', function (RouteCollectorProxy $group) use ($externalServicesDao) {
+$app->group('/recoveringExpenses', function (RouteCollectorProxy $group) {
 
     $group->get('', function (Request $request, Response $response, $args) {
 
@@ -31,7 +31,7 @@ $app->group('/recoveringExpenses', function (RouteCollectorProxy $group) use ($e
         return $response->withHeader('Content-Type', 'application/json');
     });
 
-    $group->get('/expenseRecoverProducts', function (Request $request, Response $response, $args) {
+    $group->get('/all', function (Request $request, Response $response, $args) {
 
         $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 
@@ -42,7 +42,7 @@ $app->group('/recoveringExpenses', function (RouteCollectorProxy $group) use ($e
         return $response->withHeader('Content-Type', 'application/json');
     });
 
-    $group->post('/expenseRecoverDataValidation', function (Request $request, Response $response, $args) {
+    $group->post('/DataValidation', function (Request $request, Response $response, $args) {
 
         $expenseRecoverDao = new ExpenseRecoverDao();
         $generalProductsDao = new GeneralProductsDao();
@@ -92,7 +92,7 @@ $app->group('/recoveringExpenses', function (RouteCollectorProxy $group) use ($e
         return $response->withHeader('Content-Type', 'application/json');
     });
 
-    $group->post('/addExpenseRecover', function (Request $request, Response $response, $args) {
+    $group->post('/add', function (Request $request, Response $response, $args) {
 
         $expenseRecoverDao = new ExpenseRecoverDao();
         $generalProductsDao = new GeneralProductsDao();
@@ -173,7 +173,7 @@ $app->group('/recoveringExpenses', function (RouteCollectorProxy $group) use ($e
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     });
 
-    $group->post('/updateExpenseRecover', function (Request $request, Response $response, $args) {
+    $group->post('/update', function (Request $request, Response $response, $args) {
 
         $expenseRecoverDao = new ExpenseRecoverDao();
         $generalProductsDao = new GeneralProductsDao();
@@ -252,7 +252,7 @@ $app->group('/recoveringExpenses', function (RouteCollectorProxy $group) use ($e
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     });
 
-    $group->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) {
+    $group->post('/delete', function (Request $request, Response $response, $args) {
 
         $expenseRecoverDao = new ExpenseRecoverDao();
         $generalProductsDao = new GeneralProductsDao();
@@ -292,7 +292,7 @@ $app->group('/recoveringExpenses', function (RouteCollectorProxy $group) use ($e
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     });
 
-    $group->get('/changeManualRecovery/{id_recovery}/{id_product}', function (Request $request, Response $response, $args) {
+    $group->get('/manualRecovery/{id_recovery}/{id_product}', function (Request $request, Response $response, $args) {
 
         $expenseRecoverDao = new ExpenseRecoverDao();
         $priceProductDao = new PriceProductDao();

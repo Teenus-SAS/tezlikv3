@@ -345,7 +345,7 @@ $(document).on('click', '.aBackup', async function () {
         op = 2;
       }
     } else {
-      url = '/api/expensesRecover';
+      url = '/api/recoveringExpenses';
       op = 3;
     }
 

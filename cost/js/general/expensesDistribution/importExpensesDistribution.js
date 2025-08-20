@@ -170,7 +170,7 @@ $(document).ready(function () {
               production: production,
             };
           } else if (option == 2) {
-            url = "/api/recoveringExpenses/expenseRecoverDataValidation";
+            url = "/api/recoveringExpenses/DataValidation";
             return {
               referenceProduct: item.referencia_producto,
               product: item.producto,
@@ -228,7 +228,7 @@ $(document).ready(function () {
             if (result == true) {
               option == 1
                 ? (url = "/api/distribution/addExpensesDistribution")
-                : (url = "/api/recoveringExpenses/addExpenseRecover");
+                : (url = "/api/recoveringExpenses/add");
 
               saveExpenses(data, url);
             } else {
@@ -275,7 +275,7 @@ $(document).ready(function () {
       }
     } else {
       namexlsx = "Recuperacion_Gastos.xlsx";
-      url = "/api/expensesRecover";
+      url = "/api/recoveringExpenses";
       op = 3;
     }
 

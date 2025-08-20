@@ -7,7 +7,7 @@ $(document).on('click', '.manual_recovery', async function () {
         // Mostrar el spinner
         $(".db-spinner-overlay").show();
 
-        const response = await fetch(`/api/recoveringExpenses/changeManualRecovery/${id_expense_recover}/${id_product}`, {
+        const response = await fetch(`/api/recoveringExpenses/manualRecovery/${id_expense_recover}/${id_product}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         });

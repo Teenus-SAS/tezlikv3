@@ -42,7 +42,7 @@ $('#btnExpenseRecover').click(function (e) {
 
   if (id_expense_recover == '' || !id_expense_recover) {
     handleCheckDataExpenseRecover('/api/recoveringExpenses/addExpenseRecover', id_expense_recover);
-  } else handleCheckDataExpenseRecover('/api/recoveringExpenses/updateExpenseRecover', id_expense_recover);
+  } else handleCheckDataExpenseRecover('/api/recoveringExpenses/update', id_expense_recover);
 });
 
 /* Eliminar recuperacion de gasto */
@@ -78,7 +78,7 @@ $(document).on('click', '.deleteExpenseRecover', function () {
     callback: function (result) {
       if (result == true) {
         $.post(
-          '/api/recoveringExpenses/deleteExpenseRecover',
+          '/api/recoveringExpenses/delete',
           dataExpenseRecover,
           function (data, textStatus, jqXHR) {
             messageDistribution(data, 2);
