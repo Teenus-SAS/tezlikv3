@@ -4,7 +4,7 @@ loadTableExpenseRecover = async () => {
     destroy: true,
     pageLength: 50,
     ajax: {
-      url: "/api/expensesRecover",
+      url: "/api/recoveringExpenses",
       dataSrc: "",
     },
     dom: '<"datatable-error-console">frtip',

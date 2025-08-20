@@ -18,7 +18,7 @@ use Slim\Routing\RouteCollectorProxy;
 use App\Helpers\ResponseHelper;
 use App\Middleware\SessionMiddleware;
 
-$app->group('/recoveringExpenses', function (RouteCollectorProxy $group) use ($externalServicesDao) {
+$app->group('/recoveringExpenses', function (RouteCollectorProxy $group) {
 
     $group->get('', function (Request $request, Response $response, $args) {
 

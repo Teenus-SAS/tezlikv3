@@ -275,7 +275,7 @@ $(document).ready(function () {
       }
     } else {
       namexlsx = "Recuperacion_Gastos.xlsx";
-      url = "/api/expensesRecover";
+      url = "/api/recoveringExpenses/expensesRecover";
       op = 3;
     }
 

@@ -99,7 +99,7 @@ $('#btnUpdateExpensesRecover').click(function (e) {
 
         $.ajax({
           type: 'POST',
-          url: '/api/updateExpenseRecover',
+          url: '/api/recoveringExpenses/updateExpenseRecover',
           data: { data: expensesRecover },
           success: function (resp) {
             $('.checkExpense').prop('checked', false);
