@@ -112,8 +112,9 @@ $(document).on('click', '.deleteProduct', function () {
 });
 
 /* Copiar Producto */
-copyFunction = () => {
-  let row = $(this.activeElement).parent().parent()[0];
+$(document).on('click', '.cloneProduct', function () {
+
+  let row = $(this).closest('tr')[0];
   let data = tblProducts.fnGetData(row);
 
   bootbox.confirm({
@@ -169,7 +170,7 @@ copyFunction = () => {
       }
     },
   });
-};
+});
 
 $(document).on('click', '.composite', function () {
   let row = $(this).parent().parent()[0];

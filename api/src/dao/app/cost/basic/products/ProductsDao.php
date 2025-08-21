@@ -43,8 +43,10 @@ class ProductsDao
 
     try {
 
-      $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, active) 
-                                      VALUES(:id_company, :reference, :product, :active)");
+      $sql = "INSERT INTO products(id_company, reference, product, active) 
+              VALUES(:id_company, :reference, :product, :active)";
+
+      $stmt = $connection->prepare($sql);
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => strtoupper(trim($dataProduct['product'])),

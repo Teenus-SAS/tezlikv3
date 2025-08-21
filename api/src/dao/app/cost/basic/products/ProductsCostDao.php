@@ -35,8 +35,10 @@ class ProductsCostDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO products_costs(id_product, id_company, sale_price, profitability, commission_sale, new_product) 
-                                        VALUES (:id_product, :id_company, :sale_price, :profitability, :commission_sale, :new_product)");
+            $sql = "INSERT INTO products_costs(id_product, id_company, sale_price, profitability, commission_sale, new_product) 
+                    VALUES (:id_product, :id_company, :sale_price, :profitability, :commission_sale, :new_product)";
+
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_product' => trim($dataProduct['idProduct']),
                 'id_company' => $id_company,
