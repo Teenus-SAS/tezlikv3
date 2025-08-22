@@ -80,12 +80,14 @@ $(document).ready(function () {
           className: 'uniqueClassName',
           render: function (data) {
             var id = data.id_expense_anual;
-
             return `<a href="javascript:;" <i id="${id}" class="bx bx-edit-alt updateExpensesAnual" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>    
-                       <a href="javascript:;" <i id="${id}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteExpenseDA(${op})"></i></a>`;
+                    <a href="javascript:;" <i id="${id}" class="mdi mdi-delete-forever deleteExpenseAnnual" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red"></i></a>`;
           },
         },
       ],
+
+      //onclick="deleteExpenseDA(${op})"
+
       headerCallback: function (thead, data, start, end, display) {
         $(thead).find("th").css({
           "background-color": "#386297",

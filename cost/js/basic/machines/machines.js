@@ -35,7 +35,7 @@ $(document).on('click', '.updateMachines', function (e) {
   let idMachine = this.id;
   sessionStorage.setItem('id_machine', idMachine);
 
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblMachines.fnGetData(row);
 
   $('#machine').val(data.machine);

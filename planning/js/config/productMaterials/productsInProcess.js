@@ -113,8 +113,7 @@ $(document).ready(function () {
 
   // Eliminar producto
   deleteProduct = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-
+    let row = $(this).closest('tr')[0];
     let data = tblProductsInProcess.fnGetData(row);
 
     idProductCategory = data.id_product_category;

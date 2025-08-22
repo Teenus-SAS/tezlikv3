@@ -51,7 +51,7 @@ $(document).ready(function () {
     $('.cardCreateOrderType').show(800);
     $('#btnCreateOrderType').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblOrderTypes.fnGetData(row);
 
     sessionStorage.setItem('id_order_type', data.id_order_type);

@@ -35,7 +35,7 @@ $(document).on('click', '.updateCategory', function (e) {
     $('.cardAddCategories').show(800);
     $('#btnCreateCategory').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblCategories.fnGetData(row);
 
     sessionStorage.setItem('id_category', data.id_category);
@@ -69,9 +69,9 @@ const checkDataCategory = async (url, idCategory) => {
 };
 
 /* Eliminar categoria */
+$(document).on('click', '.deleteCategory', function (e) {
 
-deleteCategory = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblCategories.fnGetData(row);
 
     let status = parseInt(data.status);
@@ -100,7 +100,7 @@ deleteCategory = () => {
         callback: function (result) {
             if (result == true) {
                 $.get(
-                    `../../api/deleteCategory/${id_category}`,
+                    `/api/deleteCategory/${id_category}`,
                     function (data, textStatus, jqXHR) {
                         messageCategories(data, 3);
                     }
@@ -108,7 +108,7 @@ deleteCategory = () => {
             }
         },
     });
-};
+});
 
 /* Mensaje de exito */
 messageCategories = async (data, op) => {

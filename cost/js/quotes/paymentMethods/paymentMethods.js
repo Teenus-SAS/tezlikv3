@@ -48,7 +48,7 @@ $(document).ready(function () {
     $('.cardCreateMethod').show(800);
     $('#btnCreateMethod').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblPaymentMethods.fnGetData(row);
 
     sessionStorage.setItem('id_method', data.id_method);

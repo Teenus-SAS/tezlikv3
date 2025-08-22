@@ -90,7 +90,7 @@ $(document).ready(function () {
     $('.cardAddMaterials').show(800);
     $('#btnAddMaterials').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblConfigMaterials.fnGetData(row);
 
     sessionStorage.setItem('id_product_material', data.id_product_material);
@@ -139,8 +139,7 @@ $(document).ready(function () {
   /* Eliminar materia prima */
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-
+    let row = $(this).closest('tr')[0];
     let data = tblConfigMaterials.fnGetData(row);
 
     idProductMaterial = data.id_product_material;

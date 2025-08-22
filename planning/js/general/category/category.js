@@ -54,7 +54,7 @@ $(document).ready(function () {
     $('.cardCreateCategory').show(800);
     $('#btnCreateCategory').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblCategories.fnGetData(row);
 
     sessionStorage.setItem('id_category', data.id_category);

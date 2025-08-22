@@ -50,7 +50,7 @@ $(document).ready(function () {
     idMachine = this.id;
     idMachine = sessionStorage.setItem('id_machine', idMachine);
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblMachines.fnGetData(row);
 
     $('#machine').val(data.machine);
@@ -76,7 +76,7 @@ $(document).ready(function () {
   /* Eliminar productos */
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblMachines.fnGetData(row);
 
     let id_machine = data.id_machine;

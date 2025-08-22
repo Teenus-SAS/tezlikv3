@@ -273,7 +273,7 @@ $(document).ready(function () {
   /* Eliminar usuario */
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblUsers.fnGetData(row);
 
     let idUser = data.id_user;

@@ -4,7 +4,7 @@ $(document).ready(function () {
     if (tblQuotes == null || !tblQuotes)
       idQuote = sessionStorage.getItem('id_quote');
     else {
-      let row = $(this.activeElement).parent().parent()[0];
+      let row = $(this).closest('tr')[0];
       let data = tblQuotes.fnGetData(row);
 
       idQuote = data.id_quote;

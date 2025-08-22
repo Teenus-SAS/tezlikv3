@@ -69,7 +69,7 @@ $(document).on('click', '.updateExternalService', async function (e) {
   $('.cardAddService').show(800);
   $('#btnAddService').html('Actualizar');
 
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblExternalServices.fnGetData(row);
 
   sessionStorage.setItem('id_service', data.id_service);
@@ -150,8 +150,8 @@ checkDataServices = async (url, idService) => {
 
 /* Eliminar servicio */
 
-deleteService = () => {
-  let row = $(this.activeElement).parent().parent()[0];
+$(document).on('click', '.deleteExternalService', function (e) {
+  let row = $(this).closest('tr')[0];
   let data = tblExternalServices.fnGetData(row);
 
   let idService = data.id_service;
@@ -185,7 +185,7 @@ deleteService = () => {
       }
     },
   });
-};
+});
 
 /* Mensaje de exito */
 

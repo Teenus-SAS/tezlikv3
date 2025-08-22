@@ -34,7 +34,7 @@ $(document).ready(function () {
     $('.cardCreatePricesList').show(800);
     $('#btnCreatePricesList').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblPricesList.fnGetData(row);
 
     sessionStorage.setItem('id_price_list', data.id_price_list);
@@ -69,8 +69,9 @@ $(document).ready(function () {
 
   /* Eliminar lista de precio */
 
-  deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+  $(document).on('click', '.deletePriceList', function (e) {
+
+    let row = $(this).closest('tr')[0];
     let data = tblPricesList.fnGetData(row);
 
     let id_price_list = data.id_price_list;
@@ -99,7 +100,7 @@ $(document).ready(function () {
         }
       },
     });
-  };
+  });
 
   /* Mensaje de exito */
 

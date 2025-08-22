@@ -71,7 +71,7 @@ $(document).ready(function () {
     $('.cardCreateExpensesAnual').show(800);
     $('#btnCreateExpenseAnual').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblAssExpensesAnual.fnGetData(row);
 
     sessionStorage.setItem('id_expense_anual', data.id_expense_anual);
@@ -127,9 +127,11 @@ $(document).ready(function () {
     messageExpenseA(resp);
   };
 
-  deleteExpenseDA = () => {
+  //deleteExpenseDA = () => {
+  $(document).on('click', '.deleteExpenseAnnual', function (e) {
+
     // let data = dataExpenses.find(item => item.id_expense_anual == id); 
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblAssExpensesAnual.fnGetData(row);
     let id_expense_anual = data.id_expense_anual;
 
@@ -157,8 +159,7 @@ $(document).ready(function () {
         }
       },
     });
-    // }
-  };
+  });
 
   /* Mensaje de exito */
   messageExpenseA = (data) => {

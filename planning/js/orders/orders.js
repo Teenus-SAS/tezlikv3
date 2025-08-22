@@ -81,7 +81,7 @@ $(document).ready(function () {
     $('#createOrder').modal('show');
     $('#btnCreateOrder').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblOrder.fnGetData(row);
 
     sessionStorage.setItem('id_order', data.id_order);
@@ -119,7 +119,7 @@ $(document).ready(function () {
   };
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblOrder.fnGetData(row);
 
     let id_order = data.id_order;

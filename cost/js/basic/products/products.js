@@ -38,7 +38,7 @@ $(document).on('click', '.updateProducts', function (e) {
   let idProduct = this.id;
   sessionStorage.setItem('id_product', idProduct);
 
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblProducts.fnGetData(row);
 
   $('#referenceProduct').val(data.reference);
@@ -173,7 +173,7 @@ $(document).on('click', '.cloneProduct', function () {
 });
 
 $(document).on('click', '.composite', function () {
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblProducts.fnGetData(row);
 
   bootbox.confirm({

@@ -82,7 +82,7 @@ $(document).ready(function () {
     $('#createSale').modal('show');
     $('#btnCreateSale').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblSales.fnGetData(row);
 
     sessionStorage.setItem('id_unit_sales', data.id_unit_sales);
@@ -130,7 +130,7 @@ $(document).ready(function () {
   /* Eliminar venta */
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblSales.fnGetData(row);
 
     let id_unit_sales = data.id_unit_sales;

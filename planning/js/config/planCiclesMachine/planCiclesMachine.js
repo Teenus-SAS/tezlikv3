@@ -56,7 +56,7 @@ $(document).ready(function () {
       id_cicles_machine
     );
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblPlanCiclesMachine.fnGetData(row);
 
     $(`#idMachine option:contains(${data.machine})`).prop('selected', true);
@@ -92,7 +92,7 @@ $(document).ready(function () {
   // Eliminar plan ciclo maquina
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblPlanCiclesMachine.fnGetData(row);
 
     let id_cicles_machine = data.id_cicles_machine;

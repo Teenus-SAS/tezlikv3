@@ -67,7 +67,7 @@ $(document).ready(function () {
     idMaterial = this.id;
     idMaterial = sessionStorage.setItem('id_material', idMaterial);
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblRawMaterials.fnGetData(row);
 
     $('#refRawMaterial').val(data.reference);
@@ -110,7 +110,7 @@ $(document).ready(function () {
   /* Eliminar productos */
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblRawMaterials.fnGetData(row);
 
     let idMaterial = data.id_material;

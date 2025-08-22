@@ -134,7 +134,7 @@ $(document).on('click', '.updateRawMaterials', function (e) {
   let idMaterial = this.id;
   sessionStorage.setItem('id_material', idMaterial);
 
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblRawMaterials.fnGetData(row);
   $('#refRawMaterial').val(data.reference);
   $('#nameRawMaterial').val(data.material);
@@ -237,8 +237,8 @@ const checkDataMaterial = async (url, idMaterial) => {
 
 /* Eliminar materia prima */
 
-deleteMaterials = () => {
-  let row = $(this.activeElement).parent().parent()[0];
+$(document).on('click', '.deleteMaterials', function () {
+  let row = $(this).closest('tr')[0];
   let data = tblRawMaterials.fnGetData(row);
 
   let idMaterial = data.id_material;
@@ -275,7 +275,7 @@ deleteMaterials = () => {
       }
     },
   });
-};
+});
 
 /* Mensaje de exito */
 messageMaterials = (data) => {
@@ -337,7 +337,7 @@ $(document).on('click', '.seeDetailMaterials', function () {
 });
 
 $(document).on('click', '.indirect', function () {
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblRawMaterials.fnGetData(row);
 
   bootbox.confirm({
@@ -368,7 +368,7 @@ $(document).on('click', '.indirect', function () {
 });
 
 $(document).on('click', '.billRawMaterial', function () {
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblRawMaterials.fnGetData(row);
 
   if (!data.date_material)

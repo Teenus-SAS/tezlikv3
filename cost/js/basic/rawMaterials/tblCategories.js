@@ -41,7 +41,7 @@ loadTblCategories = (data) => {
                         }
                         return `
                         <a href="javascript:;" <i id="${data.id_category}" class="bx bx-edit-alt updateCategory" data-toggle='tooltip' title='Actualizar Categoria' style="font-size: 30px;"></i></a>
-                        <a href="javascript:;"><img src="${icon}" alt="Eliminar Categoria" id="${data.id_category}" title='Eliminar Categoria' style="width:30px;height:30px;margin-top:-20px" onclick="deleteCategory()"></a>
+                        <a href="javascript:;"><img src="${icon}" class="deleteCategory" alt="Eliminar Categoria" id="${data.id_category}" title='Eliminar Categoria' style="width:30px;height:30px;margin-top:-20px"></a>
                     `;
                     },
                 },

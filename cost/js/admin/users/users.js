@@ -204,7 +204,7 @@ $(document).ready(function () {
     $('#lastnameUser').prop('disabled', true);
     $('#emailUser').prop('disabled', true);
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblUsers.fnGetData(row);
 
     let id_user = this.id;

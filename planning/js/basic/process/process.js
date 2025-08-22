@@ -53,7 +53,7 @@ $(document).ready(function () {
     $('.cardCreateProcess').show(800);
     $('#btnCreateProcess').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblProcess.fnGetData(row);
 
     sessionStorage.setItem('id_process', data.id_process);
@@ -84,7 +84,7 @@ $(document).ready(function () {
   /* Eliminar proceso */
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblProcess.fnGetData(row);
 
     let id_process = data.id_process;

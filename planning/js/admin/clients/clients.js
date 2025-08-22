@@ -58,7 +58,7 @@ $(document).ready(function () {
     $('.cardCreateClient').show(800);
     $('#btnCreateClient').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblClients.fnGetData(row);
 
     sessionStorage.setItem('id_client', data.id_client);

@@ -61,7 +61,7 @@ $(document).ready(function () {
     let idQuote = this.id;
     sessionStorage.setItem('id_quote', idQuote);
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblQuotes.fnGetData(row);
 
     $(`#company option[value=${data.id_quote_company}]`).prop('selected', true);
@@ -147,7 +147,7 @@ $(document).ready(function () {
   /* Eliminar Cotizacion */
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblQuotes.fnGetData(row);
 
     let idQuote = data.id_quote;
@@ -179,7 +179,7 @@ $(document).ready(function () {
 
   /* Ver detalle cotizacion */
   seeQuote = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblQuotes.fnGetData(row);
 
     let idQuote = data.id_quote;

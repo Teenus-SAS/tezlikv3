@@ -80,7 +80,7 @@ loadTableExpensesDistributionFamilies = () => {
         render: function () {
           return `
             <a href="javascript:;" <i class="bx bx-edit-alt updateExpenseDistributionFamilies" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px;"></i></a>
-            <a href="javascript:;" <i class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red" onclick="deleteExpenseDistributionFamilies()"></i></a>`;
+            <a href="javascript:;" <i class="mdi mdi-delete-forever deleteDistributionFamilies" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>`;
         },
       },
     ],

@@ -73,7 +73,7 @@ $(document).ready(function () {
     let idCompany = this.id;
     sessionStorage.setItem('id_company', idCompany);
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblCompanies.fnGetData(row);
 
     $('#nit').val(data.nit);

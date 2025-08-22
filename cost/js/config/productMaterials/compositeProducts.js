@@ -70,7 +70,7 @@ $(document).on('click', '.updateComposite', function (e) {
     $('.inputs').css('border-color', '');
     $('#btnAddProduct').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblConfigMaterials.fnGetData(row);
 
     sessionStorage.setItem('id_composite_product', data.id_composite_product);

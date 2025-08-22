@@ -95,7 +95,7 @@ $(document).on('click', '.updateExpenses', function (e) {
   $('#btnCreateExpense').html('Actualizar');
 
   //Obtener data
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblAssExpenses.fnGetData(row);
 
   sessionStorage.setItem('id_expense_product_center', data.id_expense_product_center);

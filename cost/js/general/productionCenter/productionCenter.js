@@ -34,7 +34,7 @@ $(document).ready(function () {
         $('.cardAddNewProductionCenter').show(800);
         $('#btnSavePCenter').html('Actualizar');
 
-        let row = $(this).parent().parent()[0];
+        let row = $(this).closest('tr')[0];
         let data = tblPCenter.fnGetData(row);
 
         sessionStorage.setItem('id_production_center', data.id_production_center);
@@ -70,7 +70,7 @@ $(document).ready(function () {
     /* Eliminar produccion */
 
     deletePCenter = () => {
-        let row = $(this.activeElement).parent().parent()[0];
+        let row = $(this).closest('tr')[0];
         let data = tblPCenter.fnGetData(row);
 
         let status = parseInt(data.status);

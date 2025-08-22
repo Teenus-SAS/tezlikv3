@@ -89,7 +89,7 @@ $(document).ready(function () {
       id_planning_machine
     );
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblPlanMachines.fnGetData(row);
 
     $(`#idMachine option:contains(${data.machine})`).prop('selected', true);
@@ -143,7 +143,7 @@ $(document).ready(function () {
   // Eliminar Plan maquina
 
   deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblPlanMachines.fnGetData(row);
 
     let id_program_machine = data.id_program_machine;

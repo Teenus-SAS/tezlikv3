@@ -97,7 +97,7 @@ $(document).ready(function () {
     idProduct = this.id;
     idProduct = sessionStorage.setItem('id_product', idProduct);
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblProducts.fnGetData(row);
     $('#referenceProduct').val(data.reference);
     $('#product').val(data.product);

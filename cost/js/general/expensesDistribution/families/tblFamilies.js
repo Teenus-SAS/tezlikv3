@@ -60,7 +60,7 @@ loadTableFamilies = () => {
         render: function (data) {
           return `
           <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateFamily" data-toggle='tooltip' title='Actualizar Familia' style="font-size: 30px;"></i></a>    
-          <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Familia' style="font-size: 30px;color:red" onclick="deleteFamily()"></i></a>`;
+          <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever deleteFamily" data-toggle='tooltip' title='Eliminar Familia' style="font-size: 30px;color:red"></i></a>`;
         },
       },
     ],
@@ -138,7 +138,7 @@ loadTableProductsFamilies = () => {
         render: function () {
           return `
             <a href="javascript:;" <i class="bx bx-edit-alt updateProductFamily" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 30px;"></i></a>    
-            <a href="javascript:;" <i class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red" onclick="deleteProductFamily()"></i></a>`;
+            <a href="javascript:;" <i class="mdi mdi-delete-forever deleteProductFamily" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>`;
         },
       },
     ],

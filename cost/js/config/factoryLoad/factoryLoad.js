@@ -38,7 +38,7 @@ $(document).on('click', '.updateFactoryLoad', function (e) {
   $('.cardFactoryLoad').show(800);
   $('#btnCreateFactoryLoad').html('Actualizar');
 
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblFactoryLoad.fnGetData(row);
 
   sessionStorage.setItem('id_manufacturing_load', data.id_manufacturing_load);
@@ -90,8 +90,9 @@ checkDataFactoryLoad = async (url, idManufacturingLoad) => {
 
 /* Eliminar carga fabril */
 
-deleteFunction = () => {
-  let row = $(this.activeElement).parent().parent()[0];
+$(document).on('click', '.deleteFactoryLoad', function (e) {
+
+  let row = $(this).closest('tr')[0];
   let data = tblFactoryLoad.fnGetData(row);
 
   let id_manufacturing_load = data.id_manufacturing_load;
@@ -124,7 +125,7 @@ deleteFunction = () => {
       }
     },
   });
-};
+});
 
 /* Mensaje de exito */
 

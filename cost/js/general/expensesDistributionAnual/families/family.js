@@ -30,7 +30,7 @@ $('#btnSaveFamily').click(function (e) {
 $(document).on('click', '.updateFamily', function () {
   $('#btnSaveFamily').html('Actualizar');
 
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblFamilies.fnGetData(row);
 
   sessionStorage.setItem('id_family', data.id_family);
@@ -63,8 +63,9 @@ checkDataFamily = async (url, idFamily) => {
 };
 
 /* Eliminar Familia */
-deleteFamily = () => {
-  let row = $(this.activeElement).parent().parent()[0];
+$(document).on('click', '.deleteFamily', function () {
+
+  let row = $(this).closest('tr')[0];
   let data = tblFamilies.fnGetData(row);
 
   let id_family = data.id_family;
@@ -92,7 +93,7 @@ deleteFamily = () => {
       }
     },
   });
-};
+});
 
 /* Actualizar gasto de distribucion x familia */
 $(document).on('click', '.updateExpenseDistributionFamilies', function () {
@@ -103,7 +104,7 @@ $(document).on('click', '.updateExpenseDistributionFamilies', function () {
 
   sessionStorage.setItem('id_expenses_distribution', 1);
 
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblExpensesDistribution.fnGetData(row);
 
   $('#familiesDistribute').empty();
@@ -125,7 +126,7 @@ $(document).on('click', '.updateExpenseDistributionFamilies', function () {
 
 /* Eliminar distribucion de gasto x familia */
 deleteExpenseDistributionFamilies = () => {
-  let row = $(this.activeElement).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblExpensesDistribution.fnGetData(row);
 
   let id_family = data.id_family;
@@ -216,7 +217,7 @@ $('#btnAddProductFamily').click(function (e) {
 $(document).on('click', '.updateProductFamily', function () {
   $('#btnAddProductFamily').html('Actualizar');
 
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblFamilies.fnGetData(row);
 
   $('#familyRefProduct').empty();
@@ -241,7 +242,7 @@ $(document).on('click', '.updateProductFamily', function () {
 });
 
 deleteProductFamily = () => {
-  let row = $(this.activeElement).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   let data = tblFamilies.fnGetData(row);
 
   let id_product = data.id_product;

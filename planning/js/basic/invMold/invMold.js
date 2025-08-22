@@ -75,7 +75,7 @@ $(document).ready(function () {
     $('.cardCreateInvMold').show(800);
     $('#btnCreateInvMold').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblInvMold.fnGetData(row);
 
     sessionStorage.setItem('id_mold', data.id_mold);

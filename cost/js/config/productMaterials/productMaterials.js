@@ -226,7 +226,7 @@ $(document).on('click', '.updateMaterials', async function (e) {
 
   $('#units').empty();
 
-  let row = $(this).parent().parent()[0];
+  let row = $(this).closest('tr')[0];
   data = tblConfigMaterials.fnGetData(row);
 
   sessionStorage.setItem('id_product_material', data.id_product_material);
@@ -331,13 +331,16 @@ checkDataProductsMaterials = async (url, idProductMaterial) => {
 
 /* Eliminar materia prima */
 
-deleteMaterial = (op) => {
-  let row = $(this.activeElement).parent().parent()[0];
+$(document).on('click', '.deleteProductMaterial', function (e) {
+
+  let row = $(this).closest('tr')[0];
   let data = tblConfigMaterials.fnGetData(row);
 
   let idProduct = $('#selectNameProduct').val();
   let dataP = {};
   dataP['idProduct'] = idProduct;
+
+  op = data.id_product_material != 0 ? '1' : '2';
 
   if (op == '1') {
     let idProductMaterial = data.id_product_material;
@@ -370,7 +373,7 @@ deleteMaterial = (op) => {
       }
     },
   });
-};
+});
 
 /* Mensaje de exito */
 

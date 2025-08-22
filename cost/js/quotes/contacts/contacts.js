@@ -65,7 +65,7 @@ $(document).ready(function () {
     let idContact = this.id;
     sessionStorage.setItem('id_contact', idContact);
 
-    let row = $(this).parent().parent()[0];
+    let row = $(this).closest('tr')[0];
     let data = tblContacts.fnGetData(row);
 
     $('#firstname').val(data.firstname);
@@ -135,7 +135,7 @@ $(document).ready(function () {
     if (data.reload) {
       location.reload();
     }
-    
+
     if (data.success == true) {
       $('.cardCreateContact').hide(800);
       $('#formCreateContact').trigger('reset');
