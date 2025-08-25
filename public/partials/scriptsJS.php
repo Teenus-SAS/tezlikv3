@@ -49,6 +49,7 @@
 <script src="/public/js/components/number.js"></script>
 <script src="/public/js/components/loadingModal.js"></script>
 <script src="/public/js/components/spinner.js"></script>
+<script src="/public/js/login/interceptor.js"></script>
 
 <?php if ($_SESSION['case'] == '1') { ?>
     <script src="/public/js/components/loadNotifications.js"></script>

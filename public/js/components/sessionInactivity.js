@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // Configuración (en milisegundos)
-    const INACTIVITY_TIMEOUT = 10 * 60 * 1000; // 10 minutos en ms
-    const WARNING_TIMEOUT = 8 * 60 * 1000;    // Mostrar aviso a los 8 minutos
+    const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutos en ms
+    const WARNING_TIMEOUT = 28 * 60 * 1000;    // Mostrar aviso
     const CHECK_INTERVAL = 30 * 1000;         // Verificar cada 30 segundos
 
     let inactivityTimer;
