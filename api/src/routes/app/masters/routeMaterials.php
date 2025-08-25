@@ -359,6 +359,19 @@ $app->group('/materials', function (RouteCollectorProxy $group) {
 
     $group->post('/updateMaterials', function (Request $request, Response $response, $args) {
 
+        $materialsDao = new MaterialsDao();
+        $generalMaterialsDao = new GeneralMaterialsDao();
+        $trmDao = new TrmDao();
+        $productMaterialsDao = new ProductsMaterialsDao();
+        $costMaterialsDao = new CostMaterialsDao();
+        $conversionUnitsDao = new ConversionUnitsDao();
+        $priceProductDao = new PriceProductDao();
+        $pricesUSDDao = new PriceUSDDao();
+        $generalProductsDao = new GeneralProductsDao();
+        $generalCompositeProductsDao = new GeneralCompositeProductsDao();
+
+
+
         // session_start();
         $id_company = $_SESSION['id_company'];
         $coverage_usd = $_SESSION['coverage_usd'];
@@ -366,24 +379,204 @@ $app->group('/materials', function (RouteCollectorProxy $group) {
 
         $data = [];
 
-        $generalMaterialsDao = new GeneralMaterialsDao();
-
         $material = $generalMaterialsDao->findMaterial($dataMaterial, $id_company);
 
         !is_array($material) ? $data['id_material'] = 0 : $data = $material;
 
         if ($data['id_material'] == $dataMaterial['idMaterial'] || $data['id_material'] == 0) {
-            // ... (toda la lógica del updateMaterials original aquí)
-            // Por brevedad, incluyo solo la estructura básica
+            if ($dataMaterial['usd'] == '1' && $_SESSION['flag_currency_usd'] == '1') {
+                $cost = $dataMaterial['costRawMaterial'];
+                $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
 
-            $resp = array('success' => true, 'message' => 'Materia Prima actualizada correctamente');
-        } else {
+                $coverage_usd = $_SESSION['coverage_usd'];
+                $formatCoverageUsd = sprintf('$%s', number_format($coverage_usd, 2, ',', '.'));
+
+                $trm = $trmDao->getLastTrm();
+
+                if ($trm == 1) {
+                    $resp = ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+
+                    $response->getBody()->write(json_encode($resp));
+                    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+                }
+
+                $trm = $trm[0]['valor'];
+
+                $dataMaterial['costRawMaterial'] = $cost * floatval($coverage_usd);
+                $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
+
+                $formatTrm = sprintf('$%s', number_format($trm, 2, ',', '.'));
+
+                $data = [];
+                $data['date'] = date('Y-m-d');
+                $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatCoverageUsd. TRM Actual: $formatTrm";
+                $data['idMaterial'] = $dataMaterial['idMaterial'];
+                $data['cost_usd'] = $cost;
+
+                $materials = $generalMaterialsDao->saveBillMaterial($data);
+                $materials = $generalMaterialsDao->saveCostUSDMaterial($data);
+
+                if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
+                    $materials = $generalMaterialsDao->saveAllCostsUSDMaterial($dataMaterial);
+
+                    $dataMaterial['costImport'] = floatval($dataMaterial['costImport']) * floatval($coverage_usd);
+                    $dataMaterial['costExport'] = floatval($dataMaterial['costExport']) * floatval($coverage_usd);
+                    $dataMaterial['costTotal'] = floatval($dataMaterial['costRawMaterial']) + floatval($dataMaterial['costImport']) + floatval($dataMaterial['costExport']);
+
+                    $materials = $generalMaterialsDao->saveCostsMaterial($dataMaterial);
+                }
+            } else {
+                $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
+
+                if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
+                    $dataMaterial['costTotal'] = floatval($dataMaterial['costRawMaterial']) + floatval($dataMaterial['costImport']) + floatval($dataMaterial['costExport']);
+
+                    $materials = $generalMaterialsDao->saveCostsMaterial($dataMaterial);
+                }
+            }
+
+            if ($materials == null) {
+                $dataProducts = $costMaterialsDao->findProductByMaterial($dataMaterial['idMaterial'], $id_company);
+
+                foreach ($dataProducts as $j) {
+                    if ($j['id_product'] != 0) {
+                        if (isset($materials['info'])) break;
+
+                        // Calcular precio total materias
+                        // Consultar todos los datos del producto
+                        $productsMaterial = $productMaterialsDao->findAllProductsmaterialsByIdProduct($j['id_product'], $id_company);
+
+                        foreach ($productsMaterial as $k) {
+                            // Obtener materia prima
+                            $material = $generalMaterialsDao->findMaterialAndUnits($k['id_material'], $id_company);
+
+                            // Convertir unidades
+                            $quantities = $conversionUnitsDao->convertUnits($material, $k, $k['quantity']);
+
+                            // Modificar costo
+                            $generalMaterialsDao->updateCostProductMaterial($k, $quantities);
+                        }
+                        $j['idProduct'] = $j['id_product'];
+                        $status = false;
+
+                        if ($_SESSION['flag_composite_product'] == '1') {
+                            $composite = $generalCompositeProductsDao->findCompositeProductCost($j['idProduct']);
+
+                            !$composite ? $status = false : $status = true;
+
+                            if ($status == true)
+                                $dataMaterial = $costMaterialsDao->calcCostMaterialByCompositeProduct($j, $id_company);
+                        }
+
+                        if ($_SESSION['flag_composite_product'] == '0' || $status == false)
+                            $dataMaterial = $costMaterialsDao->calcCostMaterial($j, $id_company);
+
+                        $materials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
+
+                        // Calcular precio
+                        $data = $priceProductDao->calcPrice($j['id_product']);
+
+                        if (isset($data['totalPrice']))
+                            $materials = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($materials['info'])) break;
+
+                        if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                            $k = [];
+                            $k['price'] = $data['totalPrice'];
+                            $k['sale_price'] = $data['sale_price'];
+                            $k['id_product'] = $j['id_product'];
+
+                            $materials = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                        }
+
+                        if (isset($materials['info'])) break;
+
+                        if ($_SESSION['flag_composite_product'] == '1') {
+                            if (isset($materials['info'])) break;
+                            // Calcular costo material porq
+                            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                            foreach ($productsCompositer as $arr) {
+                                if (isset($materials['info'])) break;
+
+                                $data = [];
+                                $data['compositeProduct'] = $arr['id_child_product'];
+                                $data['idProduct'] = $arr['id_product'];
+                                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                                $materials = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                                if (isset($materials['info'])) break;
+                                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                                $materials = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                                if (isset($materials['info'])) break;
+
+                                $data = $priceProductDao->calcPrice($arr['id_product']);
+                                if (isset($data['totalPrice']))
+                                    $materials = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                                if (isset($materials['info'])) break;
+                                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                    $k = [];
+                                    $k['price'] = $data['totalPrice'];
+                                    $k['sale_price'] = $data['sale_price'];
+                                    $k['id_product'] = $arr['id_product'];
+
+                                    $materials = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                                }
+
+                                if (isset($materials['info'])) break;
+
+                                $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+
+                                foreach ($productsCompositer2 as $k) {
+                                    if (isset($materials['info'])) break;
+
+                                    $data = [];
+                                    $data['compositeProduct'] = $k['id_child_product'];
+                                    $data['idProduct'] = $k['id_product'];
+
+                                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                                    $materials = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                                    if (isset($materials['info'])) break;
+                                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                                    $materials = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                                    if (isset($materials['info'])) break;
+
+                                    $data = $priceProductDao->calcPrice($k['id_product']);
+                                    if (isset($data['totalPrice']))
+                                        $materials = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                                    if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                        $l = [];
+                                        $l['price'] = $data['totalPrice'];
+                                        $l['sale_price'] = $data['sale_price'];
+                                        $l['id_product'] = $arr['id_product'];
+
+                                        $materials = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if ($materials == null)
+                $resp = array('success' => true, 'message' => 'Materia Prima actualizada correctamente');
+            else if (isset($materials['info']))
+                $resp = array('info' => true, 'message' => $materials['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        } else
             $resp = array('info' => true, 'message' => 'La materia prima ya existe. Ingrese una nueva');
-        }
 
         $response->getBody()->write(json_encode($resp));
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-    });
+    })->add(new SessionMiddleware());
 
     $group->post('/saveBillMaterial', function (Request $request, Response $response, $args) {
 
