@@ -61,18 +61,17 @@ class SessionMiddleware implements MiddlewareInterface
 
     private function configureSession(): void
     {
-        session_set_cookie_params([
-            'lifetime' => 86400, // 1 día
-            'path' => '/',
-            'domain' => $_SERVER['HTTP_HOST'],
-            'secure' => isset($_SERVER['HTTPS']),
-            'httponly' => true,
-            'samesite' => 'Lax'
-        ]);
+        if (session_status() === PHP_SESSION_NONE)
+            session_set_cookie_params([
+                'lifetime' => 86400, // 1 día
+                'path' => '/',
+                'domain' => $_SERVER['HTTP_HOST'],
+                'secure' => isset($_SERVER['HTTPS']),
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]);
 
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        session_start();
     }
 
     private function refreshToken(int $userId): void
