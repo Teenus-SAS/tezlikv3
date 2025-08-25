@@ -370,8 +370,6 @@ $app->group('/materials', function (RouteCollectorProxy $group) {
         $generalProductsDao = new GeneralProductsDao();
         $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 
-
-
         // session_start();
         $id_company = $_SESSION['id_company'];
         $coverage_usd = $_SESSION['coverage_usd'];
