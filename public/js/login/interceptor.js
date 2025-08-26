@@ -43,6 +43,6 @@ function closeOrReloadTab() {
 
     // Si no se puede cerrar, redirigir al login
     if (!window.closed) {
-        window.location.href = '/login'; // Ajusta la ruta según tu aplicación
+        window.location.href = '/'; // Ajusta la ruta según tu aplicación
     }
 }
