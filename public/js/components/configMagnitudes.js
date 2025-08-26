@@ -20,7 +20,7 @@ $(document).ready(function () {
       if (error.error && error.reload) {
         // Session expired, redirect to login
         alert(error.message || 'Sesión expirada');
-        window.location.href = '/'; // or your login page
+        window.location.href = '/';
       } else {
         console.error('Error loading magnitudes:', error);
       }
