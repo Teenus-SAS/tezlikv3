@@ -9,7 +9,12 @@ $(document).ready(function () {
   // Función para cargar magnitudes en el select
   const loadMagnitudes = async () => {
     try {
-      let data = await loadData('/api/measurements/magnitudes', 'dataMagnitudes');
+
+      const response = await fetch('/api/measurements/magnitudes');
+      const data = await response.json();
+
+      sessionStorage.setItem('dataMagnitudes', JSON.stringify(data));
+
       let $select = $('#magnitudes');
       $select.empty();
       $select.append(`<option disabled selected>Seleccionar</option>`);
