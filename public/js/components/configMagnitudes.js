@@ -8,13 +8,23 @@ $(document).ready(function () {
 
   // Función para cargar magnitudes en el select
   const loadMagnitudes = async () => {
-    let data = await loadData('/api/measurements/magnitudes', 'dataMagnitudes');
-    let $select = $('#magnitudes');
-    $select.empty();
-    $select.append(`<option disabled selected>Seleccionar</option>`);
-    data.forEach(value => {
-      $select.append(`<option value="${value.id_magnitude}">${value.magnitude}</option>`);
-    });
+    try {
+      let data = await loadData('/api/measurements/magnitudes', 'dataMagnitudes');
+      let $select = $('#magnitudes');
+      $select.empty();
+      $select.append(`<option disabled selected>Seleccionar</option>`);
+      data.forEach(value => {
+        $select.append(`<option value="${value.id_magnitude}">${value.magnitude}</option>`);
+      });
+    } catch (error) {
+      if (error.error && error.reload) {
+        // Session expired, redirect to login
+        alert(error.message || 'Sesión expirada');
+        window.location.href = '/'; // or your login page
+      } else {
+        console.error('Error loading magnitudes:', error);
+      }
+    }
   };
 
   // Inicializar datos
