@@ -20,15 +20,9 @@ async function handleSessionExpired(response) {
     try {
         const data = await response.json();
 
-        if (data.reload) {
-            // Mostrar mensaje antes de cerrar/recargar
-            if (data.message) {
-                alert(data.message); // O usar toastr/bootbox
-            }
-
-            // Cerrar la pestaña o recargar
+        if (data.reload)
             closeOrReloadTab();
-        }
+
     } catch (e) {
         console.error('Error processing 401 response:', e);
         closeOrReloadTab();
