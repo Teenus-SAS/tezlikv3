@@ -832,9 +832,9 @@ require_once dirname(__DIR__) . '/api/src/Auth/authMiddleware.php';
                                 <script src="js/dashboard/calcDataCost.js"></script>
                                 <script src="js/dashboard/graphicsGeneral.js"></script>
                                 <script src="js/dashboard/generalModals.js"></script>
-                                <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
+                                <!-- <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
                                 <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
-                                <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
+                                <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script> -->
                                 <script src="/public/js/components/printPdf.js"></script>
                                 <script src="/public/js/components/updateNotice.js"></script>
 

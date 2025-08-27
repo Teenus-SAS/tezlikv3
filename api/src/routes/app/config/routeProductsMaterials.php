@@ -474,18 +474,12 @@ $app->group('/dataSheetMaterials', function (RouteCollectorProxy $group) {
 
         $generalCompositeProductsDao = new GeneralCompositeProductsDao();
         $productsMaterialsDao = new ProductsMaterialsDao();
-        $compositeProductsDao = new CompositeProductsDao();
         $conversionUnitsDao = new ConversionUnitsDao();
         $costMaterialsDao = new CostMaterialsDao();
-        $costWorkforceDao = new CostWorkforceDao();
         $materialsDao = new GeneralMaterialsDao();
         $priceProductDao = new PriceProductDao();
-        $indirectCostDao = new IndirectCostDao();
         $productsDao = new GeneralProductsDao();
-        $convertDataDao = new ConvertDataDao();
-        $magnitudesDao = new MagnitudesDao();
         $pricesUSDDao = new PriceUSDDao();
-        $unitsDao = new UnitsDao();
 
         $data = [];
 

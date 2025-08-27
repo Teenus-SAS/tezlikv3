@@ -21,12 +21,14 @@ class CostMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT pm.id_product, m.id_magnitude
-                                      FROM products p
-                                        INNER JOIN products_materials pm ON pm.id_product = p.id_product
-                                        INNER JOIN convert_units c ON c.id_unit = pm.id_unit
-                                        INNER JOIN convert_magnitudes m ON m.id_magnitude = c.id_magnitude
-                                      WHERE pm.id_material =:id_material AND p.id_company = :id_company");
+        $sql = "SELECT pm.id_product, m.id_magnitude
+                FROM products p
+                INNER JOIN products_materials pm ON pm.id_product = p.id_product
+                INNER JOIN convert_units c ON c.id_unit = pm.id_unit
+                INNER JOIN convert_magnitudes m ON m.id_magnitude = c.id_magnitude
+                WHERE pm.id_material =:id_material AND p.id_company = :id_company";
+
+        $stmt = $connection->prepare($sql);
         $stmt->execute(['id_material' => $idMaterial, 'id_company' => $id_company]);
         $dataProduct = $stmt->fetchAll($connection::FETCH_ASSOC);
 
@@ -38,10 +40,12 @@ class CostMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT SUM(pm.cost) as cost 
-                                          FROM materials m 
-                                            INNER JOIN products_materials pm ON pm.id_material = m.id_material 
-                                          WHERE m.id_company = :id_company AND pm.id_product = :id_product");
+            $sql = "SELECT SUM(pm.cost) as cost 
+                    FROM materials m 
+                    INNER JOIN products_materials pm ON pm.id_material = m.id_material 
+                    WHERE m.id_company = :id_company AND pm.id_product = :id_product";
+
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_company' => $id_company,
                 'id_product' => $dataMaterials['idProduct']
@@ -62,10 +66,11 @@ class CostMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT IFNULL((IFNULL(SUM(cp.cost), 0) + (SELECT IFNULL(SUM(cost), 0) FROM products_materials WHERE id_product = p.id_product)), 0) AS cost
-                                          FROM products p
-                                          LEFT JOIN composite_products cp ON cp.id_product = p.id_product
-                                          WHERE p.id_product = :id_product");
+            $sql = "SELECT IFNULL((IFNULL(SUM(cp.cost), 0) + (SELECT IFNULL(SUM(cost), 0) FROM products_materials WHERE id_product = p.id_product)), 0) AS cost
+                    FROM products p
+                    LEFT JOIN composite_products cp ON cp.id_product = p.id_product
+                    WHERE p.id_product = :id_product";
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'id_product' => $dataProduct['idProduct'],
             ]);
@@ -85,8 +90,10 @@ class CostMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE products_costs SET cost_materials = :materials
-                                         WHERE id_product = :id_product AND id_company = :id_company");
+            $sql = "UPDATE products_costs SET cost_materials = :materials
+                    WHERE id_product = :id_product AND id_company = :id_company";
+
+            $stmt = $connection->prepare($sql);
             $stmt->execute([
                 'materials' => $dataMaterials['cost'],
                 'id_product' => $dataMaterials['idProduct'],

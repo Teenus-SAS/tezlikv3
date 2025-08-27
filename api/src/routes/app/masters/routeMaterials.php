@@ -5,17 +5,14 @@ use tezlikv3\Dao\{
     MaterialsDao,
     CostMaterialsDao,
     FilesDao,
-    GeneralCategoriesDao,
     GeneralCompositeProductsDao,
     GeneralProductsDao,
     GeneralMaterialsDao,
     LastDataDao,
     ProductsMaterialsDao,
-    MagnitudesDao,
     PriceProductDao,
     PriceUSDDao,
     TrmDao,
-    UnitsDao
 };
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -58,6 +55,8 @@ $app->group('/materials', function (RouteCollectorProxy $group) {
         $pricesUSDDao = new PriceUSDDao();
         $generalProductsDao = new GeneralProductsDao();
         $generalCompositeProductsDao = new GeneralCompositeProductsDao();
+        $productMaterialsDao = new ProductsMaterialsDao();
+        $conversionUnitsDao = new ConversionUnitsDao();
 
         $dataMaterial = $request->getParsedBody();
         $id_company = $_SESSION['id_company'];
@@ -305,42 +304,127 @@ $app->group('/materials', function (RouteCollectorProxy $group) {
                 // Process products related to the material
                 if ($resolution != null) break;
                 $dataProducts = $costMaterialsDao->findProductByMaterial($material['idMaterial'], $id_company);
-                foreach ($dataProducts as $arr) {
-                    if ($arr['id_product'] != 0) {
-                        $data = $priceProductDao->calcPrice($arr['id_product']);
-                        if (isset($data['totalPrice'])) {
-                            $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
-                            if (isset($resolution['info'])) break;
 
-                            if ($_SESSION['flag_currency_usd'] == '1') {
-                                $k = ['price' => $data['totalPrice'], 'sale_price' => $data['sale_price'], 'id_product' => $arr['id_product']];
-                                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-                            }
-                            if (isset($resolution['info'])) break;
+                foreach ($dataProducts as $j) {
+                    if ($j['id_product'] != 0) {
+                        if (isset($materials['info'])) break;
 
-                            if ($_SESSION['flag_composite_product'] == '1') {
-                                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
-                                foreach ($productsCompositer as $j) {
-                                    $data = ['compositeProduct' => $j['id_child_product'], 'idProduct' => $j['id_product']];
+                        // Calcular precio total materias
+                        // Consultar todos los datos del producto
+                        $productsMaterial = $productMaterialsDao->findAllProductsmaterialsByIdProduct($j['id_product'], $id_company);
+
+                        foreach ($productsMaterial as $k) {
+                            // Obtener materia prima
+                            $material = $generalMaterialsDao->findMaterialAndUnits($k['id_material'], $id_company);
+
+                            // Convertir unidades
+                            $quantities = $conversionUnitsDao->convertUnits($material, $k, $k['quantity']);
+
+                            // Modificar costo
+                            $generalMaterialsDao->updateCostProductMaterial($k, $quantities);
+                        }
+                        $j['idProduct'] = $j['id_product'];
+                        $status = false;
+
+                        if ($_SESSION['flag_composite_product'] == '1') {
+                            $composite = $generalCompositeProductsDao->findCompositeProductCost($j['idProduct']);
+
+                            !$composite ? $status = false : $status = true;
+
+                            if ($status == true)
+                                $dataMaterial = $costMaterialsDao->calcCostMaterialByCompositeProduct($j, $id_company);
+                        }
+
+                        if ($_SESSION['flag_composite_product'] == '0' || $status == false)
+                            $dataMaterial = $costMaterialsDao->calcCostMaterial($j, $id_company);
+
+                        $materials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
+
+                        // Calcular precio
+                        $data = $priceProductDao->calcPrice($j['id_product']);
+
+                        if (isset($data['totalPrice']))
+                            $materials = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($materials['info'])) break;
+
+                        if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                            $k = [];
+                            $k['price'] = $data['totalPrice'];
+                            $k['sale_price'] = $data['sale_price'];
+                            $k['id_product'] = $j['id_product'];
+
+                            $materials = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                        }
+
+                        if (isset($materials['info'])) break;
+
+                        if ($_SESSION['flag_composite_product'] == '1') {
+                            if (isset($materials['info'])) break;
+                            // Calcular costo material porq
+                            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                            foreach ($productsCompositer as $arr) {
+                                if (isset($materials['info'])) break;
+
+                                $data = [];
+                                $data['compositeProduct'] = $arr['id_child_product'];
+                                $data['idProduct'] = $arr['id_product'];
+                                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                                $materials = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                                if (isset($materials['info'])) break;
+                                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                                $materials = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                                if (isset($materials['info'])) break;
+
+                                $data = $priceProductDao->calcPrice($arr['id_product']);
+                                if (isset($data['totalPrice']))
+                                    $materials = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                                if (isset($materials['info'])) break;
+                                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                    $k = [];
+                                    $k['price'] = $data['totalPrice'];
+                                    $k['sale_price'] = $data['sale_price'];
+                                    $k['id_product'] = $arr['id_product'];
+
+                                    $materials = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                                }
+
+                                if (isset($materials['info'])) break;
+
+                                $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+
+                                foreach ($productsCompositer2 as $k) {
+                                    if (isset($materials['info'])) break;
+
+                                    $data = [];
+                                    $data['compositeProduct'] = $k['id_child_product'];
+                                    $data['idProduct'] = $k['id_product'];
+
                                     $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                                    $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
-                                    if (isset($resolution['info'])) break;
+                                    $materials = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
+                                    if (isset($materials['info'])) break;
                                     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                                    $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
-                                    if (isset($resolution['info'])) break;
+                                    $materials = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                                    $data = $priceProductDao->calcPrice($j['id_product']);
-                                    if (isset($data['totalPrice'])) {
-                                        $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
-                                        if (isset($resolution['info'])) break;
+                                    if (isset($materials['info'])) break;
 
-                                        if ($_SESSION['flag_currency_usd'] == '1') {
-                                            $k = ['price' => $data['totalPrice'], 'sale_price' => $data['sale_price'], 'id_product' => $j['id_product']];
-                                            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-                                        }
+                                    $data = $priceProductDao->calcPrice($k['id_product']);
+                                    if (isset($data['totalPrice']))
+                                        $materials = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                                    if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                        $l = [];
+                                        $l['price'] = $data['totalPrice'];
+                                        $l['sale_price'] = $data['sale_price'];
+                                        $l['id_product'] = $arr['id_product'];
+
+                                        $materials = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
                                     }
-                                    if (isset($resolution['info'])) break;
                                 }
                             }
                         }

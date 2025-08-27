@@ -24,6 +24,7 @@ class MaterialsDao
     try {
       $sql = "INSERT INTO materials (id_company, id_category ,reference, material, unit, cost, flag_usd) 
               VALUES(:id_company, :id_category, :reference, :material, :unit, :cost, :flag_usd)";
+
       $stmt = $connection->prepare($sql);
       $stmt->execute([
         'id_company' => $id_company,
@@ -51,8 +52,10 @@ class MaterialsDao
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("UPDATE materials SET id_category = :id_category, reference = :reference, material = :material, unit = :unit, cost = :cost, flag_usd = :flag_usd
-                                    WHERE id_material = :id_material AND id_company = :id_company");
+      $sql = "UPDATE materials SET id_category = :id_category, reference = :reference, material = :material, unit = :unit, cost = :cost, flag_usd = :flag_usd
+              WHERE id_material = :id_material AND id_company = :id_company";
+
+      $stmt = $connection->prepare($sql);
       $stmt->execute([
         'id_material' => $dataMaterial['idMaterial'],
         'id_category' => $dataMaterial['idCategory'],
