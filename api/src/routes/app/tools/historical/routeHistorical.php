@@ -56,7 +56,7 @@ $app->group('/historical', function (RouteCollectorProxy $group) {
         }
     });
 
-    $group->get('/historical/{id_historic}', function (Request $request, Response $response, $args) {
+    $group->get('/{id_historic}', function (Request $request, Response $response, $args) {
 
         $historicalProductsDao = new HistoricalProductsDao();
 

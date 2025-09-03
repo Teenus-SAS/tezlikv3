@@ -424,6 +424,7 @@ require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/api/src/Auth/authMi
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
     <script src="/cost/js/tools/historical/indicatorsHistorial.js"></script>
     <script src="/cost/js/tools/historical/graphicsHistorical.js"></script>
+
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
