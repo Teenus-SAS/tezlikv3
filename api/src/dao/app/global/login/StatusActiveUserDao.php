@@ -34,33 +34,44 @@ class StatusActiveUserDao
     $connection = Connection::getInstance()->getConnection();
 
     if ($case == 1) {
-      // $stmt = $connection->prepare("SELECT session_active FROM users WHERE id_user = :id_user");
-      // $stmt->execute(['id_user' => $id_user]);
-      // $session = $stmt->fetch($connection::FETCH_ASSOC);
       $session = $this->findSessionUser($id_user);
       $session = $session['session_active'];
 
       ($session == 1 ? $session = 0 : $session == 0) ? $session = 1 : $session;
 
-      $stmt = $connection->prepare("UPDATE users SET session_active = :session_active WHERE id_user = :id_user");
-      $stmt->execute(['session_active' => $session, 'id_user' => $id_user]);
+      $sql = "UPDATE users SET session_active = :session_active WHERE id_user = :id_user";
+
+      $stmt = $connection->prepare($sql);
+      $stmt->execute([
+        'session_active' => $session,
+        'id_user' => $id_user
+      ]);
     } else if ($case == 2) {
-      $stmt = $connection->prepare("SELECT session_active FROM admins WHERE id_admin = :id_admin");
+
+      $sql = "SELECT session_active FROM admins WHERE id_admin = :id_admin";
+
+      $stmt = $connection->prepare($sql);
       $stmt->execute(['id_admin' => $id_user]);
       $session = $stmt->fetch($connection::FETCH_ASSOC);
-      $session = $session['session_active'];
 
+      $session = $session['session_active'];
       ($session == 1 ? $session = 0 : $session == 0) ? $session = 1 : $session;
 
-      $stmt = $connection->prepare("UPDATE admins SET session_active = :session_active WHERE id_admin = :id_admin");
-      $stmt->execute(['session_active' => $session, 'id_admin' => $id_user]);
+      $sql = "UPDATE admins SET session_active = :session_active WHERE id_admin = :id_admin";
+      $stmt = $connection->prepare($sql);
+      $stmt->execute([
+        'session_active' => $session,
+        'id_admin' => $id_user
+      ]);
     }
   }
 
   public function deactivateSession(int $id_company, int $id_user): bool
   {
     $connection = Connection::getInstance()->getConnection();
-    $sql = "UPDATE users SET session_active = 0 WHERE id_user = :id_user AND id_company = :id_company";
+
+    $sql = "UPDATE users SET session_active = 0 
+            WHERE id_user = :id_user AND id_company = :id_company";
 
     try {
       $stmt = $connection->prepare($sql);

@@ -1,10 +1,6 @@
 <?php
 
-use tezlikv3\dao\{
-    UserInactiveTimeDao,
-    LastLoginDao,
-    StatusActiveUserDao
-};
+use tezlikv3\dao\{UserInactiveTimeDao, LastLoginDao, StatusActiveUserDao};
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
