@@ -3,14 +3,10 @@ $(document).ready(function () {
     try {
       const result = await $.ajax({ url, ...options });
 
-      if (result.reload) {
-        location.reload();
-      }
-
       return result;
     } catch (error) {
       console.error(`Error fetching data from ${url}:`, error);
-      if (error.statusText === "Unauthorized")
+      if (error.status === 401)
         window.location.href = '../';
     }
   };
