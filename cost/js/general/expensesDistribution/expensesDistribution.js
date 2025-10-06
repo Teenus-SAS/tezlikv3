@@ -220,9 +220,6 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   messageDistribution = async (data, op) => {
-    if (data.reload) {
-      location.reload();
-    }
 
     $('#fileExpenses').val('');
     $('.cardLoading').remove();

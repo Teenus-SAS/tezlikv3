@@ -44,6 +44,7 @@
 <script src="/assets/js/pages/compose-mail.init.js"></script>
 
 <!-- Publics -->
+<script src="/public/js/login/inteceptor.js"></script>
 <script src="/public/js/components/logout.js"></script>
 <script src="/public/js/components/searchData.js"></script>
 <script src="/public/js/components/number.js"></script>

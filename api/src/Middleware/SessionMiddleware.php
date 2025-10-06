@@ -72,12 +72,13 @@ class SessionMiddleware implements MiddlewareInterface
 
     private function configureSession(): void
     {
+        // Solo configurar parámetros si la sesión NO está activa
         if (session_status() === PHP_SESSION_NONE) {
             session_set_cookie_params([
                 'lifetime' => 86400, // 1 día
                 'path' => '/',
-                'domain' => $_SERVER['HTTP_HOST'],
-                'secure' => isset($_SERVER['HTTPS']),
+                'domain' => $_SERVER['HTTP_HOST'] ?? '',
+                'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
                 'httponly' => true,
                 'samesite' => 'Lax'
             ]);

@@ -51,15 +51,10 @@ $app->group('/calculations', function (RouteCollectorProxy $group) {
             if (isset($resolution['info'])) break;
             $dataPayroll = $costWorkforceDao->sumTotalCostPayroll($productProcess[$i]['id_product'], $id_company);
 
-            $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $productProcess[$i]['id_product'], $id_company);
+            $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $productProcess[$i]['id_product'], $id_company);
         }
 
-        if ($resolution == null)
-            $resp = array('success' => true, 'message' => 'Calculo de mano de obra actualizados correctamente');
-        else if (isset($resolution['info']))
-            $resp = array('info' => true, 'message' => $resolution['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        $resp = array('success' => true, 'message' => 'Calculo de mano de obra actualizados correctamente');
 
         $response->getBody()->write(json_encode($resp));
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
