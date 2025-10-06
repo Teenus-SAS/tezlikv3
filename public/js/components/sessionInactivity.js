@@ -1,13 +1,113 @@
 $(document).ready(function () {
     // Configuración (en milisegundos)
-    const INACTIVITY_TIMEOUT = 10 * 60 * 1000; // 10 minutos en ms
-    const WARNING_TIMEOUT = 8 * 60 * 1000;    // Mostrar aviso a los 8 minutos
-    const CHECK_INTERVAL = 30 * 1000;         // Verificar cada 30 segundos
+    const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutos
+    const WARNING_TIMEOUT = 28 * 60 * 1000;    // Mostrar aviso a los 28 minutos
+    const CHECK_INTERVAL = 30 * 1000;          // Verificar cada 30 segundos
 
     let inactivityTimer;
     let warningTimer;
     let lastActivityTime = Date.now();
-    let isLoggingOut = false; // Bandera para evitar múltiples llamadas
+    let isLoggingOut = false;
+
+    // ============================================
+    // NUEVA FUNCIONALIDAD: Sincronización entre pestañas
+    // ============================================
+    const SESSION_CHANNEL = 'session_sync_channel';
+    const SESSION_KEY = 'app_session_state';
+
+    // Crear canal de comunicación entre pestañas
+    let broadcastChannel;
+    try {
+        broadcastChannel = new BroadcastChannel(SESSION_CHANNEL);
+    } catch (e) {
+        console.warn('BroadcastChannel no disponible, usando localStorage fallback');
+    }
+
+    // Escuchar mensajes de otras pestañas
+    if (broadcastChannel) {
+        broadcastChannel.onmessage = (event) => {
+            handleCrossTabMessage(event.data);
+        };
+    }
+
+    // Fallback: Escuchar cambios en localStorage (para navegadores antiguos)
+    window.addEventListener('storage', (event) => {
+        if (event.key === SESSION_KEY && event.newValue) {
+            try {
+                const data = JSON.parse(event.newValue);
+                handleCrossTabMessage(data);
+            } catch (e) {
+                console.error('Error parsing storage event:', e);
+            }
+        }
+    });
+
+    // Manejar mensajes de otras pestañas
+    function handleCrossTabMessage(data) {
+        if (data.action === 'LOGOUT') {
+            console.log('Otra pestaña cerró la sesión, sincronizando...');
+            // Otra pestaña cerró sesión, esta también debe cerrar
+            forceLogout();
+        } else if (data.action === 'ACTIVITY') {
+            // Otra pestaña tiene actividad, sincronizar tiempo
+            lastActivityTime = data.timestamp;
+            resetTimers();
+        }
+    }
+
+    // Notificar a otras pestañas sobre actividad
+    function notifyActivity() {
+        const message = {
+            action: 'ACTIVITY',
+            timestamp: Date.now()
+        };
+
+        // Enviar por BroadcastChannel
+        if (broadcastChannel) {
+            broadcastChannel.postMessage(message);
+        }
+
+        // Fallback: localStorage
+        try {
+            localStorage.setItem(SESSION_KEY, JSON.stringify(message));
+        } catch (e) {
+            console.warn('No se pudo guardar en localStorage:', e);
+        }
+    }
+
+    // Notificar a otras pestañas sobre logout
+    function notifyLogout() {
+        const message = {
+            action: 'LOGOUT',
+            timestamp: Date.now()
+        };
+
+        if (broadcastChannel) {
+            broadcastChannel.postMessage(message);
+        }
+
+        try {
+            localStorage.setItem(SESSION_KEY, JSON.stringify(message));
+        } catch (e) {
+            console.warn('No se pudo guardar en localStorage:', e);
+        }
+    }
+
+    // Forzar logout en esta pestaña (llamado desde otra pestaña)
+    function forceLogout() {
+        if (isLoggingOut) return;
+
+        clearTimeout(inactivityTimer);
+        clearTimeout(warningTimer);
+        $('#inactivity-warning').hide();
+
+        // Redirigir directamente sin llamar al endpoint
+        window.location.href = '/';
+    }
+
+    // ============================================
+    // FIN NUEVA FUNCIONALIDAD
+    // ============================================
 
     // Crear modal de advertencia
     const warningModal = `
@@ -18,7 +118,6 @@ $(document).ready(function () {
         </div>
     `;
 
-    // Añadir modal al DOM
     $('body').append(warningModal);
 
     // Eventos que indican actividad
@@ -31,18 +130,28 @@ $(document).ready(function () {
     function resetTimers() {
         lastActivityTime = Date.now();
 
-        // Limpiar temporizadores existentes
         clearTimeout(inactivityTimer);
         clearTimeout(warningTimer);
 
-        // Ocultar advertencia si está visible
         $('#inactivity-warning').hide();
 
-        // Programar nueva advertencia
         warningTimer = setTimeout(showWarning, WARNING_TIMEOUT);
-
-        // Programar cierre de sesión
         inactivityTimer = setTimeout(logoutDueToInactivity, INACTIVITY_TIMEOUT);
+
+        // NUEVO: Notificar actividad a otras pestañas (throttled)
+        throttledNotifyActivity();
+    }
+
+    // Throttle para no saturar la comunicación entre pestañas
+    let lastNotification = 0;
+    const NOTIFICATION_THROTTLE = 5000; // Notificar máximo cada 5 segundos
+
+    function throttledNotifyActivity() {
+        const now = Date.now();
+        if (now - lastNotification > NOTIFICATION_THROTTLE) {
+            lastNotification = now;
+            notifyActivity();
+        }
     }
 
     // Mostrar advertencia de inactividad
@@ -51,7 +160,6 @@ $(document).ready(function () {
 
         let secondsLeft = (INACTIVITY_TIMEOUT - WARNING_TIMEOUT) / 1000;
 
-        // Actualizar cuenta regresiva cada segundo
         const countdownInterval = setInterval(() => {
             secondsLeft--;
             const mins = Math.floor(secondsLeft / 60);
@@ -66,30 +174,31 @@ $(document).ready(function () {
 
     // Cerrar sesión por inactividad
     function logoutDueToInactivity() {
-
-        // Evitar múltiples llamadas
         if (isLoggingOut) return;
 
-        // Limpiar temporizadores
         clearTimeout(inactivityTimer);
         clearTimeout(warningTimer);
 
         isLoggingOut = true;
         $('#inactivity-warning').html('<p>Cerrando sesión...</p>').show();
 
+        // NUEVO: Notificar a otras pestañas ANTES de hacer logout
+        notifyLogout();
+
         // Desloguear Usuario
         $.ajax({
             type: 'POST',
             url: '/api/logoutByInactivity',
-            success: function (response, textStatus, xhr) {
-                window.location.href = response.location;
-                window.location.href = '../';
+            success: function (response) {
+                window.location.href = response.location || '/';
             },
-            error: function (xhr, textStatus, errorThrown) {
-                const errorMessage = xhr.responseJSON?.message || 'Error during logout';
-                toastr.error(errorMessage);
+            error: function (xhr) {
+                const errorMessage = xhr.responseJSON?.message || 'Error durante logout';
+                console.error(errorMessage);
+                // Forzar redirección incluso si hay error
+                window.location.href = '/';
             },
-            finally() {
+            complete: function () {
                 isLoggingOut = false;
             }
         });
@@ -97,18 +206,15 @@ $(document).ready(function () {
 
     // Evento para continuar la sesión
     $('#continue-session').click(function () {
-        // Registrar actividad
         lastActivityTime = Date.now();
-
-        // Ocultar advertencia
         $('#inactivity-warning').hide();
-
-        // Reiniciar temporizadores
         resetTimers();
 
-        // Opcional: Enviar ping al servidor
+        // Notificar a otras pestañas que la sesión continúa
+        notifyActivity();
+
+        // Ping al servidor para mantener sesión activa
         $.get('/api/ping').fail(() => {
-            // Si falla el ping, forzar logout
             logoutDueToInactivity();
         });
     });
@@ -128,6 +234,13 @@ $(document).ready(function () {
         }
     }, CHECK_INTERVAL);
 
+    // NUEVO: Limpiar al cerrar la pestaña
+    window.addEventListener('beforeunload', () => {
+        if (broadcastChannel) {
+            broadcastChannel.close();
+        }
+    });
+
     // Iniciar temporizadores
     resetTimers();
-})
+});
