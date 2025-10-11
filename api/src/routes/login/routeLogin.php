@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * ============================================
+ * RUTAS DE LOGIN 
+ * ============================================
+ */
+
 use tezlikv3\dao\{
     AutenticationUserDao,
     ContractDao,
@@ -15,21 +21,18 @@ use tezlikv3\dao\{
 };
 
 use App\Auth\JWTManagerDao;
-
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
-
 use App\Helpers\ResponseHelper;
 use App\Middleware\SessionMiddleware;
 
-// Agrupar todas las rutas de login bajo el prefijo '/login'
 $app->group('/login', function (RouteCollectorProxy $group) {
 
-    /* Autenticación */
     $group->post('/userAutentication', function (Request $request, Response $response, $args) {
+
         $licenseDao = new LicenseCompanyDao();
         $autenticationDao = new AutenticationUserDao();
         $statusActiveUserDao = new StatusActiveUserDao();
@@ -45,8 +48,10 @@ $app->group('/login', function (RouteCollectorProxy $group) {
         $parsedBody = $request->getParsedBody();
 
         // Validar campos requeridos
-        if (empty($parsedBody["validation-email"]) || empty($parsedBody["validation-password"]))
-            return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Email y contraseña son requeridos'], 400);
+        if (empty($parsedBody["validation-email"]) || empty($parsedBody["validation-password"])) {
+            $resp = ['error' => true, 'message' => 'Email y contraseña son requeridos'];
+            return ResponseHelper::withJson($response, $resp, 400);
+        }
 
         $email = filter_var($parsedBody["validation-email"], FILTER_SANITIZE_EMAIL);
         $password = $parsedBody["validation-password"];
@@ -55,60 +60,61 @@ $app->group('/login', function (RouteCollectorProxy $group) {
         // Respuesta genérica para evitar enumeración de usuarios
         $genericError = ['error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente'];
 
-        /* Usuario sin datos */
         if ($user == null)
             return ResponseHelper::withJson($response, $genericError, 200);
 
-        /* Valida el password del usuario */
         if (!password_verify($password, $user['password']))
             return ResponseHelper::withJson($response, $genericError, 200);
 
         // Configuración robusta de la sesión
         $sessionConfig = [
-            'cookie_lifetime' => 86400, // 1 día
-            'cookie_secure' => isset($_SERVER['HTTPS']), // Solo en HTTPS
+            'cookie_lifetime' => 86400,
+            'cookie_secure' => isset($_SERVER['HTTPS']),
             'cookie_httponly' => true,
             'cookie_samesite' => 'Lax',
             'use_strict_mode' => true,
             'use_only_cookies' => true
         ];
 
-        // Aplicar configuración de sesión
         foreach ($sessionConfig as $key => $value)
             ini_set('session.' . $key, $value);
 
-        // Iniciar y asegurar la sesión
         if (session_status() === PHP_SESSION_NONE)
             session_start();
 
-        // Regenerar ID de sesión para prevenir fixation
         session_regenerate_id(true);
-
-        // Limpiar datos de sesión previos
         $_SESSION = [];
 
         if (empty($user['rol'])) {
-            /* Validar licenciamiento empresa */
             $dataCompany = $licenseDao->findLicenseCompany($user['id_company']);
 
             $today = date('Y-m-d');
             $licenseDay = $dataCompany['license_end'];
-            $today < $licenseDay ? $license = 1 : $license = 0;
+            $license = ($today < $licenseDay) ? 1 : 0;
 
-            if ($license == 0)
-                return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Su licencia ha caducado, lo invitamos a comunicarse'], 200);
+            if ($license == 0) {
+                return ResponseHelper::withJson($response, [
+                    'error' => true,
+                    'message' => 'Su licencia ha caducado, lo invitamos a comunicarse'
+                ], 200);
+            }
 
-            /* Validar que el usuario es activo */
-            if ($user['active'] != 1)
-                return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Usuario Inactivo, valide con el administrador'], 200);
+            if ($user['active'] != 1) {
+                return ResponseHelper::withJson($response, [
+                    'error' => true,
+                    'message' => 'Usuario Inactivo, valide con el administrador'
+                ], 200);
+            }
 
-            /* Valida la session del usuario */
-            if ($user['session_active'] != 0)
-                return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Usuario logeado, cierre la sesión para abrir una nueva'], 200);
+            if ($user['session_active'] != 0) {
+                return ResponseHelper::withJson($response, [
+                    'error' => true,
+                    'message' => 'Usuario logeado, cierre la sesión para abrir una nueva'
+                ], 200);
+            }
 
             $contract = $contractsDao->findContract();
 
-            /* Configurar datos de sesión */
             $_SESSION = [
                 'active' => true,
                 'idUser' => $user['id_user'],
@@ -133,14 +139,16 @@ $app->group('/login', function (RouteCollectorProxy $group) {
                 'content' => $contract ? $contract['content'] : 0
             ];
 
-            //valide si tiene activa la opcion de historico y almacene el tipo de periodo Semana o Año
-            if ($dataCompany['cost_historical'] === 1)
+            if (isset($dataCompany['cost_historical']) && $dataCompany['cost_historical'] === 1) {
                 $_SESSION['historical_period'] = $dataCompany['historical_period'];
+            }
 
-            // Guardar accesos de usuario 
             $userAccessDao->setGeneralAccess($user['id_user']);
 
-            if ($_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) {
+            if (
+                isset($_SESSION['historical']) && $_SESSION['historical'] == 1 &&
+                isset($_SESSION['plan_cost_historical']) && $_SESSION['plan_cost_historical'] == 1
+            ) {
                 $historical = $historicalProductsDao->findLastHistorical($user['id_company']);
                 $_SESSION['d_historical'] = 0;
                 $_SESSION['date_product'] = 0;
@@ -151,13 +159,12 @@ $app->group('/login', function (RouteCollectorProxy $group) {
                 }
             }
 
-            // Guardar sesion
-            if ($user['id_user'] != 1)
+            if ($user['id_user'] != 1) {
                 $historicalUsersDao->insertHistoricalUser($user['id_user']);
+            }
 
             $location = '../../cost/';
         } else {
-            /* Configurar sesión admin */
             $_SESSION = [
                 'active' => true,
                 'idUser' => $user['id_admin'],
@@ -172,22 +179,28 @@ $app->group('/login', function (RouteCollectorProxy $group) {
             $location = '../../admin/';
         }
 
-        // Generar token para el usuario
+        // Generar token
         $token = $jwt->generateToken($_SESSION['idUser']);
-
-        // Establecer cookie
         $jwt->setAuthCookie($token);
-
-        // Guardar en sesión
         $_SESSION['token'] = $token;
 
-        /* Actualizar último logueo */
+        // Actualizar último logueo
         $lastLoginDao->findLastLogin();
 
-        /* Modificar el estado de la sesión del usuario en BD */
-        $statusActiveUserDao->changeStatusUserLogin();
+        // ✅ FIX CRÍTICO: ACTIVAR SESIÓN EN BD
+        try {
+            $success = $statusActiveUserDao->activateSession(
+                (int)$_SESSION['idUser'],
+                (int)$_SESSION['case']
+            );
 
-        // Forzar escritura y cierre de sesión
+            if (!$success) {
+                error_log("⚠️ No se pudo activar sesión en BD para usuario: " . $_SESSION['idUser']);
+            }
+        } catch (\Exception $e) {
+            error_log("❌ ERROR al activar sesión en BD: " . $e->getMessage());
+        }
+
         session_write_close();
 
         return ResponseHelper::withJson($response, [
@@ -199,34 +212,140 @@ $app->group('/login', function (RouteCollectorProxy $group) {
         ], 200);
     });
 
+
+    $group->get('/logout', function (Request $request, Response $response, $args) {
+
+        $statusActiveUserDao = new StatusActiveUserDao();
+        $sessionWasActive = false;
+        $userId = null;
+        $case = null;
+
+        try {
+            // PASO 1: CAPTURAR DATOS DE SESIÓN
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            if (isset($_SESSION['idUser']) && isset($_SESSION['case'])) {
+                $sessionWasActive = true;
+                $userId = $_SESSION['idUser'];
+                $case = $_SESSION['case'];
+
+                error_log("🔓 Iniciando logout para " .
+                    ($case == 1 ? 'usuario' : 'admin') .
+                    " ID: $userId");
+            }
+
+            // PASO 2: DESACTIVAR EN BASE DE DATOS
+            if ($sessionWasActive) {
+                try {
+                    $deactivationSuccess = $statusActiveUserDao->changeStatusUserLogin();
+
+                    if ($deactivationSuccess) {
+                        error_log("✅ Sesión desactivada en BD correctamente");
+                    } else {
+                        error_log("⚠️ changeStatusUserLogin retornó false, intentando método alternativo");
+
+                        try {
+                            $statusActiveUserDao->forceDeactivateById($userId, $case);
+                            error_log("✅ Sesión desactivada usando método de respaldo");
+                        } catch (\Exception $e) {
+                            error_log("⚠️ Método de respaldo también falló: " . $e->getMessage());
+                        }
+                    }
+                } catch (\Exception $e) {
+                    error_log("❌ ERROR en desactivación de BD: " . $e->getMessage());
+
+                    if ($userId && $case) {
+                        try {
+                            $statusActiveUserDao->forceDeactivateById($userId, $case);
+                            error_log("✅ Sesión desactivada con método de emergencia");
+                        } catch (\Exception $e2) {
+                            error_log("❌ Todos los métodos de desactivación fallaron");
+                        }
+                    }
+                }
+            }
+
+            try {
+                $_SESSION = [];
+
+                if (ini_get("session.use_cookies")) {
+                    $params = session_get_cookie_params();
+                    setcookie(
+                        session_name(),
+                        '',
+                        time() - 42000,
+                        $params["path"],
+                        $params["domain"],
+                        $params["secure"] ?? false,
+                        $params["httponly"] ?? true
+                    );
+                }
+
+                session_destroy();
+                error_log("✅ Sesión PHP destruida correctamente");
+            } catch (\Exception $e) {
+                error_log("⚠️ Error al destruir sesión PHP: " . $e->getMessage());
+            }
+
+            try {
+                $cookieParams = [
+                    'expires' => time() - 3600,
+                    'path' => '/',
+                    'domain' => $_SERVER['HTTP_HOST'] ?? '',
+                    'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+                    'httponly' => true,
+                    'samesite' => 'Lax'
+                ];
+
+                setcookie('auth_token', '', $cookieParams);
+                error_log("✅ Cookie de autenticación limpiada");
+            } catch (\Exception $e) {
+                error_log("⚠️ Error al limpiar cookie: " . $e->getMessage());
+            }
+
+            // PASO 5: RESPUESTA
+            $response->getBody()->write(json_encode("1", JSON_NUMERIC_CHECK));
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (\Exception $e) {
+            error_log("❌ ERROR CATASTRÓFICO en logout: " . $e->getMessage());
+
+            try {
+                @session_destroy();
+            } catch (\Exception $e2) {
+                // Ignorar
+            }
+
+            $response->getBody()->write(json_encode([
+                'success' => true,
+                'message' => 'Sesión cerrada (con advertencias)'
+            ], JSON_NUMERIC_CHECK));
+
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    })->add(new SessionMiddleware());
+
     $group->post('/saveFirstLogin', function (Request $request, Response $response, $args) {
         $firstLoginDao = new FirstLoginDao();
 
         try {
-            //Obtener data
             $id_user = $_SESSION['idUser'];
             $dataUser = $request->getParsedBody();
 
-            //Almacenar data
             $firstLoginDao->saveDataUser($dataUser, $id_user);
 
             $_SESSION['name'] = $dataUser['firstname'];
             $_SESSION['lastname'] = $dataUser['lastname'];
 
-            return ResponseHelper::withJson($response, ['success' => true, 'message' => 'Usuario actualizado correctamente'], 200);
+            $resp = ['success' => true, 'message' => 'Usuario actualizado correctamente'];
+            return ResponseHelper::withJson($response, $resp, 200);
         } catch (Exception $e) {
             error_log("Error en saveFirstLogin: " . $e->getMessage());
-            return ResponseHelper::withJson($response, ['error' => true, 'message' => 'Error interno del servidor'], 500);
+            return ResponseHelper::withJson($response, [
+                'error' => true,
+                'message' => 'Error interno del servidor'
+            ], 500);
         }
-    })->add(new SessionMiddleware());
-
-    /* Logout */
-    $group->get('/logout', function (Request $request, Response $response, $args) {
-        $statusActiveUserDao = new StatusActiveUserDao();
-
-        $statusActiveUserDao->changeStatusUserLogin();
-        session_destroy();
-        $response->getBody()->write(json_encode("1", JSON_NUMERIC_CHECK));
-        return $response->withHeader('Content-Type', 'application/json');
     })->add(new SessionMiddleware());
 });
